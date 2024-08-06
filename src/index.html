@@ -2,12 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>PlanSphereFrontend</title>
+  <title>PlanSphere</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        :root {
+            --clr-primary: 233 93 56;
+            --clr-secondary: 48 61 74;
+            --clr-status-completed: #a13434;
+            --clr-status-completed-light: #a13434bf;
+            --clr-status-in-process: #c6880b;
+            --clr-status-in-process-light: #c6880bbf;
+            --clr-status-available: #2e8140;
+            --clr-status-available-light: #2e8140bf;
+            --clr-status-not-active: #6d6d6d;
+            --clr-status-not-active-light: #6d6d6dbf;
+            --clr-error: #a13434;
+            --clr-warning: #c6880b;
+            --clr-warning-light: #e2c384;
+            --clr-success: #349032;
+            --clr-progress-bar: #000;
+            --clr-event-draft-status: #faf1a3;
+            --clr-event-private-viewing-status: #ffcba4;
+            --clr-event-private-event-status: #7b68ee;
+            --clr-event-public-event-status: #7bafd4;
+        }
+    </style>
 </head>
-<body>
-  <app-root></app-root>
+<body class="mat-typography">
+  <ps-root></ps-root>
 </body>
 </html>
