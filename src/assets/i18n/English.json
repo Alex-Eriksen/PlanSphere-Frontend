@@ -1,2 +1,6 @@
 ﻿{
+    "DATE": "Date",
+    "CELSIUS": "Celsius",
+    "FAHRENHEIT": "Fahrenheit",
+    "SUMMARY": "Summary"
 }
