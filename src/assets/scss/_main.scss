@@ -1,0 +1,14 @@
+﻿// Component Styles
+
+// Typographic styles
+@import "./base/typography";
+
+// Reset
+@import "./base/reset";
+
+@layer base {
+  :root {
+    --color-primary: var(--clr-primary);
+    --color-secondary: var(--clr-secondary);
+  }
+}
