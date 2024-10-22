@@ -1,0 +1,24 @@
+@use "@angular/material" as mat;
+
+@include mat.core();
+
+$PlanSphere-Frontend-primary: mat.define-palette(mat.$indigo-palette);
+$PlanSphere-Frontend-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$PlanSphere-Frontend-warn: mat.define-palette(mat.$red-palette);
+
+$PlanSphere-Frontend-theme: mat.define-light-theme(
+    (
+      color: (
+        primary: $PlanSphere-Frontend-primary,
+        accent: $PlanSphere-Frontend-accent,
+        warn: $PlanSphere-Frontend-warn,
+      ),
+    )
+);
+
+@include mat.all-component-themes($PlanSphere-Frontend-theme);
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "../src/assets/scss/main";

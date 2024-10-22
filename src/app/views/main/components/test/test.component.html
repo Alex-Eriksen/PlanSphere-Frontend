@@ -1,0 +1,22 @@
+<div class="flex flex-wrap gap-4 p-2">
+@for (weatherForecast of weatherForecasts; track weatherForecast.date){
+    <div class="border-gray-600 border-2 rounded flex flex-col gap-2 p-4">
+        <div class="flex flex-col">
+            <label>{{ "DATE" | translate }}</label>
+            <input class="border-gray-600 border" [value]="weatherForecast.date"  />
+        </div>
+        <div class="flex flex-col">
+            <label>{{ "CELSIUS" | translate }}</label>
+            <input class="border-gray-600 border" [value]="weatherForecast.temperatureC"  />
+        </div>
+        <div class="flex flex-col">
+            <label>{{ "FAHRENHEIT" | translate }}</label>
+            <input class="border-gray-600 border" [value]="weatherForecast.temperatureF"  />
+        </div>
+        <div class="flex flex-col">
+            <label>{{ "SUMMARY" | translate }}</label>
+            <input class="border-gray-600 border" [value]="weatherForecast.summary"  />
+        </div>
+    </div>
+}
+</div>
