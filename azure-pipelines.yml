@@ -1,0 +1,36 @@
+trigger:
+- development
+
+pool:
+  vmImage: ubuntu-latest
+steps:
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.x'
+  displayName: 'Install Node.js'
+- script: |
+    npm install -g @angular/cli
+    npm install
+    ng build
+  displayName: 'npm install and build'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/dist/plan-sphere-frontend'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure for Students(24a7ebc5-4993-4fdf-aefd-15a323aa8a10)'
+    appType: 'webAppLinux'
+    WebAppName: 'plansphere-frontend-development'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)'
