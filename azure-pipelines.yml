@@ -8,7 +8,7 @@ pool:
 
 variables:
     buildConfiguration: 'Release'
-    distFolder: 'dist/plan-sphere-frontend/browser'
+    distFolder: 'dist/plan-sphere-frontend'
 
 steps:
     - task: NodeTool@0
@@ -26,19 +26,19 @@ steps:
     - task: CopyFiles@2
       inputs:
           contents: '$(Build.ArtifactStagingDirectory)/$(distFolder)/**'
-          targetFolder: '$(Build.ArtifactStagingDirectory)/webapp'
+          targetFolder: '$(Build.ArtifactStagingDirectory)'
       displayName: 'Copy Files to Staging Directory'
 
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Pipeline Artifact'
       inputs:
           artifactName: 'drop'
-          targetPath: '$(Build.ArtifactStagingDirectory)/webapp'
+          targetPath: '$(Build.ArtifactStagingDirectory)'
 
     - task: AzureWebApp@1
       inputs:
           azureSubscription: 'Azure for Students(24a7ebc5-4993-4fdf-aefd-15a323aa8a10)'
           appName: 'plansphere-frontend-development'
-          package: '$(Build.ArtifactStagingDirectory)/webapp'
+          package: '$(Build.ArtifactStagingDirectory)'
           appType: 'webAppLinux'
       displayName: 'Deploy to Azure Web App'
