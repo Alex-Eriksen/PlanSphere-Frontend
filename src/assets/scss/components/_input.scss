@@ -1,0 +1,153 @@
+#input {
+  cursor: text;
+
+  .mat-mdc-form-field-input-control {
+    @apply font-light text-sm;
+  }
+
+  @apply h-[2.75rem];
+  .mat-mdc-form-field-flex {
+    @apply h-full items-center;
+    .mat-mdc-form-field-infix {
+      @apply py-0 min-h-[auto];
+    }
+  }
+
+  .mat-mdc-text-field-wrapper {
+    @apply h-full;
+  }
+
+  .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+    @apply top-[22px] text-sm;
+  }
+
+  .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+    transform: translateY(calc(calc(2.4px + var(--mat-form-field-container-height) / 2) * -1))
+      scale(var(--mat-mdc-form-field-floating-label-scale, 0.75));
+  }
+
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) {
+    .mdc-notched-outline {
+      @apply -z-10;
+      .mdc-notched-outline__notch {
+        border-right: none;
+        border-left: none;
+        @apply border-black-300 bg-white;
+      }
+
+      .mdc-notched-outline__trailing {
+        @apply border-black-300 rounded-r-lg bg-white;
+      }
+
+      .mdc-notched-outline__leading {
+        @apply border-black-300 rounded-l-lg bg-white;
+      }
+    }
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    @apply hidden;
+  }
+
+  // hover
+  .mat-mdc-text-field-wrapper:hover:not(:focus-within):not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) {
+    .mdc-notched-outline {
+      @apply shadow-[0px_1px_1px_0px_rgba(0,0,0,0.12)] rounded-lg;
+      .mdc-notched-outline__notch {
+        @apply border-black-300;
+      }
+
+      .mdc-notched-outline__trailing {
+        @apply border-black-300 rounded-r-lg;
+      }
+
+      .mdc-notched-outline__leading {
+        @apply border-black-300 rounded-l-lg;
+      }
+    }
+  }
+
+  // focus
+  .mat-mdc-text-field-wrapper:focus-within:not(.mdc-text-field--invalid) {
+    .mdc-notched-outline {
+      .mdc-notched-outline__notch {
+        @apply border border-black;
+      }
+
+      .mdc-notched-outline__trailing {
+        @apply border border-black rounded-r-lg;
+      }
+
+      .mdc-notched-outline__leading {
+        @apply border border-black rounded-l-lg;
+      }
+    }
+  }
+
+  &.mat-mdc-form-field.ng-touched {
+    .mdc-text-field--outlined.mdc-text-field--invalid .mdc-floating-label {
+      @apply text-error-200 #{!important};
+    }
+
+    .mdc-text-field--outlined.mdc-text-field--invalid {
+      .mdc-notched-outline {
+        .mdc-notched-outline__notch {
+          @apply border border-error-200 bg-white;
+        }
+
+        .mdc-notched-outline__trailing {
+          @apply border border-error-200 rounded-r-lg bg-white;
+        }
+
+        .mdc-notched-outline__leading {
+          @apply border border-error-200 rounded-l-lg bg-white;
+        }
+      }
+    }
+  }
+
+  // disabled
+  .mdc-text-field--disabled {
+    .mdc-notched-outline {
+      .mdc-notched-outline__trailing {
+        @apply rounded-r-lg;
+      }
+
+      .mdc-notched-outline__leading {
+        @apply rounded-l-lg;
+      }
+    }
+  }
+
+  // label
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label {
+    @apply font-light text-black;
+  }
+
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) {
+    .mdc-floating-label--float-above {
+      @apply text-black-500 text-xs font-medium;
+    }
+  }
+}
+
+#search {
+  @extend #input;
+
+  .mat-mdc-form-field-flex {
+    .mat-mdc-form-field-infix {
+      @apply py-2.5 min-h-[auto];
+    }
+  }
+
+  .mat-mdc-form-field-icon-suffix {
+    mat-icon {
+      @apply py-2.5;
+    }
+  }
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  @apply appearance-none;
+}

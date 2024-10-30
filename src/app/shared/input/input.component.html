@@ -1,0 +1,76 @@
+<mat-form-field
+    appearance="outline"
+    id="input"
+    subscriptSizing="dynamic"
+    class="w-[18.75rem] relative"
+>
+    @if(label()) {
+        <mat-label>{{ label() | translate }}</mat-label>
+    }
+    <input
+        [formControl]="control()"
+        [type]="type()"
+        [placeholder]="placeholder() | translate"
+        matInput
+    >
+</mat-form-field>
+@if (control()!.touched && control()!.dirty && control()!.invalid) {
+    @switch (control()!.invalid) {
+        @case (control()!.hasError("required")) {
+            <mat-error class="!text-error-200 text-[0.5rem] font-normal !flex items-center pt-1">
+                <mat-icon class="!text-error-200 text-sm font-normal !h-5 !w-4">error</mat-icon>
+                {{ label() | translate }} {{ "VALIDATION.IS_REQUIRED" | translate }}
+            </mat-error>
+        }
+        @case (control()!.hasError("email")) {
+            <mat-error class="!text-error-200 text-[0.5rem] font-normal !flex items-center pt-1">
+                <mat-icon class="!text-error-200 text-sm font-normal !h-5 !w-4">error</mat-icon>
+                {{ label() | translate }} {{ "VALIDATION.IS_NOT_A_VALID_EMAIL" | translate }}
+            </mat-error>
+        }
+        @case (control()!.hasError(VALIDATION_ERROR_KEY)) {
+            <mat-error class="!text-error-200 text-[0.5rem] font-normal !flex items-center pt-1">
+                <mat-icon class="!text-error-200 text-sm font-normal !h-5 !w-4">error</mat-icon>
+                {{ control()!.errors?.[VALIDATION_ERROR_KEY] }}
+            </mat-error>
+        }
+        @case (control()!.hasError("minlength")) {
+            <mat-error class="!text-error-200 text-[0.5rem] font-normal !flex items-center pt-1">
+                <mat-icon class="!text-error-200 text-sm font-normal !h-5 !w-4">error</mat-icon>
+                {{ label() | translate }} {{ "VALIDATION.MUST_BE_AT_LEAST" | translate }}
+                {{ control()!.getError("minlength").requiredLength }} {{ "VALIDATION.CHARACTERS" | translate }}
+            </mat-error>
+        }
+        @case (control()!.hasError("maxlength")) {
+            <mat-error class="!text-error-200 text-[0.5rem] font-normal !flex items-center pt-1">
+                <mat-icon class="!text-error-200 text-sm font-normal !h-5 !w-4">error</mat-icon>
+                {{ label() | translate }} {{ "VALIDATION.MUST_BE_AT_MOST" | translate }}
+                {{ control()!.getError("maxlength").requiredLength }} {{ "VALIDATION.CHARACTERS" | translate }}
+            </mat-error>
+        }
+        @case (control()!.hasError("mat-pattern")) {
+            <mat-error class="!text-error-200 text-[0.5rem] font-normal !flex items-center pt-1">
+                <mat-icon class="!text-error-200 text-sm font-normal !h-5 !w-4">error</mat-icon>
+                {{ label() | translate }} {{ "VALIDATION.IS_NOT_VALID" | translate }}
+            </mat-error>
+        }
+        @case (control()!.invalid && control()!.hasError(VAT_NUMBER_NOT_EXISTS_ERROR_KEY)) {
+            <mat-error class="!text-error-200 text-[0.5rem] font-normal !flex items-center pt-1">
+                <mat-icon class="!text-error-200 text-sm font-normal !h-5 !w-4">error</mat-icon>
+                {{ "VALIDATION.VAT_NUMBER_NOT_EXISTS" | translate }}
+            </mat-error>
+        }
+        @case (control()!.invalid && control()!.hasError(INVALID_VAT_NUMBER_ERROR_KEY)) {
+            <mat-error class="!text-error-200 text-[0.5rem] font-normal !flex items-center pt-1">
+                <mat-icon class="!text-error-200 text-sm font-normal !h-5 !w-4">error</mat-icon>
+                {{ "VALIDATION.VAT_NUMBER_INVALID" | translate }}
+            </mat-error>
+        }
+        @default {
+            <mat-error class="!text-error-200 text-[0.5rem] font-normal !flex items-center pt-1">
+                <mat-icon class="!text-error-200 text-sm font-normal !h-5 !w-4">error</mat-icon>
+                {{ label() | translate }} {{ "VALIDATION.IS_INVALID" | translate }}
+            </mat-error>
+        }
+    }
+}
