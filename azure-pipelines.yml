@@ -15,7 +15,7 @@ steps:
       inputs:
           versionSpec: '20.x'
 
-    - script: npm build-dev
+    - script: npm run build-dev
       displayName: 'Build Angular App'
 
     - task: CopyFiles@2
