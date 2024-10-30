@@ -20,13 +20,13 @@ stages:
       - task: NodeTool@0
         inputs:
           versionSpec: '20.x'
-        displayName: 'Install Node.js 16.x'
+        displayName: 'Install Node.js'
 
       - script: |
           cd AngularWithAzure/
           npm install -g @angular/cli
           npm install
-          ng build --prod
+          npm run build-dev
         displayName: 'npm install and build'
         workingDirectory: '$(Build.SourcesDirectory)'
 
