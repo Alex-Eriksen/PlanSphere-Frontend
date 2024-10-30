@@ -15,6 +15,11 @@ steps:
       inputs:
           versionSpec: '20.x'
 
+    - script: |
+          npm install -g @angular/cli
+          npm install
+      displayName: 'Install Angular CLI and dependencies'
+
     - script: npm run build-dev
       displayName: 'Build Angular App'
 
