@@ -7,7 +7,7 @@ pool:
     vmImage: 'ubuntu-latest'
 
 variables:
-    buildConfiguration: 'Release'
+    buildConfiguration: 'development'
     distFolder: 'dist/plan-sphere-frontend'
 
 steps:
@@ -15,12 +15,7 @@ steps:
       inputs:
           versionSpec: '20.x'
 
-    - script: |
-          npm install -g @angular/cli
-          npm install
-      displayName: 'Install Angular CLI and dependencies'
-
-    - script: ng build --configuration development --aot --output-hashing=all
+    - script: npm build-dev
       displayName: 'Build Angular App'
 
     - task: CopyFiles@2
