@@ -1,0 +1,43 @@
+trigger:
+    branches:
+        include:
+            - main  # or your deployment branch
+
+pool:
+    vmImage: 'ubuntu-latest'
+
+variables:
+    buildConfiguration: 'Release'
+    distFolder: 'dist/plan-sphere-frontend'  # replace with your Angular app's dist folder
+
+steps:
+    - task: NodeTool@0
+      inputs:
+          versionSpec: '20.x'  # Node.js version compatible with Angular
+
+    - script: |
+          npm install -g @angular/cli
+          npm install
+      displayName: 'Install Angular CLI and dependencies'
+
+    - script: ng build --configuration production
+      displayName: 'Build Angular App'
+
+    - task: CopyFiles@2
+      inputs:
+          contents: '$(Build.ArtifactStagingDirectory)/$(distFolder)/**'
+          targetFolder: '$(Build.ArtifactStagingDirectory)/webapp'
+      displayName: 'Copy Files to Staging Directory'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)/webapp'
+          artifactName: 'drop'
+      displayName: 'Publish Artifact'
+
+    - task: AzureWebApp@1
+      inputs:
+          azureSubscription: 'Azure for Students(24a7ebc5-4993-4fdf-aefd-15a323aa8a10)'
+          appName: 'plansphere-frontend-development'
+          package: '$(Build.ArtifactStagingDirectory)/webapp'
+      displayName: 'Deploy to Azure Web App'
