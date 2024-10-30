@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, output } from "@angular/core";
+import { Component, OnInit, output } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
 import { INavigationTab } from "../interfaces/navigation-tab.interface";
 import { MatSidenavModule } from "@angular/material/sidenav";
@@ -34,18 +34,13 @@ export class SidebarComponent implements OnInit {
     toggleSideNav = output<ISideNavToggle>();
 
     ngOnInit() {
-        this.collapsed = localStorage.getItem(LOCAL_STORAGE_KEYS.SideNavState) as unknown as boolean | true;
+        this.collapsed = localStorage.getItem(LOCAL_STORAGE_KEYS.SideNavState) == "true";
         this.toggleSideNav.emit({screenWidth: this.screenWidth, collapsed: this.collapsed});
     }
 
     toggleCollapse() {
         this.collapsed = !this.collapsed;
         this.toggleSideNav.emit({screenWidth: this.screenWidth, collapsed: this.collapsed});
-        localStorage.setItem(LOCAL_STORAGE_KEYS.SideNavState, this.collapsed as unknown as string);
-    }
-
-    @HostListener("window:resize", ["$event"])
-    onResize() {
-        this.screenWidth = window.innerWidth;
+        localStorage.setItem(LOCAL_STORAGE_KEYS.SideNavState, this.collapsed.toString());
     }
 }
