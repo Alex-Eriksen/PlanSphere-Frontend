@@ -29,11 +29,11 @@ steps:
           targetFolder: '$(Build.ArtifactStagingDirectory)/webapp'
       displayName: 'Copy Files to Staging Directory'
 
-    - task: PublishBuildArtifacts@1
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Pipeline Artifact'
       inputs:
-          pathToPublish: '$(Build.ArtifactStagingDirectory)/webapp'
           artifactName: 'drop'
-      displayName: 'Publish Artifact'
+          targetPath: '$(Build.ArtifactStagingDirectory)/webapp'
 
     - task: AzureWebApp@1
       inputs:
