@@ -8,7 +8,7 @@ pool:
 
 variables:
     buildConfiguration: 'development'
-    distFolder: 'dist/plan-sphere-frontend'
+    distFolder: 'dist/plan-sphere-frontend/browser'
 
 steps:
     - task: NodeTool@0
