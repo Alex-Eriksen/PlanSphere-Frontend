@@ -9,6 +9,7 @@ import { DepartmentsComponent } from "./components/departments/departments.compo
 import { TeamComponent } from "./components/team/team.component";
 import { TeamsComponent } from "./components/teams/teams.component";
 import { UserComponent } from "./components/user/user.component";
+import { organisationRoutes } from "./components/organisation/organisation.routes";
 
 export const mainRoutes: Routes = [
     {
@@ -22,14 +23,15 @@ export const mainRoutes: Routes = [
     },
     {
         path: "organisation",
-        component: OrganisationComponent
+        component: OrganisationComponent,
+        children: organisationRoutes
     },
     {
         path: "organisations",
         component: OrganisationsComponent
     },
     {
-        path: "company",
+        path: "company/:companyId",
         component: CompanyComponent
     },
     {
@@ -37,7 +39,7 @@ export const mainRoutes: Routes = [
         component: CompaniesComponent
     },
     {
-        path: "department",
+        path: "department/:departmentId",
         component: DepartmentComponent
     },
     {
@@ -45,7 +47,7 @@ export const mainRoutes: Routes = [
         component: DepartmentsComponent
     },
     {
-        path: "team",
+        path: "team/:teamId",
         component: TeamComponent
     },
     {

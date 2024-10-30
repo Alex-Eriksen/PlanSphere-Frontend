@@ -20,5 +20,13 @@
     "TEAM": {
         "NAME": "Team",
         "NAME_PLURAL": "Teams"
+    },
+    "DETAIL": {
+        "NAME": "Detalje",
+        "NAME_PLURAL": "Detaljer"
+    },
+    "JOB_TITLE": {
+        "NAME": "Job titel",
+        "NAME_PLURAL": "Job titler"
     }
 }
