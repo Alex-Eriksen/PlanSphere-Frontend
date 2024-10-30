@@ -40,4 +40,5 @@ steps:
           azureSubscription: 'Azure for Students(24a7ebc5-4993-4fdf-aefd-15a323aa8a10)'
           appName: 'plansphere-frontend-development'
           package: '$(Build.ArtifactStagingDirectory)/webapp'
+          appType: 'webAppLinux'
       displayName: 'Deploy to Azure Web App'
