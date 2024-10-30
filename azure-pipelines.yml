@@ -20,7 +20,7 @@ steps:
           npm install
       displayName: 'Install Angular CLI and dependencies'
 
-    - script: ng build --configuration production
+    - script: ng build --configuration development --aot --output-hashing=all
       displayName: 'Build Angular App'
 
     - task: CopyFiles@2
