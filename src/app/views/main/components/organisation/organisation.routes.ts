@@ -11,14 +11,23 @@ export const organisationRoutes: Routes = [
     },
     {
         path: "details",
-        component: DetailsComponent
+        component: DetailsComponent,
+        data: {
+            name: "DETAIL.NAME_PLURAL"
+        }
     },
     {
         path: "companies",
-        component: CompaniesComponent
+        component: CompaniesComponent,
+        data: {
+            name: "COMPANY.NAME_PLURAL"
+        }
     },
     {
         path: "job-titles",
-        component: JobTitlesComponent
+        component: JobTitlesComponent,
+        data: {
+            name: "JOB_TITLE.NAME_PLURAL"
+        }
     }
 ]

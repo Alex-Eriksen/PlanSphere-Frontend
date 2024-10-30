@@ -19,43 +19,73 @@ export const mainRoutes: Routes = [
     },
     {
         path: "frontpage",
-        component: FrontpageComponent
+        component: FrontpageComponent,
+        data: {
+            name: "FRONTPAGE"
+        }
     },
     {
         path: "organisation",
         component: OrganisationComponent,
-        children: organisationRoutes
+        children: organisationRoutes,
+        data: {
+            name: "ORGANISATION.NAME"
+        }
     },
     {
         path: "organisations",
-        component: OrganisationsComponent
+        component: OrganisationsComponent,
+        data: {
+            name: "ORGANISATION.NAME_PLURAL"
+        }
     },
     {
         path: "company/:companyId",
-        component: CompanyComponent
+        component: CompanyComponent,
+        data: {
+            name: "COMPANY.NAME"
+        }
     },
     {
         path: "companies",
-        component: CompaniesComponent
+        component: CompaniesComponent,
+        data: {
+            name: "COMPANY.NAME_PLURAL"
+        }
     },
     {
         path: "department/:departmentId",
-        component: DepartmentComponent
+        component: DepartmentComponent,
+        data: {
+            name: "DEPARTMENT.NAME"
+        }
     },
     {
         path: "departments",
-        component: DepartmentsComponent
+        component: DepartmentsComponent,
+        data: {
+            name: "DEPARTMENT.NAME_PLURAL"
+        }
     },
     {
         path: "team/:teamId",
-        component: TeamComponent
+        component: TeamComponent,
+        data: {
+            name: "TEAM.NAME"
+        }
     },
     {
         path: "teams",
-        component: TeamsComponent
+        component: TeamsComponent,
+        data: {
+            name: "TEAM.NAME_PLURAL"
+        }
     },
     {
         path: "user",
-        component: UserComponent
+        component: UserComponent,
+        data: {
+            name: "USER.NAME"
+        }
     }
 ]
