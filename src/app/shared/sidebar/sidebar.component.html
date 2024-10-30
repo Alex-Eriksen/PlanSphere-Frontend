@@ -1,0 +1,27 @@
+<div id="sidebar" [ngClass]="{'collapsed': collapsed}">
+    <div class="logo-container">
+        <img ngSrc="assets/images/PlanSphereLogo.png" alt="Logo" height="48" width="48">
+        @if (!collapsed) {
+            <p class="font-medium text-2xl mb-2">{{ "PLANSPHERE" | translate }}</p>
+        }
+    </div>
+    <div class="relative">
+        <hr class="absolute border-t border-black border-opacity-10 left-0 right-0" />
+    </div>
+    <div class="sidebar-nav">
+        @for (item of navigations; track item.label) {
+            <ps-sidebar-item [collapsed]="collapsed" [navigation]="item"></ps-sidebar-item>
+        }
+    </div>
+    <div class="h-12 my-auto flex justify-end sidebar-collapse-button">
+        @if (collapsed) {
+            <button (click)="toggleCollapse()">
+                <i class="fa-solid fa-angles-right"></i>
+            </button>
+        } @else {
+            <button (click)="toggleCollapse()">
+                <i class="fa-solid fa-angles-left"></i>
+            </button>
+        }
+    </div>
+</div>

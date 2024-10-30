@@ -1,0 +1,43 @@
+#sidebar {
+    @apply transition-all ease-in-out duration-500 bg-gray-100 fixed w-64 top-0 z-10 overflow-hidden h-[100dvh] flex flex-col border-e border-black border-opacity-10;
+
+    .logo-container {
+        @apply flex items-center gap-2 py-2 w-full px-4;
+    }
+
+    .sidebar-nav {
+        @apply h-full flex flex-col gap-2 py-6 px-4;
+    }
+
+    .sidebar-nav-item {
+        @apply items-center;
+    }
+
+    .sidebar-collapse-button {
+        @apply justify-end items-center px-4;
+    }
+
+    &.collapsed {
+        @apply w-[5rem] #{!important};
+
+        .logo-container {
+            @apply justify-center;
+        }
+
+        .sidebar-nav-item {
+            @apply justify-center;
+        }
+
+        .sidebar-collapse-button {
+            @apply justify-center;
+        }
+    }
+}
+
+#layout {
+    @apply transition-all ease-in-out duration-500 ml-64 p-6;
+
+    &.collapsed {
+        @apply ml-[5rem] #{!important};
+    }
+}

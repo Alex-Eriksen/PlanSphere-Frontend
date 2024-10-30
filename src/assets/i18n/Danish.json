@@ -2,5 +2,23 @@
     "DATE": "Dato",
     "CELSIUS": "Celsius",
     "FAHRENHEIT": "Fahrenheit",
-    "SUMMARY": "Resumé"
+    "SUMMARY": "Resumé",
+    "PLANSPHERE": "PlanSphere",
+    "FRONTPAGE": "Forside",
+    "ORGANISATION": {
+        "NAME": "Organisation",
+        "NAME_PLURAL": "Organisationer"
+    },
+    "COMPANY": {
+        "NAME": "Virksomhed",
+        "NAME_PLURAL": "Virksomheder"
+    },
+    "DEPARTMENT": {
+        "NAME": "Afdeling",
+        "NAME_PLURAL": "Afdelinger"
+    },
+    "TEAM": {
+        "NAME": "Team",
+        "NAME_PLURAL": "Teams"
+    }
 }

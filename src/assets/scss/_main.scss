@@ -6,6 +6,8 @@
 // Reset
 @import "./base/reset";
 
+@import "components/sidebar";
+
 @layer base {
   :root {
     --color-primary: var(--clr-primary);
