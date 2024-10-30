@@ -29,12 +29,6 @@ steps:
           targetFolder: '$(Build.ArtifactStagingDirectory)/webapp'
       displayName: 'Copy Files to Staging Directory'
 
-    - task: PublishBuildArtifacts@1
-      inputs:
-          pathToPublish: '$(Build.ArtifactStagingDirectory)/webapp'
-          artifactName: 'drop'
-      displayName: 'Publish Artifact'
-
     - task: AzureWebApp@1
       inputs:
           azureSubscription: 'Azure for Students(24a7ebc5-4993-4fdf-aefd-15a323aa8a10)'
