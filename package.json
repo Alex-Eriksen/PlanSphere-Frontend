@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve",
+        "start": "http-server dist/plan-sphere-frontend -p 8080 -a 0.0.0.0",
         "build": "ng build",
         "build-dev": "ng build --configuration development --aot --output-hashing=all",
         "build-staging": "ng build --configuration staging --aot --output-hashing=all",
@@ -47,6 +47,7 @@
         "@typescript-eslint/parser": "7.11.0",
         "autoprefixer": "^10.4.20",
         "eslint": "^8.57.0",
+        "http-server": "^14.1.1",
         "husky": "^9.1.4",
         "jasmine-core": "~5.1.0",
         "karma": "~6.4.0",
