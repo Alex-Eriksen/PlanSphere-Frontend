@@ -5,6 +5,7 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { routes } from './app.routes';
 import { HttpClient, HttpClientModule, provideHttpClient, withFetch } from "@angular/common/http";
 import { SystemLanguage } from "./shared/enums/system-language.enum";
+import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http);
@@ -19,7 +20,7 @@ export const appConfig: ApplicationConfig = {
       importProvidersFrom(
           HttpClientModule,
           TranslateModule.forRoot({
-              defaultLanguage: SystemLanguage.English,
+              defaultLanguage: SystemLanguage.Danish,
               useDefaultLang: true,
               loader: {
                   provide: TranslateLoader,
@@ -27,7 +28,8 @@ export const appConfig: ApplicationConfig = {
                   deps: [HttpClient],
               },
           }),
-      )
+      ),
+      provideAnimationsAsync()
   ],
 
 };

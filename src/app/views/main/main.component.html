@@ -1,1 +1,4 @@
-<router-outlet></router-outlet>
+<ps-sidebar (toggleSideNav)="onToggleSideNav($event)"></ps-sidebar>
+<div id="layout" [ngClass]="{'collapsed': isSideNavCollapsed}">
+    <router-outlet></router-outlet>
+</div>

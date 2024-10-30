@@ -1,0 +1,6 @@
+<button class="sidebar-nav-item rounded-lg text-sm w-full text-left font-medium bg-gray-200 py-2.5 px-3.5 flex gap-2" [routerLink]="navigation().routeLink" routerLinkActive="bg-primary">
+    <i [class]="navigation().icon" class="w-3.5"></i>
+    @if (!collapsed()) {
+        <span>{{ navigation().label | translate }}</span>
+    }
+</button>

@@ -2,5 +2,6 @@
     "DATE": "Date",
     "CELSIUS": "Celsius",
     "FAHRENHEIT": "Fahrenheit",
-    "SUMMARY": "Summary"
+    "SUMMARY": "Summary",
+    "PLANSPHERE": "PlanSphere"
 }
