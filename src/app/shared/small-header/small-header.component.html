@@ -1,0 +1,10 @@
+<div [ngClass]="appliedClasses()" class="flex items-center gap-2 mb-4">
+    <p class="font-medium">{{ heading() | translate }}</p>
+    @if (tooltip()) {
+        <ps-tooltip [tooltip]="tooltip()!"></ps-tooltip>
+    }
+</div>
+
+<p [ngClass]="subheadingAppliedClasses()" class="text-sm font-light xl:max-w-[43.75rem]">
+    {{ subheading() ?? "" | translate }}
+</p>
