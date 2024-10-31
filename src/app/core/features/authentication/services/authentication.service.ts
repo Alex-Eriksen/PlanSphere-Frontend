@@ -8,6 +8,8 @@ import { ILoggedInUser } from "../models/logged-in-user.model";
 })
 export class AuthenticationService {
     readonly #authenticationRepository = inject(AuthenticationRepository);
+    readonly #loggedInUserSubject$ = new BehaviorSubject<ILoggedInUser | null>(null);
+    readonly LoggedInUserObservable = this.#loggedInUserSubject$.asObservable();
     readonly #tokenSubject$ = new BehaviorSubject<string | null>(null);
     readonly TokenObservable = this.#tokenSubject$.asObservable();
 
@@ -34,7 +36,9 @@ export class AuthenticationService {
     }
 
     getLoggedInUser(): Observable<ILoggedInUser> {
-        return this.#authenticationRepository.getLoggedInUser();
+        return this.#authenticationRepository.getLoggedInUser().pipe(tap(loggedInUser => {
+            this.#loggedInUserSubject$.next(loggedInUser);
+        }));
     }
 
     isLoggedIn(): boolean {

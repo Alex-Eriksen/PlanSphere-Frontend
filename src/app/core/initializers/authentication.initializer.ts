@@ -7,7 +7,9 @@ export function authenticationInitializer(authService: AuthenticationService) {
     globalLoaderService.showLoader();
     return () => new Promise(resolve  => {
         authService.refreshToken().subscribe({
-            next: () => globalLoaderService.hideLoader(),
+            next: () => authService.getLoggedInUser().subscribe({
+                next: () => globalLoaderService.hideLoader()
+            }).add(resolve(true)),
             error: () => globalLoaderService.hideLoader()
         }).add(resolve(true));
     });

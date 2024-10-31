@@ -28,6 +28,6 @@ export class AuthenticationRepository {
     }
 
     getLoggedInUser(): Observable<ILoggedInUser> {
-        return this.#http.get<ILoggedInUser>(APIS.authentication.getLoggedInUser);
+        return this.#http.get<ILoggedInUser>(APIS.authentication.getLoggedInUser, {withCredentials: true});
     }
 }

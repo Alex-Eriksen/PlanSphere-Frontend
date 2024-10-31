@@ -1,15 +1,18 @@
-import { Component, inject, OnInit, output } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, output } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
 import { INavigationTab } from "../interfaces/navigation-tab.interface";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatListItem, MatNavList } from "@angular/material/list";
 import { Router, RouterLink, RouterLinkActive } from "@angular/router";
-import { SIDEBAR_SIDEBAR_CONFIG } from "./sidebar-navigations.constants";
 import { NgClass, NgOptimizedImage } from "@angular/common";
 import { SidebarItemComponent } from "./components/sidebar-item/sidebar-item.component";
 import { ISideNavToggle } from "./side-nav-toggle.interface";
 import { LOCAL_STORAGE_KEYS } from "../constants/local-storage.constants";
 import { AuthenticationService } from "../../core/features/authentication/services/authentication.service";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { ILoggedInUser } from "../../core/features/authentication/models/logged-in-user.model";
+import { OrganisationNavigations } from "../../views/main/components/organisation/organisation-navigations.constants";
+import { AdminRoleNames } from "../constants/admin-role-name.constants";
 
 @Component({
   selector: 'ps-sidebar',
@@ -30,13 +33,67 @@ import { AuthenticationService } from "../../core/features/authentication/servic
 })
 export class SidebarComponent implements OnInit {
     screenWidth: number = window.innerWidth;
-    navigations: INavigationTab[] = SIDEBAR_SIDEBAR_CONFIG;
     collapsed = true;
     toggleSideNav = output<ISideNavToggle>();
+    loggedInUserData: ILoggedInUser | null = null;
+    readonly #destroyRef = inject(DestroyRef);
     readonly #authService = inject(AuthenticationService);
     readonly #router = inject(Router);
+    navigations: INavigationTab[] = [
+        {
+            label: "FRONTPAGE",
+            routeLink: "frontpage",
+            icon: "fa-solid fa-house"
+        },
+        {
+            label: "ORGANISATION.NAME",
+            routeLink: "organisation",
+            icon: "fa-solid fa-sitemap",
+            children: OrganisationNavigations
+        },
+        {
+            label: "ORGANISATION.NAME_PLURAL",
+            routeLink: "organisations",
+            icon: "fa-solid fa-sitemap",
+            isVisible: () => this.loggedInUserData?.roles.find(x => x.name === AdminRoleNames.SystemAdministrator) !== undefined
+        },
+        {
+            label: "COMPANY.NAME",
+            routeLink: "company",
+            icon: "fa-solid fa-building"
+        },
+        {
+            label: "COMPANY.NAME_PLURAL",
+            routeLink: "companies",
+            icon: "fa-solid fa-building"
+        },
+        {
+            label: "DEPARTMENT.NAME",
+            routeLink: "department",
+            icon: "fa-solid fa-building-user"
+        },
+        {
+            label: "DEPARTMENT.NAME_PLURAL",
+            routeLink: "departments",
+            icon: "fa-solid fa-building-user"
+        },
+        {
+            label: "TEAM.NAME",
+            routeLink: "team",
+            icon: "fa-solid fa-people-group"
+        },
+        {
+            label: "TEAM.NAME_PLURAL",
+            routeLink: "teams",
+            icon: "fa-solid fa-people-group"
+        },
+    ];
 
     ngOnInit() {
+        this.#authService.LoggedInUserObservable.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe({
+            next: data => this.loggedInUserData = data
+        });
+
         this.collapsed = localStorage.getItem(LOCAL_STORAGE_KEYS.SideNavState) == "true";
         this.toggleSideNav.emit({screenWidth: this.screenWidth, collapsed: this.collapsed});
     }
