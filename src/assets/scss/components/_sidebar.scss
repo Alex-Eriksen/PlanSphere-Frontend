@@ -10,11 +10,36 @@
     }
 
     .sidebar-nav-item {
-        @apply items-center;
+        @apply items-center border;
+    }
+
+    .sidebar-nav-item:hover {
+        @apply border border-primary;
     }
 
     .sidebar-collapse-button {
         @apply justify-end items-center px-4;
+    }
+
+    .tab--active {
+        @apply bg-primary;
+    }
+
+    .hasChildren {
+        .tab--active {
+            @apply bg-gray-200;
+        }
+        &.collapsed {
+            .tab--active {
+                @apply bg-primary;
+            }
+        }
+    }
+
+    .children {
+        .tab--active {
+            @apply bg-primary;
+        }
     }
 
     &.collapsed {
@@ -25,17 +50,21 @@
         }
 
         .sidebar-nav-item {
-            @apply justify-center;
+            @apply justify-center px-0;
         }
 
         .sidebar-collapse-button {
             @apply justify-center;
         }
+
+        .sidebar-nav-item-button {
+            @apply justify-center px-0 w-full;
+        }
     }
 }
 
 #layout {
-    @apply transition-all ease-in-out duration-500 ml-64 p-6;
+    @apply transition-all ease-in-out duration-500 ml-64 px-4 py-2;
 
     &.collapsed {
         @apply ml-[5rem] #{!important};

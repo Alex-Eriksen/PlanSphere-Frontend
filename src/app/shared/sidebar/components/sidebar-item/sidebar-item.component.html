@@ -1,6 +1,30 @@
-<button class="sidebar-nav-item rounded-lg text-sm w-full text-left font-medium bg-gray-200 py-2.5 px-3.5 flex gap-2" [routerLink]="navigation().routeLink" routerLinkActive="bg-primary">
-    <i [class]="navigation().icon" class="w-3.5"></i>
-    @if (!collapsed()) {
-        <span>{{ navigation().label | translate }}</span>
+<div class="sidebar-nav-item flex flex-col bg-gray-200 rounded-lg" [ngClass]="{'hasChildren': tab().children, 'collapsed': selfCollapsed}">
+    <button
+        class="sidebar-nav-item-button rounded-lg text-sm w-full text-left font-medium bg-gray-200 py-2.5 px-3.5 flex flex-wrap gap-2 justify-between items-center"
+        [routerLink]="routerLink"
+        routerLinkActive="tab--active"
+        >
+        <div class="flex gap-2">
+            <i [class]="tab().icon" class="w-3.5"></i>
+            <span [ngClass]="{'hidden': collapsed()}">{{ tab().label | translate }}</span>
+        </div>
+        @if(tab().children) {
+            @if(selfCollapsed) {
+                <button (click)="toggleCollapse()">
+                    <i class="fa-solid fa-angle-right"></i>
+                </button>
+            } @else {
+                <button (click)="toggleCollapse()">
+                    <i class="fa-solid fa-angle-down"></i>
+                </button>
+            }
+        }
+    </button>
+    @if (tab().children && !selfCollapsed) {
+        <div class="flex flex-col w-full children p-2">
+            @for (item of tab().children; track item.label) {
+                <ps-sidebar-item [parentPath]="routerLink" [collapsed]="collapsed()" [tab]="item"></ps-sidebar-item>
+            }
+        </div>
     }
-</button>
+</div>

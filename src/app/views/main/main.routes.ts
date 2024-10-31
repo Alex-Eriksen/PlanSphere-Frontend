@@ -9,6 +9,7 @@ import { DepartmentsComponent } from "./components/departments/departments.compo
 import { TeamComponent } from "./components/team/team.component";
 import { TeamsComponent } from "./components/teams/teams.component";
 import { UserComponent } from "./components/user/user.component";
+import { organisationRoutes } from "./components/organisation/organisation.routes";
 
 export const mainRoutes: Routes = [
     {
@@ -18,42 +19,73 @@ export const mainRoutes: Routes = [
     },
     {
         path: "frontpage",
-        component: FrontpageComponent
+        component: FrontpageComponent,
+        data: {
+            name: "FRONTPAGE"
+        }
     },
     {
         path: "organisation",
-        component: OrganisationComponent
+        component: OrganisationComponent,
+        children: organisationRoutes,
+        data: {
+            name: "ORGANISATION.NAME"
+        }
     },
     {
         path: "organisations",
-        component: OrganisationsComponent
+        component: OrganisationsComponent,
+        data: {
+            name: "ORGANISATION.NAME_PLURAL"
+        }
     },
     {
-        path: "company",
-        component: CompanyComponent
+        path: "company/:companyId",
+        component: CompanyComponent,
+        data: {
+            name: "COMPANY.NAME"
+        }
     },
     {
         path: "companies",
-        component: CompaniesComponent
+        component: CompaniesComponent,
+        data: {
+            name: "COMPANY.NAME_PLURAL"
+        }
     },
     {
-        path: "department",
-        component: DepartmentComponent
+        path: "department/:departmentId",
+        component: DepartmentComponent,
+        data: {
+            name: "DEPARTMENT.NAME"
+        }
     },
     {
         path: "departments",
-        component: DepartmentsComponent
+        component: DepartmentsComponent,
+        data: {
+            name: "DEPARTMENT.NAME_PLURAL"
+        }
     },
     {
-        path: "team",
-        component: TeamComponent
+        path: "team/:teamId",
+        component: TeamComponent,
+        data: {
+            name: "TEAM.NAME"
+        }
     },
     {
         path: "teams",
-        component: TeamsComponent
+        component: TeamsComponent,
+        data: {
+            name: "TEAM.NAME_PLURAL"
+        }
     },
     {
         path: "user",
-        component: UserComponent
+        component: UserComponent,
+        data: {
+            name: "USER.NAME"
+        }
     }
 ]

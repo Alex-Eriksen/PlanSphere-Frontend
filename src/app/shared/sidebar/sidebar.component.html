@@ -10,7 +10,7 @@
     </div>
     <div class="sidebar-nav">
         @for (item of navigations; track item.label) {
-            <ps-sidebar-item [collapsed]="collapsed" [navigation]="item"></ps-sidebar-item>
+            <ps-sidebar-item [collapsed]="collapsed" [tab]="item"></ps-sidebar-item>
         }
     </div>
     <div class="h-12 my-auto flex justify-end sidebar-collapse-button">

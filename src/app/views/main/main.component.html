@@ -1,4 +1,9 @@
 <ps-sidebar (toggleSideNav)="onToggleSideNav($event)"></ps-sidebar>
-<div id="layout" [ngClass]="{'collapsed': isSideNavCollapsed}">
-    <router-outlet></router-outlet>
+<div id="layout" [ngClass]="{'collapsed': isSideNavCollapsed}" class="flex flex-col relative">
+    <div class="mb-[1.25rem]">
+        <ps-breadcrumb></ps-breadcrumb>
+    </div>
+    <div class="h-[calc(100dvh-6.5rem)] bg-white my-6 p-2 rounded-lg border border-black-100">
+        <router-outlet></router-outlet>
+    </div>
 </div>
