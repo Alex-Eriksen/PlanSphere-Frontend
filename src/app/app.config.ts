@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, inject } from "@angular/core";
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from "@angular/core";
 import { provideRouter, withComponentInputBinding, withRouterConfig } from "@angular/router";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";

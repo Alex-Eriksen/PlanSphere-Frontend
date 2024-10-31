@@ -3,7 +3,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { INavigationTab } from "../interfaces/navigation-tab.interface";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatListItem, MatNavList } from "@angular/material/list";
-import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterStateSnapshot } from "@angular/router";
+import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { SIDEBAR_SIDEBAR_CONFIG } from "./sidebar-navigations.constants";
 import { NgClass, NgOptimizedImage } from "@angular/common";
 import { SidebarItemComponent } from "./components/sidebar-item/sidebar-item.component";
