@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { AuthenticationRepository } from "../repositories/authentication.repository";
-import { BehaviorSubject, Observable, Subject, tap } from "rxjs";
+import { BehaviorSubject, Observable, tap } from "rxjs";
 import { ILoggedInUser } from "../models/logged-in-user.model";
 
 @Injectable({

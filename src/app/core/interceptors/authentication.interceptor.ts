@@ -8,7 +8,7 @@ export const authenticationInterceptor: HttpInterceptorFn = (req, next) => {
     const accessToken = authService.AccessToken;
     const isApiUrl = req.url.startsWith(environment.apiUrl);
     if (authService.isLoggedIn() && isApiUrl) {
-        req.clone({
+        req = req.clone({
             setHeaders: { Authorization: `Bearer ${accessToken}`}
         });
     }

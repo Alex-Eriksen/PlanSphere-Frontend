@@ -6,6 +6,7 @@ import { InputComponent } from "../../../../shared/input/input.component";
 import { NgOptimizedImage } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
 import { AuthenticationService } from "../../../../core/features/authentication/services/authentication.service";
+import { ButtonComponent } from "../../../../shared/button/button.component";
 
 @Component({
   selector: 'ps-sign-in',
@@ -14,7 +15,8 @@ import { AuthenticationService } from "../../../../core/features/authentication/
         ReactiveFormsModule,
         InputComponent,
         NgOptimizedImage,
-        TranslateModule
+        TranslateModule,
+        ButtonComponent
     ],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
@@ -25,6 +27,7 @@ export class SignInComponent implements OnInit {
     readonly #router = inject(Router);
     readonly #destroyRef = inject(DestroyRef);
     readonly #authService = inject(AuthenticationService);
+    isLoading = false;
     #returnUrl: string = "/";
 
     readonly formGroup = this.#fb.group({
@@ -33,6 +36,15 @@ export class SignInComponent implements OnInit {
     });
 
     ngOnInit() {
+        this.#authService.TokenObservable.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe({
+            next: token => {
+                if (token === null || token === "") {
+                    return;
+                }
+                this.#router.navigate([this.#returnUrl]);
+            }
+        });
+
         this.#route.queryParams.pipe(takeUntilDestroyed(this.#destroyRef))
             .subscribe(params => {
             this.#returnUrl = params['returnUrl'] || '/';
@@ -46,8 +58,12 @@ export class SignInComponent implements OnInit {
             return;
         }
 
-        this.#authService.login(this.formGroup.value.email!, this.formGroup.value.password!).subscribe(() => {
-            this.#router.navigate([ this.#returnUrl ]);
+        this.isLoading = true;
+        this.#authService.login(this.formGroup.value.email!, this.formGroup.value.password!).subscribe({
+            next: () => {
+                this.isLoading = false;
+                this.#router.navigate([this.#returnUrl]);
+            }
         });
     }
 

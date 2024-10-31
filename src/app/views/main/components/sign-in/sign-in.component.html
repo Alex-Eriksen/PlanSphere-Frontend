@@ -11,7 +11,13 @@
             type="password"
             [control]="formGroup.controls.password"
         ></ps-input>
-        <button (click)="signIn()" class="bg-secondary w-[18.75rem] rounded-lg px-4 py-2 font-bold text-white">{{"LOGIN" | translate}}</button>
+        <ps-button
+            label="LOGIN"
+            (click)="signIn()"
+            buttonStyleType="button--primary"
+            buttonType="button"
+            [isLoading]="isLoading"
+        ></ps-button>
         <button (click)="forgotPassword()" class="text-sm font-light hover:border-secondary border border-white px-4 py-2 rounded-lg">{{"FORGOT_PASSWORD" | translate}}</button>
     </form>
 </div>

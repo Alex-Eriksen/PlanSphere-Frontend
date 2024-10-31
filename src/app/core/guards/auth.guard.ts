@@ -12,8 +12,7 @@ export const AuthGuard: ResolveFn<boolean> = (
     if (isLoggedIn) {
         return true;
     } else {
-        const returnUrl = route.url;
-        router.navigate(['/sign-in'], { queryParams: { returnUrl } });
+        router.navigate(['/sign-in'], { queryParams: { returnUrl: state.url } });
     }
     return true;
 };
