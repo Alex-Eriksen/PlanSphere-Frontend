@@ -5,6 +5,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { InputComponent } from "../../../../shared/input/input.component";
 import { NgOptimizedImage } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
+import { AuthenticationService } from "../../../../core/features/authentication/services/authentication.service";
 
 @Component({
   selector: 'ps-sign-in',
@@ -23,6 +24,7 @@ export class SignInComponent implements OnInit {
     readonly #route = inject(ActivatedRoute);
     readonly #router = inject(Router);
     readonly #destroyRef = inject(DestroyRef);
+    readonly #authService = inject(AuthenticationService);
     #returnUrl: string = "/";
 
     readonly formGroup = this.#fb.group({
@@ -38,8 +40,15 @@ export class SignInComponent implements OnInit {
     }
 
     signIn() {
-        // TODO: Add authenticate call.
-        this.#router.navigate([ this.#returnUrl ]);
+        if (!this.formGroup.valid) {
+            this.formGroup.markAsDirty();
+            this.formGroup.markAsTouched();
+            return;
+        }
+
+        this.#authService.login(this.formGroup.value.email!, this.formGroup.value.password!).subscribe(() => {
+            this.#router.navigate([ this.#returnUrl ]);
+        });
     }
 
     forgotPassword() {
