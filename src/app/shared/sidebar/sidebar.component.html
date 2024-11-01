@@ -13,16 +13,12 @@
             <ps-sidebar-item [collapsed]="collapsed" [tab]="item"></ps-sidebar-item>
         }
     </div>
-    <div class="h-12 my-auto flex justify-end sidebar-collapse-button">
-        @if (collapsed) {
+    <div class="flex justify-between w-full py-2 px-4 flex-col">
+        <ps-user-nav (logOut)="confirmLogOut()" [collapsed]="collapsed" [loggedInUserData]="loggedInUserData!"></ps-user-nav>
+        <div class="h-12 my-auto flex justify-end sidebar-collapse-button" [ngClass]="{'w-full': collapsed}">
             <button (click)="toggleCollapse()">
-                <i class="fa-solid fa-angles-right"></i>
+                <i class="fa-solid" [ngClass]="{'fa-angles-right': collapsed, 'fa-angles-left': !collapsed}"></i>
             </button>
-        } @else {
-            <button (click)="toggleCollapse()">
-                <i class="fa-solid fa-angles-left"></i>
-            </button>
-        }
+        </div>
     </div>
-    <button (click)="logOut()">LOG OUT (DEV)</button>
 </div>

@@ -14,8 +14,8 @@
             <img [src]="imageSrc()" [alt]="imageAlt() ?? '' | translate" class="me-2" />
         }
         <span class="tracking-[0.5px]" [ngClass]="labelCaseSensitiveClass()">
-      {{ label() | translate }}
-    </span>
+            {{ label() | translate }}
+        </span>
         @if (imageSrc() && imagePosition() === "after") {
             <img [src]="imageSrc()" [alt]="imageAlt() ?? '' | translate" class="ms-2" />
         }

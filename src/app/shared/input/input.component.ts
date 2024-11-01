@@ -1,5 +1,5 @@
-import { Component, input } from "@angular/core";
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { Component, input, model } from "@angular/core";
+import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatError, MatFormField, MatLabel } from "@angular/material/form-field";
 import { TranslateModule } from "@ngx-translate/core";
 import { MatInput } from "@angular/material/input";
@@ -16,16 +16,18 @@ import { VALIDATION_ERROR_KEY, VAT_NUMBER_NOT_EXISTS_ERROR_KEY } from "../consta
         ReactiveFormsModule,
         MatError,
         MatIcon,
-        MatLabel
+        MatLabel,
+        FormsModule
     ],
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss'
 })
 export class InputComponent {
     label = input.required<string>();
-    control = input.required<FormControl>();
+    control = input<FormControl>();
     placeholder = input<string>("");
     type = input<string>("text");
+    value = model<string>("");
 
     protected readonly INVALID_VAT_NUMBER_ERROR_KEY = VAT_NUMBER_NOT_EXISTS_ERROR_KEY;
     protected readonly VAT_NUMBER_NOT_EXISTS_ERROR_KEY = VAT_NUMBER_NOT_EXISTS_ERROR_KEY;
