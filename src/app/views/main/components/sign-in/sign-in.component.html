@@ -1,0 +1,23 @@
+<div class="w-full h-[100dvh] justify-center items-center flex">
+    <form [formGroup]="formGroup" class="flex flex-col justify-center items-center gap-4 relative w-fit">
+        <img ngSrc="assets/images/PlanSphereLogo.png" alt="Logo" height="128" width="128" class="absolute top-0 -translate-y-[110%]">
+        <ps-input
+            label="EMAIL"
+            type="email"
+            [control]="formGroup.controls.email"
+        ></ps-input>
+        <ps-input
+            label="PASSWORD"
+            type="password"
+            [control]="formGroup.controls.password"
+        ></ps-input>
+        <ps-button
+            label="LOGIN"
+            (click)="signIn()"
+            buttonStyleType="button--primary"
+            buttonType="button"
+            [isLoading]="isLoading"
+        ></ps-button>
+        <button (click)="forgotPassword()" class="text-sm font-light hover:border-secondary border border-white px-4 py-2 rounded-lg">{{"FORGOT_PASSWORD" | translate}}</button>
+    </form>
+</div>

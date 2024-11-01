@@ -36,4 +36,11 @@ export class SidebarItemComponent implements OnInit{
     toggleCollapse() {
         this.selfCollapsed = !this.selfCollapsed;
     }
+
+    isTabVisible(): boolean {
+        // v DO NOT DELETE COMMENT
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return this.tab().isVisible ? this.tab().isVisible() : true;
+    }
 }

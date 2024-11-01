@@ -3,4 +3,5 @@ export interface INavigationTab {
     routeLink: string;
     icon?: string;
     children?: INavigationTab[];
+    isVisible?: () => boolean;
 }

@@ -1,6 +1,6 @@
 <div id="sidebar" [ngClass]="{'collapsed': collapsed}">
     <div class="logo-container">
-        <img ngSrc="assets/images/PlanSphereLogo.png" alt="Logo" height="48" width="48">
+        <img ngSrc="assets/images/PlanSphereLogo.png" alt="Logo" height="48" width="48" priority>
         @if (!collapsed) {
             <p class="font-medium text-2xl mb-2">{{ "PLANSPHERE" | translate }}</p>
         }
@@ -24,4 +24,5 @@
             </button>
         }
     </div>
+    <button (click)="logOut()">LOG OUT (DEV)</button>
 </div>

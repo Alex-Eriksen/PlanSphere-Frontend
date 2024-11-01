@@ -5,6 +5,16 @@
     "SUMMARY": "Resumé",
     "PLANSPHERE": "PlanSphere",
     "FRONTPAGE": "Forside",
+    "EMAIL": "Email",
+    "PASSWORD": "Kodeord",
+    "LOGIN": "Log ind",
+    "FORGOT_PASSWORD": "Glemt kodeord",
+    "VALIDATION": {
+        "IS_REQUIRED": "er påkrævet",
+        "IS_NOT_A_VALID_EMAIL": "er i et forkert format",
+        "IS_NOT_VALID": "er invalidt",
+        "IS_INVALID": "er validt"
+    },
     "ORGANISATION": {
         "NAME": "Organisation",
         "NAME_PLURAL": "Organisationer"
