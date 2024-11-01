@@ -13,6 +13,10 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ILoggedInUser } from "../../core/features/authentication/models/logged-in-user.model";
 import { OrganisationNavigations } from "../../views/main/components/organisation/organisation-navigations.constants";
 import { AdminRoleNames } from "../constants/admin-role-name.constants";
+import { ButtonComponent } from "../button/button.component";
+import { UserNavComponent } from "./components/user-nav/user-nav.component";
+import { DialogService } from "../../core/services/dialog.service";
+import { finalize } from "rxjs";
 
 @Component({
   selector: 'ps-sidebar',
@@ -26,7 +30,9 @@ import { AdminRoleNames } from "../constants/admin-role-name.constants";
         MatSidenavModule,
         NgOptimizedImage,
         NgClass,
-        SidebarItemComponent
+        SidebarItemComponent,
+        ButtonComponent,
+        UserNavComponent
     ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
@@ -39,6 +45,7 @@ export class SidebarComponent implements OnInit {
     readonly #destroyRef = inject(DestroyRef);
     readonly #authService = inject(AuthenticationService);
     readonly #router = inject(Router);
+    readonly #dialogService = inject(DialogService);
     navigations: INavigationTab[] = [
         {
             label: "FRONTPAGE",
@@ -104,8 +111,21 @@ export class SidebarComponent implements OnInit {
         localStorage.setItem(LOCAL_STORAGE_KEYS.SideNavState, this.collapsed.toString());
     }
 
+    confirmLogOut() {
+        this.#dialogService.open({
+            title: "LOGOUT",
+            callBack: () => this.logOut(),
+            submitLabel: "LOGOUT",
+            isInputIncluded: false,
+            descriptions: ["LOGOUT_CONFIRMATION"],
+            cancelLabel: "CANCEL"
+        }, "confirmation");
+    }
+
     logOut() {
-        this.#authService.revokeRefreshToken().subscribe({
+        this.#authService.revokeRefreshToken().pipe(finalize(() => {
+            this.#dialogService.close();
+        })).subscribe({
             next: () => this.#router.navigate(['/sign-in'], { queryParams: { returnUrl: this.#router.routerState.snapshot.url } })
         });
     }

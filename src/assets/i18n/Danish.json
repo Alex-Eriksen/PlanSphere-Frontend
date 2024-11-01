@@ -8,6 +8,9 @@
     "EMAIL": "Email",
     "PASSWORD": "Kodeord",
     "LOGIN": "Log ind",
+    "LOGOUT": "Log ud",
+    "LOGOUT_CONFIRMATION": "Er du sikker på du vil logge ud?",
+    "CANCEL": "Annuller",
     "FORGOT_PASSWORD": "Glemt kodeord",
     "VALIDATION": {
         "IS_REQUIRED": "er påkrævet",
