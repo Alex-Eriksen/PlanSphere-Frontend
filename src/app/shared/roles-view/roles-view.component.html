@@ -1,0 +1,19 @@
+<div class="flex flex-col gap-4 px-4 py-2">
+    <ps-small-header
+        heading="ROLE.NAME_PLURAL"
+        subheading="ROLE.DESCRIPTION"
+        tooltip="ROLE.TOOLTIP"
+        [translationArgs]="{
+            sourceLevel: sourceLevel()
+        }"
+    ></ps-small-header>
+    <ps-line></ps-line>
+    <ps-button
+        (click)="openCreatePopup()"
+        label="ROLE.CREATE.NAME"
+        buttonStyleType="button--primary"
+        buttonType="button"
+        imageSrc="assets/images/icons/plus-solid.svg"
+        imagePosition="before"
+    ></ps-button>
+</div>

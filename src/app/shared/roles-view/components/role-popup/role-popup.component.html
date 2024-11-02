@@ -1,0 +1,50 @@
+<div class="sticky top-0 bg-white z-30">
+    <ps-popup-header
+        [includeExitButton]="true"
+        [label]="
+            componentInputs.isEditPopup
+                ? 'ROLE.EDIT.NAME'
+                : 'ROLE.CREATE.NAME'
+        "
+        [tooltipLabel]="
+            componentInputs.isEditPopup
+                ? 'ROLE.EDIT.TOOLTIP'
+                : 'ROLE.CREATE.TOOLTIP'
+        "></ps-popup-header>
+    <form [formGroup]="formGroup" class="p-6 flex flex-col gap-4">
+        <ps-small-header
+            [heading]="
+                componentInputs.isEditPopup
+                    ? 'ROLE.EDIT.ROLE_NAME'
+                    : 'ROLE.CREATE.ROLE_NAME'
+            "
+            [subheading]="
+                componentInputs.isEditPopup
+                    ? 'ROLE.EDIT.ROLE_NAME_DESCRIPTION'
+                    : 'ROLE.CREATE.ROLE_NAME_DESCRIPTION'
+            "
+        ></ps-small-header>
+        <ps-input
+            label="NAME"
+            [control]="formGroup.controls.request.controls.name"
+        ></ps-input>
+
+    </form>
+    <div class="py-3 bg-black-50 flex border border-black-100 px-6 sticky bottom-0 z-10 justify-between">
+        <ps-button
+            (click)="closePopup()"
+            [appliedClasses]="'!py-3 !px-6'"
+            label="CLOSE"
+            buttonStyleType="button--tertiary"
+            buttonType="button"
+        />
+        <ps-button
+            (click)="submitForm()"
+            [appliedClasses]="'!py-3 !px-6'"
+            label="CREATE"
+            buttonStyleType="button--primary"
+            buttonType="button"
+            [isLoading]="isSubmitting"
+        />
+    </div>
+</div>

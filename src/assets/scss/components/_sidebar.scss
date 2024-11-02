@@ -1,5 +1,5 @@
 #sidebar {
-    @apply transition-all ease-in-out duration-500 bg-gray-100 fixed w-64 top-0 z-10 overflow-hidden h-[100dvh] flex flex-col border-e border-black border-opacity-10;
+    @apply transition-all ease-in-out duration-500 bg-gray-100 fixed w-64 top-0 z-10 overflow-hidden h-[100dvh] flex flex-col border-e border-black-200;
 
     .logo-container {
         @apply flex items-center gap-2 py-2 w-full px-4;
@@ -64,7 +64,7 @@
 }
 
 #layout {
-    @apply transition-all ease-in-out duration-500 ml-64 px-4 py-2;
+    @apply transition-all ease-in-out duration-500 ml-64;
 
     &.collapsed {
         @apply ml-[5rem] #{!important};

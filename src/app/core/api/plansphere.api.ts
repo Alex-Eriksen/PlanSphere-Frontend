@@ -1,4 +1,5 @@
 ﻿import { environment } from "../../../environments/environment";
+import { SourceLevel } from "../enums/source-level.enum";
 
 export const APIS = {
     getWeatherForecast: environment.apiUrl + "WeatherForecast/GetWeatherForecast",
@@ -7,5 +8,11 @@ export const APIS = {
         refreshToken: environment.apiUrl + "Authentication/RefreshToken",
         revokeToken: environment.apiUrl + "Authentication/revokeRefreshToken",
         getLoggedInUser: environment.apiUrl + "Authentication/GetLoggedInUser",
+    },
+    roles: {
+        createRole: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Role/CreateRole/${sourceLevel}/${sourceLevelId}`
+    },
+    companies: {
+        lookup: environment.apiUrl + "Company/LookUpCompanies",
     }
 }
