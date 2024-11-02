@@ -1,5 +1,4 @@
-import { INavigationTab } from "../interfaces/navigation-tab.interface";
-import { OrganisationNavigations } from "../../views/main/components/organisation/organisation-navigations.constants";
+import { INavigationTab } from "../navigation-tabs/navigation-tab.interface";
 
 export const SIDEBAR_SIDEBAR_CONFIG: INavigationTab[] = [
     {
@@ -11,7 +10,6 @@ export const SIDEBAR_SIDEBAR_CONFIG: INavigationTab[] = [
         label: "ORGANISATION.NAME",
         routeLink: "organisation",
         icon: "fa-solid fa-sitemap",
-        children: OrganisationNavigations
     },
     {
         label: "ORGANISATION.NAME_PLURAL",
