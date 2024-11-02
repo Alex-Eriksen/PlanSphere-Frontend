@@ -16,7 +16,6 @@ import { ButtonComponent } from "../button/button.component";
 import { UserNavComponent } from "./components/user-nav/user-nav.component";
 import { DialogService } from "../../core/services/dialog.service";
 import { finalize } from "rxjs";
-import { CompanyNavigations } from "../../views/main/components/company/company-navigations.constants";
 
 @Component({
   selector: 'ps-sidebar',
@@ -66,8 +65,7 @@ export class SidebarComponent implements OnInit {
         {
             label: "COMPANY.NAME",
             routeLink: "company",
-            icon: "fa-solid fa-building",
-            children: CompanyNavigations
+            icon: "fa-solid fa-building"
         },
         {
             label: "COMPANY.NAME_PLURAL",
