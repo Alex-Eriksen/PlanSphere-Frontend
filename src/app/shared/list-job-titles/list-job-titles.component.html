@@ -1,4 +1,4 @@
-<div class="bg-red p-6 relative">
+<div class="r-screen-[25rem] p-4 relative">
     <ps-sub-header
         [label]="'JOB_TITLE.NAME_PLURAL' | translate"
         [tooltip]="'JOB_TITLE.TOOLTIP' | translate"
@@ -8,7 +8,7 @@
         [subheading]="'JOB_TITLE.DESCRIPTION' | translate : { sourceLevel : sourceLevel()}"
         ></ps-small-header>
         <div class="flex flex-row justify-between gap-6">
-            <ps-search-input [searchSignal]="searchSignal" appliedClass="!w-[18.75rem]"></ps-search-input>
+            <ps-search-input [searchSignal]="searchSignal" [placeholder]="'SEARCH'" appliedClass="!w-[18.75rem]"></ps-search-input>
             <ps-button
                 (click)="openJobTitlePopup(false)"
                 appliedClasses="!px-6"
@@ -27,6 +27,7 @@
         [isLoading]="isTableLoading"
         [sortingFilterSignal]="sortingFilterSignal"
         [actions]="actions"
+        (toggleItem)="updateJobTitleInheritance($event)"
     />
     <ps-pagination [paginationValues]="paginatedData"></ps-pagination>
 </div>

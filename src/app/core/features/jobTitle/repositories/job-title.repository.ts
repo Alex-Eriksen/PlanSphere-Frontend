@@ -37,4 +37,8 @@ export class JobTitleRepository {
     deleteJobTitle(jobTitleId: number): Observable<void> {
         return this.#http.delete<void>(APIS.jobTitles.delete(jobTitleId));
     }
+
+    toggleInheritance(payload: boolean, id: number): Observable<void> {
+        return this.#http.post<void>(APIS.jobTitles.toggleInheritance(id), payload);
+    }
 }

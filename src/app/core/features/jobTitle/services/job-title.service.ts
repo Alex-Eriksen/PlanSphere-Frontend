@@ -38,4 +38,8 @@ export class JobTitleService {
     deleteJobTitle(id: number): Observable<void> {
         return this.#jobTitleRepository.deleteJobTitle(id);
     }
+
+    toggleInheritance(payload: boolean, id: number): Observable<void> {
+        return this.#jobTitleRepository.toggleInheritance(payload, id);
+    }
 }

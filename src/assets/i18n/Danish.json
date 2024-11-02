@@ -21,6 +21,7 @@
     "ITEMS": "elementer",
     "CREATE_NEW": "Opret ny",
     "FORGOT_PASSWORD": "Glemt kodeord",
+    "SEARCH": "Søg",
     "VALIDATION": {
         "IS_REQUIRED": "er påkrævet",
         "IS_NOT_A_VALID_EMAIL": "er i et forkert format",
