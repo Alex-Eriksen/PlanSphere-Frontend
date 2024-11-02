@@ -1,5 +1,5 @@
 import { Component, input, OnInit } from "@angular/core";
-import { INavigationTab } from "../../../interfaces/navigation-tab.interface";
+import { INavigationTab } from "../../../navigation-tabs/navigation-tab.interface";
 import { TranslateModule } from "@ngx-translate/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { NgClass } from "@angular/common";
@@ -35,12 +35,5 @@ export class SidebarItemComponent implements OnInit{
 
     toggleCollapse() {
         this.selfCollapsed = !this.selfCollapsed;
-    }
-
-    isTabVisible(): boolean {
-        // v DO NOT DELETE COMMENT
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        return this.tab().isVisible ? this.tab().isVisible() : true;
     }
 }

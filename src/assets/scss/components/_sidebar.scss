@@ -22,24 +22,7 @@
     }
 
     .tab--active {
-        @apply bg-primary;
-    }
-
-    .hasChildren {
-        .tab--active {
-            @apply bg-gray-200;
-        }
-        &.collapsed {
-            .tab--active {
-                @apply bg-primary;
-            }
-        }
-    }
-
-    .children {
-        .tab--active {
-            @apply bg-primary;
-        }
+        @apply bg-secondary font-medium;
     }
 
     &.collapsed {
