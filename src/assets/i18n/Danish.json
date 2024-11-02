@@ -11,6 +11,15 @@
     "LOGOUT": "Log ud",
     "LOGOUT_CONFIRMATION": "Er du sikker på du vil logge ud?",
     "CANCEL": "Annuller",
+    "SAVE": "Gem",
+    "DELETE": "Slet",
+    "CREATE": "Opret",
+    "CLOSE": "Luk",
+    "CONFIRM": "Bekræft",
+    "WARNING": "Advarsel",
+    "SHOWING_COUNT": "Viser {{start}}-{{end}} af {{total}} {{type}}",
+    "ITEMS": "elementer",
+    "CREATE_NEW": "Opret ny",
     "FORGOT_PASSWORD": "Glemt kodeord",
     "VALIDATION": {
         "IS_REQUIRED": "er påkrævet",
@@ -41,6 +50,33 @@
     "JOB_TITLE": {
         "NAME": "Job titel",
         "NAME_PLURAL": "Job titler",
-        "TOOLTIP": "Her kan du oprette nye job titler som kan tildeles til brugere for at forbedre organisering af brugere."
-    }
+        "OVERVIEW": "Oversigt af job titler",
+        "TOOLTIP": "Her kan du oprette nye job titler som kan tildeles til brugere for at forbedre organisering af brugere.",
+        "DESCRIPTION": "Nedenfor er en  liste over alle jobtitler inden for en {{sourceLevel}}. Du kan ændre arvefunktionen for en jobtitel, og du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
+        "ACTIVE": "Aktiv",
+        "NAME_OF": "Titel",
+        "SOURCE": "Kilde",
+        "CREATE": {
+            "TITLE": "Opret en job titel",
+            "TOOLTIP": "Her opretter du en ny job titel",
+            "NAME": "Navngiv din job titel"
+        },
+        "EDIT": {
+            "TITLE": "Ændrer job titel",
+            "TOOLTIP": "Her ændrer du en job titel",
+            "NAME": "Navngiv din job titel"
+        },
+        "ACTIVATED": {
+            "NAME": "Aktiver nedarvning",
+            "DESCRIPTION": "Hvis aktiv, vil den blive nedarvet til niveauer under organisationen.",
+            "IS_ACTIVE": "Gør job titlen aktiv i systemet"
+        },
+        "DELETE": {
+            "TITLE": "Slet job titel",
+            "TOOLTIP": "Du er ved at slette denne jobtitel. Denne handling kan ikke fortrydes.",
+            "QUESTION": "Er du sikker på du vil slette denne job titel?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes job titlen, og den vil ikke være tilgængelig for brugerne."
+        }
+    },
+    "NO_RESULTS": "Ingen resultater"
 }
