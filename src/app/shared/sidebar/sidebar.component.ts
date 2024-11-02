@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit, output } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
-import { INavigationTab } from "../interfaces/navigation-tab.interface";
+import { INavigationTab } from "../navigation-tabs/navigation-tab.interface";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatListItem, MatNavList } from "@angular/material/list";
 import { Router, RouterLink, RouterLinkActive } from "@angular/router";
@@ -11,7 +11,6 @@ import { LOCAL_STORAGE_KEYS } from "../constants/local-storage.constants";
 import { AuthenticationService } from "../../core/features/authentication/services/authentication.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ILoggedInUser } from "../../core/features/authentication/models/logged-in-user.model";
-import { OrganisationNavigations } from "../../views/main/components/organisation/organisation-navigations.constants";
 import { AdminRoleNames } from "../constants/admin-role-name.constants";
 import { ButtonComponent } from "../button/button.component";
 import { UserNavComponent } from "./components/user-nav/user-nav.component";
@@ -56,7 +55,6 @@ export class SidebarComponent implements OnInit {
             label: "ORGANISATION.NAME",
             routeLink: "organisation",
             icon: "fa-solid fa-sitemap",
-            children: OrganisationNavigations
         },
         {
             label: "ORGANISATION.NAME_PLURAL",
@@ -98,7 +96,9 @@ export class SidebarComponent implements OnInit {
 
     ngOnInit() {
         this.#authService.LoggedInUserObservable.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe({
-            next: data => this.loggedInUserData = data
+            next: data => {
+                this.loggedInUserData = data;
+            }
         });
 
         this.collapsed = localStorage.getItem(LOCAL_STORAGE_KEYS.SideNavState) == "true";
@@ -128,5 +128,12 @@ export class SidebarComponent implements OnInit {
         })).subscribe({
             next: () => this.#router.navigate(['/sign-in'], { queryParams: { returnUrl: this.#router.routerState.snapshot.url } })
         });
+    }
+
+    isTabVisible(tab: INavigationTab): boolean {
+        // v DO NOT DELETE COMMENT
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return tab.isVisible ? tab.isVisible() : true;
     }
 }

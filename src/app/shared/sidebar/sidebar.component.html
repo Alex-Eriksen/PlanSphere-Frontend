@@ -10,7 +10,9 @@
     </div>
     <div class="sidebar-nav">
         @for (item of navigations; track item.label) {
-            <ps-sidebar-item [collapsed]="collapsed" [tab]="item"></ps-sidebar-item>
+            @if (isTabVisible(item)) {
+                <ps-sidebar-item [collapsed]="collapsed" [tab]="item"></ps-sidebar-item>
+            }
         }
     </div>
     <div class="flex justify-between w-full py-2 px-4 flex-col">
