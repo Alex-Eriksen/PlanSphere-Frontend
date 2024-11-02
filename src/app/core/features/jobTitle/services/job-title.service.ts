@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { JobTitleRepository } from "../repositories/job-title.repository";
 import { Observable } from "rxjs";
-import { IJobTitle } from "../models/job-title-overview.model";
+import { IJobTitle } from "../models/job-title.model";
 import { IJobTitlePayload } from "../models/job-title-payload";
 import { SourceLevel } from "../../../enums/source-level.enum";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";

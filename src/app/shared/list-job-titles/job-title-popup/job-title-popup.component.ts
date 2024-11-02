@@ -4,7 +4,7 @@ import { JobTitleService } from "../../../core/features/jobTitle/services/job-ti
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
 import { Observable, Subscription, tap } from "rxjs";
-import { IJobTitle } from "../../../core/features/jobTitle/models/job-title-overview.model";
+import { IJobTitle } from "../../../core/features/jobTitle/models/job-title.model";
 import { IJobTitlePayload } from "../../../core/features/jobTitle/models/job-title-payload";
 import { markAllControlsAsTouchedAndDirty } from "../../utilities/form.utilities";
 import { DialogHeaderComponent } from "../../dialog-header/dialog-header.component";

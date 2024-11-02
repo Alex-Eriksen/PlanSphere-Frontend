@@ -6,7 +6,7 @@ import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-resp
 import { APIS } from "../../../api/plansphere.api";
 import { SourceLevel } from "../../../enums/source-level.enum";
 import { IJobTitlePayload } from "../models/job-title-payload";
-import { IJobTitle } from "../models/job-title-overview.model";
+import { IJobTitle } from "../models/job-title.model";
 
 @Injectable({
     providedIn: "root"

@@ -1,7 +1,7 @@
 import { map, OperatorFunction } from "rxjs";
 import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
 import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-paginated-response.interface";
-import { IJobTitle } from "../models/job-title-overview.model";
+import { IJobTitle } from "../models/job-title.model";
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
 import { signal } from "@angular/core";
 import { mapToSignalPaginatedResponse } from "../../../../shared/utilities/signals.utilities";
