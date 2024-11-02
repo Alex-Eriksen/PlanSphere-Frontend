@@ -7,5 +7,11 @@ export const APIS = {
         refreshToken: environment.apiUrl + "Authentication/RefreshToken",
         revokeToken: environment.apiUrl + "Authentication/revokeRefreshToken",
         getLoggedInUser: environment.apiUrl + "Authentication/GetLoggedInUser",
+    },
+    company: {
+        getById: (id: number)=> environment.apiUrl + `Company/GetCompanyById/${id}`,
+        create: environment.apiUrl + `Company/CreateCompany`,
+        patch: (id: number)=> environment.apiUrl + `Company/UpdateCompany/${id}`,
+        delete: (id: number) => environment.apiUrl + `Company/DeleteCompany/${id}`,
     }
 }

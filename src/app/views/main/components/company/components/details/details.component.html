@@ -1,1 +1,96 @@
-<p>company details works!</p>
+<div class="border-b border-gray-900/10 pb-12">
+    <h2 class="text-base font-semibold text-gray-900">Company Information</h2>
+    <p class="mt-1 text-sm text-gray-600">Please fill in the company's details.</p>
+
+    <!-- Company Name Section -->
+    <div class="mt-10 flex flex-col gap-y-4">
+        <div class="w-full">
+            <ps-input
+                [control]="formGroup.controls.name"
+                type="text"
+                name="name"
+                id="name"
+                autocomplete="organization"
+                class="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                placeholder=""
+                [label]="'Company Name'">
+            </ps-input>
+        </div>
+    </div>
+
+    <!-- Address Section -->
+    <div class="flex flex-col gap-4 mt-10 border-t border-gray-300 pt-10">
+        <h3 class="text-lg font-semibold text-gray-900">Address</h3>
+
+
+        <div class="flex flex-row gap-3 justify-start">
+            <ps-input
+                [control]="formGroup.controls.address.controls.streetName"
+
+                [label]="'Street Name'">
+            </ps-input>
+            <ps-input
+                [control]="formGroup.controls.address.controls.houseNumber"
+
+                [label]="'House Number'">
+            </ps-input>
+        </div>
+            <div class ="flex flex-row gap-3 justify-start">
+            <ps-input
+                [control]="formGroup.controls.address.controls.door"
+
+                [label]="'Door'">
+            </ps-input>
+            <ps-input
+                [control]="formGroup.controls.address.controls.floor"
+
+                [label]="'Floor'">
+            </ps-input>
+            </div>
+
+        <div class="flex flex-row gap-3">
+            <ps-input
+                [control]="formGroup.controls.address.controls.postalCode"
+
+                [label]="'Postal Code'">
+            </ps-input>
+            <ps-input
+                [control]="formGroup.controls.address.controls.countryId"
+
+                [label]="'Country ID'">
+            </ps-input>
+        </div>
+
+    </div>
+
+    <!-- Contact Information Section -->
+    <div class="flex flex-col gap-4 mt-10 border-t border-gray-300 pt-10">
+        <h3 class="text-lg font-semibold text-gray-900">Contact Information</h3>
+
+
+            <div class="flex flex-row gap-3">
+                <ps-input
+                    [control]="formGroup.controls.contactName"
+
+                    [label]="'Contact Name'">
+                </ps-input>
+
+                <ps-input
+                    [control]="formGroup.controls.contactEmail"
+
+                    [label]="'Contact Email'">
+                </ps-input>
+
+                <ps-input
+                    [control]="formGroup.controls.contactPhoneNumber"
+
+                    [label]="'Contact Phone Number'">
+                </ps-input>
+            </div>
+
+
+
+    </div>
+
+
+</div>
