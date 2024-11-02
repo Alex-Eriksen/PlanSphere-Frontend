@@ -96,7 +96,9 @@ export class SidebarComponent implements OnInit {
 
     ngOnInit() {
         this.#authService.LoggedInUserObservable.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe({
-            next: data => this.loggedInUserData = data
+            next: data => {
+                this.loggedInUserData = data;
+            }
         });
 
         this.collapsed = localStorage.getItem(LOCAL_STORAGE_KEYS.SideNavState) == "true";
