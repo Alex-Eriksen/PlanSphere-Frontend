@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: 'ps-company',
   standalone: true,
-  imports: [],
+    imports: [
+        RouterOutlet
+    ],
   templateUrl: './company.component.html',
   styleUrl: './company.component.scss'
 })
