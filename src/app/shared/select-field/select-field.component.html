@@ -1,0 +1,72 @@
+<div [ngClass]="appliedClass()" class="w-[18.75rem]">
+    <mat-form-field
+        [attr.aria-label]="dropDownLabel()"
+        [attr.aria-required]="control().hasValidator(Validators.required)"
+        appearance="outline"
+        class="w-full relative"
+        hideRequiredMarker
+        id="select"
+        subscriptSizing="dynamic"
+    >
+        <div class="absolute end-0 top-0 bottom-0 flex items-center justify-center">
+            <img
+                [alt]="'SELECT_MENU' | translate"
+                [ngClass]="control().disabled ? 'opacity-20' : ''"
+                height="8"
+                ngSrc="../../../assets/images/icons/arrow-down.svg"
+                priority="true"
+                width="14"
+            />
+        </div>
+        @if (dropDownLabel()) {
+            <mat-label [attr.aria-labelledby]="dropDownLabel() | translate"
+            >{{ dropDownLabel() | translate }} {{ addRequiredToLabel() | translate }}
+            </mat-label>
+        }
+        <mat-select
+            #selector
+            (selectionChange)="emitChangedValue($event)"
+            [formControl]="control()"
+            [multiple]="selectMultipleOptions()"
+        >
+            @if (selectedOption) {
+                <mat-select-trigger>
+                    @if (selectedOption.translateKey) {
+                        {{ selectedOption.label | partialTranslate: selectedOption.translateKey }}
+                    } @else {
+                        {{ selectedOption.label | translate }}
+                    }
+                    @if (selectedOption.subLabel) {
+                        <span class="text-gray-500"> ({{ selectedOption.subLabel | translate }}) </span>
+                    }
+                </mat-select-trigger>
+            }
+            @for (item of predefinedOptions(); track item.value) {
+                <mat-option [disabled]="disabledIds().includes(item.value)" [value]="item.value"
+                >{{ item.label | partialTranslate: item.translateKey || item.label }}
+                </mat-option>
+                <mat-divider />
+            }
+            @for (item of dropDownOptions(); track item.value) {
+                <mat-option [disabled]="disabledIds().includes(item.value)" [value]="item.value">
+                    {{ item.label | partialTranslate: item.translateKey || item.label }}
+                    @if (item.subLabel) {
+                        <span class="text-gray-500"> ({{ item.subLabel! | translate }}) </span>
+                    }
+                </mat-option>
+                <mat-divider />
+            }
+        </mat-select>
+    </mat-form-field>
+    @if (control().touched && control().invalid && control().hasError("required")) {
+        <mat-error class="!text-error-200 text-[0.5rem] font-normal !flex items-center pt-1">
+            <mat-icon class="!text-error-200 text-sm font-normal !h-5 !w-4">error</mat-icon>
+            @if (dropDownLabel()) {
+                {{ dropDownLabel() | translate }}
+                {{ "VALIDATION.IS_REQUIRED" | translate }}
+            } @else {
+                {{ "VALIDATION.THIS_FIELD_IS_REQUIRED" | translate }}
+            }
+        </mat-error>
+    }
+</div>
