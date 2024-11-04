@@ -6,7 +6,8 @@
     <p class="mt-1 text-sm text-gray-600">Udfyld din virksomhedsoplysninger her.</p>
 <form [formGroup]="formGroup" (focusout)="patchDetails()">
     <!-- ICompany Name Section -->
-    <div class="flex flex-col gap-4 mt-10 border-t border-gray-300 pt-10">
+    <ps-line></ps-line>
+    <div class="flex flex-col gap-4 mt-10 pt-10">
         <div class="flex flex-row gap-3 justify-start">
             <ps-input
                 [control]="formGroup.controls.name"
@@ -21,7 +22,8 @@
     </div>
 
     <!-- Address Section -->
-    <div class="flex flex-col gap-4 mt-10 border-t border-gray-300 pt-10">
+    <ps-line></ps-line>
+    <div class="flex flex-col gap-4 mt-10 pt-10">
         <h3 class="text-lg font-semibold text-gray-900">Address</h3>
 
 
@@ -68,7 +70,8 @@
     </div>
 
     <!-- Contact Information Section -->
-    <div class="flex flex-col gap-4 mt-10 border-t border-gray-300 pt-10">
+    <ps-line></ps-line>
+    <div class="flex flex-col gap-4 mt-10 pt-10">
         <h3 class="text-lg font-semibold text-gray-900">Contact Information</h3>
 
 
@@ -100,4 +103,5 @@
         </div>
     </form>
 </div>
+    <ps-line></ps-line>
 }

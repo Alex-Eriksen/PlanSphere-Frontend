@@ -10,6 +10,7 @@ import { CountryService } from "../../../../../../core/features/countries/servic
 import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-option.interface";
 import { updateNestedControlsPathAndValue } from "../../../../../../shared/utilities/form.utilities";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
+import { LineComponent } from "../../../../../../shared/line/line.component";
 
 @Component({
   selector: 'ps-details',
@@ -19,7 +20,8 @@ import { ToastService } from "../../../../../../core/services/error-toast.servic
         ButtonComponent,
         SelectFieldComponent,
         LoadingOverlayComponent,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        LineComponent
     ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
@@ -85,7 +87,7 @@ export class DetailsComponent implements OnInit {
     loadCompanyDetails(id: number): void {
         this.#companyService.companyById(id).subscribe({
             next: (data: ICompany) => this.formGroup.patchValue(data),
-            error: () => this.#toastService.showToast("This Company doenst exist!"),
+            error: () => this.#toastService.showToast("Denne virksomhed ekssitere ikke"),
 
             complete: () => this.isPageLoading = false
         });
