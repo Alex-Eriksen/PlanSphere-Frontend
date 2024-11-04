@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from "@angular/core";
+import { Component, DestroyRef, inject, input, OnInit, output } from "@angular/core";
 import { generateTranslatedDropdownOptionsFromEnum } from "../../../../../utilities/dropdown-option.utilities";
 import { SourceLevel } from "../../../../../../core/enums/source-level.enum";
 import { SourceLevelTranslationMapper } from "../../../../../../core/mappers/source-level-translation.mapper";
@@ -6,6 +6,7 @@ import { SelectFieldComponent } from "../../../../../select-field/select-field.c
 import { IDropdownOption } from "../../../../../interfaces/dropdown-option.interface";
 import { FormGroup } from "@angular/forms";
 import { castControlFromAbstractToFormControl } from "../../../../../utilities/form.utilities";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'ps-right-request-item',
@@ -22,21 +23,35 @@ export class RightRequestItemComponent implements OnInit {
     sourceLevel = input.required<SourceLevel>();
     sourceLevelOptions = generateTranslatedDropdownOptionsFromEnum(SourceLevel, SourceLevelTranslationMapper);
     formGroup = input.required<FormGroup>();
+    readonly #destroyRef = inject(DestroyRef);
     protected readonly castControlFromAbstractToFormControl = castControlFromAbstractToFormControl;
     protected readonly SourceLevelTranslationMapper = SourceLevelTranslationMapper;
+    remove = output<FormGroup>();
 
     options: IDropdownOption[] = [];
 
     ngOnInit() {
-        switch (this.sourceLevel()) {
-            case SourceLevel.Organisation:
-                break;
-            case SourceLevel.Company:
-                break;
-            case SourceLevel.Department:
-                break;
-            case SourceLevel.Team:
-                break;
-        }
+        this.formGroup().controls["sourceLevel"].valueChanges
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe((sourceLevel: SourceLevel) => {
+                switch (sourceLevel) {
+                    case SourceLevel.Organisation:
+                        this.options = [];
+                        break;
+                    case SourceLevel.Company:
+                        this.options = this.companyOptions();
+                        break;
+                    case SourceLevel.Department:
+                        this.options = [];
+                        break;
+                    case SourceLevel.Team:
+                        this.options = [];
+                        break;
+                }
+            })
+    }
+
+    removeSelf() {
+        this.remove.emit(this.formGroup());
     }
 }

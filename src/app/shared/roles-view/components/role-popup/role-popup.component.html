@@ -35,6 +35,7 @@
             ></ps-small-header>
             @for (roleRightRequest of roleRightRequests.controls; track roleRightRequest) {
                 <ps-right-request-item
+                    (remove)="removeRoleRightRequest($event)"
                     [sourceLevel]="componentInputs.sourceLevel"
                     [companyOptions]="companyOptions"
                     [rightOptions]="rightOptions"

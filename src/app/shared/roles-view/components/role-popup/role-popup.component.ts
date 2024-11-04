@@ -19,6 +19,8 @@ import { generateDropdownOptionsFromLookUps } from "../../../utilities/dropdown-
 import { ICompanyLookUp } from "../../../../core/features/companies/models/company-look-up.model";
 import { RightRequestItemComponent } from "./components/right-request-item/right-request-item.component";
 import { SourceLevel } from "../../../../core/enums/source-level.enum";
+import { OrganisationService } from "../../../../core/features/organisations/services/organisation.service";
+import { IOrganisationLookUp } from "../../../../core/features/organisations/models/organisation-look-up.model";
 
 @Component({
   selector: 'ps-role-popup',
@@ -43,6 +45,7 @@ export class RolePopupComponent implements OnInit, OnDestroy {
     readonly #dialogRef: MatDialogRef<RolePopupComponent> = inject(MatDialogRef);
     readonly #fb = inject(NonNullableFormBuilder);
     readonly #companyService = inject(CompanyService);
+    readonly #organisationService = inject(OrganisationService);
     #rolePopupSubscription!: Subscription;
     isLoading = false;
     isSubmitting = false;
@@ -63,7 +66,8 @@ export class RolePopupComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         this.#rolePopupSubscription = forkJoin([
             this.#lookUpRights(),
-            this.#lookUpCompanies()
+            this.#lookUpCompanies(),
+            this.#lookUpOrganisations()
         ]).subscribe(() => this.isLoading = false);
     }
 
@@ -76,7 +80,11 @@ export class RolePopupComponent implements OnInit, OnDestroy {
     }
 
     #lookUpCompanies(): Observable<ICompanyLookUp[]> {
-        return this.#companyService.lookUpCompanies().pipe(tap());
+        return this.#companyService.lookUpCompanies().pipe(tap((companies) => this.companyOptions = generateDropdownOptionsFromLookUps(companies)));
+    }
+
+    #lookUpOrganisations(): Observable<IOrganisationLookUp[]> {
+        return this.#organisationService.lookUpOrganisations().pipe(tap(organisations => this))
     }
 
     closePopup(isCancel: boolean = false) {
@@ -89,6 +97,11 @@ export class RolePopupComponent implements OnInit, OnDestroy {
             return;
         }
         this.isSubmitting = true;
+
+        for (const roleRightRequest of this.roleRightRequests.value) {
+            // if (roleRightRequest.)
+        }
+
         if (this.componentInputs.isEditPopup) {
             return;
         } else {
@@ -107,8 +120,13 @@ export class RolePopupComponent implements OnInit, OnDestroy {
     addRoleRightRequest() {
         this.roleRightRequests.push(this.#fb.group({
             sourceLevel: this.#fb.control<SourceLevel>(this.componentInputs.sourceLevel, Validators.required),
-            sourceLevelId: this.#fb.control(this.componentInputs.sourceLevelId, Validators.required),
+            sourceLevelId: this.#fb.control(0, Validators.required),
             rightId: this.#fb.control(this.rightOptions[0].value, Validators.required),
         }));
+    }
+
+    removeRoleRightRequest(formGroup: FormGroup) {
+        const index = this.roleRightRequests.controls.findIndex(x => x === formGroup);
+        this.roleRightRequests.removeAt(index);
     }
 }

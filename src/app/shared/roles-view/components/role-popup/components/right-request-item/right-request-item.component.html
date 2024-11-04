@@ -7,15 +7,20 @@
         [control]="castControlFromAbstractToFormControl(formGroup().controls['sourceLevel'])"
     ></ps-select-field>
     <ps-select-field
-        appliedClasses="!w-[9.375rem]"
-        [dropDownLabel]="SourceLevelTranslationMapper.get(sourceLevel())!"
-        [dropDownOptions]="[]"
-        [selectMultipleOptions]="false"
+        appliedClasses="max-[880px]:!w-[9.375rem]"
+        [control]="castControlFromAbstractToFormControl(formGroup().controls['sourceLevelId'])"
+        [dropDownLabel]="SourceLevelTranslationMapper.get(formGroup().controls['sourceLevel'].value)!"
+        [dropDownOptions]="options"
+        [selectMultipleOptions]="true"
     ></ps-select-field>
     <ps-select-field
+        appliedClasses="!w-[9.375rem]"
         dropDownLabel="RIGHT.NAME"
         [dropDownOptions]="rightOptions()"
-        [selectMultipleOptions]="false"
+        [selectMultipleOptions]="true"
         [control]="castControlFromAbstractToFormControl(formGroup().controls['rightId'])"
     ></ps-select-field>
+    <button (click)="removeSelf()">
+        <i class="fa-solid fa-trash"></i>
+    </button>
 </div>

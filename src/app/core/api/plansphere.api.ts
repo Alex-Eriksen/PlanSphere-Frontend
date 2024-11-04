@@ -15,5 +15,8 @@ export const APIS = {
     },
     companies: {
         lookup: environment.apiUrl + "Company/LookUpCompanies",
+    },
+    organisations: {
+        lookUp: environment.apiUrl + "Organisation/LookUpOrganisations",
     }
 }
