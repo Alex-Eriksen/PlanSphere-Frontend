@@ -44,7 +44,8 @@ import { PartialTranslatePipe } from "../../core/pipes/partial-translate.pipe";
         MatDivider,
         ReactiveFormsModule,
         MatOption,
-        MatLabel
+        MatLabel,
+        PartialTranslatePipe
     ],
   templateUrl: './select-field.component.html',
   styleUrl: './select-field.component.scss'

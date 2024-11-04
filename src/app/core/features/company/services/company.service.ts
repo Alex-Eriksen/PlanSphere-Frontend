@@ -22,7 +22,7 @@ export class CompanyService {
         return this.#companyRepository.create(companyRequest)
     }
 
-    patch(id: number, company: ICompanyRequest): Observable<void>{
-        return this.#companyRepository.patch(id, company)
+    patch(id: number, bodyRequest: any): Observable<void>{
+        return this.#companyRepository.patch(id, bodyRequest)
     }
 }

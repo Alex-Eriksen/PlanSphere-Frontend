@@ -2,7 +2,7 @@
 
 export interface ICompany {
     name: string;
-    cVR: string;
+    cvr: string;
     contactName?: string;
     contactEmail?: string;
     contactPhoneNumber?: string;

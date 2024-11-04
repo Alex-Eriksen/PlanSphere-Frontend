@@ -1,6 +1,6 @@
 ﻿import { Time } from "@angular/common";
 
-export interface Company {
+export interface ICompany {
     CompanyName: string;
     CVR: string;
     ContactName: string;

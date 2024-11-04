@@ -19,8 +19,8 @@ export class CompanyRepository {
         return this.#http.post<void>(APIS.company.create, company)
     }
 
-    patch(id: number, company: any): Observable<void>{
-        return this.#http.patch<void>(APIS.company.patch(id), company)
+    patch(id: number, bodyRequest: any): Observable<void>{
+        return this.#http.patch<void>(APIS.company.patch(id), bodyRequest)
     }
 
     delete(id: number): Observable<void>{
