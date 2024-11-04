@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import { DetailsComponent } from "../company/components/details/details.component";
 
 @Component({
   selector: 'ps-frontpage',
   standalone: true,
-    imports: [
-        DetailsComponent
-    ],
+    imports: [],
   templateUrl: './frontpage.component.html',
   styleUrl: './frontpage.component.scss'
 })

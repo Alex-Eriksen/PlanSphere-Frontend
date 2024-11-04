@@ -13,14 +13,14 @@
                 [alt]="'SELECT_MENU' | translate"
                 [ngClass]="control().disabled ? 'opacity-20' : ''"
                 height="8"
-                ngSrc="../../../assets/images/icons/arrow-down.svg"
+                ngSrc="assets/images/icons/arrow-down.svg"
                 priority="true"
                 width="14"
             />
         </div>
         @if (dropDownLabel()) {
             <mat-label [attr.aria-labelledby]="dropDownLabel() | translate"
-            >{{ dropDownLabel() | translate }} {{ addRequiredToLabel() | translate }}
+            >{{ dropDownLabel() | translate }}
             </mat-label>
         }
         <mat-select

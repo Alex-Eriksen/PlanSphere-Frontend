@@ -6,10 +6,13 @@ import {
     inject,
     Input,
     input,
+    OnInit,
     Output,
     ViewChild,
-    WritableSignal,
+    WritableSignal
 } from "@angular/core";
+import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import {
     MatError,
     MatFormField,
@@ -19,12 +22,10 @@ import {
     MatSelectChange,
     MatSelectTrigger
 } from "@angular/material/select";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
-import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { IDropdownOption } from "../interfaces/dropdown-option.interface";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { MatIcon } from "@angular/material/icon";
 import { NgClass, NgOptimizedImage } from "@angular/common";
+import { MatIcon } from "@angular/material/icon";
 import { MatDivider } from "@angular/material/divider";
 import { PartialTranslatePipe } from "../../core/pipes/partial-translate.pipe";
 
@@ -32,24 +33,23 @@ import { PartialTranslatePipe } from "../../core/pipes/partial-translate.pipe";
   selector: 'ps-select-field',
   standalone: true,
     imports: [
-        MatIcon,
-        MatLabel,
+        MatFormField,
         NgClass,
         TranslateModule,
-        MatFormField,
-        MatSelectTrigger,
+        NgOptimizedImage,
         MatSelect,
+        MatSelectTrigger,
+        MatError,
+        MatIcon,
+        MatDivider,
         ReactiveFormsModule,
         MatOption,
-        MatDivider,
-        MatError,
-        PartialTranslatePipe,
-        NgOptimizedImage
+        MatLabel
     ],
   templateUrl: './select-field.component.html',
   styleUrl: './select-field.component.scss'
 })
-export class SelectFieldComponent {
+export class SelectFieldComponent implements OnInit {
     @Input() selectSignal?: WritableSignal<any>;
     dropDownOptions = input.required<IDropdownOption[]>();
     dropDownLabel = input<string>("");
@@ -82,10 +82,6 @@ export class SelectFieldComponent {
         if (this.selectMultipleOptions() && !Array.isArray(this.control().value)) {
             this.control().setValue([this.control().value]);
         }
-    }
-
-    addRequiredToLabel() {
-        return this.control().hasValidator(this.Validators.required) ? "REQUIRED" : "";
     }
 
     emitChangedValue(selectChange: MatSelectChange) {

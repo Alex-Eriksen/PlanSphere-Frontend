@@ -1,0 +1,17 @@
+<mat-form-field
+    [class]="appliedClass()"
+    appearance="outline"
+    class="w-[18.75rem]"
+    id="search"
+    subscriptSizing="dynamic"
+>
+    <input
+        #searchInput
+        [attr.aria-labelledby]="placeholder() | translate"
+        [placeholder]="(placeholder() | translate) + '...'"
+        matInput
+        type="search"
+        [formControl]="control()"
+    />
+    <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>

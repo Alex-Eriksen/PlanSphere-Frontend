@@ -3,4 +3,5 @@ export enum SourceLevel {
     Company = "Company",
     Department = "Department",
     Team = "Team"
-};
+}
+
