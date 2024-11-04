@@ -42,6 +42,8 @@ export class DetailsComponent implements OnInit {
             countryId: this.#fb.control(""),
         }),
         careOf: this.#fb.control(""),
+    },{
+        updateOn: "blur"
     })
 
     loadCompanyDetails(id: number): void {
