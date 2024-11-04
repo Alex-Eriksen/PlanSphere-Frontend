@@ -1,4 +1,4 @@
-export interface IBaseLookUp {
-    id: number;
+export interface IBaseLookUp<T = number> {
+    id: T;
     value: string;
 }

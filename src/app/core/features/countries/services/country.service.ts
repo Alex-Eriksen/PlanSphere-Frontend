@@ -1,8 +1,8 @@
 import { inject, Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
-import { mapLookupItemsToDropdownOptions } from "../utilities/countries.utilities";
 import { IDropdownOption } from "../../../../shared/interfaces/dropdown-option.interface";
 import { CountryRepository } from "../repositories/country.repository";
+import { generateDropdownOptionsFromLookUps } from "../../../../shared/utilities/dropdown-options.utilities";
 
 @Injectable({
     providedIn: "root",
@@ -13,7 +13,7 @@ export class CountryService {
     getCountryLookups() : Observable<IDropdownOption[]> {
         return this.#countryRepository.getCountryLookups().pipe(
             map((option) => {
-            return mapLookupItemsToDropdownOptions(option);
+            return generateDropdownOptionsFromLookUps(option);
         }),
     );
     }
