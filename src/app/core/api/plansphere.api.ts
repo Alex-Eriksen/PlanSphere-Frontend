@@ -16,5 +16,10 @@ export const APIS = {
         update: (sourceLevel: SourceLevel, sourceLevelId: number, id: number) => environment.apiUrl + `JobTitle/UpdateJobTitle/${sourceLevel}/${sourceLevelId}/${id}`,
         delete: (id: number) => environment.apiUrl + `JobTitle/DeleteJobTitle/${id}`,
         toggleInheritance: (id: number) => environment.apiUrl + `JobTitle/ToggleInheritance/${id}`,
-    }
+    },
+    organisation: {
+        getOrganisationDetailsById: (id: number) => environment.apiUrl + `Organisation/GetOrganisationDetailsById/${id}`,
+        patch: (id: number) => environment.apiUrl + `Organisation/PatchOrganisation/${id}`,
+        delete: (id: number) => environment.apiUrl + `Organisation/DeleteOrganisation/${id}`,
+    },
 }

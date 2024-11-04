@@ -1,1 +1,92 @@
-<p>details works!</p>
+@if (isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div class="flex flex-col justify-between border-b border-gray-900/10 pb-12 flex-grow">
+        <h2 class="text-base font-semibold text-gray-900">Organisation Information</h2>
+        <p class="mt-1 text-sm text-gray-600">Her kan du ændre dine organisation detaljer</p>
+
+        <form [formGroup]="formGroup" (focusout)="patchDetails()">
+
+            <!-- Organisation Name Section and button -->
+            <div class="mt-5 flex flex-row gap-y-4">
+                <div class="w-full">
+                    <ps-input
+                    [control]="formGroup.controls.name"
+                    type="text"
+                    id="name"
+                    class="block w-full border-0 bg-transparent py-1.5 pl-1 p1-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                    placeholder=""
+                    [label]="'Organisation Name'">
+                    </ps-input>
+                </div>
+
+                <!-- Set New Owner Button -->
+                <div class="flex items-center flex-grow justify-end">
+                        <ps-button [label]="'Set ny ejer'" [buttonType]="'button--secondary'" [buttonStyleType]="'button--secondary'"></ps-button>
+                </div>
+            </div>
+
+            <!-- Logo section -->
+            <div class="flex flex-col gap-7 mt-5 border-t border-gray-300 pt-5">
+                <h3 class="text-lg font-semibold text-gray-900">Logo</h3>
+            </div>
+
+            <!-- Address Section -->
+            <div class="flex flex-col gap-7 mt-5 border-t border-gray-300 pt-5">
+                <h3 class="text-lg font-semibold text-gray-900">Address</h3>
+                <div class="flex flex-row gap-10 justify-center">
+                    <ps-input
+                        [control]="formGroup.controls.address.controls.streetName"
+
+                        [label]="'Street Name'">
+                    </ps-input>
+                    <ps-input
+                        [control]="formGroup.controls.address.controls.houseNumber"
+
+                        [label]="'House Number'">
+                    </ps-input>
+
+                    <ps-input
+                        [control]="formGroup.controls.address.controls.door"
+
+                        [label]="'Door'">
+                    </ps-input>
+                </div>
+
+                <div class ="flex flex-row gap-10 justify-center">
+                    <ps-input
+                        [control]="formGroup.controls.address.controls.floor"
+
+                        [label]="'Floor'">
+                    </ps-input>
+
+                    <ps-input
+                        [control]="formGroup.controls.address.controls.postalCode"
+
+                        [label]="'Postal Code'">
+                    </ps-input>
+                    <ps-input
+                        [control]="formGroup.controls.address.controls.countryId"
+
+                        [label]="'Country ID'">
+                    </ps-input>
+                </div>
+            </div>
+        </form>
+
+    </div>
+        <!-- Created At Section -->
+        <div class="flex flex-row justify-between mt-5">
+            <ps-input
+                [control]="formGroup.controls.createdAt"
+
+                [label]="'Created At'">
+            </ps-input>
+
+            <ps-button
+                [buttonStyleType]="'button--secondary'" [buttonType]="'button--secondary'" [label]="'Delete orgnisation'" onclick="deleteOrganisation()">
+
+            </ps-button>
+        </div>
+}
+
