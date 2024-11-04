@@ -17,7 +17,7 @@ export const generateTranslatedDropdownOptionsFromEnum = (
     return dropdownOptions;
 };
 
-export const generateDropdownOptionsFromLookUps = (lookUps: IBaseLookUp[]): IDropdownOption[] => {
+export const generateDropdownOptionsFromLookUps = <T = number>(lookUps: IBaseLookUp<T>[]): IDropdownOption[] => {
     return lookUps.map((lookUp) => {
         return {
             label: lookUp.value,
