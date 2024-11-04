@@ -46,3 +46,18 @@ export const updateNestedControlsPathAndValue = (
     });
     return controlPaths;
 };
+
+export const castControlFromAbstractToFormControl = (control: AbstractControl): FormControl => {
+    if (control instanceof FormControl) return control;
+    return control as FormControl;
+};
+
+export const castControlFromAbstractToFormGroup = (control: AbstractControl): FormGroup => {
+    if (control instanceof FormGroup) return control;
+    return control as FormGroup;
+};
+
+export const castControlFromAbstractToFormArray = (control: AbstractControl): FormArray => {
+    if (control instanceof FormArray) return control;
+    return control as FormArray;
+};

@@ -1,5 +1,21 @@
-<ps-select-field
-    dropDownLabel="SOURCELEVEL"
-    [dropDownOptions]="sourceLevelOptions"
-    [selectMultipleOptions]="false"
-></ps-select-field>
+<div class="flex gap-4">
+    <ps-select-field
+        appliedClasses="!w-[9.375rem]"
+        dropDownLabel="SOURCELEVEL"
+        [dropDownOptions]="sourceLevelOptions"
+        [selectMultipleOptions]="false"
+        [control]="castControlFromAbstractToFormControl(formGroup().controls['sourceLevel'])"
+    ></ps-select-field>
+    <ps-select-field
+        appliedClasses="!w-[9.375rem]"
+        [dropDownLabel]="SourceLevelTranslationMapper.get(sourceLevel())!"
+        [dropDownOptions]="[]"
+        [selectMultipleOptions]="false"
+    ></ps-select-field>
+    <ps-select-field
+        dropDownLabel="RIGHT.NAME"
+        [dropDownOptions]="rightOptions()"
+        [selectMultipleOptions]="false"
+        [control]="castControlFromAbstractToFormControl(formGroup().controls['rightId'])"
+    ></ps-select-field>
+</div>

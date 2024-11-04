@@ -1,4 +1,5 @@
 import { IDropdownOption } from "../interfaces/dropdown-option.interface";
+import { IBaseLookUp } from "../../core/abstract/models/base-look.model";
 
 export const generateTranslatedDropdownOptionsFromEnum = (
     enumObject: any,
@@ -14,4 +15,13 @@ export const generateTranslatedDropdownOptionsFromEnum = (
         });
     });
     return dropdownOptions;
+};
+
+export const generateDropdownOptionsFromLookUps = (lookUps: IBaseLookUp[]): IDropdownOption[] => {
+    return lookUps.map((lookUp) => {
+        return {
+            label: lookUp.value,
+            value: lookUp.id,
+        };
+    });
 };

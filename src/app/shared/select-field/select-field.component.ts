@@ -48,7 +48,7 @@ export class SelectFieldComponent implements OnInit {
     @Input() selectSignal?: WritableSignal<any>;
     dropDownOptions = input.required<IDropdownOption[]>();
     dropDownLabel = input<string>("");
-    appliedClass = input<string>("");
+    appliedClasses = input<string>("");
     control = input<FormControl<any>>(new FormControl());
     selectMultipleOptions = input.required<boolean>();
     predefinedOptions = input<IDropdownOption[]>();

@@ -11,25 +11,49 @@
                 ? 'ROLE.EDIT.TOOLTIP'
                 : 'ROLE.CREATE.TOOLTIP'
         "></ps-popup-header>
-    <form [formGroup]="formGroup" class="p-6 flex flex-col gap-4">
-        <ps-small-header
-            [heading]="
-                componentInputs.isEditPopup
-                    ? 'ROLE.EDIT.ROLE_NAME'
-                    : 'ROLE.CREATE.ROLE_NAME'
-            "
-            [subheading]="
-                componentInputs.isEditPopup
-                    ? 'ROLE.EDIT.ROLE_NAME_DESCRIPTION'
-                    : 'ROLE.CREATE.ROLE_NAME_DESCRIPTION'
-            "
-        ></ps-small-header>
-        <ps-input
-            label="NAME"
-            [control]="formGroup.controls.request.controls.name"
-        ></ps-input>
-
-    </form>
+    @if (!isLoading) {
+        <form [formGroup]="formGroup" class="p-6 flex flex-col gap-4">
+            <ps-small-header
+                [heading]="
+                    componentInputs.isEditPopup
+                        ? 'ROLE.EDIT.ROLE_NAME'
+                        : 'ROLE.CREATE.ROLE_NAME'
+                "
+                [subheading]="
+                    componentInputs.isEditPopup
+                        ? 'ROLE.EDIT.ROLE_NAME_DESCRIPTION'
+                        : 'ROLE.CREATE.ROLE_NAME_DESCRIPTION'
+                "
+            ></ps-small-header>
+            <ps-input
+                label="NAME"
+                [control]="formGroup.controls.request.controls.name"
+            ></ps-input>
+            <ps-line></ps-line>
+            <ps-small-header
+                heading="RIGHT.NAME_PLURAL"
+            ></ps-small-header>
+            @for (roleRightRequest of roleRightRequests.controls; track roleRightRequest) {
+                <ps-right-request-item
+                    [sourceLevel]="componentInputs.sourceLevel"
+                    [companyOptions]="companyOptions"
+                    [rightOptions]="rightOptions"
+                    [formGroup]="roleRightRequest"
+                ></ps-right-request-item>
+            }
+            <ps-button
+                buttonType="button"
+                buttonStyleType="button--tertiary"
+                imageSrc="assets/images/icons/plus-black.svg"
+                imagePosition="before"
+                label="RIGHT.ADD_RIGHT"
+                labelCaseSensitiveClass=""
+                (click)="addRoleRightRequest()"
+            ></ps-button>
+        </form>
+    } @else {
+        <ps-loading-overlay></ps-loading-overlay>
+    }
     <div class="py-3 bg-black-50 flex border border-black-100 px-6 sticky bottom-0 z-10 justify-between">
         <ps-button
             (click)="closePopup()"

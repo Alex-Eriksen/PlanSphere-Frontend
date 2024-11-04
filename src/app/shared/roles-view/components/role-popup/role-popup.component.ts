@@ -1,16 +1,24 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, OnDestroy, OnInit } from "@angular/core";
 import { RoleService } from "../../../../core/features/roles/services/role.service";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { IRolePopupInputs } from "./role-popup.inputs";
 import { PopupHeaderComponent } from "../../../popup-header/popup-header.component";
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ButtonComponent } from "../../../button/button.component";
 import { markAllControlsAsTouchedAndDirty } from "../../../utilities/form.utilities";
 import { InputComponent } from "../../../input/input.component";
 import { SmallHeaderComponent } from "../../../small-header/small-header.component";
-import { finalize } from "rxjs";
+import { finalize, forkJoin, Observable, Subscription, tap } from "rxjs";
 import { CompanyService } from "../../../../core/features/companies/services/company.service";
 import { SelectFieldComponent } from "../../../select-field/select-field.component";
+import { LineComponent } from "../../../line/line.component";
+import { IRightLookUp } from "../../../../core/features/roles/models/RightLookUp";
+import { LoadingOverlayComponent } from "../../../loading-overlay/loading-overlay.component";
+import { IDropdownOption } from "../../../interfaces/dropdown-option.interface";
+import { generateDropdownOptionsFromLookUps } from "../../../utilities/dropdown-option.utilities";
+import { ICompanyLookUp } from "../../../../core/features/companies/models/company-look-up.model";
+import { RightRequestItemComponent } from "./components/right-request-item/right-request-item.component";
+import { SourceLevel } from "../../../../core/enums/source-level.enum";
 
 @Component({
   selector: 'ps-role-popup',
@@ -21,25 +29,55 @@ import { SelectFieldComponent } from "../../../select-field/select-field.compone
         ButtonComponent,
         InputComponent,
         SmallHeaderComponent,
-        SelectFieldComponent
+        SelectFieldComponent,
+        LineComponent,
+        LoadingOverlayComponent,
+        RightRequestItemComponent
     ],
   templateUrl: './role-popup.component.html',
   styleUrl: './role-popup.component.scss'
 })
-export class RolePopupComponent {
+export class RolePopupComponent implements OnInit, OnDestroy {
     readonly #roleService = inject(RoleService);
     readonly componentInputs: IRolePopupInputs = inject(MAT_DIALOG_DATA);
     readonly #dialogRef: MatDialogRef<RolePopupComponent> = inject(MatDialogRef);
     readonly #fb = inject(NonNullableFormBuilder);
     readonly #companyService = inject(CompanyService);
+    #rolePopupSubscription!: Subscription;
+    isLoading = false;
     isSubmitting = false;
+
+    roleRightRequests = this.#fb.array<FormGroup>([]);
+
+    rightOptions: IDropdownOption[] = [];
+    companyOptions: IDropdownOption[] = [];
 
     formGroup = this.#fb.group({
         request: this.#fb.group({
             name: this.#fb.control("", [Validators.required]),
-            roleRightRequests: this.#fb.array([])
+            roleRightRequests: this.roleRightRequests
         })
     });
+
+    ngOnInit() {
+        this.isLoading = true;
+        this.#rolePopupSubscription = forkJoin([
+            this.#lookUpRights(),
+            this.#lookUpCompanies()
+        ]).subscribe(() => this.isLoading = false);
+    }
+
+    ngOnDestroy() {
+        this.#rolePopupSubscription.unsubscribe();
+    }
+
+    #lookUpRights(): Observable<IRightLookUp[]> {
+        return this.#roleService.lookUpRights().pipe(tap(value => this.rightOptions = generateDropdownOptionsFromLookUps(value)));
+    }
+
+    #lookUpCompanies(): Observable<ICompanyLookUp[]> {
+        return this.#companyService.lookUpCompanies().pipe(tap());
+    }
 
     closePopup(isCancel: boolean = false) {
         this.#dialogRef.close(isCancel);
@@ -64,5 +102,13 @@ export class RolePopupComponent {
                 this.isSubmitting = false;
                 this.closePopup();
             })).subscribe();
+    }
+
+    addRoleRightRequest() {
+        this.roleRightRequests.push(this.#fb.group({
+            sourceLevel: this.#fb.control<SourceLevel>(this.componentInputs.sourceLevel, Validators.required),
+            sourceLevelId: this.#fb.control(this.componentInputs.sourceLevelId, Validators.required),
+            rightId: this.#fb.control(this.rightOptions[0].value, Validators.required),
+        }));
     }
 }

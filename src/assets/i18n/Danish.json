@@ -58,5 +58,10 @@
             "ROLE_NAME": "Rolle navn",
             "ROLE_NAME_DESCRIPTION": "Angiv navnet på rollen så du kan genkende den i systemet."
         }
+    },
+    "RIGHT": {
+        "NAME": "Rettighed",
+        "NAME_PLURAL": "Rettigheder",
+        "ADD_RIGHT": "Tilføj rettighed"
     }
 }
