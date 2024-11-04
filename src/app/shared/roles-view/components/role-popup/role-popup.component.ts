@@ -98,19 +98,39 @@ export class RolePopupComponent implements OnInit, OnDestroy {
         }
         this.isSubmitting = true;
 
+        const roleRightRequestToAdd = [];
+
         for (const roleRightRequest of this.roleRightRequests.value) {
-            // if (roleRightRequest.)
+            const sourceLevelIds = Array.isArray(roleRightRequest.sourceLevelId) ? roleRightRequest.sourceLevelId : [roleRightRequest.sourceLevelId];
+            const rightIds = Array.isArray(roleRightRequest.rightId) ? roleRightRequest.rightId : [roleRightRequest.rightId];
+
+            for (const sourceLevelId of sourceLevelIds) {
+                for (const rightId of rightIds) {
+                    roleRightRequestToAdd.push({
+                        sourceLevelId: sourceLevelId,
+                        rightId: rightId,
+                        sourceLevel: roleRightRequest.sourceLevel
+                    });
+                }
+            }
         }
+
+        const formGroupToAdd = {
+            request: {
+                name: this.formGroup.value.request!.name,
+                roleRightRequests: roleRightRequestToAdd
+            }
+        };
 
         if (this.componentInputs.isEditPopup) {
             return;
         } else {
-            this.#createRole();
+            this.#createRole(formGroupToAdd);
         }
     }
 
-    #createRole(){
-        this.#roleService.createRole(this.componentInputs.sourceLevel, this.componentInputs.sourceLevelId, this.formGroup.value)
+    #createRole(request: any){
+        this.#roleService.createRole(this.componentInputs.sourceLevel, this.componentInputs.sourceLevelId, request)
             .pipe(finalize(() => {
                 this.isSubmitting = false;
                 this.closePopup();
