@@ -1,4 +1,5 @@
 import { AbstractControl, FormArray, FormControl, FormGroup } from "@angular/forms";
+import { OperationTypeEnum } from "../../core/enums/patch-operations.enum";
 
 export const markControlAsTouchedAndDirty = (abstractControl: AbstractControl, onlySelf = false): void => {
     abstractControl.markAsDirty({ onlySelf });
@@ -17,4 +18,61 @@ export const markAllControlsAsTouchedAndDirty = (abstractControl: AbstractContro
                 markAllControlsAsTouchedAndDirty(control);
             }
         });
+};
+
+export const updateNestedControlsPathAndValue = (
+    formGroup: FormGroup | FormArray,
+    ignoreParent: boolean = false,
+    parentKeys: string[] = [],
+): { [key: string]: any } => {
+    const controlPaths: { [key: string]: any } = {};
+    Object.keys(formGroup.controls).forEach((controlName: string) => {
+        const control = formGroup.get(controlName);
+        if (control instanceof FormGroup || control instanceof FormArray) {
+            Object.assign(
+                controlPaths,
+                updateNestedControlsPathAndValue(control, ignoreParent, [...parentKeys, controlName]),
+            );
+        } else if (control?.dirty) {
+            if (control.valid) {
+                control.markAsPristine();
+                if (ignoreParent) {
+                    controlPaths[controlName] = control.value;
+                } else {
+                    const keyPath = [...parentKeys, controlName].join("/");
+                    controlPaths[keyPath] = control.value;
+                }
+            }
+        }
+    });
+    return controlPaths;
+};
+
+export const castControlFromAbstractToFormControl = (control: AbstractControl): FormControl => {
+    if (control instanceof FormControl) return control;
+    return control as FormControl;
+};
+
+export const castControlFromAbstractToFormGroup = (control: AbstractControl): FormGroup => {
+    if (control instanceof FormGroup) return control;
+    return control as FormGroup;
+};
+
+export const castControlFromAbstractToFormArray = (control: AbstractControl): FormArray => {
+    if (control instanceof FormArray) return control;
+    return control as FormArray;
+};
+
+export const addPatchJsonParser = (body: any) => {
+    if (Array.isArray(body)) {
+        return body;
+    } else if (typeof body === "object" && body !== null) {
+        return Object.entries(body).map(([key, value]) => ({
+            op: OperationTypeEnum.Replace,
+            path: `/${key}`,
+            value,
+        }));
+    } else {
+        return [];
+    }
 };
