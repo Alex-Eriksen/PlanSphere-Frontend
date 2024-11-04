@@ -1,0 +1,31 @@
+<div class="pt-6 px-6 relative">
+    <div class="flex gap-2 items-center">
+        <p class="text-xl font-medium mb-1">
+            {{ matDialogData.title | translate }}
+        </p>
+        @if (matDialogData.tooltipLabel) {
+            <ps-tooltip [tooltip]="matDialogData.tooltipLabel"></ps-tooltip>
+        }
+    </div>
+    <div class="absolute start-0 end-0">
+        <hr class="mt-3 border-black-100" />
+    </div>
+</div>
+<div class="flex justify-between bg-black-50 px-6 py-2.5 border-t border-black-300">
+    <ps-button
+        appliedClasses="uppercase !px-6 !py-3"
+        [label]="matDialogData.cancelLabel ?? 'COLD_FEET'"
+        buttonStyleType="button--tertiary"
+        [isLoading]="false"
+        buttonType="button"
+        (click)="cancel()"
+    ></ps-button>
+    <ps-button
+        appliedClasses="uppercase !px-6 !py-3"
+        [label]="matDialogData.submitLabel ?? ''"
+        buttonStyleType="button--primary"
+        [isLoading]="matDialogData.isSubmitLoading ? matDialogData.isSubmitLoading() : false"
+        buttonType="button"
+        (click)="matDialogData.callBack ? matDialogData.callBack() : null"
+    ></ps-button>
+</div>

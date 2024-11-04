@@ -1,4 +1,5 @@
 import { AbstractControl, FormArray, FormControl, FormGroup } from "@angular/forms";
+import { OperationTypeEnum } from "../../core/enums/patch-operations.enum";
 
 export const markControlAsTouchedAndDirty = (abstractControl: AbstractControl, onlySelf = false): void => {
     abstractControl.markAsDirty({ onlySelf });
@@ -60,4 +61,18 @@ export const castControlFromAbstractToFormGroup = (control: AbstractControl): Fo
 export const castControlFromAbstractToFormArray = (control: AbstractControl): FormArray => {
     if (control instanceof FormArray) return control;
     return control as FormArray;
+};
+
+export const addPatchJsonParser = (body: any) => {
+    if (Array.isArray(body)) {
+        return body;
+    } else if (typeof body === "object" && body !== null) {
+        return Object.entries(body).map(([key, value]) => ({
+            op: OperationTypeEnum.Replace,
+            path: `/${key}`,
+            value,
+        }));
+    } else {
+        return [];
+    }
 };

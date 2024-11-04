@@ -18,5 +18,13 @@ export const APIS = {
     },
     organisations: {
         lookUp: environment.apiUrl + "Organisation/LookUpOrganisations",
+    },
+    jobTitles: {
+        listAll: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `JobTitle/ListJobTitle/${sourceLevel}/${sourceLevelId}`,
+        getById: (id: number) => environment.apiUrl + `JobTitle/GetJobTitle/${id}`,
+        create: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `JobTitle/CreateJobTitle/${sourceLevel}/${sourceLevelId}`,
+        update: (sourceLevel: SourceLevel, sourceLevelId: number, id: number) => environment.apiUrl + `JobTitle/UpdateJobTitle/${sourceLevel}/${sourceLevelId}/${id}`,
+        delete: (id: number) => environment.apiUrl + `JobTitle/DeleteJobTitle/${id}`,
+        toggleInheritance: (id: number) => environment.apiUrl + `JobTitle/ToggleInheritance/${id}`,
     }
 }

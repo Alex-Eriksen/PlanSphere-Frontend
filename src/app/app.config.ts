@@ -9,6 +9,7 @@ import { provideAnimationsAsync } from "@angular/platform-browser/animations/asy
 import { authenticationInitializer } from "./core/initializers/authentication.initializer";
 import { AuthenticationService } from "./core/features/authentication/services/authentication.service";
 import { authenticationInterceptor } from "./core/interceptors/authentication.interceptor";
+import { patchRequestInterceptor } from "./core/interceptors/patch.interceptor";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http);
@@ -20,7 +21,8 @@ export const appConfig: ApplicationConfig = {
       provideHttpClient(
           withFetch(),
           withInterceptors([
-              authenticationInterceptor
+              authenticationInterceptor,
+              patchRequestInterceptor
           ]),
       ),
       importProvidersFrom(
