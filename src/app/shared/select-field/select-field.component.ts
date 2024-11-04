@@ -79,10 +79,6 @@ export class SelectFieldComponent implements OnInit {
         }
     }
 
-    addRequiredToLabel() {
-        return this.control().hasValidator(Validators.required) ? "REQUIRED" : "";
-    }
-
     emitChangedValue(selectChange: MatSelectChange) {
         this.changeSelectValue.emit(selectChange.value);
         this.#setSelectedOption(selectChange.value);

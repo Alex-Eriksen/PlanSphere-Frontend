@@ -4,7 +4,6 @@
         [attr.aria-required]="control().hasValidator(Validators.required)"
         appearance="outline"
         class="w-full relative"
-        hideRequiredMarker
         id="select"
         subscriptSizing="dynamic"
     >
@@ -20,7 +19,7 @@
         </div>
         @if (dropDownLabel()) {
             <mat-label [attr.aria-labelledby]="dropDownLabel() | translate"
-            >{{ dropDownLabel() | translate }} {{ addRequiredToLabel() | translate }}
+            >{{ dropDownLabel() | translate }}
             </mat-label>
         }
         <mat-select
