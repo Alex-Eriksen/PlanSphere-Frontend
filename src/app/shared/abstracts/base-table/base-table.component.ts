@@ -42,8 +42,8 @@ export abstract class BaseTableComponent implements OnInit {
     private readonly renderer = inject(Renderer2);
     private readonly loadingScrollEffect$ = effect(() => {
         if (this.isLoading()) {
-            this.wrapperUi.nativeElement.scrollLeft = 0; // Prevents loading overlay overflowing bug
-            this.renderer.addClass(this.wrapperUi.nativeElement, "overflow-hidden"); // prevents scrolling while loading to avoid loading overlay overflowing
+            this.wrapperUi.nativeElement.scrollLeft = 0;
+            this.renderer.addClass(this.wrapperUi.nativeElement, "overflow-hidden");
         } else {
             this.renderer.removeClass(this.wrapperUi.nativeElement, "overflow-hidden");
         }

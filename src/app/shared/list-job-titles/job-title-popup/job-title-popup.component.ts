@@ -40,8 +40,6 @@ export class JobTitlePopupComponent implements OnInit, OnDestroy {
     isPageLoading: boolean = false;
     isFormSubmitting: boolean = false;
 
-    #jobTitle!: IJobTitle;
-
     #loadJobTitleSubscription: Subscription = new Subscription();
 
     formGroup = this.#fb.group({
@@ -98,7 +96,7 @@ export class JobTitlePopupComponent implements OnInit, OnDestroy {
     }
 
     #initializeEditPopup() {
-        this.#getJobTitle().subscribe({
+        this.#loadJobTitleSubscription = this.#getJobTitle().subscribe({
             complete: () => {
                 this.isPageLoading = false;
             }
@@ -109,7 +107,6 @@ export class JobTitlePopupComponent implements OnInit, OnDestroy {
         return this.#jobTitleService.getJobTitle(this.componentInputs.jobTitleId!)
             .pipe(
                 tap((jobTitle) => {
-                    this.#jobTitle = jobTitle;
                     this.formGroup.patchValue(jobTitle);
                 }));
     }
