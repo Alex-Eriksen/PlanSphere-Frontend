@@ -98,7 +98,7 @@ export class DetailsComponent implements OnInit {
     }
 
     deleteCompany(id: number): void {
-        this.#companyService.delete(id)
+        this.#companyService.deleteCompany(id)
     }
 
     protected readonly Validators = Validators;

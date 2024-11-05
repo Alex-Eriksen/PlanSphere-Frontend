@@ -19,7 +19,7 @@ export const APIS = {
     },
     company: {
         getById: (id: number)=> environment.apiUrl + `Company/GetCompanyById/${id}`,
-        listCompanies: () => environment.apiUrl + `Company/ListCompanies`,
+        listCompanies: environment.apiUrl + `Company/ListCompanies`,
         create: environment.apiUrl + `Company/CreateCompany`,
         patch: (id: number)=> environment.apiUrl + `Company/PatchCompany/${id}`,
         delete: (id: number) => environment.apiUrl + `Company/DeleteCompany/${id}`,
