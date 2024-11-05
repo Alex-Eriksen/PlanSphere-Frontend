@@ -34,7 +34,13 @@
     },
     "COMPANY": {
         "NAME": "Virksomhed",
-        "NAME_PLURAL": "Virksomheder"
+        "NAME_PLURAL": "Virksomheder",
+        "NAME_SPECIFIC": "Virksomheds navn",
+        "VAT": "CVR Nummer",
+        "DO_NOT_EXIST": "Denne virksomhed eksitere ikke",
+        "COMPANY_INFO": "Virksomheds information",
+        "FILL_COMPANY_DETAILS": "Udfyld din virksomhedsoplysninger her"
+
     },
     "DEPARTMENT": {
         "NAME": "Afdeling",
@@ -79,5 +85,21 @@
             "CONFIRMATION": "Hvis du klikker på Bekræft, slettes job titlen, og den vil ikke være tilgængelig for brugerne."
         }
     },
-    "NO_RESULTS": "Ingen resultater"
+    "NO_RESULTS": "Ingen resultater",
+    "ADDRESS": {
+        "NAME": "Addresse",
+        "STREET_NAME": "Vejnavn",
+        "HOUSE_NUMBER": "Husnummer",
+        "DOOR": "Dør",
+        "FLOOR": "Etage",
+        "ZIPCODE": "Postnummer",
+        "COUNTRY": "Land"
+    },
+    "CONTACT" : {
+        "NAME": "Kontakt informationer",
+        "CARE_OF": "Varetagers Navn",
+        "CONTACT_NAME": "Kontakt Navn",
+        "CONTACT_EMAIL": "Kontakt Email",
+        "CONTACT_PHONENUMBER": "Kontakt Telefonnummer"
+    }
 }

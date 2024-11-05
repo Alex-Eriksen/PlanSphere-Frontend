@@ -1,0 +1,26 @@
+<div class="relative w-[18.75rem]" [ngClass]="appliedClasses()" id="button-dropdown">
+    <ps-button
+        [label]="label()"
+        [labelCaseSensitiveClass]="labelCaseSensitiveClass()"
+        [buttonType]="buttonType()"
+        [buttonStyleType]="buttonStyleType()"
+        [imageSrc]="imageSrc()"
+        [imageAlt]="imageAlt()"
+        [imagePosition]="imagePosition()"
+        (click)="toggleDropdown()"
+    ></ps-button>
+    <mat-select
+        #dropdownMenu
+        [formControl]="control()"
+        [multiple]="isMultiSelect()"
+        class="absolute invisible -bottom-2 w-full max-h-[12.5rem]"
+    >
+        <mat-select-trigger class="h-[2.75rem] my-1 inline-block"></mat-select-trigger>
+        @for (option of options(); track option.value) {
+            <mat-option [value]="option.value">
+                {{ option.label }}
+            </mat-option>
+            <mat-divider />
+        }
+    </mat-select>
+</div>

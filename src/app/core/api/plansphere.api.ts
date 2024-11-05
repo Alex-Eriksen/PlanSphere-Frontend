@@ -16,5 +16,15 @@ export const APIS = {
         update: (sourceLevel: SourceLevel, sourceLevelId: number, id: number) => environment.apiUrl + `JobTitle/UpdateJobTitle/${sourceLevel}/${sourceLevelId}/${id}`,
         delete: (id: number) => environment.apiUrl + `JobTitle/DeleteJobTitle/${id}`,
         toggleInheritance: (id: number) => environment.apiUrl + `JobTitle/ToggleInheritance/${id}`,
+    },
+    company: {
+        getById: (id: number)=> environment.apiUrl + `Company/GetCompanyById/${id}`,
+        listCompanies: () => environment.apiUrl + `Company/ListCompanies`,
+        create: environment.apiUrl + `Company/CreateCompany`,
+        patch: (id: number)=> environment.apiUrl + `Company/PatchCompany/${id}`,
+        delete: (id: number) => environment.apiUrl + `Company/DeleteCompany/${id}`,
+    },
+    country: {
+        getCountryLookups: environment.apiUrl + "Country/GetCountryLookups",
     }
 }
