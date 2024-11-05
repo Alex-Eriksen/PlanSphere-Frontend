@@ -7,6 +7,8 @@
     "FRONTPAGE": "Forside",
     "EMAIL": "Email",
     "PASSWORD": "Kodeord",
+    "NO": "Nej",
+    "YES": "Ja",
     "LOGIN": "Log ind",
     "LOGOUT": "Log ud",
     "LOGOUT_CONFIRMATION": "Er du sikker på du vil logge ud?",
@@ -90,6 +92,7 @@
         "ROLE_NAME": "Rolle navn",
         "ROLE_NAME_DESCRIPTION": "Angiv navnet på rollen så du kan genkende den i systemet.",
         "TOOLTIP": "Roller bliver brugt i systemet til at give brugere rettigheder.",
+        "STANDARD": "Standard rolle",
         "CREATE": {
             "NAME": "Opret ny rolle",
             "TOOLTIP": "Her kan du oprette nye roller som kan tildeles til brugere for at give dem rettighederne som rollen har."

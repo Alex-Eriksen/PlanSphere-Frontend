@@ -5,4 +5,5 @@ export interface IRoleListItem {
     createdAt: Date;
     createdBy: string;
     isInheritanceActive: boolean;
+    isDefaultRole: boolean;
 }

@@ -44,4 +44,11 @@ export const RoleTableHeaders: ITableHeader[] = [
         type: TableHeaderType.Text,
         maxTextLength: 70,
     },
+    {
+        key: "isDefaultRole",
+        label: "ROLE.STANDARD",
+        isSortable: true,
+        type: TableHeaderType.Boolean,
+        maxTextLength: 70,
+    },
 ];

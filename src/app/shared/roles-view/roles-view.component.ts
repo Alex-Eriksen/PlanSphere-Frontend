@@ -61,7 +61,7 @@ export class RolesViewComponent extends BasePaginatedTableWithSearchComponent {
         {
             callbackFn: (row: ISmallListTableInput) => this.#openDeleteDialog(row),
             labelFn: () => "ROLE.DELETE.NAME",
-            isVisible: (row: ISmallListTableInput) => row['sourceLevel'] === this.sourceLevel(),
+            isVisible: (row: ISmallListTableInput) => row['sourceLevel'] === this.sourceLevel() && row['isDefaultRole'] === false,
         },
     ]
     sourceLevel = input.required<SourceLevel>();
