@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit, signal, WritableSignal } from "@angular/core";
+import { Component, DestroyRef, effect, inject, OnInit, signal, WritableSignal } from "@angular/core";
 import { CompanyService } from "../../../../../../core/features/company/services/company.service";
 import { IPaginationSortPayload } from "../../../../../../shared/interfaces/pagination-sort-payload.interface";
 import { BasePaginatedTableWithSearchComponent } from "../../../../../../shared/base-paginated-table-with-search-abstract/base-paginated-table-with-search.abstract";
@@ -18,6 +18,9 @@ import { SearchInputComponent } from "../../../../../../shared/search-input/sear
 import { ButtonComponent } from "../../../../../../shared/button/button.component";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
+import { CompaniesPopupComponent } from "./companies-popup/companies-popup.component";
+import { InputComponent } from "../../../../../../shared/input/input.component";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 
 @Component({
@@ -30,7 +33,9 @@ import { Router } from "@angular/router";
         TranslateModule,
         SmallHeaderComponent,
         SearchInputComponent,
-        ButtonComponent
+        ButtonComponent,
+        CompaniesPopupComponent,
+        InputComponent
     ],
   templateUrl: './companies.component.html',
   styleUrl: './companies.component.scss'
@@ -39,6 +44,7 @@ export class CompaniesComponent extends BasePaginatedTableWithSearchComponent im
     readonly #companyService = inject(CompanyService)
     readonly #dialogService = inject(DialogService)
     readonly #router = inject(Router)
+    readonly #destroyRef = inject(DestroyRef)
     override paginatedData: ISignalPaginatedResponse<ISmallListTableInput> = constructInitialSignalPaginatedResponse();
     headers = companyTableHeaders;
     sortingFilterSignal: WritableSignal<ITableSortingFilter> = signal({
@@ -61,6 +67,7 @@ export class CompaniesComponent extends BasePaginatedTableWithSearchComponent im
     ngOnInit(){
         this.isTableLoading = true;
         this.loadDataWithCorrectParams();
+        this.openCompanyPopup();
     }
 
     readonly #isDeletingCompany = signal(false);
@@ -111,11 +118,14 @@ export class CompaniesComponent extends BasePaginatedTableWithSearchComponent im
         });
     }
 
-    loadCompaniesList(params: IPaginationSortPayload): void {
-
-        this.#companyService.listCompanies(params).subscribe({
-
+    openCompanyPopup() : void {
+        this.#matDialog.open(CompaniesPopupComponent, {
+            minWidth: "50dvh",
+            maxHeight: "95dvh",
         })
+            .afterClosed()
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe(() => { this.loadDataWithCorrectParams();})
     }
 
 }
