@@ -5,7 +5,7 @@
     ></ps-dialog-header>
 </div>
 
-@if(isPageLoading){
+@if(isPageLoading) {
     <ps-loading-overlay></ps-loading-overlay>
 } @else {
     <div class="p-6">
@@ -64,6 +64,32 @@
                     [selectMultipleOptions]="false"
                     [control]="formGroup.controls.address.controls.countryId">
                 </ps-select-field>
+            </div>
+        </div>
+
+        <!-- Contact Information Section -->
+        <ps-line></ps-line>
+        <div class="flex flex-col gap-4 mt-10 pt-10">
+            <ps-small-header heading="CONTACT.NAME"></ps-small-header>
+
+            <div class="flex flex-col md:flex-row gap-3">
+                <ps-input
+                    [control]="formGroup.controls.careOf"
+                    label="CONTACT.CARE_OF">
+                </ps-input>
+                <ps-input
+                    [control]="formGroup.controls.contactName"
+                    label="CONTACT.CONTACT_NAME">
+                </ps-input>
+                <ps-input
+                    [control]="formGroup.controls.contactEmail"
+                    label="CONTACT.CONTACT_EMAIL">
+                </ps-input>
+                <ps-input
+                    type="number"
+                    [control]="formGroup.controls.contactPhoneNumber"
+                    label="CONTACT.CONTACT_PHONENUMBER">
+                </ps-input>
             </div>
         </div>
     </div>

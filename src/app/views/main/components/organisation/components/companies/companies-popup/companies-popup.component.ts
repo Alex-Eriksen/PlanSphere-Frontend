@@ -62,6 +62,9 @@ export class CompaniesPopupComponent implements OnInit{
             countryId: this.#fb.control("", Validators.required),
         }),
         careOf: this.#fb.control(""),
+        contactName: this.#fb.control("", Validators.required),
+        contactEmail: this.#fb.control("", Validators.email),
+        contactPhoneNumber: this.#fb.control("", Validators.required),
     })
 
     ngOnInit(): void {
