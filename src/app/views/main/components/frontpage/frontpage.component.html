@@ -1,2 +1,7 @@
-<ps-upload-logo ></ps-upload-logo>
-<ps-input rea></ps-input>
+<ps-upload-logo
+    [fileSize]="fileSize"
+    [image]="formGroup.controls.logoUrl"
+    [imageDimensions]="imageDimensions"
+    [imageName]="imageName"
+    (uploadedFile)="uploadCompanyLogo($event)"
+></ps-upload-logo>
