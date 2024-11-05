@@ -1,9 +1,11 @@
 ﻿import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { ICompany } from "../models/company.model";
 import { APIS } from "../../../api/plansphere.api";
 import { ICompanyRequest } from "../models/company-request.model";
+import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
+import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
+import { ICompany } from "../../../../shared/interfaces/company.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +17,13 @@ export class CompanyRepository {
         return this.#http.get<ICompany>(APIS.company.getById(id));
     }
 
+    listCompanies(params: IPaginationSortPayload): Observable<IPaginatedResponse> {
+        return this.#http.get<IPaginatedResponse>(APIS.company.listCompanies, {
+            params: new HttpParams({
+                fromObject: { ...params },
+            }),
+        });
+    }
 
     create(company: ICompanyRequest): Observable<void>{
         return this.#http.post<void>(APIS.company.create, company)
@@ -26,5 +35,9 @@ export class CompanyRepository {
 
     delete(id: number): Observable<void>{
         return this.#http.delete<void>(APIS.company.delete(id));
+    }
+
+    uploadLogo(image: File, id: number): Observable<string> {
+        return this.#http.post<string>(APIS.company.uploadLogo(id), image);
     }
 }
