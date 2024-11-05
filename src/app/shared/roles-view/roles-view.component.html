@@ -7,12 +7,9 @@
             sourceLevel: sourceLevel()
         }"
     ></ps-small-header>
-    <div class="flex flex-row justify-between mt-12">
-        <ps-small-header [heading]="'JOB_TITLE.OVERVIEW'  | translate"
-                         [subheading]="'JOB_TITLE.DESCRIPTION' | translate : { sourceLevel : sourceLevel()}"
-        ></ps-small-header>
+    <div class="flex flex-row justify-end mt-12">
         <div class="flex flex-row justify-between gap-6">
-            <ps-search-input [searchSignal]="searchSignal" [placeholder]="'SEARCH'" appliedClass="!w-[18.75rem]"></ps-search-input>
+            <ps-search-input [searchSignal]="searchSignal" [placeholder]="'SEARCH'" appliedClass="max-[880px]:!w-[9.375rem]"></ps-search-input>
             <ps-button
                 (click)="openPopup(false)"
                 label="ROLE.CREATE.NAME"

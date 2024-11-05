@@ -1,4 +1,4 @@
-import { Component, EffectRef, WritableSignal, inject, input, signal, effect } from "@angular/core";
+import { Component, EffectRef, WritableSignal, inject, input, signal, effect, DestroyRef } from "@angular/core";
 import { SourceLevel } from "../../core/enums/source-level.enum";
 import { ButtonComponent } from "../button/button.component";
 import { LineComponent } from "../line/line.component";
@@ -21,6 +21,7 @@ import { RoleService } from "../../core/features/roles/services/role.service";
 import { ISmallListTableInput } from "../interfaces/small-list-table-input.interface";
 import { DialogService } from "../../core/services/dialog.service";
 import { ITableAction } from "../interfaces/table-action.interface";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
     selector: "ps-roles-view",
@@ -69,6 +70,7 @@ export class RolesViewComponent extends BasePaginatedTableWithSearchComponent {
     readonly #matDialog = inject(MatDialog);
     readonly #roleService = inject(RoleService);
     readonly #dialogService = inject(DialogService);
+    readonly #destroyRef = inject(DestroyRef);
     readonly #isDeletingRole = signal(false);
 
     loadDataWithCorrectParams(): void {
@@ -91,7 +93,10 @@ export class RolesViewComponent extends BasePaginatedTableWithSearchComponent {
             },
             width: "45rem",
             maxHeight: "95dvh"
-        });
+        })
+        .afterClosed()
+        .pipe(takeUntilDestroyed(this.#destroyRef))
+        .subscribe(() => { this.loadDataWithCorrectParams(); })
     }
 
     #openDeleteDialog(row: ISmallListTableInput): void {

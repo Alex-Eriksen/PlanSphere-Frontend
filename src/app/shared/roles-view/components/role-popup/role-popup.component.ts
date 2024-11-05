@@ -51,14 +51,13 @@ export class RolePopupComponent implements OnInit, OnDestroy {
     isLoading = false;
     isSubmitting = false;
 
-    roleRightRequests = this.#fb.array<FormGroup>([]);
-
     rightOptions: IDropdownOption[] = [];
     companyOptions: IDropdownOption[] = [];
     organisationOptions: IDropdownOption[] = [];
     teamOptions: IDropdownOption[] = [];
     departmentOptions: IDropdownOption[] = [];
 
+    roleRightRequests = this.#fb.array<FormGroup>([]);
     formGroup = this.#fb.group({
         name: this.#fb.control("", [Validators.required]),
         rights: this.roleRightRequests
