@@ -26,11 +26,6 @@
                 </div>
             </div>
 
-            <!-- Logo section -->
-            <div class="flex flex-col gap-7 mt-5 border-t border-gray-300 pt-5">
-                <h3 class="text-lg font-semibold text-gray-900">Logo</h3>
-            </div>
-
             <!-- Address Section -->
             <div class="flex flex-col gap-7 mt-5 border-t border-gray-300 pt-5">
                 <h3 class="text-lg font-semibold text-gray-900">Address</h3>
@@ -72,6 +67,11 @@
                     </ps-input>
                 </div>
             </div>
+
+            <!-- Logo section -->
+            <div class="flex flex-col gap-7 mt-5 border-t border-gray-300 pt-5">
+                <h3 class="text-lg font-semibold text-gray-900">Logo</h3>
+            </div>
         </form>
 
     </div>
@@ -84,7 +84,7 @@
             </ps-input>
 
             <ps-button
-                [buttonStyleType]="'button--secondary'" [buttonType]="'button--secondary'" [label]="'Delete orgnisation'" onclick="deleteOrganisation()">
+                [buttonStyleType]="'button--secondary'" [buttonType]="'button--secondary'" [label]="'Delete orgnisation'" (click)="deleteOrganisation(organisationId)">
 
             </ps-button>
         </div>

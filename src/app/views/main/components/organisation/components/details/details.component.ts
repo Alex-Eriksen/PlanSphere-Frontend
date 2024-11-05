@@ -8,6 +8,8 @@ import { IOrganisationDetails } from "../../../../../../core/features/organisati
 import { SubHeaderComponent } from "../../../../../../shared/sub-header/sub-header.component";
 import { ButtonComponent } from "../../../../../../shared/button/button.component";
 import { updateNestedControlsPathAndValue } from "../../../../../../shared/utilities/form.utilities";
+import { AuthenticationService } from "../../../../../../core/features/authentication/services/authentication.service";
+import { ILoggedInUser } from "../../../../../../core/features/authentication/models/logged-in-user.model";
 
 @Component({
     selector: 'ps-details',
@@ -22,27 +24,21 @@ import { updateNestedControlsPathAndValue } from "../../../../../../shared/utili
     templateUrl: './details.component.html',
     styleUrl: './details.component.scss'
 })
-export class DetailsComponent implements OnInit{
-    //organisationId = input.required<number>();
-    organisationId = 1;
+export class DetailsComponent implements OnInit {
+    organisationId! : number;
     organisation?: IOrganisation;
     organisationDetails?: IOrganisationDetails;
+    readonly #authenticationService = inject(AuthenticationService);
     readonly #organisationService = inject(OrganisationService);
     readonly #fb = inject(NonNullableFormBuilder);
     isPageLoading: boolean = false;
 
     ngOnInit(): void {
         this.isPageLoading = true;
-        if (this.organisationId) {
-            this.getOrganisationDetail(this.organisationId);
-        }
-        if (this.organisationId == null) {
-            console.log("No organisationId");
-        }
+        this.fetchOrganisationIdFromUser();
     }
 
     formGroup = this.#fb.group({
-        id: this.#fb.control<number>(0, Validators.required),
         name: this.#fb.control("", Validators.required),
         logoUrl: this.#fb.control("", Validators.required),
         address: this.#fb.group({
@@ -54,18 +50,22 @@ export class DetailsComponent implements OnInit{
             countryId: this.#fb.control(""),
         }),
         createdAt: this.#fb.control({ value: new Date, disabled: true }),
-
-        // jobTitles: this.#fb.control<string[]>([], Validators.required),
-        // //jobTitles: this.#fb.control<JobTitle[]>([], Validators.required),
-        // organisationMembers: this.#fb.control<number>(0, Validators.required),
-        // companyMembers: this.#fb.control<number>(0, Validators.required),
-        // departmentMembers: this.#fb.control<number>(0, Validators.required),
-        // teamMembers: this.#fb.control<number>(0, Validators.required)
     });
+
+    private fetchOrganisationIdFromUser(): void {
+        this.#authenticationService.getLoggedInUser().subscribe({
+            next: (user : ILoggedInUser) => { this.organisationId = user.organisationId; },
+            error: (error) => console.error('No organisationId found for the user.', error),
+            complete: () => {this.getOrganisationDetail(this.organisationId);
+            }});
+    }
 
     getOrganisationDetail(id: number): void {
         this.#organisationService.getOrganisationDetailsById(id).subscribe({
-            next: (organisation : IOrganisationDetails) => this.formGroup.patchValue(organisation),
+            next: (organisation : IOrganisationDetails) => {
+                if (this.organisationId) { this.formGroup.patchValue(organisation) }
+                else { console.log("No organisationId"); }
+            },
             error: (error) => console.error('This organisation docent exits', error),
             complete: () => this.isPageLoading = false
         });
@@ -80,7 +80,8 @@ export class DetailsComponent implements OnInit{
     }
 
     deleteOrganisation(id: number): void {
-        this.#organisationService.delete(id);
+        console.log("Deleting organisation with id: ", id);
+        this.#organisationService.delete(id).subscribe();
     }
 
 }
