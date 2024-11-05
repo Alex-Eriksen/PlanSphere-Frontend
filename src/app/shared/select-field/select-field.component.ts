@@ -39,6 +39,10 @@ import { PartialTranslatePipe } from "../../core/pipes/partial-translate.pipe";
         NgClass,
         MatError,
         MatIcon,
+        MatDivider,
+        ReactiveFormsModule,
+        MatOption,
+        MatLabel,
         PartialTranslatePipe
     ],
     templateUrl: "./select-field.component.html",
