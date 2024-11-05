@@ -30,6 +30,8 @@
     "SOURCE": "Kilde",
     "CREATED_BY": "Oprettet af",
     "CREATED_AT": "Oprettelsesdato",
+    "ACTIVATE": "Aktivér",
+    "DEACTIVATE": "Deaktivér",
     "VALIDATION": {
         "IS_REQUIRED": "er påkrævet",
         "IS_NOT_A_VALID_EMAIL": "er i et forkert format",

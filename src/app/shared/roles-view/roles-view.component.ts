@@ -55,6 +55,16 @@ export class RolesViewComponent extends BasePaginatedTableWithSearchComponent {
     }
     override actions: ITableAction[] = [
         {
+            isVisible: (row: ISmallListTableInput) => row["isInheritanceActive"] === true,
+            callbackFn: (row: ISmallListTableInput) => this.updateRoleInheritance({ row: row, checked: row["isInheritanceActive"] }, true),
+            labelFn: () => "DEACTIVATE",
+        },
+        {
+            isVisible: (row: ISmallListTableInput) => row["isInheritanceActive"] === false,
+            callbackFn: (row: ISmallListTableInput) => this.updateRoleInheritance({ row: row, checked: row["isInheritanceActive"] }, true),
+            labelFn: () => "ACTIVATE",
+        },
+        {
             callbackFn: (row: ISmallListTableInput) => this.openPopup(true, row),
             labelFn: () => "ROLE.EDIT.NAME",
             isVisible: (row: ISmallListTableInput) => row['sourceLevel'] === this.sourceLevel(),
@@ -126,7 +136,13 @@ export class RolesViewComponent extends BasePaginatedTableWithSearchComponent {
         });
     }
 
-    updateRoleInheritance(row: {checked: boolean; row: any}) {
-        this.#roleService.toggleRoleInheritance(this.sourceLevel(), this.sourceLevelId(), row.row.id).subscribe();
+    updateRoleInheritance(row: {checked: boolean; row: any}, isAction?: boolean) {
+        this.#roleService.toggleRoleInheritance(this.sourceLevel(), this.sourceLevelId(), row.row.id).subscribe(() => {
+            if (isAction) this.#toggleRowInheritanceButton(row);
+        });
+    }
+
+    #toggleRowInheritanceButton(row: any) {
+        row.row.isInheritanceActive = !row.row.isInheritanceActive;
     }
 }
