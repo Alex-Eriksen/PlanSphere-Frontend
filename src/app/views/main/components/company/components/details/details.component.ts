@@ -8,15 +8,10 @@ import { SelectFieldComponent } from "../../../../../../shared/select-field/sele
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
 import { CountryService } from "../../../../../../core/features/countries/services/country.service";
 import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-option.interface";
-import {
-    markAllControlsAsTouchedAndDirty,
-    updateNestedControlsPathAndValue
-} from "../../../../../../shared/utilities/form.utilities";
+import { markAllControlsAsTouchedAndDirty, updateNestedControlsPathAndValue } from "../../../../../../shared/utilities/form.utilities";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
 import { LineComponent } from "../../../../../../shared/line/line.component";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
-
-
 
 @Component({
   selector: 'ps-details',

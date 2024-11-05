@@ -1,107 +1,93 @@
-@if (isPageLoading){
+@if (isPageLoading) {
     <ps-loading-overlay></ps-loading-overlay>
 } @else {
-<div class="border-b border-gray-900/10 pb-12">
-    <ps-small-header heading="COMPANY.COMPANY_INFO" subheading="COMPANY.FILL_COMPANY_DETAILS"></ps-small-header>
+    <div class="border-b border-gray-900/10 pb-12">
+        <ps-small-header heading="COMPANY.COMPANY_INFO" subheading="COMPANY.FILL_COMPANY_DETAILS"></ps-small-header>
 
-<form [formGroup]="formGroup" (focusout)="patchDetails()">
-    <!-- ICompany Name Section -->
-    <ps-line></ps-line>
-    <div class="flex flex-col gap-4 mt-10 pt-10">
-        <div class="flex flex-row gap-3 justify-start">
-            <ps-input
-                [control]="formGroup.controls.name"
-                label='COMPANY.NAME_SPECIFIC'>
-            </ps-input>
-            <ps-input
-                type="number"
-                [control]="formGroup.controls.cvr"
-                label='COMPANY.VAT'>
-            </ps-input>
-        </div>
-    </div>
-
-    <!-- Address Section -->
-    <ps-line></ps-line>
-
-    <div class="flex flex-col gap-4 mt-10 pt-10">
-        <ps-small-header heading='ADDRESS.NAME'></ps-small-header>
-
-
-        <div class="flex flex-row gap-3 justify-start">
-            <ps-input
-                [control]="formGroup.controls.address.controls.streetName"
-
-                label='ADDRESS.STREET_NAME'>
-            </ps-input>
-            <ps-input
-                [control]="formGroup.controls.address.controls.houseNumber"
-
-                label='ADDRESS.HOUSE_NUMBER'>
-            </ps-input>
-        </div>
-            <div class ="flex flex-row gap-3 justify-start">
-            <ps-input
-                [control]="formGroup.controls.address.controls.door"
-
-                label='ADDRESS.DOOR'>
-            </ps-input>
-            <ps-input
-                [control]="formGroup.controls.address.controls.floor"
-
-                label='ADDRESS.FLOOR'>
-            </ps-input>
+        <form [formGroup]="formGroup" (focusout)="patchDetails()">
+            <!-- ICompany Name Section -->
+            <ps-line></ps-line>
+            <div class="flex flex-col gap-4 mt-10 pt-10">
+                <div class="flex flex-col md:flex-row gap-3 justify-start">
+                    <ps-input
+                        [control]="formGroup.controls.name"
+                        label="COMPANY.NAME_SPECIFIC">
+                    </ps-input>
+                    <ps-input
+                        type="number"
+                        [control]="formGroup.controls.cvr"
+                        label="COMPANY.VAT">
+                    </ps-input>
+                </div>
             </div>
 
-        <div class="flex flex-row gap-3">
-            <ps-input
-                [control]="formGroup.controls.address.controls.postalCode"
+            <!-- Address Section -->
+            <ps-line></ps-line>
+            <div class="flex flex-col gap-4 mt-10 pt-10">
+                <ps-small-header heading="ADDRESS.NAME"></ps-small-header>
 
-                label='ADDRESS.ZIPCODE'>
-            </ps-input>
-            <ps-select-field
-                dropDownLabel = 'ADDRESS.COUNTRY'
-                [dropDownOptions]="countries"
-                [selectMultipleOptions]="false"
-                [control]="formGroup.controls.address.controls.countryId" >
-            </ps-select-field>
-        </div>
+                <div class="flex flex-col md:flex-row gap-3 justify-start">
+                    <ps-input
+                        [control]="formGroup.controls.address.controls.streetName"
+                        label="ADDRESS.STREET_NAME">
+                    </ps-input>
+                    <ps-input
+                        [control]="formGroup.controls.address.controls.houseNumber"
+                        label="ADDRESS.HOUSE_NUMBER">
+                    </ps-input>
+                </div>
 
-    </div>
+                <div class="flex flex-col md:flex-row gap-3 justify-start">
+                    <ps-input
+                        [control]="formGroup.controls.address.controls.door"
+                        label="ADDRESS.DOOR">
+                    </ps-input>
+                    <ps-input
+                        [control]="formGroup.controls.address.controls.floor"
+                        label="ADDRESS.FLOOR">
+                    </ps-input>
+                </div>
 
-    <!-- Contact Information Section -->
-    <ps-line></ps-line>
-    <div class="flex flex-col gap-4 mt-10 pt-10">
-        <ps-small-header heading="CONTACT.NAME"></ps-small-header>
-
-
-            <div class="flex flex-row gap-3">
-                <ps-input
-                    [control]="formGroup.controls.careOf"
-
-                    label='CONTACT.CARE_OF'>
-                </ps-input>
-                <ps-input
-                    [control]="formGroup.controls.contactName"
-
-                    label='CONTACT.CONTACT_NAME'>
-                </ps-input>
-
-                <ps-input
-                    [control]="formGroup.controls.contactEmail"
-
-                    label='CONTACT.CONTACT_EMAIL'>
-                </ps-input>
-
-                <ps-input
-                    type = "number"
-                    [control]="formGroup.controls.contactPhoneNumber"
-
-                    label='CONTACT.CONTACT_PHONENUMBER'>
-                </ps-input>
+                <div class="flex flex-col md:flex-row gap-3">
+                    <ps-input
+                        [control]="formGroup.controls.address.controls.postalCode"
+                        label="ADDRESS.ZIPCODE">
+                    </ps-input>
+                    <ps-select-field
+                        dropDownLabel="ADDRESS.COUNTRY"
+                        [dropDownOptions]="countries"
+                        [selectMultipleOptions]="false"
+                        [control]="formGroup.controls.address.controls.countryId">
+                    </ps-select-field>
+                </div>
             </div>
-        </div>
-    </form>
-</div>
+
+            <!-- Contact Information Section -->
+            <ps-line></ps-line>
+            <div class="flex flex-col gap-4 mt-10 pt-10">
+                <ps-small-header heading="CONTACT.NAME"></ps-small-header>
+
+                <div class="flex flex-col md:flex-row gap-3">
+                    <ps-input
+                        [control]="formGroup.controls.careOf"
+                        label="CONTACT.CARE_OF">
+                    </ps-input>
+                    <ps-input
+                        [control]="formGroup.controls.contactName"
+                        label="CONTACT.CONTACT_NAME">
+                    </ps-input>
+                    <ps-input
+                        [control]="formGroup.controls.contactEmail"
+                        label="CONTACT.CONTACT_EMAIL">
+                    </ps-input>
+                    <ps-input
+                        type="number"
+                        [control]="formGroup.controls.contactPhoneNumber"
+                        label="CONTACT.CONTACT_PHONENUMBER">
+                    </ps-input>
+                </div>
+            </div>
+        </form>
+    </div>
     <ps-line></ps-line>
 }
