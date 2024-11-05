@@ -97,9 +97,18 @@
     },
     "CONTACT" : {
         "NAME": "Kontakt informationer",
-        "CARE_OF": "Varetagers Navn",
-        "CONTACT_NAME": "Kontakt Navn",
-        "CONTACT_EMAIL": "Kontakt Email",
-        "CONTACT_PHONENUMBER": "Kontakt Telefonnummer"
+        "CARE_OF": "Varetagers navn",
+        "CONTACT_NAME": "Kontakt navn",
+        "CONTACT_EMAIL": "Kontakt email",
+        "CONTACT_PHONENUMBER": "Kontakt telefonnummer"
+    },
+    "USER": {
+        "NAME": "Bruger",
+        "PROFILE": "Profil",
+        "DETAILS": "Bruger oplysninger"
+    },
+    "SETTINGS": {
+        "NAME": "Indstillinger",
+        "NAME_PLURAL": "Indstillinger"
     }
 }
