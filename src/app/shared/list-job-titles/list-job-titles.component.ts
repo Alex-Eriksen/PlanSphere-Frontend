@@ -129,7 +129,7 @@ export class ListJobTitlesComponent extends BasePaginatedTableWithSearchComponen
         });
     }
 
-    updateJobTitleInheritance(row: {checked: boolean; row: any}) {
-        this.#jobTitleService.toggleInheritance(row.checked, row.row.id).subscribe();
+    updateJobTitleInheritance(row: {row: any}) {
+        this.#jobTitleService.toggleInheritance(row.row.id, this.sourceLevel(), this.sourceLevelId()).subscribe();
     }
 }
