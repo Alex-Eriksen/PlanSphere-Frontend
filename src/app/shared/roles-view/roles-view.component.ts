@@ -18,6 +18,9 @@ import { ITableSortingFilter } from "../interfaces/table-sorting-filter.interfac
 import { RoleTableHeaders } from "./role-table.headers";
 import { copyPaginatedSignalResponse } from "../utilities/signals.utilities";
 import { RoleService } from "../../core/features/roles/services/role.service";
+import { ISmallListTableInput } from "../interfaces/small-list-table-input.interface";
+import { DialogService } from "../../core/services/dialog.service";
+import { ITableAction } from "../interfaces/table-action.interface";
 
 @Component({
     selector: "ps-roles-view",
@@ -49,11 +52,24 @@ export class RolesViewComponent extends BasePaginatedTableWithSearchComponent {
             this.isTableLoading = false;
         });
     }
-
+    override actions: ITableAction[] = [
+        {
+            callbackFn: (row: ISmallListTableInput) => this.openPopup(true, row),
+            labelFn: () => "ROLE.EDIT.NAME",
+            isVisible: (row: ISmallListTableInput) => row['sourceLevel'] === this.sourceLevel(),
+        },
+        {
+            callbackFn: (row: ISmallListTableInput) => this.#openDeleteDialog(row),
+            labelFn: () => "ROLE.DELETE.NAME",
+            isVisible: (row: ISmallListTableInput) => row['sourceLevel'] === this.sourceLevel(),
+        },
+    ]
     sourceLevel = input.required<SourceLevel>();
     sourceLevelId = input.required<number>();
     readonly #matDialog = inject(MatDialog);
     readonly #roleService = inject(RoleService);
+    readonly #dialogService = inject(DialogService);
+    readonly #isDeletingRole = signal(false);
 
     loadDataWithCorrectParams(): void {
         this.loadData({
@@ -65,15 +81,47 @@ export class RolesViewComponent extends BasePaginatedTableWithSearchComponent {
         });
     }
 
-    openCreatePopup() {
+    openPopup(isEditPopup: boolean, row?: ISmallListTableInput) {
         this.#matDialog.open<RolePopupComponent, IRolePopupInputs>(RolePopupComponent, {
             data: {
+                roleId: row != null ? row.id : undefined,
                 sourceLevel: this.sourceLevel(),
                 sourceLevelId: this.sourceLevelId(),
-                isEditPopup: false
+                isEditPopup: isEditPopup
             },
             width: "45rem",
             maxHeight: "95dvh"
         });
+    }
+
+    #openDeleteDialog(row: ISmallListTableInput): void {
+        this.#dialogService.open(
+            {
+                title: "ROLE.DELETE.NAME",
+                tooltipLabel: "ROLE.DELETE.TOOLTIP",
+                callBack: () => this.#deleteRole(row.id),
+                submitLabel: "CONFIRM",
+                isInputIncluded: false,
+                descriptions: ["ROLE.DELETE.QUESTION", "ROLE.DELETE.CONFIRMATION"],
+                isSubmitLoading: this.#isDeletingRole,
+                cancelLabel: "CANCEL",
+            },
+            "warning"
+        );
+    }
+
+    #deleteRole(id: number): void {
+        this.#isDeletingRole.set(true);
+        this.#roleService.deleteRole(this.sourceLevel(), this.sourceLevelId(), id).subscribe({
+            next: () => this.loadDataWithCorrectParams(),
+            complete: () => {
+                this.#isDeletingRole.set(false);
+                this.#dialogService.close();
+            },
+        });
+    }
+
+    updateRoleInheritance(row: {checked: boolean; row: any}) {
+        console.log(row);
     }
 }

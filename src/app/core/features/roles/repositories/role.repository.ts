@@ -3,9 +3,10 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { SourceLevel } from "../../../enums/source-level.enum";
 import { Observable } from "rxjs";
 import { APIS } from "../../../api/plansphere.api";
-import { IRightLookUp } from "../models/RightLookUp";
+import { IRightLookUp } from "../models/right-look-up.model";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
+import { IRole } from "../models/role.model";
 
 @Injectable({
     providedIn: 'root'
@@ -23,6 +24,18 @@ export class RoleRepository {
                 fromObject: { ...params },
             }),
         });
+    }
+
+    deleteRole(sourceLevel: SourceLevel, sourceLevelId: number, roleId: number) : Observable<void> {
+        return this.#http.delete<void>(APIS.roles.deleteRole(sourceLevel, sourceLevelId, roleId));
+    }
+
+    updateRole(sourceLevel: SourceLevel, sourceLevelId: number, roleId: number, body: any): Observable<void> {
+        return this.#http.put<void>(APIS.roles.updateRole(sourceLevel, sourceLevelId, roleId), body);
+    }
+
+    getById(sourceLevel: SourceLevel, sourceLevelId: number, roleId: number): Observable<IRole> {
+        return this.#http.get<IRole>(APIS.roles.getById(sourceLevel, sourceLevelId, roleId));
     }
 
     lookUpRights(): Observable<IRightLookUp[]> {

@@ -91,6 +91,16 @@
             "TOOLTIP": "Her kan du oprette nye roller som kan tildeles til brugere for at give dem rettighederne som rollen har.",
             "ROLE_NAME": "Rolle navn",
             "ROLE_NAME_DESCRIPTION": "Angiv navnet på rollen så du kan genkende den i systemet."
+        },
+        "EDIT": {
+            "NAME": "Rediger rolle",
+            "TOOLTIP": "Her kan du redigere roller og rette deres rettigheder."
+        },
+        "DELETE": {
+            "NAME": "Slet rolle",
+            "TOOLTIP": "Her kan du fjerne uønskede roller i systemet.",
+            "QUESTION": "Er du sikker på du vil slette denne rolle?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes rollen, og vil blive fjernet fra alle brugere som har den tildelt."
         }
     },
     "RIGHT": {

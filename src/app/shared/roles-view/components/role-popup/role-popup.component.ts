@@ -12,7 +12,7 @@ import { finalize, forkJoin, Observable, Subscription, tap } from "rxjs";
 import { CompanyService } from "../../../../core/features/companies/services/company.service";
 import { SelectFieldComponent } from "../../../select-field/select-field.component";
 import { LineComponent } from "../../../line/line.component";
-import { IRightLookUp } from "../../../../core/features/roles/models/RightLookUp";
+import { IRightLookUp } from "../../../../core/features/roles/models/right-look-up.model";
 import { LoadingOverlayComponent } from "../../../loading-overlay/loading-overlay.component";
 import { IDropdownOption } from "../../../interfaces/dropdown-option.interface";
 import { generateDropdownOptionsFromLookUps } from "../../../utilities/dropdown-option.utilities";

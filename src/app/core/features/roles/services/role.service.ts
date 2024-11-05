@@ -2,11 +2,12 @@ import { inject, Injectable } from "@angular/core";
 import { SourceLevel } from "../../../enums/source-level.enum";
 import { Observable } from "rxjs";
 import { RoleRepository } from "../repositories/role.repository";
-import { IRightLookUp } from "../models/RightLookUp";
+import { IRightLookUp } from "../models/right-look-up.model";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-paginated-response.interface";
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
 import { mapRolesToSignalSmallListInputOperator } from "../utilties/role.utilities";
+import { IRole } from "../models/role.model";
 
 @Injectable({
     providedIn: 'root'
@@ -28,5 +29,17 @@ export class RoleService {
 
     lookUpRights(): Observable<IRightLookUp[]> {
         return this.#roleRepository.lookUpRights();
+    }
+
+    deleteRole(sourceLevel: SourceLevel, sourceLevelId: number, roleId: number) : Observable<void> {
+        return this.#roleRepository.deleteRole(sourceLevel, sourceLevelId, roleId);
+    }
+
+    updateRole(sourceLevel: SourceLevel, sourceLevelId: number, roleId: number, body: any): Observable<void> {
+        return this.#roleRepository.updateRole(sourceLevel, sourceLevelId, roleId, body);
+    }
+
+    getById(sourceLevel: SourceLevel, sourceLevelId: number, roleId: number): Observable<IRole> {
+        return this.#roleRepository.getById(sourceLevel, sourceLevelId, roleId);
     }
 }
