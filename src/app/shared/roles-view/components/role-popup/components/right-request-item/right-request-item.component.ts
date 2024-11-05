@@ -19,6 +19,8 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 })
 export class RightRequestItemComponent implements OnInit {
     companyOptions = input.required<IDropdownOption[]>();
+    teamOptions = input.required<IDropdownOption[]>();
+    departmentOptions = input.required<IDropdownOption[]>();
     organisationOptions = input.required<IDropdownOption[]>();
     rightOptions = input.required<IDropdownOption[]>();
     sourceLevel = input.required<SourceLevel>();
@@ -51,10 +53,10 @@ export class RightRequestItemComponent implements OnInit {
                 this.options = this.companyOptions();
                 break;
             case SourceLevel.Department:
-                this.options = [];
+                this.options = this.departmentOptions();
                 break;
             case SourceLevel.Team:
-                this.options = [];
+                this.options = this.teamOptions();
                 break;
         }
     }

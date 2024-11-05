@@ -122,6 +122,6 @@ export class RolesViewComponent extends BasePaginatedTableWithSearchComponent {
     }
 
     updateRoleInheritance(row: {checked: boolean; row: any}) {
-        console.log(row);
+        this.#roleService.toggleRoleInheritance(this.sourceLevel(), this.sourceLevelId(), row.row.id).subscribe();
     }
 }

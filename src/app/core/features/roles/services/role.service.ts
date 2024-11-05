@@ -42,4 +42,8 @@ export class RoleService {
     getById(sourceLevel: SourceLevel, sourceLevelId: number, roleId: number): Observable<IRole> {
         return this.#roleRepository.getById(sourceLevel, sourceLevelId, roleId);
     }
+
+    toggleRoleInheritance(sourceLevel: SourceLevel, sourceLevelId: number,  roleId: number): Observable<void> {
+        return this.#roleRepository.toggleRoleInheritance(sourceLevel, sourceLevelId, roleId);
+    }
 }

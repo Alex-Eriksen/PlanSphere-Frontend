@@ -41,4 +41,8 @@ export class RoleRepository {
     lookUpRights(): Observable<IRightLookUp[]> {
         return this.#http.get<IRightLookUp[]>(APIS.roles.lookUpRights);
     }
+
+    toggleRoleInheritance(sourceLevel: SourceLevel, sourceLevelId: number,  roleId: number): Observable<void> {
+        return this.#http.post<void>(APIS.roles.toggleRoleInheritance(sourceLevel, sourceLevelId, roleId), {});
+    }
 }

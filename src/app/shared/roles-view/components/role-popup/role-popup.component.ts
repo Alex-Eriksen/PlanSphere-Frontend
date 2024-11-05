@@ -56,6 +56,8 @@ export class RolePopupComponent implements OnInit, OnDestroy {
     rightOptions: IDropdownOption[] = [];
     companyOptions: IDropdownOption[] = [];
     organisationOptions: IDropdownOption[] = [];
+    teamOptions: IDropdownOption[] = [];
+    departmentOptions: IDropdownOption[] = [];
 
     formGroup = this.#fb.group({
         name: this.#fb.control("", [Validators.required]),
@@ -80,6 +82,7 @@ export class RolePopupComponent implements OnInit, OnDestroy {
             this.#lookUpRights(),
             this.#lookUpCompanies(),
             this.#lookUpOrganisations(),
+            // TODO: Add look up department and teams
             this.#getRoleById(),
         ]).subscribe(() => this.isLoading = false);
     }
@@ -89,6 +92,7 @@ export class RolePopupComponent implements OnInit, OnDestroy {
             this.#lookUpRights(),
             this.#lookUpCompanies(),
             this.#lookUpOrganisations(),
+            // TODO: Add look up department and teams
         ]).subscribe(() => this.isLoading = false);
     }
 
@@ -116,33 +120,10 @@ export class RolePopupComponent implements OnInit, OnDestroy {
         }
         this.isSubmitting = true;
 
-        const roleRightRequestToAdd = [];
-
-        for (const roleRightRequest of this.roleRightRequests.value) {
-            const sourceLevelIds = Array.isArray(roleRightRequest.sourceLevelId) ? roleRightRequest.sourceLevelId : [roleRightRequest.sourceLevelId];
-            const rightIds = Array.isArray(roleRightRequest.rightId) ? roleRightRequest.rightId : [roleRightRequest.rightId];
-
-            for (const sourceLevelId of sourceLevelIds) {
-                for (const rightId of rightIds) {
-                    roleRightRequestToAdd.push({
-                        sourceLevelId: sourceLevelId,
-                        rightId: rightId,
-                        sourceLevel: roleRightRequest.sourceLevel
-                    });
-                }
-            }
-        }
-
-        const formGroupToAdd = {
-            name: this.formGroup.value!.name,
-            rights: roleRightRequestToAdd
-        };
-
-
         if (this.componentInputs.isEditPopup) {
-            this.#updateRole(formGroupToAdd);
+            this.#updateRole(this.formGroup.value);
         } else {
-            this.#createRole(formGroupToAdd);
+            this.#createRole(this.formGroup.value);
         }
     }
 
@@ -166,35 +147,23 @@ export class RolePopupComponent implements OnInit, OnDestroy {
         return this.#roleService.getById(this.componentInputs.sourceLevel, this.componentInputs.sourceLevelId, this.componentInputs.roleId!)
             .pipe(tap((role) => {
                 this.formGroup.patchValue(role);
-                const sameRoleRightRequests: any[] = [];
                 for (const right of role.rights) {
-                    const existingRight = sameRoleRightRequests.find(x => x.sourceLevel === right.sourceLevel);
-                    if (existingRight !== undefined) {
-                        existingRight.rightId.push(right.rightId);
-                        if (existingRight.sourceLevelId.find((x: number) => x === right.sourceLevelId) === undefined) {
-                            existingRight.sourceLevelId.push(right.sourceLevelId);
-                        }
-                    }
-                    else {
-                        sameRoleRightRequests.push({
-                            sourceLevelId: [right.sourceLevelId],
-                            sourceLevel: right.sourceLevel,
-                            rightId: [right.rightId]
-                        });
-                    }
-                }
-                for (const right of sameRoleRightRequests) {
                     this.addRoleRightRequest(right);
                 }
             }));
     }
 
     addRoleRightRequest(right?: any) {
-        this.roleRightRequests.push(this.#fb.group({
+        const fg: FormGroup = this.#fb.group({
             sourceLevel: this.#fb.control<SourceLevel>(right ? right.sourceLevel : this.componentInputs.sourceLevel, Validators.required),
             sourceLevelId: this.#fb.control(right ? right.sourceLevelId : 0, Validators.required),
             rightId: this.#fb.control(right ? right.rightId : this.rightOptions[0].value, Validators.required),
-        }));
+        });
+        if (right) {
+            fg.addControl("id", this.#fb.control(right.id));
+        }
+
+        this.roleRightRequests.push(fg);
     }
 
     removeRoleRightRequest(formGroup: FormGroup) {
