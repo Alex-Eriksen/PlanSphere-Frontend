@@ -10,6 +10,7 @@ import { TeamComponent } from "./components/team/team.component";
 import { TeamsComponent } from "./components/teams/teams.component";
 import { UserComponent } from "./components/user/user.component";
 import { organisationRoutes } from "./components/organisation/organisation.routes";
+import { companyRoutes } from "./components/company/company.routes";
 
 export const mainRoutes: Routes = [
     {
@@ -42,6 +43,7 @@ export const mainRoutes: Routes = [
     {
         path: "company/:companyId",
         component: CompanyComponent,
+        children: companyRoutes,
         data: {
             name: "COMPANY.NAME"
         }

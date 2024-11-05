@@ -22,4 +22,14 @@ export const APIS = {
         patch: (id: number) => environment.apiUrl + `Organisation/PatchOrganisation/${id}`,
         delete: (id: number) => environment.apiUrl + `Organisation/DeleteOrganisation/${id}`,
     },
+    company: {
+        getById: (id: number)=> environment.apiUrl + `Company/GetCompanyById/${id}`,
+        listCompanies: () => environment.apiUrl + `Company/ListCompanies`,
+        create: environment.apiUrl + `Company/CreateCompany`,
+        patch: (id: number)=> environment.apiUrl + `Company/PatchCompany/${id}`,
+        delete: (id: number) => environment.apiUrl + `Company/DeleteCompany/${id}`,
+    },
+    country: {
+        getCountryLookups: environment.apiUrl + "Country/GetCountryLookups",
+    }
 }

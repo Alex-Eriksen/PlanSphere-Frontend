@@ -1,9 +1,11 @@
 import {
-    Component, DestroyRef,
+    Component,
+    DestroyRef,
+    effect,
     EventEmitter,
     inject,
-    input,
     Input,
+    input,
     OnInit,
     Output,
     ViewChild,
@@ -25,6 +27,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgClass, NgOptimizedImage } from "@angular/common";
 import { MatIcon } from "@angular/material/icon";
 import { MatDivider } from "@angular/material/divider";
+import { PartialTranslatePipe } from "../../core/pipes/partial-translate.pipe";
 
 @Component({
   selector: 'ps-select-field',
@@ -41,7 +44,8 @@ import { MatDivider } from "@angular/material/divider";
         MatDivider,
         ReactiveFormsModule,
         MatOption,
-        MatLabel
+        MatLabel,
+        PartialTranslatePipe
     ],
   templateUrl: './select-field.component.html',
   styleUrl: './select-field.component.scss'
@@ -63,6 +67,13 @@ export class SelectFieldComponent implements OnInit {
     protected selectedOption: IDropdownOption | undefined;
     private readonly destroyRef$ = inject(DestroyRef);
 
+    setSelectedOptionOnOptionsChange$ = effect(() => {
+        this.dropDownOptions();
+        if (this.control().value) {
+            this.#setSelectedOption(this.control().value);
+        }
+    });
+
     ngOnInit() {
         this.updateSignalAndClearSearchOnControlChange();
         this.#setInitialValue();
@@ -72,10 +83,6 @@ export class SelectFieldComponent implements OnInit {
         if (this.selectMultipleOptions() && !Array.isArray(this.control().value)) {
             this.control().setValue([this.control().value]);
         }
-    }
-
-    addRequiredToLabel() {
-        return this.control().hasValidator(Validators.required) ? "REQUIRED" : "";
     }
 
     emitChangedValue(selectChange: MatSelectChange) {
