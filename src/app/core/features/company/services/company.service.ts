@@ -14,6 +14,8 @@ export class CompanyService {
         return  this.#companyRepository.getById(id)
     }
 
+
+
     delete(id: number): Observable<void>{
         return this.#companyRepository.delete(id)
     }

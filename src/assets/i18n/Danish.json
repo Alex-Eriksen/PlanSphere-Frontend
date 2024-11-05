@@ -36,7 +36,11 @@
         "NAME": "Virksomhed",
         "NAME_PLURAL": "Virksomheder",
         "NAME_SPECIFIC": "Virksomheds navn",
-        "CVR": "CVR Nummer"
+        "VAT": "CVR Nummer",
+        "DO_NOT_EXIST": "Denne virksomhed eksitere ikke",
+        "COMPANY_INFO": "Virksomheds information",
+        "FILL_COMPANY_DETAILS": "Udfyld din virksomhedsoplysninger her"
+
     },
     "DEPARTMENT": {
         "NAME": "Afdeling",
@@ -92,6 +96,7 @@
         "COUNTRY": "Land"
     },
     "CONTACT" : {
+        "NAME": "Kontakt informationer",
         "CARE_OF": "Varetagers Navn",
         "CONTACT_NAME": "Kontakt Navn",
         "CONTACT_EMAIL": "Kontakt Email",

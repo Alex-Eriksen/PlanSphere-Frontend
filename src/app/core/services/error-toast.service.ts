@@ -1,12 +1,16 @@
 ﻿import { Injectable, inject } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
+
 
 @Injectable({
-    providedIn: 'root'  // Makes this service globally available
+    providedIn: 'root'
 })
 export class ToastService {
     readonly #snackBar = inject(MatSnackBar);
-    showToast(message: string, config: MatSnackBarConfig = {}): void {
+    readonly #translateService = inject(TranslateService);
+
+    showToast(messageKey: string, config: MatSnackBarConfig = {}): void {
         const defaultConfig: MatSnackBarConfig = {
             duration: 3000,  // default duration of 3 seconds
             verticalPosition: 'top',
@@ -14,6 +18,7 @@ export class ToastService {
             ...config
         };
 
+        const message = this.#translateService.instant(messageKey);
         this.#snackBar.open(message, 'Close', defaultConfig);
     }
 }

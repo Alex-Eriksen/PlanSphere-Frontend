@@ -2,8 +2,8 @@
     <ps-loading-overlay></ps-loading-overlay>
 } @else {
 <div class="border-b border-gray-900/10 pb-12">
-    <h2 class="text-base font-semibold text-gray-900">Virksomheds Information</h2>
-    <p class="mt-1 text-sm text-gray-600">Udfyld din virksomhedsoplysninger her.</p>
+    <ps-small-header heading="COMPANY.COMPANY_INFO" subheading="COMPANY.FILL_COMPANY_DETAILS"></ps-small-header>
+
 <form [formGroup]="formGroup" (focusout)="patchDetails()">
     <!-- ICompany Name Section -->
     <ps-line></ps-line>
@@ -16,15 +16,16 @@
             <ps-input
                 type="number"
                 [control]="formGroup.controls.cvr"
-                label='COMPANY.CVR'>
+                label='COMPANY.VAT'>
             </ps-input>
         </div>
     </div>
 
     <!-- Address Section -->
     <ps-line></ps-line>
+
     <div class="flex flex-col gap-4 mt-10 pt-10">
-        <h3 class="text-lg font-semibold text-gray-900">Address</h3>
+        <ps-small-header heading='ADDRESS.NAME'></ps-small-header>
 
 
         <div class="flex flex-row gap-3 justify-start">
@@ -64,7 +65,6 @@
                 [selectMultipleOptions]="false"
                 [control]="formGroup.controls.address.controls.countryId" >
             </ps-select-field>
-
         </div>
 
     </div>
@@ -72,7 +72,7 @@
     <!-- Contact Information Section -->
     <ps-line></ps-line>
     <div class="flex flex-col gap-4 mt-10 pt-10">
-        <h3 class="text-lg font-semibold text-gray-900">Contact Information</h3>
+        <ps-small-header heading="CONTACT.NAME"></ps-small-header>
 
 
             <div class="flex flex-row gap-3">
@@ -94,7 +94,7 @@
                 </ps-input>
 
                 <ps-input
-                    type="number"
+                    type = "number"
                     [control]="formGroup.controls.contactPhoneNumber"
 
                     label='CONTACT.CONTACT_PHONENUMBER'>

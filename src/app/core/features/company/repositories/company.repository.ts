@@ -15,6 +15,7 @@ export class CompanyRepository {
         return this.#http.get<ICompany>(APIS.company.getById(id));
     }
 
+
     create(company: ICompanyRequest): Observable<void>{
         return this.#http.post<void>(APIS.company.create, company)
     }

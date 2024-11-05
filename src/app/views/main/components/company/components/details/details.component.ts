@@ -1,4 +1,4 @@
-import { Component, inject, input,  OnInit } from "@angular/core";
+import { Component, inject, input, numberAttribute, OnInit } from "@angular/core";
 import { CompanyService } from "../../../../../../core/features/company/services/company.service";
 import { ICompany } from "../../../../../../core/features/company/models/company.model";
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -8,9 +8,15 @@ import { SelectFieldComponent } from "../../../../../../shared/select-field/sele
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
 import { CountryService } from "../../../../../../core/features/countries/services/country.service";
 import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-option.interface";
-import { updateNestedControlsPathAndValue } from "../../../../../../shared/utilities/form.utilities";
+import {
+    markAllControlsAsTouchedAndDirty,
+    updateNestedControlsPathAndValue
+} from "../../../../../../shared/utilities/form.utilities";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
 import { LineComponent } from "../../../../../../shared/line/line.component";
+import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
+
+
 
 @Component({
   selector: 'ps-details',
@@ -21,7 +27,8 @@ import { LineComponent } from "../../../../../../shared/line/line.component";
         SelectFieldComponent,
         LoadingOverlayComponent,
         ReactiveFormsModule,
-        LineComponent
+        LineComponent,
+        SmallHeaderComponent
     ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
@@ -31,7 +38,7 @@ export class DetailsComponent implements OnInit {
     company?: ICompany
     readonly #companyService = inject(CompanyService);
     readonly #fb = inject(NonNullableFormBuilder);
-    readonly #country = inject(CountryService);
+    readonly #countryService = inject(CountryService);
     readonly #toastService = inject(ToastService);
     countries: IDropdownOption[] = []
     isPageLoading: boolean = false;
@@ -39,12 +46,11 @@ export class DetailsComponent implements OnInit {
     ngOnInit(): void {
         this.isPageLoading = true;
         if (this.companyId) {
-            this.loadCountries();
+            this.#loadCountries();
             this.loadCompanyDetails(this.companyId());
         }
         if (this.companyId == null){
-            console.log("No companyId");
-            this.#toastService.showToast("This Company Doesnt exist")
+            this.#toastService.showToast('COMPANY.DO_NOT_EXIST')
         }
     }
 
@@ -52,8 +58,8 @@ export class DetailsComponent implements OnInit {
         name: this.#fb.control("", Validators.required),
         cvr: this.#fb.control("", Validators.required),
         contactName: this.#fb.control(""),
-        contactEmail: this.#fb.control(""),
-        contactPhoneNumber: this.#fb.control(""),
+        contactEmail: this.#fb.control("", Validators.email),
+        contactPhoneNumber: this.#fb.control("", [Validators.pattern(/^[0-9]*$/), Validators.minLength(8), Validators.maxLength(8)]),
         address: this.#fb.group({
             streetName: this.#fb.control(""),
             houseNumber: this.#fb.control(""),
@@ -67,8 +73,8 @@ export class DetailsComponent implements OnInit {
         updateOn: "blur"
     })
 
-    loadCountries(): void {
-        this.#country.getCountryLookups().subscribe({
+    #loadCountries(): void {
+        this.#countryService.getCountryLookups().subscribe({
             next: (data) => {
                 this.countries = data;
             }
@@ -76,8 +82,12 @@ export class DetailsComponent implements OnInit {
     }
 
     patchDetails(): void {
+        if (!this.formGroup.valid)
+        {
+            markAllControlsAsTouchedAndDirty(this.formGroup);
+            return;
+        }
         const paths = updateNestedControlsPathAndValue(this.formGroup);
-        console.log(paths);
         if(Object.keys(paths).length) {
             this.#companyService.patch(this.companyId(), paths).subscribe()
         }
@@ -87,8 +97,7 @@ export class DetailsComponent implements OnInit {
     loadCompanyDetails(id: number): void {
         this.#companyService.companyById(id).subscribe({
             next: (data: ICompany) => this.formGroup.patchValue(data),
-            error: () => this.#toastService.showToast("Denne virksomhed ekssitere ikke"),
-
+            error: () => this.#toastService.showToast('COMPANY.DO_NOT_EXIST'),
             complete: () => this.isPageLoading = false
         });
     }
@@ -97,4 +106,7 @@ export class DetailsComponent implements OnInit {
         this.#companyService.delete(id)
     }
 
+    protected readonly Validators = Validators;
+    protected readonly input = input;
+    protected readonly numberAttribute = numberAttribute;
 }

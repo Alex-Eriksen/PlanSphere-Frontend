@@ -1,12 +1,12 @@
 ﻿import { Time } from "@angular/common";
 
 export interface ICompany {
-    CompanyName: string;
-    CVR: string;
-    ContactName: string;
-    ContactEmail: string;
-    ContactPhoneNumber: string;
-    Address: string;
-    CreatedAt: Time;
-    CreatedBy: string;
+    companyName: string;
+    cvr: string;
+    contactName: string;
+    contactEmail: string;
+    contactPhoneNumber: string;
+    address: string;
+    createdAt: Time;
+    createdBy: string;
 }
