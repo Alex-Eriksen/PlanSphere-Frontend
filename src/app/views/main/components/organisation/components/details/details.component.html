@@ -6,7 +6,6 @@
         <p class="mt-1 text-sm text-gray-600">Her kan du ændre dine organisation detaljer</p>
 
         <form [formGroup]="formGroup" (focusout)="patchDetails()">
-
             <!-- Organisation Name Section and button -->
             <div class="mt-5 flex flex-row gap-y-4">
                 <div class="w-full">
@@ -27,9 +26,9 @@
             </div>
 
             <!-- Address Section -->
-            <div class="flex flex-col gap-7 mt-5 border-t border-gray-300 pt-5">
+            <div class="flex lg:flex-col md:flex-col gap-7 mt-5 border-t border-gray-300 pt-5">
                 <h3 class="text-lg font-semibold text-gray-900">Address</h3>
-                <div class="flex flex-row gap-10 justify-center">
+                <div class="flex lg:flex-row gap-10 justify-center md:flex-col">
                     <ps-input
                         [control]="formGroup.controls.address.controls.streetName"
 
@@ -48,7 +47,7 @@
                     </ps-input>
                 </div>
 
-                <div class ="flex flex-row gap-10 justify-center">
+                <div class ="flex lg:flex-row md:flex-col gap-10 justify-center">
                     <ps-input
                         [control]="formGroup.controls.address.controls.floor"
 
@@ -76,7 +75,7 @@
 
     </div>
         <!-- Created At Section -->
-        <div class="flex flex-row justify-between mt-5">
+        <div class="flex lg:flex-row md:flex-col justify-between mt-5 gap-5">
             <ps-input
                 [control]="formGroup.controls.createdAt"
 
@@ -85,7 +84,6 @@
 
             <ps-button
                 [buttonStyleType]="'button--secondary'" [buttonType]="'button--secondary'" [label]="'Delete orgnisation'" (click)="deleteOrganisation(organisationId)">
-
             </ps-button>
         </div>
 }
