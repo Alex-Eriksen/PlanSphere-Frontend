@@ -106,7 +106,7 @@ export class RolesViewComponent extends BasePaginatedTableWithSearchComponent {
                 isSubmitLoading: this.#isDeletingRole,
                 cancelLabel: "CANCEL",
             },
-            "warning"
+            "confirmation"
         );
     }
 

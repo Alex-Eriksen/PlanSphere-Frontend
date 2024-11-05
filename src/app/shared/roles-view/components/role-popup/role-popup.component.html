@@ -14,20 +14,12 @@
     @if (!isLoading) {
         <form [formGroup]="formGroup" class="p-6 flex flex-col gap-4">
             <ps-small-header
-                [heading]="
-                    componentInputs.isEditPopup
-                        ? 'ROLE.EDIT.ROLE_NAME'
-                        : 'ROLE.CREATE.ROLE_NAME'
-                "
-                [subheading]="
-                    componentInputs.isEditPopup
-                        ? 'ROLE.EDIT.ROLE_NAME_DESCRIPTION'
-                        : 'ROLE.CREATE.ROLE_NAME_DESCRIPTION'
-                "
+                heading="ROLE.ROLE_NAME"
+                subheading="ROLE.ROLE_NAME_DESCRIPTION"
             ></ps-small-header>
             <ps-input
                 label="NAME"
-                [control]="formGroup.controls.request.controls.name"
+                [control]="formGroup.controls.name"
             ></ps-input>
             <ps-line></ps-line>
             <ps-small-header
@@ -38,6 +30,7 @@
                     (remove)="removeRoleRightRequest($event)"
                     [sourceLevel]="componentInputs.sourceLevel"
                     [companyOptions]="companyOptions"
+                    [organisationOptions]="organisationOptions"
                     [rightOptions]="rightOptions"
                     [formGroup]="roleRightRequest"
                 ></ps-right-request-item>
@@ -66,7 +59,7 @@
         <ps-button
             (click)="submitForm()"
             [appliedClasses]="'!py-3 !px-6'"
-            label="CREATE"
+            [label]="componentInputs.isEditPopup ? 'SAVE' : 'CREATE'"
             buttonStyleType="button--primary"
             buttonType="button"
             [isLoading]="isSubmitting"

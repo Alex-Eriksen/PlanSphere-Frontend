@@ -5,6 +5,7 @@ import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-t
 import { signal } from "@angular/core";
 import { mapToSignalPaginatedResponse } from "../../../../shared/utilities/signals.utilities";
 import { IRoleListItem } from "../models/role-list-item.model";
+import { IRole } from "../models/role.model";
 
 export const mapRolesToSignalSmallListInputOperator = (): OperatorFunction<
     IPaginatedResponse<IRoleListItem>,
@@ -23,3 +24,4 @@ const mapJobTitlesToSmallListInput = (roles: IRoleListItem[]): ISmallListTableIn
         active: role.isInheritanceActive,
     }));
 };
+

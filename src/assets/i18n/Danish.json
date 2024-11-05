@@ -24,11 +24,15 @@
     "NAME": "Navn",
     "SOURCELEVEL": "Kilde nivaeu",
     "SEARCH": "Søg",
+    "ACTIVE": "Aktiv",
+    "SOURCE": "Kilde",
+    "CREATED_BY": "Oprettet af",
+    "CREATED_AT": "Oprettelsesdato",
     "VALIDATION": {
         "IS_REQUIRED": "er påkrævet",
         "IS_NOT_A_VALID_EMAIL": "er i et forkert format",
         "IS_NOT_VALID": "er invalidt",
-        "IS_INVALID": "er validt"
+        "IS_INVALID": "er invalidt"
     },
     "ORGANISATION": {
         "NAME": "Organisation",
@@ -56,9 +60,7 @@
         "OVERVIEW": "Oversigt af job titler",
         "TOOLTIP": "Her kan du oprette nye job titler som kan tildeles til brugere for at forbedre organisering af brugere.",
         "DESCRIPTION": "Nedenfor er en  liste over alle jobtitler inden for en {{sourceLevel}}. Du kan ændre arvefunktionen for en jobtitel, og du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
-        "ACTIVE": "Aktiv",
         "NAME_OF": "Titel",
-        "SOURCE": "Kilde",
         "CREATE": {
             "TITLE": "Opret en job titel",
             "TOOLTIP": "Her opretter du en ny job titel",
@@ -85,12 +87,12 @@
         "NAME": "Rolle",
         "NAME_PLURAL": "Roller",
         "DESCRIPTION": "Her kan du se alle de roller som er blevet oprettet på {{sourceLevel}} niveauet.",
+        "ROLE_NAME": "Rolle navn",
+        "ROLE_NAME_DESCRIPTION": "Angiv navnet på rollen så du kan genkende den i systemet.",
         "TOOLTIP": "Roller bliver brugt i systemet til at give brugere rettigheder.",
         "CREATE": {
             "NAME": "Opret ny rolle",
-            "TOOLTIP": "Her kan du oprette nye roller som kan tildeles til brugere for at give dem rettighederne som rollen har.",
-            "ROLE_NAME": "Rolle navn",
-            "ROLE_NAME_DESCRIPTION": "Angiv navnet på rollen så du kan genkende den i systemet."
+            "TOOLTIP": "Her kan du oprette nye roller som kan tildeles til brugere for at give dem rettighederne som rollen har."
         },
         "EDIT": {
             "NAME": "Rediger rolle",
@@ -106,6 +108,7 @@
     "RIGHT": {
         "NAME": "Rettighed",
         "NAME_PLURAL": "Rettigheder",
-        "ADD_RIGHT": "Tilføj rettighed"
+        "ADD_RIGHT": "Tilføj rettighed",
+        "NUMBER_OF": "Antal rettigheder"
     }
 }

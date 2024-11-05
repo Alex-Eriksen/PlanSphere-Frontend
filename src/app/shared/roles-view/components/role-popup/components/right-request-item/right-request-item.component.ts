@@ -19,6 +19,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 })
 export class RightRequestItemComponent implements OnInit {
     companyOptions = input.required<IDropdownOption[]>();
+    organisationOptions = input.required<IDropdownOption[]>();
     rightOptions = input.required<IDropdownOption[]>();
     sourceLevel = input.required<SourceLevel>();
     sourceLevelOptions = generateTranslatedDropdownOptionsFromEnum(SourceLevel, SourceLevelTranslationMapper);
@@ -31,27 +32,30 @@ export class RightRequestItemComponent implements OnInit {
     options: IDropdownOption[] = [];
 
     ngOnInit() {
+        this.#updateOptions(this.formGroup().controls["sourceLevel"].value);
         this.formGroup().controls["sourceLevel"].valueChanges
             .pipe(takeUntilDestroyed(this.#destroyRef))
-            .subscribe((sourceLevel: SourceLevel) => {
-                switch (sourceLevel) {
-                    case SourceLevel.Organisation:
-                        this.options = [];
-                        break;
-                    case SourceLevel.Company:
-                        this.options = this.companyOptions();
-                        break;
-                    case SourceLevel.Department:
-                        this.options = [];
-                        break;
-                    case SourceLevel.Team:
-                        this.options = [];
-                        break;
-                }
-            })
+            .subscribe((sourceLevel: SourceLevel) => this.#updateOptions(sourceLevel))
     }
 
     removeSelf() {
         this.remove.emit(this.formGroup());
+    }
+
+    #updateOptions(sourceLevel: SourceLevel){
+        switch (sourceLevel) {
+            case SourceLevel.Organisation:
+                this.options = this.organisationOptions();
+                break;
+            case SourceLevel.Company:
+                this.options = this.companyOptions();
+                break;
+            case SourceLevel.Department:
+                this.options = [];
+                break;
+            case SourceLevel.Team:
+                this.options = [];
+                break;
+        }
     }
 }
