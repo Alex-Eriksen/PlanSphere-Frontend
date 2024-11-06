@@ -9,6 +9,9 @@ export const APIS = {
         revokeToken: environment.apiUrl + "Authentication/revokeRefreshToken",
         getLoggedInUser: environment.apiUrl + "Authentication/GetLoggedInUser",
     },
+    users: {
+      getUserDetails: (userId?: number) => environment.apiUrl + `Users/GetUserDetails/${userId}`,
+    },
     roles: {
         createRole: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Role/CreateRole/${sourceLevel}/${sourceLevelId}`,
         listAll: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Role/ListRoles/${sourceLevel}/${sourceLevelId}`,
