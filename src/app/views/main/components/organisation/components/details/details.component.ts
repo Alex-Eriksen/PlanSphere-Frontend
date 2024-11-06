@@ -10,6 +10,9 @@ import { ButtonComponent } from "../../../../../../shared/button/button.componen
 import { updateNestedControlsPathAndValue } from "../../../../../../shared/utilities/form.utilities";
 import { AuthenticationService } from "../../../../../../core/features/authentication/services/authentication.service";
 import { ILoggedInUser } from "../../../../../../core/features/authentication/models/logged-in-user.model";
+import { LineComponent } from "../../../../../../shared/line/line.component";
+import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
+import { AddressInputComponent } from "../../../../../../shared/address-input/address-input/address-input.component";
 
 @Component({
     selector: 'ps-details',
@@ -19,7 +22,10 @@ import { ILoggedInUser } from "../../../../../../core/features/authentication/mo
         LoadingOverlayComponent,
         SubHeaderComponent,
         ReactiveFormsModule,
-        ButtonComponent
+        ButtonComponent,
+        LineComponent,
+        SmallHeaderComponent,
+        AddressInputComponent
     ],
     templateUrl: './details.component.html',
     styleUrl: './details.component.scss'
@@ -54,19 +60,16 @@ export class DetailsComponent implements OnInit {
 
     private fetchOrganisationIdFromUser(): void {
         this.#authenticationService.getLoggedInUser().subscribe({
-            next: (user : ILoggedInUser) => { this.organisationId = user.organisationId; },
+            next: (user : ILoggedInUser) => this.organisationId = user.organisationId,
             error: (error) => console.error('No organisationId found for the user.', error),
-            complete: () => {this.getOrganisationDetail(this.organisationId);
-            }});
+            complete: () => this.getOrganisationDetail(this.organisationId)
+        });
     }
 
     getOrganisationDetail(id: number): void {
         this.#organisationService.getOrganisationDetailsById(id).subscribe({
-            next: (organisation : IOrganisationDetails) => {
-                if (this.organisationId) { this.formGroup.patchValue(organisation) }
-                else { console.log("No organisationId"); }
-            },
-            error: (error) => console.error('This organisation docent exits', error),
+            next: (organisation : IOrganisationDetails) => this.formGroup.patchValue(organisation),
+            error: (error) => console.error('Failed to fetch organisation details:', error, this.organisationId),
             complete: () => this.isPageLoading = false
         });
     }
@@ -80,8 +83,6 @@ export class DetailsComponent implements OnInit {
     }
 
     deleteOrganisation(id: number): void {
-        console.log("Deleting organisation with id: ", id);
         this.#organisationService.delete(id).subscribe();
     }
-
 }

@@ -1,4 +1,4 @@
-import { IAddress } from "../../address/modals/address.model";
+import { IAddress } from "../../address/models/address.model";
 
 export interface IOrganisationDetails
 {

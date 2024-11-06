@@ -40,7 +40,15 @@
     },
     "ORGANISATION": {
         "NAME": "Organisation",
-        "NAME_PLURAL": "Organisationer"
+        "NAME_PLURAL": "Organisationer",
+        "NAME_SPECIFIC": "Organisations navn",
+        "ORGANISATION_INFO": "Organisations information",
+        "FILL_ORGANISATION_DETAILS": "Udfyld din organisationsoplysninger her",
+        "DO_NOT_EXIST": "Denne organisation eksitere ikke",
+        "LOGO": "Logo",
+        "SET_NEW_OWNER": "Sæt ny ejer",
+        "CREATED_AT": "Oprettelse dato",
+        "DELETE": "Slet organisation"
     },
     "COMPANY": {
         "NAME": "Virksomhed",

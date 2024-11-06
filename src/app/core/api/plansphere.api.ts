@@ -46,5 +46,8 @@ export const APIS = {
     },
     country: {
         getCountryLookups: environment.apiUrl + "Country/GetCountryLookups",
+    },
+    zipCode: {
+        getZipCodeLookups: environment.apiUrl + "ZipCode/GetZipCodeLookups",
     }
 }
