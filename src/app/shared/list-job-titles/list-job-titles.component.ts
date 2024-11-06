@@ -24,7 +24,6 @@ import { ITableSortingFilter } from "../interfaces/table-sorting-filter.interfac
 import {
     BasePaginatedTableWithSearchComponent
 } from "../base-paginated-table-with-search-abstract/base-paginated-table-with-search.abstract";
-import { InputComponent } from "../input/input.component";
 
 @Component({
   selector: 'ps-list-job-titles',
@@ -38,7 +37,6 @@ import { InputComponent } from "../input/input.component";
         SelectFieldComponent,
         ButtonComponent,
         SmallListTableComponent,
-        InputComponent
     ],
   templateUrl: 'list-job-titles.component.html',
 })
