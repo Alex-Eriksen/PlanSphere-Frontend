@@ -20,7 +20,6 @@ export class UploadFileDropZoneComponent implements OnInit{
     readonly #destroyRef$ = inject(DestroyRef);
     image = input.required<FormControl<File | null | string>>();
     label = input.required<string>();
-    fileSizeConvertToBytes: number = 0;
     displayImage: string = "";
     uploadedFile = output<File>();
 
@@ -29,7 +28,6 @@ export class UploadFileDropZoneComponent implements OnInit{
         let image: File | null = null;
         if (element.files && element.files.length > 0) {
             image = element.files[0];
-            this.fileSizeConvertToBytes = image.size;
             this.image().setValue(image);
         }
         if (image) {
