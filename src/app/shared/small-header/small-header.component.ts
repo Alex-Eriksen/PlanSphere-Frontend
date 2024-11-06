@@ -20,4 +20,5 @@ export class SmallHeaderComponent {
     tooltip = input<string>();
     appliedClasses = input("");
     subheadingAppliedClasses = input("");
+    translationArgs = input({});
 }

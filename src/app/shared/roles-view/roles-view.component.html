@@ -1,0 +1,32 @@
+<div class="r-screen-[25rem] p-4 relative">
+    <ps-small-header
+        heading="ROLE.NAME_PLURAL"
+        subheading="ROLE.DESCRIPTION"
+        tooltip="ROLE.TOOLTIP"
+        [translationArgs]="{
+            sourceLevel: sourceLevel()
+        }"
+    ></ps-small-header>
+    <div class="flex flex-row justify-end mt-12">
+        <div class="flex flex-row justify-between gap-6">
+            <ps-search-input [searchSignal]="searchSignal" [placeholder]="'SEARCH'" appliedClass="max-[880px]:!w-[9.375rem]"></ps-search-input>
+            <ps-button
+                (click)="openPopup(false)"
+                label="ROLE.CREATE.NAME"
+                buttonStyleType="button--primary"
+                buttonType="button"
+                imageSrc="assets/images/icons/plus.svg"
+                imagePosition="before"
+            ></ps-button>
+        </div>
+    </div>
+    <ps-small-list-table
+        [data]="paginatedData.results()"
+        [headers]="headers"
+        [isLoading]="isTableLoading"
+        [sortingFilterSignal]="sortingFilterSignal"
+        [actions]="actions"
+        (toggleItem)="updateRoleInheritance($event)"
+    />
+    <ps-pagination [paginationValues]="paginatedData"></ps-pagination>
+</div>

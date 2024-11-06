@@ -1,0 +1,15 @@
+﻿#select-option {
+  @apply rounded-lg border-[1px] border-black-300 bg-white ps-4 pe-1 h-[2.75rem] py-[0.6875rem];
+
+  &.selected {
+    @apply border-primary bg-primary-10;
+
+    p {
+      @apply font-normal;
+    }
+  }
+}
+
+.mdc-list-item__primary-text {
+  @apply text-sm font-light #{!important};
+}

@@ -29,6 +29,11 @@ export class OrganisationComponent {
             label: "JOB_TITLE.NAME_PLURAL",
             routeLink: "job-titles",
             icon: "fa-solid fa-table-list"
+        },
+        {
+            label: "ROLE.NAME_PLURAL",
+            routeLink: "roles",
+            icon: "fa-solid fa-user-check"
         }
     ];
 }

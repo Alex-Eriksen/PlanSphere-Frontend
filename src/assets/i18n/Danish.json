@@ -7,6 +7,8 @@
     "FRONTPAGE": "Forside",
     "EMAIL": "Email",
     "PASSWORD": "Kodeord",
+    "NO": "Nej",
+    "YES": "Ja",
     "LOGIN": "Log ind",
     "LOGOUT": "Log ud",
     "LOGOUT_CONFIRMATION": "Er du sikker på du vil logge ud?",
@@ -21,12 +23,20 @@
     "ITEMS": "elementer",
     "CREATE_NEW": "Opret ny",
     "FORGOT_PASSWORD": "Glemt kodeord",
+    "NAME": "Navn",
+    "SOURCELEVEL": "Kilde nivaeu",
     "SEARCH": "Søg",
+    "ACTIVE": "Aktiv",
+    "SOURCE": "Kilde",
+    "CREATED_BY": "Oprettet af",
+    "CREATED_AT": "Oprettelsesdato",
+    "ACTIVATE": "Aktivér",
+    "DEACTIVATE": "Deaktivér",
     "VALIDATION": {
         "IS_REQUIRED": "er påkrævet",
         "IS_NOT_A_VALID_EMAIL": "er i et forkert format",
         "IS_NOT_VALID": "er invalidt",
-        "IS_INVALID": "er validt"
+        "IS_INVALID": "er invalidt"
     },
     "ORGANISATION": {
         "NAME": "Organisation",
@@ -60,9 +70,7 @@
         "OVERVIEW": "Oversigt af job titler",
         "TOOLTIP": "Her kan du oprette nye job titler som kan tildeles til brugere for at forbedre organisering af brugere.",
         "DESCRIPTION": "Nedenfor er en  liste over alle jobtitler inden for en {{sourceLevel}}. Du kan ændre arvefunktionen for en jobtitel, og du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
-        "ACTIVE": "Aktiv",
         "NAME_OF": "Titel",
-        "SOURCE": "Kilde",
         "CREATE": {
             "TITLE": "Opret en job titel",
             "TOOLTIP": "Her opretter du en ny job titel",
@@ -110,5 +118,38 @@
     "SETTINGS": {
         "NAME": "Indstillinger",
         "NAME_PLURAL": "Indstillinger"
+        "CARE_OF": "Varetagers Navn",
+        "CONTACT_NAME": "Kontakt Navn",
+        "CONTACT_EMAIL": "Kontakt Email",
+        "CONTACT_PHONENUMBER": "Kontakt Telefonnummer"
+    },
+    "ROLE": {
+        "NAME": "Rolle",
+        "NAME_PLURAL": "Roller",
+        "DESCRIPTION": "Her kan du se alle de roller som er blevet oprettet på {{sourceLevel}} niveauet.",
+        "ROLE_NAME": "Rolle navn",
+        "ROLE_NAME_DESCRIPTION": "Angiv navnet på rollen så du kan genkende den i systemet.",
+        "TOOLTIP": "Roller bliver brugt i systemet til at give brugere rettigheder.",
+        "STANDARD": "Standard rolle",
+        "CREATE": {
+            "NAME": "Opret ny rolle",
+            "TOOLTIP": "Her kan du oprette nye roller som kan tildeles til brugere for at give dem rettighederne som rollen har."
+        },
+        "EDIT": {
+            "NAME": "Rediger rolle",
+            "TOOLTIP": "Her kan du redigere roller og rette deres rettigheder."
+        },
+        "DELETE": {
+            "NAME": "Slet rolle",
+            "TOOLTIP": "Her kan du fjerne uønskede roller i systemet.",
+            "QUESTION": "Er du sikker på du vil slette denne rolle?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes rollen, og vil blive fjernet fra alle brugere som har den tildelt."
+        }
+    },
+    "RIGHT": {
+        "NAME": "Rettighed",
+        "NAME_PLURAL": "Rettigheder",
+        "ADD_RIGHT": "Tilføj rettighed",
+        "NUMBER_OF": "Antal rettigheder"
     }
 }
