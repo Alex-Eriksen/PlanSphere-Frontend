@@ -13,6 +13,7 @@ import { ILoggedInUser } from "../../../../../../core/features/authentication/mo
 import { LineComponent } from "../../../../../../shared/line/line.component";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
 import { AddressInputComponent } from "../../../../../../shared/address-input/address-input/address-input.component";
+import { ToastService } from "../../../../../../core/services/error-toast.service";
 
 @Component({
     selector: 'ps-details',
@@ -37,6 +38,7 @@ export class DetailsComponent implements OnInit {
     readonly #authenticationService = inject(AuthenticationService);
     readonly #organisationService = inject(OrganisationService);
     readonly #fb = inject(NonNullableFormBuilder);
+    readonly #toastService = inject(ToastService);
     isPageLoading: boolean = false;
 
     ngOnInit(): void {
@@ -61,7 +63,7 @@ export class DetailsComponent implements OnInit {
     private fetchOrganisationIdFromUser(): void {
         this.#authenticationService.getLoggedInUser().subscribe({
             next: (user : ILoggedInUser) => this.organisationId = user.organisationId,
-            error: (error) => console.error('No organisationId found for the user.', error),
+            error: (error) => this.#toastService.showToast('ORGANISATION.DO_NOT_EXIST', error),
             complete: () => this.getOrganisationDetail(this.organisationId)
         });
     }
@@ -69,7 +71,7 @@ export class DetailsComponent implements OnInit {
     getOrganisationDetail(id: number): void {
         this.#organisationService.getOrganisationDetailsById(id).subscribe({
             next: (organisation : IOrganisationDetails) => this.formGroup.patchValue(organisation),
-            error: (error) => console.error('Failed to fetch organisation details:', error, this.organisationId),
+            error: (error) => console.error('ORGANISATION.FIELD_TO_FETCH', error, this.organisationId),
             complete: () => this.isPageLoading = false
         });
     }

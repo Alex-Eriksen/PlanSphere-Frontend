@@ -59,7 +59,6 @@ export class AddressInputComponent implements OnInit {
     #loadZipCodes(): void {
         this.#zipCodeService.getZipCodeLookups().subscribe({
             next: (data) => {
-                console.log(data);
                 this.zipCodes = data;
             },
             error: (error) => console.error("Failed to fetch zip codes: ", error)

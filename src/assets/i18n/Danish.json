@@ -45,6 +45,7 @@
         "ORGANISATION_INFO": "Organisations information",
         "FILL_ORGANISATION_DETAILS": "Udfyld din organisationsoplysninger her",
         "DO_NOT_EXIST": "Denne organisation eksitere ikke",
+        "FIELD_TO_FETCH": "Fejlede i at hente organisationens detaljer",
         "LOGO": "Logo",
         "SET_NEW_OWNER": "Sæt ny ejer",
         "CREATED_AT": "Oprettelse dato",
