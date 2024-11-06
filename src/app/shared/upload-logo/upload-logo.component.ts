@@ -1,11 +1,11 @@
-import { Component, DestroyRef, EventEmitter, inject, input, OnInit, Output } from "@angular/core";
+import { Component, DestroyRef, inject, input, OnInit, output } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
 import { NgClass, NgOptimizedImage } from "@angular/common";
 import { FormControl } from "@angular/forms";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { transferBytesUtility } from "../utilities/transfer-bytes.utility";
 import { ButtonComponent } from "../button/button.component";
 import { SmallHeaderComponent } from "../small-header/small-header.component";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'ps-upload-logo',
@@ -18,13 +18,11 @@ import { SmallHeaderComponent } from "../small-header/small-header.component";
 })
 export class UploadFileDropZoneComponent implements OnInit{
     readonly #destroyRef$ = inject(DestroyRef);
-    protected readonly transferBytes = transferBytesUtility;
     image = input.required<FormControl<File | null | string>>();
     label = input.required<string>();
     fileSizeConvertToBytes: number = 0;
     displayImage: string = "";
-    @Output() uploadedFile: EventEmitter<File> = new EventEmitter();
-
+    uploadedFile = output<File>()
 
     selectImage(event: Event): void {
         const element = event.currentTarget as HTMLInputElement;
@@ -36,7 +34,7 @@ export class UploadFileDropZoneComponent implements OnInit{
         }
         if (image) {
             this.setImageUrlOnLoadedWithImageDimensions(image);
-            this.resizeAndCropImage(image, 200).then((resizedFile) => {
+            this.resizeAndCropImage(image, 200).subscribe((resizedFile) => {
                 this.uploadedFile.emit(resizedFile);
             })
         }
@@ -64,8 +62,8 @@ export class UploadFileDropZoneComponent implements OnInit{
             });
     }
 
-    resizeAndCropImage(file: File, targetSize: number): Promise<File> {
-        return new Promise((resolve, reject) => {
+    resizeAndCropImage(file: File, targetSize: number): Observable<File> {
+        return new Observable((observer) => {
             const img = new Image();
             img.src = URL.createObjectURL(file);
 
@@ -76,7 +74,8 @@ export class UploadFileDropZoneComponent implements OnInit{
                 const ctx = canvas.getContext('2d');
 
                 if (!ctx) {
-                    reject("Couldn't get canvas context");
+                    observer.error("Couldn't get canvas context");
+                    observer.complete();
                     return;
                 }
 
@@ -89,15 +88,16 @@ export class UploadFileDropZoneComponent implements OnInit{
                 canvas.toBlob((blob) => {
                     if (blob) {
                         const resizedFile = new File([blob], file.name, { type: file.type });
-                        resolve(resizedFile);
+                        observer.next(resizedFile);
+                        observer.complete();
                     } else {
-                        reject("Canvas conversion to Blob failed");
+                        observer.error("Canvas conversion to Blob failed");
                     }
                 }, file.type);
             };
 
             img.onerror = () => {
-                reject("Image load error");
+                observer.error("Image load error");
             };
         });
     }
