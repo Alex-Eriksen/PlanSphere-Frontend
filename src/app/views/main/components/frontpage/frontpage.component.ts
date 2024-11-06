@@ -47,7 +47,9 @@ export class FrontpageComponent implements OnInit {
     }
 
     uploadCompanyLogo(image: File): void {
-          this.#companyService.uploadLogo(image, 1).subscribe({
+        const formData = new FormData();
+        formData.append('image', image, image.name); // 'file' should match the parameter name expected by the backend
+        this.#companyService.uploadLogo(formData, 1).subscribe({
             next: (logoUrl) => this.formGroup.controls.logoUrl.patchValue(logoUrl)
         })
     }

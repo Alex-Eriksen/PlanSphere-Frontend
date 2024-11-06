@@ -14,6 +14,8 @@
     "SAVE": "Gem",
     "DELETE": "Slet",
     "CREATE": "Opret",
+    "CHANGE": "Skift",
+    "UPLOAD": "Upload",
     "CLOSE": "Luk",
     "CONFIRM": "Bekræft",
     "WARNING": "Advarsel",

@@ -37,7 +37,7 @@ export class CompanyRepository {
         return this.#http.delete<void>(APIS.company.delete(id));
     }
 
-    uploadLogo(image: File, id: number): Observable<string> {
-        return this.#http.post<string>(APIS.company.uploadLogo(id), image);
+    uploadLogo(Image: FormData, id: number): Observable<string> {
+        return this.#http.post<string>(APIS.company.uploadLogo(id), Image);
     }
 }
