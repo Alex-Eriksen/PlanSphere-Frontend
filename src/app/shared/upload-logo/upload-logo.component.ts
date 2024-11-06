@@ -22,7 +22,7 @@ export class UploadFileDropZoneComponent implements OnInit{
     label = input.required<string>();
     fileSizeConvertToBytes: number = 0;
     displayImage: string = "";
-    uploadedFile = output<File>()
+    uploadedFile = output<File>();
 
     selectImage(event: Event): void {
         const element = event.currentTarget as HTMLInputElement;
