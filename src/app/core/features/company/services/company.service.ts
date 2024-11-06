@@ -34,7 +34,7 @@ export class CompanyService {
         return this.#companyRepository.patch(id, bodyRequest)
     }
 
-    uploadLogo(image: File, id: number): Observable<string>{
-        return this.#companyRepository.uploadLogo(image, id);
+    uploadLogo(data: FormData, id: number): Observable<string>{
+        return this.#companyRepository.uploadLogo(data, id);
     }
 }
