@@ -1,5 +1,6 @@
 ﻿import { Route } from "@angular/router";
 import { DetailsComponent } from "./components/details/details.component";
+import { RolesComponent } from "./components/roles/roles.component";
 
 export const companyRoutes: Route[] = [
     {
@@ -12,6 +13,13 @@ export const companyRoutes: Route[] = [
         component: DetailsComponent,
         data: {
             name: "DETAIL.NAME_PLURAL"
+        }
+    },
+    {
+        path: 'roles',
+        component: RolesComponent,
+        data: {
+            name: "ROLE.NAME_PLURAL"
         }
     }
 ]

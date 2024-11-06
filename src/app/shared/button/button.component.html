@@ -1,4 +1,5 @@
 <button
+    id="button"
     [attr.aria-label]="label() | translate"
     [disabled]="isLoading() || disabled()"
     [ngClass]="[appliedClasses(), buttonStyleType()]"

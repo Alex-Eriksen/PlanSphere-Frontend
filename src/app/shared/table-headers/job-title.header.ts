@@ -4,7 +4,7 @@ import { TableHeaderType } from "../enums/table-header-type.enum";
 export const jobTitleHeaders: ITableHeader[] = [
     {
         key: "isInheritanceActive",
-        label: "JOB_TITLE.ACTIVE",
+        label: "ACTIVE",
         isSortable: true,
         type: TableHeaderType.Toggle,
         maxTextLength: 70,
@@ -18,7 +18,7 @@ export const jobTitleHeaders: ITableHeader[] = [
     },
     {
         key: "sourceLevel",
-        label: "JOB_TITLE.SOURCE",
+        label: "SOURCE",
         isSortable: true,
         type: TableHeaderType.Text,
         maxTextLength: 70,
