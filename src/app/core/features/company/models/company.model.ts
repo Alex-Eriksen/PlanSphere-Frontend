@@ -1,6 +1,7 @@
 ﻿import { IAddress } from "../../address/models/address.model";
 
 export interface ICompany {
+    id: number;
     name: string;
     cvr: string;
     contactName?: string;
