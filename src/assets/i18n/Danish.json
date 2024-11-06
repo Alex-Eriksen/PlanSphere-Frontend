@@ -128,6 +128,7 @@
             },
             "WORK_SCHEDULE": {
                 "WORK_SCHEDULE_NAME": "Arbejdsskemaindstillinger",
+                "INHERIT_WORK_SCHEDULE": "Nedarv arbejdsskema",
                 "AUTO_CHECK_IN_OUT": {
                     "NAME": "Automatisk tjek ind og ud",
                     "TOOLTIP": "Hvis automatisk tjek ind og ud er slået til vil systemet automatisk tjekke dig ind og ud udfra til arbejdsskema."

@@ -9,6 +9,7 @@ import { LoadingOverlayComponent } from "../../../../../../shared/loading-overla
 import { TooltipComponent } from "../../../../../../shared/tooltip/tooltip.component";
 import { MatTooltip } from "@angular/material/tooltip";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { WorkScheduleComponent } from "../../../../../../shared/work-schedule/work-schedule.component";
 
 @Component({
   selector: 'ps-settings',
@@ -19,7 +20,8 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
         ReactiveFormsModule,
         LoadingOverlayComponent,
         TooltipComponent,
-        MatTooltip
+        MatTooltip,
+        WorkScheduleComponent
     ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
@@ -32,24 +34,29 @@ export class SettingsComponent implements OnInit {
     isLoading = false;
 
     formGroup = this.#fb.group({
-        inheritWorkSchedule: this.#fb.control(false),
-        autoCheckInOut: this.#fb.control(false),
-        autoCheckOutDisabled: this.#fb.control(false),
-        isEmailPrivate: this.#fb.control(false),
-        isAddressPrivate: this.#fb.control(false),
-        isPhoneNumberPrivate: this.#fb.control(false),
-        isBirthdayPrivate: this.#fb.control(false),
+        settings: this.#fb.group({
+            inheritWorkSchedule: this.#fb.control(false),
+            workSchedule: this.#fb.group({
+                parent: this.#fb.group({}),
+            }),
+            autoCheckInOut: this.#fb.control(false),
+            autoCheckOutDisabled: this.#fb.control(false),
+            isEmailPrivate: this.#fb.control(false),
+            isAddressPrivate: this.#fb.control(false),
+            isPhoneNumberPrivate: this.#fb.control(false),
+            isBirthdayPrivate: this.#fb.control(false),
+        })
     }, { updateOn: "blur" });
 
     ngOnInit() {
         this.isLoading = true;
         this.#userService.getUserDetails().subscribe((user) => {
-            this.formGroup.patchValue(user.settings);
+            this.formGroup.patchValue(user);
             this.#updateAutoCheckOutDisabled(user.settings.autoCheckInOut);
             this.isLoading = false;
         });
 
-        this.formGroup.controls.autoCheckInOut.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((value) => {
+        this.formGroup.controls.settings.controls.autoCheckInOut.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((value) => {
            this.#updateAutoCheckOutDisabled(value);
         });
     }
@@ -57,17 +64,17 @@ export class SettingsComponent implements OnInit {
     patchSettings() {
         const paths = updateNestedControlsPathAndValue(this.formGroup);
         if (Object.keys(paths).length) {
-            console.log(paths);
+            this.#userService.patchUser(paths).subscribe();
         }
     }
 
     #updateAutoCheckOutDisabled(value: boolean): void {
         if (!value) {
-            this.formGroup.controls.autoCheckOutDisabled.disable();
-            this.formGroup.controls.autoCheckOutDisabled.patchValue(false);
-            markControlAsTouchedAndDirty(this.formGroup.controls.autoCheckOutDisabled);
+            this.formGroup.controls.settings.controls.autoCheckOutDisabled.disable();
+            this.formGroup.controls.settings.controls.autoCheckOutDisabled.patchValue(false);
+            markControlAsTouchedAndDirty(this.formGroup.controls.settings.controls.autoCheckOutDisabled);
         } else {
-            this.formGroup.controls.autoCheckOutDisabled.enable();
+            this.formGroup.controls.settings.controls.autoCheckOutDisabled.enable();
         }
     }
 }

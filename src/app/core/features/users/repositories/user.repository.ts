@@ -17,4 +17,12 @@ export class UserRepository {
             return this.#http.get<IUser>(APIS.users.getUserDetailsWithoutId);
         }
     }
+
+    patchUserDetails(body: any, userId?: number) {
+        if (userId) {
+            return this.#http.patch<void>(APIS.users.patchUserWithId(userId), body);
+        } else {
+            return this.#http.patch<void>(APIS.users.patchUserWithoutId, body);
+        }
+    }
 }

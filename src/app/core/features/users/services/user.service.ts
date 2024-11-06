@@ -12,4 +12,8 @@ export class UserService {
     getUserDetails(userId?: number): Observable<IUser> {
         return this.#userRepository.getUserDetails(userId);
     }
+
+    patchUser(body: any, userId?: number): Observable<void> {
+        return this.#userRepository.patchUserDetails(body, userId);
+    }
 }

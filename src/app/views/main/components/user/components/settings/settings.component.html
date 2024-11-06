@@ -9,13 +9,13 @@
             <ps-toggle-input
                 label="USER.SETTINGS.WORK_SCHEDULE.AUTO_CHECK_IN_OUT.NAME"
                 tooltip="USER.SETTINGS.WORK_SCHEDULE.AUTO_CHECK_IN_OUT.TOOLTIP"
-                [control]="formGroup.controls.autoCheckInOut"
+                [control]="formGroup.controls.settings.controls.autoCheckInOut"
                 (toggleChanged)="patchSettings()"
             ></ps-toggle-input>
             <ps-toggle-input
                 label="USER.SETTINGS.WORK_SCHEDULE.AUTO_CHECK_OUT_DISABLED.NAME"
                 tooltip="USER.SETTINGS.WORK_SCHEDULE.AUTO_CHECK_OUT_DISABLED.TOOLTIP"
-                [control]="formGroup.controls.autoCheckOutDisabled"
+                [control]="formGroup.controls.settings.controls.autoCheckOutDisabled"
                 (toggleChanged)="patchSettings()"
             ></ps-toggle-input>
         </div>
@@ -23,6 +23,14 @@
             <ps-small-header
                 heading="USER.SETTINGS.WORK_SCHEDULE.WORK_SCHEDULE_NAME"
             ></ps-small-header>
+            <ps-toggle-input
+                label="USER.SETTINGS.WORK_SCHEDULE.INHERIT_WORK_SCHEDULE"
+                [control]="formGroup.controls.settings.controls.inheritWorkSchedule"
+                (toggleChanged)="patchSettings()"
+            ></ps-toggle-input>
+            <ps-work-schedule
+                [formGroup]="formGroup.controls.settings.controls.workSchedule"
+            ></ps-work-schedule>
         </div>
         <div class="flex gap-4 flex-col">
             <ps-small-header
@@ -31,22 +39,22 @@
             ></ps-small-header>
             <ps-toggle-input
                 label="USER.SETTINGS.PRIVACY.PRIVATE_EMAIL"
-                [control]="formGroup.controls.isEmailPrivate"
+                [control]="formGroup.controls.settings.controls.isEmailPrivate"
                 (toggleChanged)="patchSettings()"
             ></ps-toggle-input>
             <ps-toggle-input
                 label="USER.SETTINGS.PRIVACY.PRIVATE_ADDRESS"
-                [control]="formGroup.controls.isAddressPrivate"
+                [control]="formGroup.controls.settings.controls.isAddressPrivate"
                 (toggleChanged)="patchSettings()"
             ></ps-toggle-input>
             <ps-toggle-input
                 label="USER.SETTINGS.PRIVACY.PRIVATE_PHONE_NUMBER"
-                [control]="formGroup.controls.isPhoneNumberPrivate"
+                [control]="formGroup.controls.settings.controls.isPhoneNumberPrivate"
                 (toggleChanged)="patchSettings()"
             ></ps-toggle-input>
             <ps-toggle-input
                 label="USER.SETTINGS.PRIVACY.PRIVATE_BIRTHDAY"
-                [control]="formGroup.controls.isBirthdayPrivate"
+                [control]="formGroup.controls.settings.controls.isBirthdayPrivate"
                 (toggleChanged)="patchSettings()"
             ></ps-toggle-input>
         </div>
