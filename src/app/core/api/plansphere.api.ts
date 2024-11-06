@@ -10,7 +10,8 @@ export const APIS = {
         getLoggedInUser: environment.apiUrl + "Authentication/GetLoggedInUser",
     },
     users: {
-      getUserDetails: (userId?: number) => environment.apiUrl + `Users/GetUserDetails/${userId}`,
+      getUserDetailsWithId: (userId: number) => environment.apiUrl + `User/GetUserDetails/${userId}`,
+      getUserDetailsWithoutId: environment.apiUrl + `User/GetUserDetails`,
     },
     roles: {
         createRole: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Role/CreateRole/${sourceLevel}/${sourceLevelId}`,

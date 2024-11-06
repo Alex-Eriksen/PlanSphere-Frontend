@@ -7,7 +7,7 @@ import { TranslateModule } from "@ngx-translate/core";
   standalone: true,
     imports: [
         MatTooltip,
-        TranslateModule
+        TranslateModule,
     ],
   templateUrl: './tooltip.component.html',
   styleUrl: './tooltip.component.scss'

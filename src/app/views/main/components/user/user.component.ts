@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 import { NavigationTabsComponent } from "../../../../shared/navigation-tabs/navigation-tabs.component";
 import { RouterOutlet } from "@angular/router";
 import { INavigationTab } from "../../../../shared/navigation-tabs/navigation-tab.interface";

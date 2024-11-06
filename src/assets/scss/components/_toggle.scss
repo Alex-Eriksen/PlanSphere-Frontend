@@ -11,3 +11,7 @@ html .mat-mdc-slide-toggle.mat-accent {
     --mdc-switch-selected-pressed-track-color: var(--clr-primary);
     --mdc-switch-selected-track-color: var(--clr-primary);
 }
+
+ps-toggle-input {
+    @apply w-fit;
+}

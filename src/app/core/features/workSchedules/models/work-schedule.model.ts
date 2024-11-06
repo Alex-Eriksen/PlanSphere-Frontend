@@ -1,8 +1,8 @@
-import { WorkScheduleShiftDTO } from "../../users/models/user.model";
 import { IBase } from "../../../abstract/models/base.model";
+import { IWorkScheduleShift } from "./work-schedule-shift.model";
 
-export interface WorkScheduleDTO extends IBase {
-    parent: WorkScheduleDTO;
+export interface IWorkSchedule extends IBase {
+    parent: IWorkSchedule;
     isDefaultWorkSchedule: boolean;
-    workScheduleShifts: WorkScheduleShiftDTO[];
+    workScheduleShifts: IWorkScheduleShift[];
 }

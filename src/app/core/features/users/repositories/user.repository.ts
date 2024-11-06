@@ -11,6 +11,10 @@ export class UserRepository {
     readonly #http = inject(HttpClient);
 
     getUserDetails(userId?: number): Observable<IUser> {
-        return this.#http.get<IUser>(APIS.users.getUserDetails(userId));
+        if (userId) {
+            return this.#http.get<IUser>(APIS.users.getUserDetailsWithId(userId));
+        } else {
+            return this.#http.get<IUser>(APIS.users.getUserDetailsWithoutId);
+        }
     }
 }

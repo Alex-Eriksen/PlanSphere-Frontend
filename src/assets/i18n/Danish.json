@@ -113,11 +113,35 @@
     "USER": {
         "NAME": "Bruger",
         "PROFILE": "Profil",
-        "DETAILS": "Bruger oplysninger"
+        "DETAILS": {
+            "NAME": "Bruger oplysninger"
+        },
+        "SETTINGS": {
+            "NAME": "Bruger indstillinger",
+            "PRIVACY": {
+                "PRIVACY_SETTINGS": "Privatlivsindstillinger",
+                "TOOLTIP": "Indstil hvorvidt dine informationer vil blive skjult for andre brugere. OPS: Dette gælder ikke administratorere eller brugere med ren læse rettighed.",
+                "PRIVATE_EMAIL": "Privat email",
+                "PRIVATE_ADDRESS": "Privat addresse",
+                "PRIVATE_BIRTHDAY": "Privat fødselsdag",
+                "PRIVATE_PHONE_NUMBER": "Privat telefonnummer"
+            },
+            "WORK_SCHEDULE": {
+                "WORK_SCHEDULE_NAME": "Arbejdsskemaindstillinger",
+                "AUTO_CHECK_IN_OUT": {
+                    "NAME": "Automatisk tjek ind og ud",
+                    "TOOLTIP": "Hvis automatisk tjek ind og ud er slået til vil systemet automatisk tjekke dig ind og ud udfra til arbejdsskema."
+                },
+                "AUTO_CHECK_OUT_DISABLED": {
+                    "NAME": "Midlertidig tjek ud slået fra",
+                    "TOOLTIP": "Hvis denne indstilling er slået til vil systemet ikke tjekke dig automatisk ud næste gang hvis automatisk tjek ind og ud er slået til."
+                }
+            }
+        }
     },
     "SETTINGS": {
         "NAME": "Indstillinger",
-        "NAME_PLURAL": "Indstillinger"
+        "NAME_PLURAL": "Indstillinger",
         "CARE_OF": "Varetagers Navn",
         "CONTACT_NAME": "Kontakt Navn",
         "CONTACT_EMAIL": "Kontakt Email",
