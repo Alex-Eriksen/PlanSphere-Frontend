@@ -5,7 +5,7 @@ import { APIS } from "../../../api/plansphere.api";
 import { ICompanyRequest } from "../models/company-request.model";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
-import { ICompany } from "../../../../shared/interfaces/company.interface";
+import { ICompany } from "../models/company.model";
 
 @Injectable({
     providedIn: 'root'

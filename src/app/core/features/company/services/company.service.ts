@@ -5,8 +5,8 @@ import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination
 import { mapCompaniesToSignalSmallListInputOperator } from "../utilities/company-utilities";
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
 import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-paginated-response.interface";
-import { ICompany } from "../../../../shared/interfaces/company.interface";
 import { ICompanyRequest } from "../models/company-request.model";
+import { ICompany } from "../models/company.model";
 
 @Injectable({
     providedIn: 'root'
