@@ -31,6 +31,10 @@
   }
 }
 
+ps-button {
+    @apply w-fit;
+}
+
 .form-button {
   @apply py-3 px-6 uppercase #{!important};
 }
