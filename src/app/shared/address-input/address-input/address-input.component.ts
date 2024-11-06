@@ -49,18 +49,14 @@ export class AddressInputComponent implements OnInit {
 
     #loadCountries(): void {
         this.#countryService.getCountryLookups().subscribe({
-            next: (data) => {
-                this.countries = data;
-            },
+            next: (data) => this.countries = data,
             error: (error) => console.error("Failed to fetch countries: ", error)
         });
     }
 
     #loadZipCodes(): void {
         this.#zipCodeService.getZipCodeLookups().subscribe({
-            next: (data) => {
-                this.zipCodes = data;
-            },
+            next: (data) => this.zipCodes = data,
             error: (error) => console.error("Failed to fetch zip codes: ", error)
         });
     }
