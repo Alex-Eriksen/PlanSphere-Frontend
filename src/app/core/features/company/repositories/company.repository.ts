@@ -1,5 +1,5 @@
 ﻿import { Injectable, inject } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { APIS } from "../../../api/plansphere.api";
 import { ICompanyRequest } from "../models/company-request.model";
