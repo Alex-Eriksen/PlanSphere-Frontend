@@ -2,6 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { OrganisationRepository } from "../repositories/organisation.repository";
 import { Observable } from "rxjs";
 import { IOrganisationDetails } from "../models/organisation-details.model";
+import { SourceLevel } from "../../../enums/source-level.enum";
 
 @Injectable({
     providedIn: "root"
@@ -9,15 +10,15 @@ import { IOrganisationDetails } from "../models/organisation-details.model";
 export class OrganisationService {
     readonly #organisationRepository = inject(OrganisationRepository);
 
-    public getOrganisationDetailsById(id: number): Observable<IOrganisationDetails> {
-        return this.#organisationRepository.getOrganisationDetailsById(id);
+    getOrganisationDetailsById(sourceLevel: SourceLevel, sourceLevelId: number): Observable<IOrganisationDetails> {
+        return this.#organisationRepository.getOrganisationDetailsById(sourceLevel, sourceLevelId);
     }
 
-    delete(id: number): Observable<void> {
-        return this.#organisationRepository.delete(id);
+    delete(sourceLevel: SourceLevel, sourceLevelId: number): Observable<void> {
+        return this.#organisationRepository.delete(sourceLevel, sourceLevelId);
     }
 
-    patch(id: number, bodyRequest: any): Observable<void> {
-        return this.#organisationRepository.patch(id, bodyRequest);
+    patch(sourceLevelId: number, bodyRequest: any): Observable<void> {
+        return this.#organisationRepository.patch(sourceLevelId, bodyRequest);
     }
 }

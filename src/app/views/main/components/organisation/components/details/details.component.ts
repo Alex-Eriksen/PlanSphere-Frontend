@@ -14,6 +14,7 @@ import { LineComponent } from "../../../../../../shared/line/line.component";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
 import { AddressInputComponent } from "../../../../../../shared/address-input/address-input/address-input.component";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
+import { SourceLevel } from "../../../../../../core/enums/source-level.enum";
 
 @Component({
     selector: 'ps-details',
@@ -64,12 +65,12 @@ export class DetailsComponent implements OnInit {
         this.#authenticationService.getLoggedInUser().subscribe({
             next: (user : ILoggedInUser) => this.organisationId = user.organisationId,
             error: (error) => this.#toastService.showToast('ORGANISATION.DO_NOT_EXIST', error),
-            complete: () => this.getOrganisationDetail(this.organisationId)
+            complete: () => this.getOrganisationDetail(SourceLevel.Organisation, this.organisationId)
         });
     }
 
-    getOrganisationDetail(id: number): void {
-        this.#organisationService.getOrganisationDetailsById(id).subscribe({
+    getOrganisationDetail(sourceLevel: SourceLevel ,id: number): void {
+        this.#organisationService.getOrganisationDetailsById(sourceLevel, id).subscribe({
             next: (organisation : IOrganisationDetails) => this.formGroup.patchValue(organisation),
             error: (error) => console.error('ORGANISATION.FIELD_TO_FETCH', error, this.organisationId),
             complete: () => this.isPageLoading = false
@@ -78,13 +79,12 @@ export class DetailsComponent implements OnInit {
 
     patchDetails(): void {
         const paths = updateNestedControlsPathAndValue(this.formGroup);
-        console.log(paths);
         if (Object.keys(paths).length) {
             this.#organisationService.patch(this.organisationId, paths).subscribe()
         }
     }
 
     deleteOrganisation(id: number): void {
-        this.#organisationService.delete(id).subscribe();
+        this.#organisationService.delete(SourceLevel.Organisation, id).subscribe();
     }
 }
