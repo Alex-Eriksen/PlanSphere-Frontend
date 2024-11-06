@@ -17,6 +17,8 @@
     "DELETE": "Slet",
     "CREATE": "Opret",
     "CHANGE": "Skift",
+    "UPLOAD_PICTURE": "Upload profil billede",
+    "PICTURE": "Profilbillede",
     "UPLOAD": "Upload",
     "CLOSE": "Luk",
     "CONFIRM": "Bekræft",
