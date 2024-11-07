@@ -5,7 +5,6 @@ import { IDepartment } from "../models/department.model";
 import { APIS } from "../../../api/plansphere.api";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
-import { IDepartmentRequest } from "../models/department-request.model";
 import { SourceLevel } from "../../../enums/source-level.enum";
 
 @Injectable({
@@ -26,7 +25,7 @@ export class DepartmentRepository {
         });
     }
 
-    create(sourceLevelId: number, department: IDepartmentRequest): Observable<void>{
+    create(sourceLevelId: number, department: IDepartment): Observable<void>{
         return this.#http.post<void>(APIS.department.create(sourceLevelId), department)
     }
 

@@ -18,7 +18,7 @@ import { IDropdownOption } from "../../../../../shared/interfaces/dropdown-optio
 import { CountryService } from "../../../../../core/features/countries/services/country.service";
 import { IDepartmentsPopupInputs } from "./departments-popup-inputs.component";
 import { markAllControlsAsTouchedAndDirty } from "../../../../../shared/utilities/form.utilities";
-import { IDepartmentRequest } from "../../../../../core/features/department/models/department-request.model";
+import { IDepartment } from "../../../../../core/features/department/models/department.model";
 
 @Component({
     selector: 'ps-companies-popup',
@@ -87,7 +87,7 @@ export class DepartmentsPopupComponent implements OnInit{
         this.isFormSubmitting = true;
 
         this.#departmentService
-            .createDepartment(this.componentInputs.sourceLevelId, this.formGroup.value as IDepartmentRequest,
+            .createDepartment(this.componentInputs.sourceLevelId, this.formGroup.value as IDepartment,
                 ).subscribe({
             next: () => {
                 this.isFormSubmitting = false;

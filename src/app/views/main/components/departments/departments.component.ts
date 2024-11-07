@@ -6,7 +6,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { SmallHeaderComponent } from "../../../../shared/small-header/small-header.component";
 import { SearchInputComponent } from "../../../../shared/search-input/search-input.component";
 import { ButtonComponent } from "../../../../shared/button/button.component";
-import { CompaniesPopupComponent } from "../organisation/components/companies/companies-popup/companies-popup.component";
+import { CompaniesPopupComponent } from "../organisation/components/companies/components/companies-popup.component";
 import { InputComponent } from "../../../../shared/input/input.component";
 import { BasePaginatedTableWithSearchComponent } from "../../../../shared/base-paginated-table-with-search-abstract/base-paginated-table-with-search.abstract";
 import { DepartmentService } from "../../../../core/features/department/services/department.service";
@@ -20,8 +20,8 @@ import { ITableAction } from "../../../../shared/interfaces/table-action.interfa
 import { MatDialog } from "@angular/material/dialog";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { DialogService } from "../../../../core/services/dialog.service";
-import { DepartmentsPopupComponent } from "./departments-popup/departments-popup.component";
-import { IDepartmentsPopupInputs } from "./departments-popup/departments-popup-inputs.component";
+import { DepartmentsPopupComponent } from "./components/departments-popup.component";
+import { IDepartmentsPopupInputs } from "./components/departments-popup-inputs.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({

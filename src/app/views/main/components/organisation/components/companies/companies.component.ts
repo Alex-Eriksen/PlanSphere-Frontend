@@ -18,10 +18,10 @@ import { SearchInputComponent } from "../../../../../../shared/search-input/sear
 import { ButtonComponent } from "../../../../../../shared/button/button.component";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
-import { CompaniesPopupComponent } from "./companies-popup/companies-popup.component";
+import { CompaniesPopupComponent } from "./components/companies-popup.component";
 import { InputComponent } from "../../../../../../shared/input/input.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { ICompaniesPopupInputs } from "./companies-popup/companies-popup-inputs.interface";
+import { ICompaniesPopupInputs } from "./components/companies-popup-inputs.interface";
 
 
 @Component({

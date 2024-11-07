@@ -14,7 +14,7 @@ export const departmentTableHeaders: ITableHeader[] = [
         label: "DEPARTMENT.DESCRIPTION",
         isSortable: false,
         type: TableHeaderType.Text,
-        maxTextLength: 200
+        maxTextLength: 25
     },
     {
         key: "building",

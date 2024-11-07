@@ -86,7 +86,7 @@ export class DetailsComponent implements OnInit{
         }
         const paths = updateNestedControlsPathAndValue(this.formGroup);
         if(Object.keys(paths).length) {
-            this.#departmentService.patch(this.departmentId(), paths).subscribe()
+            this.#departmentService.patchDepartment(this.departmentId(), paths).subscribe()
         }
     }
 
