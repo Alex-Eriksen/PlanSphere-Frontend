@@ -49,6 +49,20 @@
         "LOGO": "Logo",
         "SET_NEW_OWNER": "Sæt ny ejer",
         "CREATED_AT": "Oprettelse dato",
+        "NAME_OF": "Titel",
+        "OVERVIEW": "Oversigt af organisationer",
+        "DESCRIPTION": "Nedenfor er en liste over alle organisationer. Du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
+        "TOOLTIP": "Her kan du oprette nye organisationer.",
+        "CREATE": {
+            "TITLE": "Opret en organisation",
+            "TOOLTIP": "Her opretter du en ny organisation",
+            "NAME": "Navngiv din organisation"
+        },
+        "EDIT": {
+            "TITLE": "Ændrer organisation",
+            "TOOLTIP": "Her ændrer du en organisation",
+            "NAME": "Navngiv din organisation"
+        },
         "DELETE": {
             "TITLE": "Slet organisation",
             "TOOLTIP": "Du er ved at slette din organisation. Denne handling kan ikke fortrydes.",

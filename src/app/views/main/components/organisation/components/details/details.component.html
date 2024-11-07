@@ -25,6 +25,17 @@
                 <ps-line></ps-line>
                 <ps-small-header heading="ORGANISATION.LOGO"></ps-small-header>
             </div>
+
+            <!-- list organisations section -->
+            <div class="flex flex-col gap-7 mt-5 pt-5">
+                <ps-line></ps-line>
+                <ps-list-organisations [sourceLevelId]="organisationId"></ps-list-organisations>
+            </div>
+
+            <!-- popup organisations section -->
+            <div class="flex flex-col gap-7 mt-5 pt-5">
+                <ps-line></ps-line>
+            </div>
         </form>
 
     <ps-line></ps-line>

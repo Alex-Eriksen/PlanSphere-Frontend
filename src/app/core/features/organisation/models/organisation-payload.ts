@@ -1,14 +1,10 @@
 import { IAddress } from "../../address/models/address.model";
+import { IOrganisationSettings } from "./organisation-settings";
 
-export interface IOrganisationDetails
-{
-    id: number;
+export interface IOrganisationPayload {
     name: string;
     logoUrl?: string;
     address: IAddress;
-    settings: {
-        defaultRoleId: number;
-        defaultWorkScheduleId : number;
-    };
+    settings: IOrganisationSettings;
     createdAt: Date;
 }

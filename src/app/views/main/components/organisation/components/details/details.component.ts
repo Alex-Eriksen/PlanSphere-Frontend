@@ -15,6 +15,10 @@ import { SmallHeaderComponent } from "../../../../../../shared/small-header/smal
 import { AddressInputComponent } from "../../../../../../shared/address-input/address-input/address-input.component";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
 import { DialogService } from "../../../../../../core/services/dialog.service";
+import {
+    ListOrganisationsComponent
+} from "../../../../../../shared/list-organisations/list-organisations.component";
+import { OrganisationPopupComponent } from "../../../../../../shared/list-organisations/organisation-popup/organisation-popup.component";
 
 @Component({
     selector: 'ps-details',
@@ -27,7 +31,9 @@ import { DialogService } from "../../../../../../core/services/dialog.service";
         ButtonComponent,
         LineComponent,
         SmallHeaderComponent,
-        AddressInputComponent
+        AddressInputComponent,
+        ListOrganisationsComponent,
+        OrganisationPopupComponent,
     ],
     templateUrl: './details.component.html',
     styleUrl: './details.component.scss'
@@ -59,6 +65,10 @@ export class DetailsComponent implements OnInit {
             floor: this.#fb.control(""),
             postalCode: this.#fb.control(""),
             countryId: this.#fb.control(""),
+        }),
+        settings: this.#fb.group({
+            defaultRoleId: this.#fb.control({ value: 1, disabled: true }),
+            defaultWorkScheduleId: this.#fb.control({ value: 1, disabled: true }),
         }),
         createdAt: this.#fb.control({ value: new Date, disabled: true }),
     });
