@@ -9,6 +9,9 @@ export const APIS = {
         revokeToken: environment.apiUrl + "Authentication/revokeRefreshToken",
         getLoggedInUser: environment.apiUrl + "Authentication/GetLoggedInUser",
     },
+    workSchedules: {
+        lookUpWorkSchedules: environment.apiUrl + "WorkSchedule/LookUpWorkSchedules",
+    },
     users: {
         getUserDetailsWithId: (userId: number) => environment.apiUrl + `User/GetUserDetails/${userId}`,
         getUserDetailsWithoutId: environment.apiUrl + `User/GetUserDetails`,

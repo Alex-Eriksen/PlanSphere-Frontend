@@ -2,7 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { IDropdownOption } from "../../../../shared/interfaces/dropdown-option.interface";
 import { CountryRepository } from "../repositories/country.repository";
-import { generateDropdownOptionsFromLookUps } from "../../../../shared/utilities/dropdown-options.utilities";
+import { generateDropdownOptionsFromLookUps } from "../../../../shared/utilities/dropdown-option.utilities";
 
 @Injectable({
     providedIn: "root",

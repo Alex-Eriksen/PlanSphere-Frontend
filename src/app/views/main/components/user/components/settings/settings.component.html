@@ -24,10 +24,19 @@
                 heading="USER.SETTINGS.WORK_SCHEDULE.WORK_SCHEDULE_NAME"
             ></ps-small-header>
             <ps-toggle-input
-                label="USER.SETTINGS.WORK_SCHEDULE.INHERIT_WORK_SCHEDULE"
+                label="WORK_SCHEDULE.INHERIT_WORK_SCHEDULE"
                 [control]="formGroup.controls.settings.controls.inheritWorkSchedule"
                 (toggleChanged)="patchSettings()"
             ></ps-toggle-input>
+            @if (formGroup.controls.settings.controls.inheritWorkSchedule.value) {
+                <ps-select-field
+                    [control]="formGroup.controls.settings.controls.inheritedWorkScheduleId"
+                    [dropDownOptions]="workScheduleOptions"
+                    [selectMultipleOptions]="false"
+                    dropDownLabel="WORK_SCHEDULE.NAME"
+                    (changeSelectValue)="patchSettings()"
+                ></ps-select-field>
+            }
             <ps-work-schedule
                 [formGroup]="formGroup.controls.settings.controls.workSchedule"
             ></ps-work-schedule>

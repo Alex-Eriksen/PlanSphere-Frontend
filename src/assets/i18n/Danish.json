@@ -128,7 +128,6 @@
             },
             "WORK_SCHEDULE": {
                 "WORK_SCHEDULE_NAME": "Arbejdsskemaindstillinger",
-                "INHERIT_WORK_SCHEDULE": "Nedarv arbejdsskema",
                 "AUTO_CHECK_IN_OUT": {
                     "NAME": "Automatisk tjek ind og ud",
                     "TOOLTIP": "Hvis automatisk tjek ind og ud er slået til vil systemet automatisk tjekke dig ind og ud udfra til arbejdsskema."
@@ -140,13 +139,17 @@
             }
         }
     },
+    "WORK_SCHEDULE": {
+        "NAME": "Arbejdsskema",
+        "INHERIT_WORK_SCHEDULE": "Nedarv arbejdsskema"
+    },
     "SETTINGS": {
         "NAME": "Indstillinger",
         "NAME_PLURAL": "Indstillinger",
-        "CARE_OF": "Varetagers Navn",
-        "CONTACT_NAME": "Kontakt Navn",
-        "CONTACT_EMAIL": "Kontakt Email",
-        "CONTACT_PHONENUMBER": "Kontakt Telefonnummer"
+        "CARE_OF": "Varetagers navn",
+        "CONTACT_NAME": "Kontakt navn",
+        "CONTACT_EMAIL": "Kontakt email",
+        "CONTACT_PHONENUMBER": "Kontakt telefonnummer"
     },
     "ROLE": {
         "NAME": "Rolle",
