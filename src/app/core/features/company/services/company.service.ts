@@ -1,15 +1,12 @@
 ﻿import { inject, Injectable } from "@angular/core";
 import { CompanyRepository } from "../repositories/company.repository";
 import { Observable } from "rxjs";
-import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
-import { mapCompaniesToSignalSmallListInputOperator } from "../utilities/company-utilities";
-import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
-import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-paginated-response.interface";
 import { ICompanyRequest } from "../models/company-request.model";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { mapCompaniesToSignalSmallListInputOperator } from "../utilities/company-utilities";
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
 import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-paginated-response.interface";
+import { ICompany } from "../models/company.model";
 
 @Injectable({
     providedIn: 'root'
