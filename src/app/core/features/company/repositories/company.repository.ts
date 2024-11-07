@@ -1,11 +1,11 @@
 ﻿import { Injectable, inject } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { ICompany } from "../models/company.model";
 import { APIS } from "../../../api/plansphere.api";
 import { ICompanyRequest } from "../models/company-request.model";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
+import { ICompany } from "../models/company.model";
 
 @Injectable({
     providedIn: 'root'
@@ -35,5 +35,9 @@ export class CompanyRepository {
 
     delete(sourceLevelId: number): Observable<void>{
         return this.#http.delete<void>(APIS.company.delete(sourceLevelId));
+    }
+
+    uploadLogo(Image: FormData, id: number): Observable<string> {
+        return this.#http.post<string>(APIS.company.uploadLogo(id), Image);
     }
 }

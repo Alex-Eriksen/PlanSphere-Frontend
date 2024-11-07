@@ -1,7 +1,10 @@
 ﻿import { inject, Injectable } from "@angular/core";
 import { CompanyRepository } from "../repositories/company.repository";
 import { Observable } from "rxjs";
-import { ICompany } from "../models/company.model";
+import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
+import { mapCompaniesToSignalSmallListInputOperator } from "../utilities/company-utilities";
+import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
+import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-paginated-response.interface";
 import { ICompanyRequest } from "../models/company-request.model";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { mapCompaniesToSignalSmallListInputOperator } from "../utilities/company-utilities";
@@ -32,5 +35,9 @@ export class CompanyService {
 
     patch(sourceLevelId: number, bodyRequest: any): Observable<void>{
         return this.#companyRepository.patch(sourceLevelId, bodyRequest)
+    }
+
+    uploadLogo(data: FormData, id: number): Observable<string>{
+        return this.#companyRepository.uploadLogo(data, id);
     }
 }

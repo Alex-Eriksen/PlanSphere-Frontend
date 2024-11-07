@@ -1,14 +1,15 @@
 @if (isPageLoading) {
     <ps-loading-overlay></ps-loading-overlay>
 } @else {
-    <div class="border-b border-gray-900/10 pb-12">
+    <div>
         <ps-small-header heading="COMPANY.COMPANY_INFO" subheading="COMPANY.FILL_COMPANY_DETAILS"></ps-small-header>
 
         <form [formGroup]="formGroup" (focusout)="patchDetails()">
+            <div class="mb-6"></div>
             <!-- ICompany Name Section -->
             <ps-line></ps-line>
-            <div class="flex flex-col gap-4 mt-10 pt-10">
-                <div class="flex flex-col md:flex-row gap-3 justify-start">
+            <div class="flex flex-col gap-4 mb-6 pt-6">
+                <div class="flex flex-wrap gap-3 justify-start">
                     <ps-input
                         [control]="formGroup.controls.name"
                         label="COMPANY.NAME_SPECIFIC">
@@ -23,10 +24,11 @@
 
             <!-- Address Section -->
             <ps-line></ps-line>
-            <div class="flex flex-col gap-4 mt-10 pt-10">
+
+            <div class="flex flex-col gap-4 pt-6 mb-6">
                 <ps-small-header heading="ADDRESS.NAME"></ps-small-header>
 
-                <div class="flex flex-col md:flex-row gap-3 justify-start">
+                <div class="flex flex-wrap gap-3 justify-start">
                     <ps-input
                         [control]="formGroup.controls.address.controls.streetName"
                         label="ADDRESS.STREET_NAME">
@@ -37,7 +39,7 @@
                     </ps-input>
                 </div>
 
-                <div class="flex flex-col md:flex-row gap-3 justify-start">
+                <div class="flex flex-wrap gap-3 justify-start">
                     <ps-input
                         [control]="formGroup.controls.address.controls.door"
                         label="ADDRESS.DOOR">
@@ -48,7 +50,7 @@
                     </ps-input>
                 </div>
 
-                <div class="flex flex-col md:flex-row gap-3">
+                <div class="flex flex-wrap gap-3">
                     <ps-input
                         [control]="formGroup.controls.address.controls.postalCode"
                         label="ADDRESS.ZIPCODE">
@@ -64,10 +66,10 @@
 
             <!-- Contact Information Section -->
             <ps-line></ps-line>
-            <div class="flex flex-col gap-4 mt-10 pt-10">
+            <div class="flex flex-col gap-4 pt-6">
                 <ps-small-header heading="CONTACT.NAME"></ps-small-header>
 
-                <div class="flex flex-col md:flex-row gap-3">
+                <div class="flex flex-wrap gap-3">
                     <ps-input
                         [control]="formGroup.controls.careOf"
                         label="CONTACT.CARE_OF">
@@ -89,5 +91,4 @@
             </div>
         </form>
     </div>
-    <ps-line></ps-line>
 }

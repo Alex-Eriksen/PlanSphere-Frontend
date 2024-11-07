@@ -5,6 +5,7 @@ import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-p
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
 import { mapToSignalPaginatedResponse } from "../../../../shared/utilities/signals.utilities";
 import { signal } from "@angular/core";
+import { ICompany } from "../models/company.model";
 
 export const mapCompaniesToSignalSmallListInputOperator = (): OperatorFunction<
     IPaginatedResponse<ICompany>,
