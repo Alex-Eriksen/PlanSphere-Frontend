@@ -1,1 +1,28 @@
-<p>work-schedule-shift works!</p>
+<div class="flex gap-2 items-center">
+    <p>{{formGroup().getRawValue().day}}</p>
+    <ps-select-field
+        appliedClasses="w-[6.25rem]"
+        [control]="castControlFromAbstractToFormControl(formGroup().controls['startTime'])"
+        dropDownLabel=""
+        [selectMultipleOptions]="false"
+        [dropDownOptions]="timeOptions"
+        (changeSelectValue)="valuesChanged.emit()"
+    ></ps-select-field>
+    <p>{{ "TO" | translate | lowercase }}</p>
+    <ps-select-field
+        appliedClasses="w-[6.25rem]"
+        [control]="castControlFromAbstractToFormControl(formGroup().controls['endTime'])"
+        dropDownLabel=""
+        [selectMultipleOptions]="false"
+        [dropDownOptions]="timeOptions"
+        (changeSelectValue)="valuesChanged.emit()"
+    ></ps-select-field>
+    <ps-select-field
+        appliedClasses="w-[6.25rem]"
+        [control]="castControlFromAbstractToFormControl(formGroup().controls['location'])"
+        dropDownLabel=""
+        [selectMultipleOptions]="false"
+        [dropDownOptions]="locationOptions"
+        (changeSelectValue)="valuesChanged.emit()"
+    ></ps-select-field>
+</div>

@@ -11,6 +11,7 @@ export const APIS = {
     },
     workSchedules: {
         lookUpWorkSchedules: environment.apiUrl + "WorkSchedule/LookUpWorkSchedules",
+        getWorkScheduleById: (workScheduleId: number) => environment.apiUrl + `WorkSchedule/GetWorkScheduleById/${workScheduleId}`,
     },
     users: {
         getUserDetailsWithId: (userId: number) => environment.apiUrl + `User/GetUserDetails/${userId}`,

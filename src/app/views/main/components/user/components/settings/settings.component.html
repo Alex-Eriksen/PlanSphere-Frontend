@@ -34,11 +34,13 @@
                     [dropDownOptions]="workScheduleOptions"
                     [selectMultipleOptions]="false"
                     dropDownLabel="WORK_SCHEDULE.NAME"
-                    (changeSelectValue)="patchSettings()"
+                    (changeSelectValue)="onInheritedWorkScheduleChanged($event)"
                 ></ps-select-field>
             }
             <ps-work-schedule
-                [formGroup]="formGroup.controls.settings.controls.workSchedule"
+                [formGroup]="workScheduleFormGroup"
+                [isLoading]="loadingWorkSchedule"
+                (valuesChanged)="patchSettings()"
             ></ps-work-schedule>
         </div>
         <div class="flex gap-4 flex-col">

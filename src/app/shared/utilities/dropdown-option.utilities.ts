@@ -25,3 +25,20 @@ export const generateDropdownOptionsFromLookUps = <T = number>(lookUps: IBaseLoo
         };
     });
 };
+
+export const generateHourAndMinuteDropdownOptions = (): IDropdownOption[] => {
+    const options: IDropdownOption[] = [];
+    const padZero = (num: number): string => num.toString().padStart(2, '0');
+
+    for (let hour = 0; hour < 24; hour++) {
+        for (let minute = 0; minute < 60; minute += 5) {
+            const time = `${padZero(hour)}:${padZero(minute)}`;
+            options.push({
+                label: time,
+                value: time.concat(':00'),
+            });
+        }
+    }
+
+    return options;
+}

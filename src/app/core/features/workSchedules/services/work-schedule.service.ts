@@ -5,6 +5,7 @@ import { IDropdownOption } from "../../../../shared/interfaces/dropdown-option.i
 import { TranslateService } from "@ngx-translate/core";
 import { SourceLevelTranslationMapper } from "../../../mappers/source-level-translation.mapper";
 import { SourceLevel } from "../../../enums/source-level.enum";
+import { IWorkSchedule } from "../models/work-schedule.model";
 
 @Injectable({
     providedIn: 'root'
@@ -24,5 +25,9 @@ export class WorkScheduleService {
                     };
                 })
             ));
+    }
+
+    getWorkScheduleById(workScheduleId: number): Observable<IWorkSchedule> {
+        return this.#workScheduleRepository.getWorkScheduleById(workScheduleId);
     }
 }

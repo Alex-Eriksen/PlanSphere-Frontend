@@ -143,6 +143,11 @@
         "NAME": "Arbejdsskema",
         "INHERIT_WORK_SCHEDULE": "Nedarv arbejdsskema"
     },
+    "TO": "Til",
+    "SHIFT_LOCATION": {
+        "OFFICE": "Kontor",
+        "REMOTE": "Fjern"
+    },
     "SETTINGS": {
         "NAME": "Indstillinger",
         "NAME_PLURAL": "Indstillinger",

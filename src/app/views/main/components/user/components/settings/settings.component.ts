@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, input, OnDestroy, OnInit } from "@angular/core";
+import { Component, DestroyRef, inject, OnDestroy, OnInit } from "@angular/core";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
 import { NonNullableFormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { ToggleInputComponent } from "../../../../../../shared/toggle-input/toggle-input.component";
@@ -14,6 +14,7 @@ import { SelectFieldComponent } from "../../../../../../shared/select-field/sele
 import { WorkScheduleService } from "../../../../../../core/features/workSchedules/services/work-schedule.service";
 import { forkJoin, Observable, Subscription, tap } from "rxjs";
 import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-option.interface";
+import { constructWorkScheduleFormGroup, recursivelyFindParentWorkSchedule } from "../../../../../../core/features/workSchedules/utilities/work-schedule.utilities";
 
 @Component({
   selector: 'ps-settings',
@@ -38,15 +39,16 @@ export class SettingsComponent implements OnInit, OnDestroy {
     readonly #destroyRef = inject(DestroyRef);
 
     isLoading = false;
+    loadingWorkSchedule = false;
     workScheduleOptions: IDropdownOption[] = [];
+    userDetails!: IUser;
 
+    workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb);
     formGroup = this.#fb.group({
         settings: this.#fb.group({
             inheritWorkSchedule: this.#fb.control(false),
-            inheritedWorkScheduleId: this.#fb.control(0, {updateOn: "change"}),
-            workSchedule: this.#fb.group({
-                parent: this.#fb.group({}),
-            }),
+            inheritedWorkScheduleId: this.#fb.control<number | null>(null, {updateOn: "change"}),
+            workSchedule: this.workScheduleFormGroup,
             autoCheckInOut: this.#fb.control(false),
             autoCheckOutDisabled: this.#fb.control(false),
             isEmailPrivate: this.#fb.control(false),
@@ -70,6 +72,14 @@ export class SettingsComponent implements OnInit, OnDestroy {
             .subscribe((value) => {
                 this.#updateAutoCheckOutDisabled(value);
             });
+
+        this.formGroup.controls.settings.controls.inheritWorkSchedule.valueChanges
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe((value) => {
+                if (value) return;
+                this.formGroup.controls.settings.controls.inheritedWorkScheduleId.patchValue(null);
+                this.#updateWorkSchedule(this.userDetails.settings.workSchedule.id);
+            });
     }
 
     ngOnDestroy() {
@@ -77,6 +87,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     patchSettings() {
+        console.log(this.formGroup.value);
         const paths = updateNestedControlsPathAndValue(this.formGroup);
         if (Object.keys(paths).length) {
             this.#userService.patchUser(paths).subscribe();
@@ -89,7 +100,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     #getUserDetails(): Observable<IUser> {
         return this.#userService.getUserDetails().pipe(tap((user) => {
+            this.userDetails = user;
             this.formGroup.patchValue(user);
+            this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, recursivelyFindParentWorkSchedule(user.settings.workSchedule));
+            this.formGroup.controls.settings.controls.inheritedWorkScheduleId.patchValue(user.settings.workSchedule.parent?.id);
             this.#updateAutoCheckOutDisabled(user.settings.autoCheckInOut);
         }));
     }
@@ -102,5 +116,17 @@ export class SettingsComponent implements OnInit, OnDestroy {
         } else {
             this.formGroup.controls.settings.controls.autoCheckOutDisabled.enable();
         }
+    }
+
+    protected onInheritedWorkScheduleChanged(workScheduleId: number) {
+        this.#updateWorkSchedule(workScheduleId);
+    }
+
+    #updateWorkSchedule(workScheduleId: number) {
+        this.loadingWorkSchedule = true;
+        this.#workScheduleService.getWorkScheduleById(workScheduleId).subscribe((workSchedule) => {
+            this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, recursivelyFindParentWorkSchedule(workSchedule));
+            this.loadingWorkSchedule = false;
+        });
     }
 }

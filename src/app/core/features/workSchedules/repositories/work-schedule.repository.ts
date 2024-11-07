@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { IWorkScheduleLookUp } from "../models/work-schedule-look-up.model";
 import { APIS } from "../../../api/plansphere.api";
+import { IWorkSchedule } from "../models/work-schedule.model";
 
 @Injectable({
     providedIn: 'root'
@@ -12,5 +13,9 @@ export class WorkScheduleRepository {
 
     lookUpWorkSchedules(): Observable<IWorkScheduleLookUp[]> {
         return this.#http.get<IWorkScheduleLookUp[]>(APIS.workSchedules.lookUpWorkSchedules);
+    }
+
+    getWorkScheduleById(workScheduleId: number): Observable<IWorkSchedule> {
+        return this.#http.get<IWorkSchedule>(APIS.workSchedules.getWorkScheduleById(workScheduleId));
     }
 }
