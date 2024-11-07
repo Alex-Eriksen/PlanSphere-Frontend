@@ -14,23 +14,23 @@ import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-p
 export class CompanyService {
     readonly #companyRepository = inject(CompanyRepository);
 
-    companyById(id: number): Observable<ICompany> {
-        return  this.#companyRepository.getById(id)
+    companyById(sourceLevelId: number, companyId: number): Observable<ICompany> {
+        return  this.#companyRepository.getById(sourceLevelId, companyId)
     }
 
-    listCompanies(params: IPaginationSortPayload): Observable<ISignalPaginatedResponse<ISmallListTableInput>> {
-        return this.#companyRepository.listCompanies(params).pipe(mapCompaniesToSignalSmallListInputOperator());
+    listCompanies(sourceLevelId: number, params: IPaginationSortPayload): Observable<ISignalPaginatedResponse<ISmallListTableInput>> {
+        return this.#companyRepository.listCompanies(sourceLevelId, params).pipe(mapCompaniesToSignalSmallListInputOperator());
     }
 
-    deleteCompany(id: number): Observable<void>{
-        return this.#companyRepository.delete(id)
+    deleteCompany(sourceLevelId: number): Observable<void>{
+        return this.#companyRepository.delete(sourceLevelId)
     }
 
-    createCompany(companyRequest: ICompanyRequest): Observable<void>{
-        return this.#companyRepository.create(companyRequest)
+    createCompany(sourceLevelId: number, companyRequest: ICompanyRequest): Observable<void>{
+        return this.#companyRepository.create(sourceLevelId, companyRequest)
     }
 
-    patch(id: number, bodyRequest: any): Observable<void>{
-        return this.#companyRepository.patch(id, bodyRequest)
+    patch(sourceLevelId: number, bodyRequest: any): Observable<void>{
+        return this.#companyRepository.patch(sourceLevelId, bodyRequest)
     }
 }

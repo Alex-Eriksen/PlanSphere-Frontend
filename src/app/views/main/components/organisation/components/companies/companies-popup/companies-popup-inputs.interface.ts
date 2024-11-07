@@ -1,5 +1,4 @@
 ﻿
 export interface ICompaniesPopupInputs {
-    companyId: number;
-
+    sourceLevelId: number;
 }

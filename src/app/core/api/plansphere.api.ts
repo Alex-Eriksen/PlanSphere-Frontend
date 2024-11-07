@@ -18,11 +18,18 @@ export const APIS = {
         toggleInheritance: (id: number) => environment.apiUrl + `JobTitle/ToggleInheritance/${id}`,
     },
     company: {
-        getById: (id: number)=> environment.apiUrl + `Company/GetCompanyById/${id}`,
-        listCompanies: environment.apiUrl + `Company/ListCompanies`,
-        create: environment.apiUrl + `Company/CreateCompany`,
-        patch: (id: number)=> environment.apiUrl + `Company/PatchCompany/${id}`,
-        delete: (id: number) => environment.apiUrl + `Company/DeleteCompany/${id}`,
+        getById: (sourceLevelId: number, companyId: number)=> environment.apiUrl + `Company/GetCompanyById/${sourceLevelId}/${companyId}`,
+        listCompanies: (sourceLevelId: number)=>environment.apiUrl + `Company/ListCompanies/${sourceLevelId}`,
+        create: (sourceLevelId: number) => environment.apiUrl + `Company/CreateCompany/${sourceLevelId}`,
+        patch: (sourceLevelId: number)=> environment.apiUrl + `Company/PatchCompany/${sourceLevelId}`,
+        delete: (sourceLevelId: number) => environment.apiUrl + `Company/DeleteCompany/${sourceLevelId}`,
+    },
+    department: {
+        getById: (sourceLevelId: number, sourceLevel: SourceLevel, departmentId: number) => environment.apiUrl + `Department/GetDepartmentId/${departmentId}/${sourceLevel}/${sourceLevelId}`,
+        listDepartments: (sourceLevelId: number) => environment.apiUrl + `Department/ListDepartments/${sourceLevelId}`,
+        create: (sourceLevelId: number) => environment.apiUrl + `Department/CreateDepartment/${sourceLevelId}`,
+        patch: (sourceLevelId: number) => environment.apiUrl + `Department/PatchDepartment/${sourceLevelId}`,
+        delete: (sourceLevelId: number, departmentId: number) => environment.apiUrl + `Department/DeleteDepartment/${sourceLevelId}/${departmentId}`,
     },
     country: {
         getCountryLookups: environment.apiUrl + "Country/GetCountryLookups",

@@ -91,7 +91,7 @@ export class CompaniesPopupComponent implements OnInit{
 
 
         this.#companyService
-            .createCompany(this.formGroup.value as ICompanyRequest,
+            .createCompany(this.componentInputs.sourceLevelId,this.formGroup.value as ICompanyRequest,
                 ).subscribe({
             next:() => {
                 this.isFormSubmitting = false;

@@ -21,11 +21,12 @@ import { Router } from "@angular/router";
 import { CompaniesPopupComponent } from "./companies-popup/companies-popup.component";
 import { InputComponent } from "../../../../../../shared/input/input.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { ICompaniesPopupInputs } from "./companies-popup/companies-popup-inputs.interface";
 
 
 @Component({
-  selector: 'ps-companies',
-  standalone: true,
+    selector: 'ps-companies',
+    standalone: true,
     imports: [
         SmallListTableComponent,
         PaginationComponent,
@@ -37,8 +38,8 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
         CompaniesPopupComponent,
         InputComponent
     ],
-  templateUrl: './companies.component.html',
-  styleUrl: './companies.component.scss'
+    templateUrl: './companies.component.html',
+    styleUrl: './companies.component.scss'
 })
 export class CompaniesComponent extends BasePaginatedTableWithSearchComponent implements OnInit {
     readonly #companyService = inject(CompanyService)
@@ -52,6 +53,10 @@ export class CompaniesComponent extends BasePaginatedTableWithSearchComponent im
         sortDescending: false,
     });
     readonly loadDataEffect$ = effect(() => {this.loadDataWithCorrectParams()});
+
+    user={
+        organisationId: 1
+    }
 
     override actions: ITableAction[] = [
         {
@@ -67,14 +72,13 @@ export class CompaniesComponent extends BasePaginatedTableWithSearchComponent im
     ngOnInit(){
         this.isTableLoading = true;
         this.loadDataWithCorrectParams();
-        this.openCompanyPopup();
     }
 
     readonly #isDeletingCompany = signal(false);
     readonly #matDialog = inject(MatDialog);
     override loadData(params: IPaginationSortPayload) {
         this.isTableLoading = true;
-        this.#companyService.listCompanies(params).subscribe((paginatedProperties) => {
+        this.#companyService.listCompanies(this.user.organisationId, params).subscribe((paginatedProperties) => {
             copyPaginatedSignalResponse(this.paginatedData, paginatedProperties);
             this.isTableLoading = false;
         })
@@ -110,18 +114,21 @@ export class CompaniesComponent extends BasePaginatedTableWithSearchComponent im
     #deleteCompany(id: number): void {
         this.#isDeletingCompany.set(true);
         this.#companyService.deleteCompany(id).subscribe({
-           next: () => this.loadDataWithCorrectParams(),
+            next: () => this.loadDataWithCorrectParams(),
             complete: () => {
-               this.#isDeletingCompany.set(false);
-               this.#dialogService.close();
+                this.#isDeletingCompany.set(false);
+                this.#dialogService.close();
             }
         });
     }
 
     openCompanyPopup() : void {
-        this.#matDialog.open(CompaniesPopupComponent, {
+        this.#matDialog.open<CompaniesPopupComponent, ICompaniesPopupInputs>(CompaniesPopupComponent, {
             minWidth: "50dvh",
             maxHeight: "95dvh",
+            data: {
+                sourceLevelId: this.user.organisationId
+            }
         })
             .afterClosed()
             .pipe(takeUntilDestroyed(this.#destroyRef))

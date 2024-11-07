@@ -60,7 +60,20 @@
     },
     "DEPARTMENT": {
         "NAME": "Afdeling",
-        "NAME_PLURAL": "Afdelinger"
+        "NAME_PLURAL": "Afdelinger",
+        "OVERVIEW": "Oversigt af afdellinger",
+        "LIST_DESCRIPTION": "Nedenfor er en  liste over alle afdellinger inden for din Virksomhed. Du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
+        "TOOLTIP": "Her kan du oprette nye afdellinger som kan bruges til at fordele forskellige typer af opgaver til forskellige dele af din virksomhed",
+        "NAME_SPECIFIC": "Afdelings navn",
+        "DESCRIPTION": "Beskrivelse",
+        "BUILDING": "Bygning",
+        "DEPARTMENT_DETAILS": "Afdelings Detaljer",
+        "DELETE": {
+            "TITLE": "Slet Afdeling",
+            "TOOLTIP": "Du er ved at slette en afdeling. Denne handling kan ikke fortrydes",
+            "QUESTION": "Er du sikker på du vil slette denne afdeling?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes afdellingen, og den vil ikke være tilgængelig for brugerne."
+        }
     },
     "TEAM": {
         "NAME": "Team",
