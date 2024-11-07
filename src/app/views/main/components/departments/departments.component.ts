@@ -20,6 +20,9 @@ import { ITableAction } from "../../../../shared/interfaces/table-action.interfa
 import { MatDialog } from "@angular/material/dialog";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { DialogService } from "../../../../core/services/dialog.service";
+import { DepartmentsPopupComponent } from "./departments-popup/departments-popup.component";
+import { IDepartmentsPopupInputs } from "./departments-popup/departments-popup-inputs.component";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
     selector: 'ps-companies',
@@ -51,10 +54,6 @@ export class DepartmentsComponent extends BasePaginatedTableWithSearchComponent 
         sortDescending: false,
     });
     readonly loadDataEffect$ = effect(() => {this.loadDataWithCorrectParams()});
-
-    user ={
-        companyId: 3
-    }
 
     override actions: ITableAction[] = [
         {
@@ -118,5 +117,18 @@ export class DepartmentsComponent extends BasePaginatedTableWithSearchComponent 
                 this.#dialogService.close();
             }
         });
+    }
+
+    openDepartmentPopup(): void {
+        this.#matDialog.open<DepartmentsPopupComponent, IDepartmentsPopupInputs>(DepartmentsPopupComponent, {
+            minWidth: "50dvh",
+            maxHeight: "95dvh",
+            data: {
+                sourceLevelId: this.companyId()
+            }
+        })
+            .afterClosed()
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe(() => {this.loadDataWithCorrectParams()})
     }
 }

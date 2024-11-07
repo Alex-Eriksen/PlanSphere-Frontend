@@ -1,4 +1,4 @@
-import { Component, inject, input, numberAttribute, OnInit } from "@angular/core";
+import { Component, inject, input, OnInit } from "@angular/core";
 import { CompanyService } from "../../../../../../core/features/company/services/company.service";
 import { ICompany } from "../../../../../../core/features/company/models/company.model";
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -101,7 +101,5 @@ export class DetailsComponent implements OnInit {
         this.#companyService.deleteCompany(id)
     }
 
-    protected readonly Validators = Validators;
     protected readonly input = input;
-    protected readonly numberAttribute = numberAttribute;
 }

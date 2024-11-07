@@ -17,7 +17,11 @@ export const mapDepartmentsToSignalSmallListInputOperator = (): OperatorFunction
 };
 
 const mapDepartmentsToSmallListInput = (departments: IDepartment[]): ISmallListTableInput[] => {
-    return departments.map((departments) => ({
-        ...departments
+    return departments.map((department) => ({
+        ...department,
+        streetName: department.address.streetName,
+        houseNumber: department.address.houseNumber,
+        door: department.address.door,
+        floor: department.address.floor,
     }));
 };

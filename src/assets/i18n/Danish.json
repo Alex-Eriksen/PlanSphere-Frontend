@@ -81,7 +81,14 @@
         "NAME_SPECIFIC": "Afdelings navn",
         "DESCRIPTION": "Beskrivelse",
         "BUILDING": "Bygning",
+        "DO_NOT_EXIST": "Denne afdeling eksitere ikke",
         "DEPARTMENT_DETAILS": "Afdelings Detaljer",
+        "FILL_DEPARTMENT_DETAILS": "Udfyld din afdelingsoplysninger her",
+        "DEPARTMENT_INFO": "Afdelings information",
+        "CREATE": {
+            "TITLE": "Opret en Afdeling",
+            "TOOLTIP": "Her opretter du en ny Afdeling"
+        },
         "DELETE": {
             "TITLE": "Slet Afdeling",
             "TOOLTIP": "Du er ved at slette en afdeling. Denne handling kan ikke fortrydes",
