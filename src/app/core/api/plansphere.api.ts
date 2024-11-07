@@ -33,9 +33,9 @@ export const APIS = {
         toggleInheritance: (id: number) => environment.apiUrl + `JobTitle/ToggleInheritance/${id}`,
     },
     organisation: {
-        getOrganisationDetailsById: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Organisation/GetOrganisationDetailsById/${sourceLevel}/${sourceLevelId}`,
+        getOrganisationDetailsById: (sourceLevelId: number) => environment.apiUrl + `Organisation/GetOrganisationById/${sourceLevelId}`,
         patch: (sourceLevelId: number) => environment.apiUrl + `Organisation/PatchOrganisation/${sourceLevelId}`,
-        delete: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Organisation/DeleteOrganisation/${sourceLevel}/${sourceLevelId}`,
+        delete: (sourceLevelId: number) => environment.apiUrl + `Organisation/DeleteOrganisation/${sourceLevelId}`,
     },
     company: {
         getById: (id: number)=> environment.apiUrl + `Company/GetCompanyById/${id}`,

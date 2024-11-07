@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, inject, OnInit, signal } from "@angular/core";
 import { OrganisationService } from "../../../../../../core/features/organisation/services/organisation.service";
 import { IOrganisation } from "../../../../../../core/features/organisation/models/organisation.model";
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -14,7 +14,7 @@ import { LineComponent } from "../../../../../../shared/line/line.component";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
 import { AddressInputComponent } from "../../../../../../shared/address-input/address-input/address-input.component";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
-import { SourceLevel } from "../../../../../../core/enums/source-level.enum";
+import { DialogService } from "../../../../../../core/services/dialog.service";
 
 @Component({
     selector: 'ps-details',
@@ -40,6 +40,8 @@ export class DetailsComponent implements OnInit {
     readonly #organisationService = inject(OrganisationService);
     readonly #fb = inject(NonNullableFormBuilder);
     readonly #toastService = inject(ToastService);
+    readonly #dialogService = inject(DialogService);
+    readonly #isDeletingOrganisation = signal(false);
     isPageLoading: boolean = false;
 
     ngOnInit(): void {
@@ -61,16 +63,32 @@ export class DetailsComponent implements OnInit {
         createdAt: this.#fb.control({ value: new Date, disabled: true }),
     });
 
+    openDeleteDialog() : void {
+        this.#dialogService.open(
+            {
+            title: 'ORGANISATION.DELETE.TITLE',
+                tooltipLabel: "ORGANISATION.DELETE.TOOLTIP",
+                callBack: () => this.deleteOrganisation(this.organisationId),
+                submitLabel: "CONFIRM",
+                isInputIncluded: false,
+                descriptions: ["ORGANISATION.DELETE.QUESTION", "ORGANISATION.DELETE.CONFIRMATION"],
+                isSubmitLoading: this.#isDeletingOrganisation,
+                cancelLabel: "CANCEL",
+            },
+            "confirmation"
+        );
+    }
+
     private fetchOrganisationIdFromUser(): void {
         this.#authenticationService.getLoggedInUser().subscribe({
             next: (user : ILoggedInUser) => this.organisationId = user.organisationId,
             error: (error) => this.#toastService.showToast('ORGANISATION.DO_NOT_EXIST', error),
-            complete: () => this.getOrganisationDetail(SourceLevel.Organisation, this.organisationId)
+            complete: () => this.getOrganisationDetail(this.organisationId)
         });
     }
 
-    getOrganisationDetail(sourceLevel: SourceLevel ,id: number): void {
-        this.#organisationService.getOrganisationDetailsById(sourceLevel, id).subscribe({
+    getOrganisationDetail(id: number): void {
+        this.#organisationService.getOrganisationDetailsById(id).subscribe({
             next: (organisation : IOrganisationDetails) => this.formGroup.patchValue(organisation),
             error: (error) => console.error('ORGANISATION.FIELD_TO_FETCH', error, this.organisationId),
             complete: () => this.isPageLoading = false
@@ -85,6 +103,6 @@ export class DetailsComponent implements OnInit {
     }
 
     deleteOrganisation(id: number): void {
-        this.#organisationService.delete(SourceLevel.Organisation, id).subscribe();
+        this.#organisationService.delete(id).subscribe();
     }
 }

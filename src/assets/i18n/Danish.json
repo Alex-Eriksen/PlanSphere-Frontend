@@ -49,7 +49,12 @@
         "LOGO": "Logo",
         "SET_NEW_OWNER": "Sæt ny ejer",
         "CREATED_AT": "Oprettelse dato",
-        "DELETE": "Slet organisation"
+        "DELETE": {
+            "TITLE": "Slet organisation",
+            "TOOLTIP": "Du er ved at slette din organisation. Denne handling kan ikke fortrydes.",
+            "QUESTION": "Er du sikker på du vil slette din organisation?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes din organisation, og den vil ikke være tilgængelig igen."
+        }
     },
     "COMPANY": {
         "NAME": "Virksomhed",
@@ -59,7 +64,6 @@
         "DO_NOT_EXIST": "Denne virksomhed eksitere ikke",
         "COMPANY_INFO": "Virksomheds information",
         "FILL_COMPANY_DETAILS": "Udfyld din virksomhedsoplysninger her"
-
     },
     "DEPARTMENT": {
         "NAME": "Afdeling",
