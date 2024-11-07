@@ -1,1 +1,5 @@
-<p>organisations works!</p>
+@if (isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <ps-list-organisations [sourceLevelId]="sourceLevelId"></ps-list-organisations>
+}
