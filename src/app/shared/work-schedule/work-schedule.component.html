@@ -1,7 +1,21 @@
 @if (isLoading()) {
     <ps-loading-overlay></ps-loading-overlay>
 } @else {
-    <div class="flex flex-col gap-4">
+    <div class="relative bg-white rounded-lg select-none flex flex-col gap-2 mb-4 w-fit">
+        <p class="ps-3 pt-3 font-medium">{{ "WORK_SCHEDULE.WORKING_DAYS" | translate }}</p>
+        <ps-line></ps-line>
+        <div class="flex gap-2 pe-3 flex-wrap">
+            @for (dayOfWeek of Object.values(DayOfWeek); track dayOfWeek) {
+                <mat-checkbox
+                    [checked]="selectedDaysOfTheWeek.includes(castStringToDayOfWeek(dayOfWeek))"
+                    (change)="selectedDayChanged({ event: $event, day: castStringToDayOfWeek(dayOfWeek)})"
+                >
+                    {{ DayOfWeekTranslationMapper.get(castStringToDayOfWeek(dayOfWeek))! | translate}}
+                </mat-checkbox>
+            }
+        </div>
+    </div>
+    <div class="flex flex-col gap-4 select-none">
         @for (workScheduleWorkShiftFormGroup of castControlFromAbstractToFormArray(formGroup().controls['workScheduleShifts']).controls; track workScheduleWorkShiftFormGroup) {
             <ps-work-schedule-shift
                 [formGroup]="castControlFromAbstractToFormGroup(workScheduleWorkShiftFormGroup)"

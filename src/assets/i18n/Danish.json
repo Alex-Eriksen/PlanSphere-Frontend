@@ -141,12 +141,22 @@
     },
     "WORK_SCHEDULE": {
         "NAME": "Arbejdsskema",
-        "INHERIT_WORK_SCHEDULE": "Nedarv arbejdsskema"
+        "INHERIT_WORK_SCHEDULE": "Nedarv arbejdsskema",
+        "WORKING_DAYS": "Arbejds dage"
     },
     "TO": "Til",
     "SHIFT_LOCATION": {
         "OFFICE": "Kontor",
         "REMOTE": "Fjern"
+    },
+    "WEEK_DAY": {
+        "MONDAY": "Mandag",
+        "TUESDAY": "Tirsdag",
+        "WEDNESDAY": "Onsdag",
+        "THURSDAY": "Torsdag",
+        "FRIDAY": "Fredag",
+        "SATURDAY": "Lørdag",
+        "SUNDAY": "Søndag"
     },
     "SETTINGS": {
         "NAME": "Indstillinger",

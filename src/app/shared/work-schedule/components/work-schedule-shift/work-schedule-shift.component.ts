@@ -7,6 +7,7 @@ import { castControlFromAbstractToFormControl } from "../../../utilities/form.ut
 import { generateHourAndMinuteDropdownOptions, generateTranslatedDropdownOptionsFromEnum } from "../../../utilities/dropdown-option.utilities";
 import { ShiftLocation } from "../../../../core/enums/shift-location.enum";
 import { ShiftLocationTranslationMapper } from "../../../../core/mappers/shift-location-translation.mapper";
+import { DayOfWeekTranslationMapper } from "../../../../core/mappers/day-of-week-translation.mapper";
 
 @Component({
   selector: 'ps-work-schedule-shift',
@@ -26,4 +27,5 @@ export class WorkScheduleShiftComponent {
     locationOptions = generateTranslatedDropdownOptionsFromEnum(ShiftLocation, ShiftLocationTranslationMapper);
     formGroup = input.required<FormGroup>();
     protected readonly castControlFromAbstractToFormControl = castControlFromAbstractToFormControl;
+    protected readonly DayOfWeekTranslationMapper = DayOfWeekTranslationMapper;
 }

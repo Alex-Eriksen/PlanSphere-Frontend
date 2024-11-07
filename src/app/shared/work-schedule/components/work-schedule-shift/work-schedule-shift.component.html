@@ -1,5 +1,5 @@
 <div class="flex gap-2 items-center">
-    <p>{{formGroup().getRawValue().day}}</p>
+    <p class="w-16">{{DayOfWeekTranslationMapper.get(formGroup().getRawValue().day)! | translate}}</p>
     <ps-select-field
         appliedClasses="w-[6.25rem]"
         [control]="castControlFromAbstractToFormControl(formGroup().controls['startTime'])"

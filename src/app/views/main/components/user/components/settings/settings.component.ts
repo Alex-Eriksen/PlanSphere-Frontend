@@ -15,6 +15,8 @@ import { WorkScheduleService } from "../../../../../../core/features/workSchedul
 import { forkJoin, Observable, Subscription, tap } from "rxjs";
 import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-option.interface";
 import { constructWorkScheduleFormGroup, recursivelyFindParentWorkSchedule } from "../../../../../../core/features/workSchedules/utilities/work-schedule.utilities";
+import { TranslateModule } from "@ngx-translate/core";
+import { JsonPipe } from "@angular/common";
 
 @Component({
   selector: 'ps-settings',
@@ -27,7 +29,9 @@ import { constructWorkScheduleFormGroup, recursivelyFindParentWorkSchedule } fro
         TooltipComponent,
         MatTooltip,
         WorkScheduleComponent,
-        SelectFieldComponent
+        SelectFieldComponent,
+        TranslateModule,
+        JsonPipe
     ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
@@ -78,7 +82,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
             .subscribe((value) => {
                 if (value) return;
                 this.formGroup.controls.settings.controls.inheritedWorkScheduleId.patchValue(null);
-                this.#updateWorkSchedule(this.userDetails.settings.workSchedule.id);
+                this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, this.userDetails.settings.workSchedule);
             });
     }
 
@@ -87,7 +91,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     patchSettings() {
-        console.log(this.formGroup.value);
+        console.log(this.formGroup.getRawValue());
         const paths = updateNestedControlsPathAndValue(this.formGroup);
         if (Object.keys(paths).length) {
             this.#userService.patchUser(paths).subscribe();
@@ -101,8 +105,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     #getUserDetails(): Observable<IUser> {
         return this.#userService.getUserDetails().pipe(tap((user) => {
             this.userDetails = user;
-            this.formGroup.patchValue(user);
             this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, recursivelyFindParentWorkSchedule(user.settings.workSchedule));
+            this.formGroup.patchValue(user);
             this.formGroup.controls.settings.controls.inheritedWorkScheduleId.patchValue(user.settings.workSchedule.parent?.id);
             this.#updateAutoCheckOutDisabled(user.settings.autoCheckInOut);
         }));
