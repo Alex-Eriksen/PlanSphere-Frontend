@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnDestroy, OnInit } from "@angular/core";
+import { Component, DestroyRef, inject, OnDestroy, OnInit, viewChild } from "@angular/core";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
 import { NonNullableFormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { ToggleInputComponent } from "../../../../../../shared/toggle-input/toggle-input.component";
@@ -17,6 +17,9 @@ import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-op
 import { constructWorkScheduleFormGroup, recursivelyFindParentWorkSchedule } from "../../../../../../core/features/workSchedules/utilities/work-schedule.utilities";
 import { TranslateModule } from "@ngx-translate/core";
 import { JsonPipe } from "@angular/common";
+import { IWorkSchedule } from "../../../../../../core/features/workSchedules/models/work-schedule.model";
+import { SourceLevel } from "../../../../../../core/enums/source-level.enum";
+import { ToastService } from "../../../../../../core/services/error-toast.service";
 
 @Component({
   selector: 'ps-settings',
@@ -41,6 +44,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     readonly #workScheduleService = inject(WorkScheduleService);
     readonly #fb = inject(NonNullableFormBuilder);
     readonly #destroyRef = inject(DestroyRef);
+    readonly #toastService = inject(ToastService);
 
     isLoading = false;
     loadingWorkSchedule = false;
@@ -52,7 +56,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
         settings: this.#fb.group({
             inheritWorkSchedule: this.#fb.control(false),
             inheritedWorkScheduleId: this.#fb.control<number | null>(null, {updateOn: "change"}),
-            workSchedule: this.workScheduleFormGroup,
             autoCheckInOut: this.#fb.control(false),
             autoCheckOutDisabled: this.#fb.control(false),
             isEmailPrivate: this.#fb.control(false),
@@ -63,6 +66,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }, { updateOn: "blur" });
 
     userSettingsSubscription!: Subscription;
+    isUpdatingWorkSchedule: boolean = false;
+    workScheduleComponent = viewChild<WorkScheduleComponent>("workScheduleComponent");
 
     ngOnInit() {
         this.isLoading = true;
@@ -73,17 +78,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
         this.formGroup.controls.settings.controls.autoCheckInOut.valueChanges
             .pipe(takeUntilDestroyed(this.#destroyRef))
-            .subscribe((value) => {
-                this.#updateAutoCheckOutDisabled(value);
-            });
+            .subscribe((value) => this.#updateAutoCheckOutDisabled(value));
 
         this.formGroup.controls.settings.controls.inheritWorkSchedule.valueChanges
             .pipe(takeUntilDestroyed(this.#destroyRef))
-            .subscribe((value) => {
-                if (value) return;
-                this.formGroup.controls.settings.controls.inheritedWorkScheduleId.patchValue(null);
-                this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, this.userDetails.settings.workSchedule);
-            });
+            .subscribe((value) => this.#onInheritedToggled(value));
     }
 
     ngOnDestroy() {
@@ -91,7 +90,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     patchSettings() {
-        console.log(this.formGroup.getRawValue());
         const paths = updateNestedControlsPathAndValue(this.formGroup);
         if (Object.keys(paths).length) {
             this.#userService.patchUser(paths).subscribe();
@@ -123,14 +121,41 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     protected onInheritedWorkScheduleChanged(workScheduleId: number) {
+        this.patchSettings();
         this.#updateWorkSchedule(workScheduleId);
+    }
+
+    #onInheritedToggled(value: boolean){
+        console.log(value);
+        if (value) {
+            this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, undefined, true);
+            return;
+        }
+        this.workScheduleFormGroup.enable();
+        this.formGroup.controls.settings.controls.inheritedWorkScheduleId.patchValue(null);
+        this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, this.userDetails.settings.workSchedule);
+        this.workScheduleComponent()?.updateSelectedDays(this.userDetails.settings.workSchedule.workScheduleShifts);
     }
 
     #updateWorkSchedule(workScheduleId: number) {
         this.loadingWorkSchedule = true;
+        this.formGroup.controls.settings.controls.inheritWorkSchedule.enable();
         this.#workScheduleService.getWorkScheduleById(workScheduleId).subscribe((workSchedule) => {
-            this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, recursivelyFindParentWorkSchedule(workSchedule));
+            this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, recursivelyFindParentWorkSchedule(workSchedule), true);
             this.loadingWorkSchedule = false;
+        });
+    }
+
+    onUpdateWorkSchedule(workSchedule: IWorkSchedule) {
+        this.isUpdatingWorkSchedule = true;
+        this.#workScheduleService.updateWorkSchedule(SourceLevel.Organisation, 0, workSchedule).subscribe({
+            next: () => {
+                this.isUpdatingWorkSchedule = false;
+            },
+            error: err => {
+                this.#toastService.showToast(err.error.Message);
+                this.isUpdatingWorkSchedule = false;
+            }
         });
     }
 }

@@ -32,6 +32,9 @@
     "CREATED_AT": "Oprettelsesdato",
     "ACTIVATE": "Aktivér",
     "DEACTIVATE": "Deaktivér",
+    "ERROR": {
+        "UNAUTHORIZED": "Du har ikke rettigheden til denne funktionalitet."
+    },
     "VALIDATION": {
         "IS_REQUIRED": "er påkrævet",
         "IS_NOT_A_VALID_EMAIL": "er i et forkert format",

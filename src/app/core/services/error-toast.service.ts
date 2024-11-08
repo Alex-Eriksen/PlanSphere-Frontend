@@ -12,7 +12,7 @@ export class ToastService {
 
     showToast(messageKey: string, config: MatSnackBarConfig = {}): void {
         const defaultConfig: MatSnackBarConfig = {
-            duration: 3000,  // default duration of 3 seconds
+            duration: 3000,
             verticalPosition: 'top',
             horizontalPosition: 'center',
             ...config

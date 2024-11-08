@@ -23,7 +23,6 @@
             <ps-small-header
                 heading="USER.SETTINGS.WORK_SCHEDULE.WORK_SCHEDULE_NAME"
             ></ps-small-header>
-            {{formGroup.getRawValue() | json}}
             <ps-toggle-input
                 label="WORK_SCHEDULE.INHERIT_WORK_SCHEDULE"
                 [control]="formGroup.controls.settings.controls.inheritWorkSchedule"
@@ -39,11 +38,14 @@
                 ></ps-select-field>
             }
             <p class="font-medium">{{ "WORK_SCHEDULE.NAME" | translate }}</p>
-            <div class="p-4 bg-black-100 rounded-lg">
+            <div class="p-4 bg-gray-200 rounded-lg w-fit">
                 <ps-work-schedule
+                    #workScheduleComponent
                     [formGroup]="workScheduleFormGroup"
                     [isLoading]="loadingWorkSchedule"
-                    (valuesChanged)="patchSettings()"
+                    (updateWorkSchedule)="onUpdateWorkSchedule($event)"
+                    [isUpdating]="isUpdatingWorkSchedule"
+                    [canSave]="!formGroup.controls.settings.controls.inheritWorkSchedule.value"
                 ></ps-work-schedule>
             </div>
         </div>

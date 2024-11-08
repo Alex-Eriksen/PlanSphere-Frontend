@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, output } from "@angular/core";
+import { Component, DestroyRef, inject, input, OnInit, output } from "@angular/core";
 import { FormGroup, NonNullableFormBuilder } from "@angular/forms";
 import { LoadingOverlayComponent } from "../loading-overlay/loading-overlay.component";
 import { JsonPipe } from "@angular/common";
@@ -12,6 +12,9 @@ import { IWorkScheduleShift } from "../../core/features/workSchedules/models/wor
 import { constructWorkScheduleShiftFormGroup } from "../../core/features/workSchedules/utilities/work-schedule.utilities";
 import { ShiftLocation } from "../../core/enums/shift-location.enum";
 import { LineComponent } from "../line/line.component";
+import { IWorkSchedule } from "../../core/features/workSchedules/models/work-schedule.model";
+import { ButtonComponent } from "../button/button.component";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'ps-work-schedule',
@@ -22,17 +25,22 @@ import { LineComponent } from "../line/line.component";
         WorkScheduleShiftComponent,
         MatCheckbox,
         TranslateModule,
-        LineComponent
+        LineComponent,
+        ButtonComponent
     ],
   templateUrl: './work-schedule.component.html',
   styleUrl: './work-schedule.component.scss'
 })
 export class WorkScheduleComponent implements OnInit {
     readonly #fb = inject(NonNullableFormBuilder);
+    readonly #destroyRef = inject(DestroyRef);
     formGroup = input.required<FormGroup>();
+    canSave = input(false);
     isLoading = input(false);
     selectedDaysOfTheWeek: DayOfWeek[] = [];
     valuesChanged = output();
+    updateWorkSchedule = output<IWorkSchedule>();
+    isUpdating = input(false);
     protected readonly castControlFromAbstractToFormArray = castControlFromAbstractToFormArray;
     protected readonly castControlFromAbstractToFormGroup = castControlFromAbstractToFormGroup;
     protected readonly DayOfWeekTranslationMapper = DayOfWeekTranslationMapper;
@@ -40,9 +48,11 @@ export class WorkScheduleComponent implements OnInit {
     protected readonly Object = Object;
 
     ngOnInit() {
-        castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).value.forEach((workScheduleShift: IWorkScheduleShift) => {
-           this.selectedDaysOfTheWeek.push(workScheduleShift.day);
-        });
+        this.updateSelectedDays(castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).value);
+
+        castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).valueChanges
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe((value: IWorkScheduleShift[]) => this.updateSelectedDays(value));
     }
 
     protected castStringToDayOfWeek(day: string): DayOfWeek {
@@ -52,13 +62,12 @@ export class WorkScheduleComponent implements OnInit {
     protected selectedDayChanged(value: { event: MatCheckboxChange, day: DayOfWeek }): void {
         if (!value.event.checked) {
             const index = this.selectedDaysOfTheWeek.indexOf(value.day);
-            console.log(castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).value);
             const controlIndex = castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).value.indexOf((y: IWorkScheduleShift[]) => y.map(x => x.day === value.day));
             castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).removeAt(controlIndex);
             this.selectedDaysOfTheWeek.splice(index, 1);
         } else {
             this.selectedDaysOfTheWeek.push(value.day);
-            castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).controls.push(constructWorkScheduleShiftFormGroup(this.#fb, {
+            castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).push(constructWorkScheduleShiftFormGroup(this.#fb, {
                 day: value.day,
                 startTime: '09:00:00',
                 endTime: '17:00:00',
@@ -66,5 +75,12 @@ export class WorkScheduleComponent implements OnInit {
                 location: ShiftLocation.Office
             }));
         }
+    }
+
+    updateSelectedDays(value: IWorkScheduleShift[]) {
+        this.selectedDaysOfTheWeek = [];
+        value.forEach((workScheduleShift: IWorkScheduleShift) => {
+            this.selectedDaysOfTheWeek.push(workScheduleShift.day);
+        });
     }
 }

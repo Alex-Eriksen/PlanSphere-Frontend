@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { IWorkScheduleLookUp } from "../models/work-schedule-look-up.model";
 import { APIS } from "../../../api/plansphere.api";
 import { IWorkSchedule } from "../models/work-schedule.model";
+import { SourceLevel } from "../../../enums/source-level.enum";
 
 @Injectable({
     providedIn: 'root'
@@ -17,5 +18,12 @@ export class WorkScheduleRepository {
 
     getWorkScheduleById(workScheduleId: number): Observable<IWorkSchedule> {
         return this.#http.get<IWorkSchedule>(APIS.workSchedules.getWorkScheduleById(workScheduleId));
+    }
+
+    updateWorkSchedule(sourceLevel: SourceLevel, sourceLevelId: number, workSchedule: IWorkSchedule, workScheduleId?: number): Observable<void> {
+        if (workScheduleId) {
+            return this.#http.put<void>(APIS.workSchedules.updateWorkScheduleWithId(sourceLevel, sourceLevelId, workScheduleId), workSchedule);
+        }
+        return this.#http.put<void>(APIS.workSchedules.updateWorkScheduleWithoutId(sourceLevel, sourceLevelId), workSchedule);
     }
 }

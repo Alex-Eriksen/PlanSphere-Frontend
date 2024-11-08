@@ -30,4 +30,8 @@ export class WorkScheduleService {
     getWorkScheduleById(workScheduleId: number): Observable<IWorkSchedule> {
         return this.#workScheduleRepository.getWorkScheduleById(workScheduleId);
     }
+
+    updateWorkSchedule(sourceLevel: SourceLevel, sourceLevelId: number, workSchedule: IWorkSchedule, workScheduleId?: number): Observable<void> {
+        return this.#workScheduleRepository.updateWorkSchedule(sourceLevel, sourceLevelId, workSchedule, workScheduleId);
+    }
 }

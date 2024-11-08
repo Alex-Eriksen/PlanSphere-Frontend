@@ -9,12 +9,17 @@ export const recursivelyFindParentWorkSchedule = (workSchedule: IWorkSchedule): 
     return workSchedule;
 }
 
-export const constructWorkScheduleFormGroup = (fb: NonNullableFormBuilder, workSchedule?: IWorkSchedule): FormGroup => {
-    return fb.group({
+export const constructWorkScheduleFormGroup = (fb: NonNullableFormBuilder, workSchedule?: IWorkSchedule, disabled?: boolean): FormGroup => {
+    const fg = fb.group({
         id: fb.control({ value: workSchedule?.id ?? 0, disabled: true }),
         isDefaultWorkSchedule: fb.control({ value: workSchedule?.isDefaultWorkSchedule ?? false, disabled: true }),
         workScheduleShifts: constructWorkScheduleShiftFormArray(fb, workSchedule?.workScheduleShifts ?? [])
     });
+    if (disabled) {
+        fg.disable();
+        return fg;
+    }
+    return fg;
 };
 
 export const constructWorkScheduleShiftFormGroup = (fb: NonNullableFormBuilder, workScheduleShift?: IWorkScheduleShift): FormGroup => {
