@@ -19,9 +19,9 @@ import { LoadingOverlayComponent } from "../../loading-overlay/loading-overlay.c
 import { LineComponent } from "../../line/line.component";
 import { DepartmentService } from "../../../core/features/department/services/department.service";
 import { IDropdownOption } from "../../interfaces/dropdown-option.interface";
-import { CountryService } from "../../../core/features/countries/services/country.service";
 import { markAllControlsAsTouchedAndDirty } from "../../utilities/form.utilities";
 import { IDepartment } from "../../../core/features/department/models/department.model";
+import { CountryService } from "../../../core/features/address/services/country.service";
 
 @Component({
     selector: 'ps-companies-popup',

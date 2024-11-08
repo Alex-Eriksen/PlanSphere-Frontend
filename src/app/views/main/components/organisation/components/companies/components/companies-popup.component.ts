@@ -15,10 +15,10 @@ import { ButtonComponent } from "../../../../../../../shared/button/button.compo
 import { InputComponent } from "../../../../../../../shared/input/input.component";
 import { SelectFieldComponent } from "../../../../../../../shared/select-field/select-field.component";
 import { IDropdownOption } from "../../../../../../../shared/interfaces/dropdown-option.interface";
-import { CountryService } from "../../../../../../../core/features/countries/services/country.service";
 import { DialogHeaderComponent } from "../../../../../../../shared/dialog-header/dialog-header.component";
 import { LoadingOverlayComponent } from "../../../../../../../shared/loading-overlay/loading-overlay.component";
 import { LineComponent } from "../../../../../../../shared/line/line.component";
+import { CountryService } from "../../../../../../../core/features/address/services/country.service";
 
 @Component({
     selector: 'ps-companies-popup',

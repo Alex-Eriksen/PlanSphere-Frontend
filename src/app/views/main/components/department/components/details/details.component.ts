@@ -8,7 +8,6 @@ import { LineComponent } from "../../../../../../shared/line/line.component";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
 import { IDepartment } from "../../../../../../core/features/department/models/department.model";
 import { DepartmentService } from "../../../../../../core/features/department/services/department.service";
-import { CountryService } from "../../../../../../core/features/countries/services/country.service";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
 import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-option.interface";
 import { SourceLevel } from "../../../../../../core/enums/source-level.enum";
@@ -16,6 +15,7 @@ import {
     markAllControlsAsTouchedAndDirty,
     updateNestedControlsPathAndValue
 } from "../../../../../../shared/utilities/form.utilities";
+import { CountryService } from "../../../../../../core/features/address/services/country.service";
 
 
 @Component({
