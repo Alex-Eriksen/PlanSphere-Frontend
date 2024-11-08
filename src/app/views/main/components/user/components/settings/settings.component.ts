@@ -126,7 +126,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     #onInheritedToggled(value: boolean){
-        console.log(value);
         if (value) {
             this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, undefined, true);
             return;
