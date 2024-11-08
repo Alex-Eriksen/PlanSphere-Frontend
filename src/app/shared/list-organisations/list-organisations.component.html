@@ -22,12 +22,13 @@
         </div>
     </div>
     <ps-small-list-table
+        emptyCellValue="-"
         [data]="paginatedData.results()"
         [headers]="headers"
         [isLoading]="isTableLoading"
         [sortingFilterSignal]="sortingFilterSignal"
         [actions]="actions"
-        class="border border-white"
+
     />
     <ps-pagination [paginationValues]="paginatedData"></ps-pagination>
 </div>

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from "@angular/core";
 import { OrganisationService } from "../../../../../../core/features/organisation/services/organisation.service";
 import { IOrganisation } from "../../../../../../core/features/organisation/models/organisation.model";
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormBuilder, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { InputComponent } from "../../../../../../shared/input/input.component";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
 import { IOrganisationDetails } from "../../../../../../core/features/organisation/models/organisation-details.model";
@@ -19,6 +19,9 @@ import {
     ListOrganisationsComponent
 } from "../../../../../../shared/list-organisations/list-organisations.component";
 import { OrganisationPopupComponent } from "../../../../../../shared/list-organisations/organisation-popup/organisation-popup.component";
+import {
+    addressFormBuilderUtilities
+} from "../../../../../../core/features/address/utilities/addressFormBuilder.utilities";
 
 @Component({
     selector: 'ps-details',
@@ -57,14 +60,7 @@ export class DetailsComponent implements OnInit {
     formGroup = this.#fb.group({
         name: this.#fb.control("", Validators.required),
         logoUrl: this.#fb.control("", Validators.required),
-        address: this.#fb.group({
-            streetName: this.#fb.control(""),
-            houseNumber: this.#fb.control(""),
-            door: this.#fb.control(""),
-            floor: this.#fb.control(""),
-            postalCode: this.#fb.control(""),
-            countryId: this.#fb.control(""),
-        }),
+        address: addressFormBuilderUtilities(this.#fb as FormBuilder),
         settings: this.#fb.group({
             defaultRoleId: this.#fb.control({ value: 1, disabled: true }),
             defaultWorkScheduleId: this.#fb.control({ value: 1, disabled: true }),

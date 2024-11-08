@@ -12,15 +12,10 @@
         </div>
 
         <form [formGroup]="formGroup" (focusout)="patchDetails()">
-            <!-- Organisation Name Section and button -->
+            <!-- Organisation Name Section -->
             <div class="mt-5 flex flex-row gap-y-4">
                 <div class="w-full">
                     <ps-input [control]="formGroup.controls.name" label="ORGANISATION.NAME_SPECIFIC"></ps-input>
-                </div>
-
-                <!-- Set New Owner Button -->
-                <div class="flex items-center flex-grow justify-end">
-                    <ps-button label="ORGANISATION.SET_NEW_OWNER" [buttonType]="'button--secondary'" [buttonStyleType]="'button--secondary'"></ps-button>
                 </div>
             </div>
 
