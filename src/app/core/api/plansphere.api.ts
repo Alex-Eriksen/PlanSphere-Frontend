@@ -32,6 +32,14 @@ export const APIS = {
         delete: (id: number) => environment.apiUrl + `JobTitle/DeleteJobTitle/${id}`,
         toggleInheritance: (sourceLevel: SourceLevel, sourceLevelId: number, id: number) => environment.apiUrl + `JobTitle/ToggleInheritance/${sourceLevel}/${sourceLevelId}/${id}`,
     },
+    organisation: {
+        createOrganisation: () => environment.apiUrl + "Organisation/CreateOrganisation",
+        getOrganisationDetailsById: (sourceLevelId: number) => environment.apiUrl + `Organisation/GetOrganisationById/${sourceLevelId}`,
+        getListOfOrganisations: () => environment.apiUrl + `Organisation/ListOrganisations`,
+        patch: (sourceLevelId: number) => environment.apiUrl + `Organisation/PatchOrganisation/${sourceLevelId}`,
+        delete: (sourceLevelId: number) => environment.apiUrl + `Organisation/DeleteOrganisation/${sourceLevelId}`,
+        update: (sourceLevelId: number) => environment.apiUrl + `Organisation/UpdateOrganisation/${sourceLevelId}`,
+    },
     company: {
         getById: (sourceLevelId: number, companyId: number)=> environment.apiUrl + `Company/GetCompanyById/${sourceLevelId}/${companyId}`,
         listCompanies: (sourceLevelId: number)=>environment.apiUrl + `Company/ListCompanies/${sourceLevelId}`,
@@ -50,5 +58,8 @@ export const APIS = {
     },
     country: {
         getCountryLookups: environment.apiUrl + "Country/GetCountryLookups",
+    },
+    zipCode: {
+        getZipCodeLookups: environment.apiUrl + "ZipCode/GetZipCodeLookups",
     }
 }

@@ -1,0 +1,19 @@
+<div class="flex lg:flex-col md:flex-col gap-4 mt-5 pt-5">
+    <ps-line></ps-line>
+    <ps-small-header heading="ADDRESS.NAME"></ps-small-header>
+    <div class="flex flex-row flex-wrap gap-4">
+        <ps-input [control]="castControlFromAbstractToFormControl(addressFormGroup().controls['streetName'])" label="ADDRESS.STREET_NAME"></ps-input>
+        <ps-input [control]="castControlFromAbstractToFormControl(addressFormGroup().controls['houseNumber'])" label="ADDRESS.HOUSE_NUMBER"></ps-input>
+        <ps-input [control]="castControlFromAbstractToFormControl(addressFormGroup().controls['door'])" label="ADDRESS.DOOR"></ps-input>
+    </div>
+    <div class ="flex flex-row flex-wrap gap-4">
+        <ps-select-field [control]="castControlFromAbstractToFormControl(addressFormGroup().controls['floor'])" dropDownLabel="ADDRESS.FLOOR"
+                         [dropDownOptions]="floors" [selectMultipleOptions]="false"></ps-select-field>
+
+        <ps-select-field [control]="castControlFromAbstractToFormControl(addressFormGroup().controls['postalCode'])" dropDownLabel="ADDRESS.ZIPCODE"
+                         [dropDownOptions]="zipCodes" [selectMultipleOptions]="false"></ps-select-field>
+
+        <ps-select-field [control]="castControlFromAbstractToFormControl(addressFormGroup().controls['countryId'])" dropDownLabel="ADDRESS.COUNTRY"
+                  [dropDownOptions]="countries" [selectMultipleOptions]="false"> </ps-select-field>
+    </div>
+</div>
