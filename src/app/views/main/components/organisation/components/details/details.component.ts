@@ -19,9 +19,7 @@ import {
     ListOrganisationsComponent
 } from "../../../../../../shared/list-organisations/list-organisations.component";
 import { OrganisationPopupComponent } from "../../../../../../shared/list-organisations/organisation-popup/organisation-popup.component";
-import {
-    addressFormBuilderUtilities
-} from "../../../../../../core/features/address/utilities/addressFormBuilder.utilities";
+import { addressFormBuilderControle } from "../../../../../../core/features/address/utilities/address.utilities";
 
 @Component({
     selector: 'ps-details',
@@ -60,7 +58,7 @@ export class DetailsComponent implements OnInit {
     formGroup = this.#fb.group({
         name: this.#fb.control("", Validators.required),
         logoUrl: this.#fb.control("", Validators.required),
-        address: addressFormBuilderUtilities(this.#fb as FormBuilder),
+        address: addressFormBuilderControle(this.#fb as FormBuilder),
         settings: this.#fb.group({
             defaultRoleId: this.#fb.control({ value: 1, disabled: true }),
             defaultWorkScheduleId: this.#fb.control({ value: 1, disabled: true }),
