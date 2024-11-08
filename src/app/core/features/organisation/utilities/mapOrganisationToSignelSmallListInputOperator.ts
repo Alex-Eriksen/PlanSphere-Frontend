@@ -18,9 +18,9 @@ const mapOrganisationsToSmallListInput = (organisations: IOrganisation[]): ISmal
     return organisations.map((organisation) => ({
         ...organisation,
         title: organisation.name,
-        organisationMembers: organisation.organisationMembers,
-        departmentMembers: organisation.departmentMembers,
-        companyMembers: organisation.companyMembers,
-        teamMembers: organisation.teamMembers,
+        organisationMembers: organisation.organisationMembers || 0,
+        departmentMembers: organisation.departmentMembers || 0,
+        companyMembers: organisation.companyMembers || 0,
+        teamMembers: organisation.teamMembers || 0,
     }));
 }

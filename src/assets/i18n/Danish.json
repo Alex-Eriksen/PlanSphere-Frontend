@@ -68,6 +68,14 @@
             "TOOLTIP": "Du er ved at slette din organisation. Denne handling kan ikke fortrydes.",
             "QUESTION": "Er du sikker på du vil slette din organisation?",
             "CONFIRMATION": "Hvis du klikker på Bekræft, slettes din organisation, og den vil ikke være tilgængelig igen."
+        },
+        "LIST": {
+            "NAME": "Organisation",
+            "ORGANISATION_MEMBERS": "Organisations medlemmer",
+            "COMPANY_MEMBERS": "Virksomheds medlemmer",
+            "DEPARTMENT_MEMBERS": "Afdelings medlemmer",
+            "TEAM_MEMBERS": "Team medlemmer",
+            "USER_MEMBERS": "Bruger medlemmer"
         }
     },
     "COMPANY": {
