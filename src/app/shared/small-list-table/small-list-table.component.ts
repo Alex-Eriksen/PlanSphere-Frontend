@@ -34,6 +34,7 @@ import { CustomDatePipe } from "../../core/pipes/custom-date.pipe";
 import { TruncatePipe } from "../../core/pipes/truncate.pipe";
 import { PartialTranslatePipe } from "../../core/pipes/partial-translate.pipe";
 import { isDateValid } from "../utilities/date.utilities";
+import { LoadingOverlayComponent } from "../loading-overlay/loading-overlay.component";
 
 @Component({
   selector: 'ps-small-list-table',
@@ -65,7 +66,8 @@ import { isDateValid } from "../utilities/date.utilities";
         TruncatePipe,
         PartialTranslatePipe,
         MatHeaderRow,
-        MatHeaderRowDef
+        MatHeaderRowDef,
+        LoadingOverlayComponent
     ],
   templateUrl: './small-list-table.component.html',
   styleUrl: './small-list-table.component.scss'
@@ -111,6 +113,7 @@ export class SmallListTableComponent extends BaseTableComponent implements OnIni
 
     override ngOnInit() {
         super.ngOnInit();
+        this.headers().forEach(header => header.key)
     }
 
     dragAndDrop(event: any) {
@@ -153,11 +156,6 @@ export class SmallListTableComponent extends BaseTableComponent implements OnIni
     updateRadioGroupControl(radioGroupValue: string, row: ISmallListTableInput): void {
         if (!this.radioGroupHashMap()) return;
         this.radioGroupHashMap()!.set(row.id, radioGroupValue);
-    }
-
-    emitValueAndViewDocument(row: ISmallListTableInput) {
-        this.itemPopup.emit(row);
-        this.showOrHideLoaderOnClickedRow.set(row.id);
     }
 
     protected readonly isDateValid = isDateValid;

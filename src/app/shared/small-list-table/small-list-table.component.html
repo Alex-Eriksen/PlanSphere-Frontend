@@ -125,21 +125,13 @@
                         }
                     }
                     <td
-                        [ngClass]="{
-              'w-8 !pe-0': header.type === TableHeaderType.Checkbox,
-              '!px-0': header.type === TableHeaderType.RadioGroup,
-              'grey-background':
-                header.type === TableHeaderType.ContractStatus ||
-                header.type === TableHeaderType.TextWithHeartAndVisibleIcon
-            }"
+                        [ngClass]="{ 'w-8 !pe-0': header.type === TableHeaderType.Checkbox, '!px-0': header.type === TableHeaderType.RadioGroup, 'grey-background':header.type === TableHeaderType.ContractStatus || header.type === TableHeaderType.TextWithHeartAndVisibleIcon}"
                         class="whitespace-nowrap"
                         mat-cell
                         *matCellDef="let row"
                     >
                         <div
-                            [ngClass]="{
-                '!justify-center': (!header.label && header.labelIconUrl) || header.type === TableHeaderType.Checkmark
-              }"
+                            [ngClass]="{'!justify-center': (!header.label && header.labelIconUrl) || header.type === TableHeaderType.Checkmark}"
                             class="flex justify-between items-center gap-1"
                         >
                             @if ($first && isDraggable()) {
@@ -313,18 +305,10 @@
                                                 <div class="flex items-center gap-1">
                                                     <p
                                                         [ngClass]="getRowAppliedClasses(row, header)"
-                                                        [attr.aria-label]="
-                              (header.label | translate) +
-                              ' ' +
-                              (row[header.key] | partialTranslate: header.partialTranslationKey)
-                            "
+                                                        [attr.aria-label]="(header.label | translate) + ' ' +(row[header.key] | partialTranslate: header.partialTranslationKey)"
                                                         class="whitespace-nowrap"
                                                     >
-                                                        {{
-                                                            row[header.key]
-                                                                | partialTranslate: header.partialTranslationKey
-                                                                | truncate: header.maxTextLength
-                                                        }}
+                                                        {{ row[header.key] | partialTranslate: header.partialTranslationKey | truncate: header.maxTextLength }}
                                                     </p>
                                                     <img
                                                         class="cursor-pointer"
@@ -337,15 +321,7 @@
                                                     />
                                                 </div>
                                             } @else {
-                                                <p
-                                                    [ngClass]="getRowAppliedClasses(row, header)"
-                                                    [attr.aria-label]="
-                            (header.label | translate) +
-                            ' ' +
-                            (row[header.key] | partialTranslate: header.partialTranslationKey)
-                          "
-                                                    class="whitespace-nowrap"
-                                                >
+                                                <p [ngClass]="getRowAppliedClasses(row, header)" [attr.aria-label]="(header.label | translate) + ' ' + (row[header.key] | partialTranslate: header.partialTranslationKey)" class="whitespace-nowrap">
                                                     {{ row[header.key] | partialTranslate: header.partialTranslationKey }}
                                                 </p>
                                             }
@@ -404,7 +380,7 @@
                                                     [attr.aria-label]="(header.label | translate) + ' ' + row[header.key]"
                                                     class="whitespace-nowrap"
                                                 >
-                                                    {{ row[header.key] }}
+                                                    {{ row[header.key] ?? '-' }}
                                                 </p>
                                             }
                                         }
@@ -491,6 +467,6 @@
         </div>
     }
     @if (isLoading()) {
-<!--        <est-loading-overlay appliedClasses="!bg-white/60"></est-loading-overlay>-->
+        <ps-loading-overlay></ps-loading-overlay>
     }
 </div>

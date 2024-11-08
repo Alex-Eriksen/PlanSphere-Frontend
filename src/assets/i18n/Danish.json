@@ -88,14 +88,51 @@
         "NAME": "Virksomhed",
         "NAME_PLURAL": "Virksomheder",
         "NAME_SPECIFIC": "Virksomheds navn",
+        "OVERVIEW": "Oversigt af virksomhedder",
         "VAT": "CVR Nummer",
+        "TOOLTIP": "Her kan du oprette nye virksomheder som kan bruges til at fordele forskellige opgaver til forskellige virksomheder",
+        "DESCRIPTION": "Nedenfor er en  liste over alle virksomheder inden for din Organisation. Du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
         "DO_NOT_EXIST": "Denne virksomhed eksitere ikke",
         "COMPANY_INFO": "Virksomheds information",
-        "FILL_COMPANY_DETAILS": "Udfyld din virksomhedsoplysninger her"
+        "COMPANY_DETAILS": "Virksomheds Detaljer",
+        "FILL_COMPANY_DETAILS": "Udfyld din virksomhedsoplysninger her",
+        "LOGO": "Virksomheds Logo",
+        "CREATE": {
+            "TITLE": "Opret en Virksomhed",
+            "TOOLTIP": "Her opretter du en ny Virksomhed",
+            "NAME": "Navngiv din Virksomhed"
+        },
+        "DELETE": {
+            "TITLE": "Slet Virksomhed",
+            "TOOLTIP": "Du er ved at slette en virksomhed. Denne handling kan ikke fortrydes",
+            "QUESTION": "Er du sikker på du vil slette denne virksomhed?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes virksomheden, og den vil ikke være tilgængelig for brugerne."
+        }
+
     },
     "DEPARTMENT": {
         "NAME": "Afdeling",
-        "NAME_PLURAL": "Afdelinger"
+        "NAME_PLURAL": "Afdelinger",
+        "OVERVIEW": "Oversigt af afdellinger",
+        "LIST_DESCRIPTION": "Nedenfor er en  liste over alle afdellinger inden for din Virksomhed. Du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
+        "TOOLTIP": "Her kan du oprette nye afdellinger som kan bruges til at fordele forskellige typer af opgaver til forskellige dele af din virksomhed",
+        "NAME_SPECIFIC": "Afdelings navn",
+        "DESCRIPTION": "Beskrivelse",
+        "BUILDING": "Bygning",
+        "DO_NOT_EXIST": "Denne afdeling eksitere ikke",
+        "DEPARTMENT_DETAILS": "Afdelings Detaljer",
+        "FILL_DEPARTMENT_DETAILS": "Udfyld din afdelingsoplysninger her",
+        "DEPARTMENT_INFO": "Afdelings information",
+        "CREATE": {
+            "TITLE": "Opret en Afdeling",
+            "TOOLTIP": "Her opretter du en ny Afdeling"
+        },
+        "DELETE": {
+            "TITLE": "Slet Afdeling",
+            "TOOLTIP": "Du er ved at slette en afdeling. Denne handling kan ikke fortrydes",
+            "QUESTION": "Er du sikker på du vil slette denne afdeling?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes afdellingen, og den vil ikke være tilgængelig for brugerne."
+        }
     },
     "TEAM": {
         "NAME": "Team",

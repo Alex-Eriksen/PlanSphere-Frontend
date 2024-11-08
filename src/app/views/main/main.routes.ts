@@ -12,6 +12,7 @@ import { UserComponent } from "./components/user/user.component";
 import { organisationRoutes } from "./components/organisation/organisation.routes";
 import { companyRoutes } from "./components/company/company.routes";
 import { userRoutes } from "./components/user/user.routes";
+import { departmentRoutes } from "./components/department/department.routes";
 
 export const mainRoutes: Routes = [
     {
@@ -59,6 +60,7 @@ export const mainRoutes: Routes = [
     {
         path: "department/:departmentId",
         component: DepartmentComponent,
+        children: departmentRoutes,
         data: {
             name: "DEPARTMENT.NAME"
         }
