@@ -41,7 +41,7 @@ import { OrganisationPopupComponent } from "../../../../../../shared/list-organi
 export class DetailsComponent implements OnInit {
     organisationId! : number;
     organisation?: IOrganisation;
-    organisationDetails?: IOrganisationDetails;
+    //organisationDetails?: IOrganisationDetails;
     readonly #authenticationService = inject(AuthenticationService);
     readonly #organisationService = inject(OrganisationService);
     readonly #fb = inject(NonNullableFormBuilder);

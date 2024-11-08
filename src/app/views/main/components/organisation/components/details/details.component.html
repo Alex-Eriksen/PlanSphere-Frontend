@@ -2,7 +2,14 @@
     <ps-loading-overlay></ps-loading-overlay>
 } @else {
     <div class="border-gray-900/10 pb-12">
-        <ps-small-header heading="ORGANISATION.ORGANISATION_INFO" subheading="ORGANISATION.FILL_ORGANISATION_DETAILS"></ps-small-header>
+        <div class="flex flex-row justify-between">
+            <ps-small-header heading="ORGANISATION.ORGANISATION_INFO" subheading="ORGANISATION.FILL_ORGANISATION_DETAILS"></ps-small-header>
+
+            <!-- Logo section -->
+            <div class="flex flex-grow justify-end">
+                <ps-small-header heading="ORGANISATION.LOGO"></ps-small-header>
+            </div>
+        </div>
 
         <form [formGroup]="formGroup" (focusout)="patchDetails()">
             <!-- Organisation Name Section and button -->
@@ -13,33 +20,22 @@
 
                 <!-- Set New Owner Button -->
                 <div class="flex items-center flex-grow justify-end">
-                        <ps-button label="ORGANISATION.SET_NEW_OWNER" [buttonType]="'button--secondary'" [buttonStyleType]="'button--secondary'"></ps-button>
+                    <ps-button label="ORGANISATION.SET_NEW_OWNER" [buttonType]="'button--secondary'" [buttonStyleType]="'button--secondary'"></ps-button>
                 </div>
             </div>
 
             <!-- Address Section -->
             <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
-
-            <!-- Logo section -->
-            <div class="flex flex-col gap-7 mt-5 pt-5">
-                <ps-line></ps-line>
-                <ps-small-header heading="ORGANISATION.LOGO"></ps-small-header>
-            </div>
-
-            <!-- popup organisations section -->
-            <div class="flex flex-col gap-7 mt-5 pt-5">
-                <ps-line></ps-line>
-            </div>
         </form>
+        <ps-line class="m-5"></ps-line>
 
-    <ps-line></ps-line>
         <!-- Created At Section -->
         <div class="flex lg:flex-row md:flex-col justify-between mt-5 gap-5">
+
             <ps-input [control]="formGroup.controls.createdAt" label="ORGANISATION.CREATED_AT"></ps-input>
 
             <ps-button [buttonStyleType]="'button--secondary'" [buttonType]="'button--secondary'" label="ORGANISATION.DELETE.TITLE" (click)="openDeleteDialog()"></ps-button>
         </div>
     </div>
-
 }
 

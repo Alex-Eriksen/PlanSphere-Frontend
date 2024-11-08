@@ -21,8 +21,10 @@
             ? 'ORGANISATION.EDIT.NAME'
             : 'ORGANISATION.CREATE.NAME' | translate"
         ></ps-small-header>
-        <ps-input label="NAME" [control]="formGroup.controls.name"></ps-input>
-        <ps-input label="Logo" [control]="formGroup.controls.logoUrl"></ps-input>
+        <div class="flex flex-row flex-wrap gap-4">
+            <ps-input label="NAME" [control]="formGroup.controls.name"></ps-input>
+            <ps-input label="Logo" [control]="formGroup.controls.logoUrl"></ps-input>
+        </div>
         <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
     </div>
 }
