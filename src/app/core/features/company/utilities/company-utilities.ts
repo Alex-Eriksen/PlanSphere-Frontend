@@ -1,10 +1,10 @@
 ﻿import { map, OperatorFunction } from "rxjs";
 import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
+import { ICompany } from "../models/company.model";
 import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-paginated-response.interface";
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
 import { mapToSignalPaginatedResponse } from "../../../../shared/utilities/signals.utilities";
 import { signal } from "@angular/core";
-import { ICompany } from "../models/company.model";
 
 export const mapCompaniesToSignalSmallListInputOperator = (): OperatorFunction<
     IPaginatedResponse<ICompany>,
@@ -25,7 +25,7 @@ const mapCompaniesToSmallListInput = (companies: ICompany[]): ISmallListTableInp
         contactName: companies.contactName,
         contactEmail: companies.contactEmail,
         contactPhoneNumber: companies.contactPhoneNumber,
-        address: "a",
+        address: companies.address,
         careOf: companies.careOf,
         createdAt: companies.createdAt,
         createdBy: companies.createdBy

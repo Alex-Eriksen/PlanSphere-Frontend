@@ -13,28 +13,28 @@ import { ICompany } from "../models/company.model";
 export class CompanyRepository {
     readonly #http = inject(HttpClient);
 
-    getById(id: number): Observable<ICompany> {
-        return this.#http.get<ICompany>(APIS.company.getById(id));
+    getById(sourceLevelId: number, companyId: number): Observable<ICompany> {
+        return this.#http.get<ICompany>(APIS.company.getById(sourceLevelId, companyId));
     }
 
-    listCompanies(params: IPaginationSortPayload): Observable<IPaginatedResponse> {
-        return this.#http.get<IPaginatedResponse>(APIS.company.listCompanies, {
+    listCompanies(sourceLevelId: number, params: IPaginationSortPayload): Observable<IPaginatedResponse> {
+        return this.#http.get<IPaginatedResponse>(APIS.company.listCompanies(sourceLevelId), {
             params: new HttpParams({
                 fromObject: { ...params },
             }),
         });
     }
 
-    create(company: ICompanyRequest): Observable<void>{
-        return this.#http.post<void>(APIS.company.create, company)
+    create(sourceLevelId: number, company: ICompanyRequest): Observable<void>{
+        return this.#http.post<void>(APIS.company.create(sourceLevelId), company)
     }
 
-    patch(id: number, bodyRequest: any): Observable<void>{
-        return this.#http.patch<void>(APIS.company.patch(id), bodyRequest)
+    patch(sourceLevelId: number, bodyRequest: any): Observable<void>{
+        return this.#http.patch<void>(APIS.company.patch(sourceLevelId), bodyRequest)
     }
 
-    delete(id: number): Observable<void>{
-        return this.#http.delete<void>(APIS.company.delete(id));
+    delete(sourceLevelId: number): Observable<void>{
+        return this.#http.delete<void>(APIS.company.delete(sourceLevelId));
     }
 
     uploadLogo(Image: FormData, id: number): Observable<string> {

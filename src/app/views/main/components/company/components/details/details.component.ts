@@ -1,4 +1,4 @@
-import { Component, inject, input, numberAttribute, OnInit } from "@angular/core";
+import { Component, inject, input, OnInit } from "@angular/core";
 import { CompanyService } from "../../../../../../core/features/company/services/company.service";
 import { ICompany } from "../../../../../../core/features/company/models/company.model";
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -89,19 +89,17 @@ export class DetailsComponent implements OnInit {
 
     }
 
-    loadCompanyDetails(id: number): void {
-        this.#companyService.companyById(id).subscribe({
-            next: (value: ICompany) => this.formGroup.patchValue(value),
+    loadCompanyDetails(companyId: number): void {
+        this.#companyService.companyById(companyId, companyId).subscribe({
+            next: (data: ICompany) => this.formGroup.patchValue(data),
             error: () => this.#toastService.showToast('COMPANY.DO_NOT_EXIST'),
             complete: () => this.isPageLoading = false
         });
     }
 
     deleteCompany(id: number): void {
-        this.#companyService.delete(id)
+        this.#companyService.deleteCompany(id)
     }
 
-    protected readonly Validators = Validators;
     protected readonly input = input;
-    protected readonly numberAttribute = numberAttribute;
 }
