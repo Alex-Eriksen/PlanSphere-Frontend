@@ -42,16 +42,28 @@ export const APIS = {
         create: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `JobTitle/CreateJobTitle/${sourceLevel}/${sourceLevelId}`,
         update: (sourceLevel: SourceLevel, sourceLevelId: number, id: number) => environment.apiUrl + `JobTitle/UpdateJobTitle/${sourceLevel}/${sourceLevelId}/${id}`,
         delete: (id: number) => environment.apiUrl + `JobTitle/DeleteJobTitle/${id}`,
-        toggleInheritance: (id: number) => environment.apiUrl + `JobTitle/ToggleInheritance/${id}`,
+        toggleInheritance: (sourceLevel: SourceLevel, sourceLevelId: number, id: number) => environment.apiUrl + `JobTitle/ToggleInheritance/${sourceLevel}/${sourceLevelId}/${id}`,
+    },
+    organisation: {
+        createOrganisation: () => environment.apiUrl + "Organisation/CreateOrganisation",
+        getOrganisationDetailsById: (sourceLevelId: number) => environment.apiUrl + `Organisation/GetOrganisationById/${sourceLevelId}`,
+        getListOfOrganisations: () => environment.apiUrl + `Organisation/ListOrganisations`,
+        patch: (sourceLevelId: number) => environment.apiUrl + `Organisation/PatchOrganisation/${sourceLevelId}`,
+        delete: (sourceLevelId: number) => environment.apiUrl + `Organisation/DeleteOrganisation/${sourceLevelId}`,
+        update: (sourceLevelId: number) => environment.apiUrl + `Organisation/UpdateOrganisation/${sourceLevelId}`,
     },
     company: {
         getById: (id: number)=> environment.apiUrl + `Company/GetCompanyById/${id}`,
-        listCompanies: () => environment.apiUrl + `Company/ListCompanies`,
+        listCompanies: environment.apiUrl + `Company/ListCompanies`,
         create: environment.apiUrl + `Company/CreateCompany`,
         patch: (id: number)=> environment.apiUrl + `Company/PatchCompany/${id}`,
         delete: (id: number) => environment.apiUrl + `Company/DeleteCompany/${id}`,
+        uploadLogo: (id: number) => environment.apiUrl + `Company/UploadCompanyLogo/${id}`
     },
     country: {
         getCountryLookups: environment.apiUrl + "Country/GetCountryLookups",
+    },
+    zipCode: {
+        getZipCodeLookups: environment.apiUrl + "ZipCode/GetZipCodeLookups",
     }
 }

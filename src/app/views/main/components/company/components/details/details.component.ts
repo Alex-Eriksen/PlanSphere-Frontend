@@ -6,7 +6,7 @@ import { InputComponent } from "../../../../../../shared/input/input.component";
 import { ButtonComponent } from "../../../../../../shared/button/button.component";
 import { SelectFieldComponent } from "../../../../../../shared/select-field/select-field.component";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
-import { CountryService } from "../../../../../../core/features/countries/services/country.service";
+import { CountryService } from "../../../../../../core/features/address/services/country.service";
 import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-option.interface";
 import { markAllControlsAsTouchedAndDirty, updateNestedControlsPathAndValue } from "../../../../../../shared/utilities/form.utilities";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
@@ -91,7 +91,7 @@ export class DetailsComponent implements OnInit {
 
     loadCompanyDetails(id: number): void {
         this.#companyService.companyById(id).subscribe({
-            next: (data: ICompany) => this.formGroup.patchValue(data),
+            next: (value: ICompany) => this.formGroup.patchValue(value),
             error: () => this.#toastService.showToast('COMPANY.DO_NOT_EXIST'),
             complete: () => this.isPageLoading = false
         });

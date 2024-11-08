@@ -16,6 +16,10 @@
     "SAVE": "Gem",
     "DELETE": "Slet",
     "CREATE": "Opret",
+    "CHANGE": "Skift",
+    "UPLOAD_PICTURE": "Upload billede",
+    "PICTURE": "Billede",
+    "UPLOAD": "Upload",
     "CLOSE": "Luk",
     "CONFIRM": "Bekræft",
     "WARNING": "Advarsel",
@@ -43,7 +47,42 @@
     },
     "ORGANISATION": {
         "NAME": "Organisation",
-        "NAME_PLURAL": "Organisationer"
+        "NAME_PLURAL": "Organisationer",
+        "NAME_SPECIFIC": "Organisations navn",
+        "ORGANISATION_INFO": "Organisations information",
+        "FILL_ORGANISATION_DETAILS": "Udfyld din organisationsoplysninger her",
+        "DO_NOT_EXIST": "Denne organisation eksitere ikke",
+        "FIELD_TO_FETCH": "Fejlede i at hente organisationens detaljer",
+        "LOGO": "Logo",
+        "SET_NEW_OWNER": "Sæt ny ejer",
+        "CREATED_AT": "Oprettelse dato",
+        "NAME_OF": "Titel",
+        "OVERVIEW": "Oversigt af organisationer",
+        "DESCRIPTION": "Nedenfor er en liste over alle organisationer. Du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
+        "TOOLTIP": "Her kan du oprette nye organisationer.",
+        "CREATE": {
+            "TITLE": "Opret en organisation",
+            "TOOLTIP": "Her opretter du en ny organisation",
+            "NAME": "Navngiv din organisation"
+        },
+        "EDIT": {
+            "TITLE": "Ændrer organisation",
+            "TOOLTIP": "Her ændrer du en organisation",
+            "NAME": "Navngiv din organisation"
+        },
+        "DELETE": {
+            "TITLE": "Slet organisation",
+            "TOOLTIP": "Du er ved at slette din organisation. Denne handling kan ikke fortrydes.",
+            "QUESTION": "Er du sikker på du vil slette din organisation?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes din organisation, og den vil ikke være tilgængelig igen."
+        },
+        "LIST": {
+            "NAME": "Organisation",
+            "ORGANISATION_MEMBERS": "Organisations medlemmer",
+            "COMPANY_MEMBERS": "Virksomheds medlemmer",
+            "DEPARTMENT_MEMBERS": "Afdelings medlemmer",
+            "TEAM_MEMBERS": "Team medlemmer"
+        }
     },
     "COMPANY": {
         "NAME": "Virksomhed",
@@ -53,7 +92,6 @@
         "DO_NOT_EXIST": "Denne virksomhed eksitere ikke",
         "COMPANY_INFO": "Virksomheds information",
         "FILL_COMPANY_DETAILS": "Udfyld din virksomhedsoplysninger her"
-
     },
     "DEPARTMENT": {
         "NAME": "Afdeling",
