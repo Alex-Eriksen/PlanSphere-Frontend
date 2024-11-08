@@ -17,8 +17,9 @@ export class DepartmentRepository {
         return this.#http.get<IDepartment>(APIS.department.getById(sourceLevelId, sourceLevel, departmentId));
     }
 
-    listDepartments(sourceLevelId: number, params: IPaginationSortPayload): Observable<IPaginatedResponse> {
-        return this.#http.get<IPaginatedResponse>(APIS.department.listDepartments(sourceLevelId), {
+    listDepartments(sourceLevelId: number, params: IPaginationSortPayload, isUserDeparts: boolean): Observable<IPaginatedResponse> {
+        const endpoint = isUserDeparts ? APIS.department.listUserDepartments : APIS.department.listDepartments(sourceLevelId);
+        return this.#http.get<IPaginatedResponse>(endpoint, {
             params: new HttpParams({
                 fromObject: { ...params },
             }),

@@ -43,6 +43,7 @@ export const APIS = {
     department: {
         getById: (sourceLevelId: number, sourceLevel: SourceLevel, departmentId: number) => environment.apiUrl + `Department/GetDepartmentId/${departmentId}/${sourceLevel}/${sourceLevelId}`,
         listDepartments: (sourceLevelId: number) => environment.apiUrl + `Department/ListDepartments/${sourceLevelId}`,
+        listUserDepartments: environment.apiUrl + "Department/ListUserDepartments",
         create: (sourceLevelId: number) => environment.apiUrl + `Department/CreateDepartment/${sourceLevelId}`,
         patch: (sourceLevelId: number) => environment.apiUrl + `Department/PatchDepartment/${sourceLevelId}`,
         delete: (sourceLevelId: number, departmentId: number) => environment.apiUrl + `Department/DeleteDepartment/${sourceLevelId}/${departmentId}`,

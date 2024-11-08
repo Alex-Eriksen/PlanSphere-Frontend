@@ -18,8 +18,8 @@ export class DepartmentService {
         return this.#departmentRepository.getById(sourceLevelId, sourceLevel, departmentId)
     }
 
-    listDepartments(sourceLevelId: number, params: IPaginationSortPayload): Observable<ISignalPaginatedResponse<ISmallListTableInput>> {
-        return this.#departmentRepository.listDepartments(sourceLevelId, params).pipe(mapDepartmentsToSignalSmallListInputOperator());
+    listDepartments(sourceLevelId: number, params: IPaginationSortPayload, isUserDeparts: boolean): Observable<ISignalPaginatedResponse<ISmallListTableInput>> {
+        return this.#departmentRepository.listDepartments(sourceLevelId, params, isUserDeparts).pipe(mapDepartmentsToSignalSmallListInputOperator());
     }
 
     deleteDepartment(sourceLevelId: number, departmentId: number): Observable<void> {

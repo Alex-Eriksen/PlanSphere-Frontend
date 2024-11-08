@@ -1,0 +1,29 @@
+<div class="r-screen-[25rem] p-4 relative">
+    <ps-sub-header
+        [label]="'DEPARTMENT.NAME_PLURAL' "
+        [tooltip]="'DEPARTMENT.TOOLTIP'"
+    ></ps-sub-header>
+    <div class="flex flex-row flex-wrap justify-between mt-12">
+        <ps-small-header [heading]="'DEPARTMENT.OVERVIEW'"
+                         [subheading]="'DEPARTMENT.DESCRIPTION'"
+        ></ps-small-header>
+        <div class="flex flex-row flex-wrap justify-between gap-6">
+            <ps-search-input [searchSignal]="searchSignal" [placeholder]="'SEARCH'" appliedClass="!w-[18.75rem]"></ps-search-input>
+            <ps-button
+                label="CREATE_NEW"
+                buttonStyleType="button--primary"
+                buttonType="buttonType"
+                (click)="openDepartmentPopup()"
+            ></ps-button>
+
+        </div>
+    </div>
+    <ps-small-list-table
+        [data]="paginatedData.results()"
+        [headers]="headers"
+        [isLoading]="isTableLoading"
+        [sortingFilterSignal]="sortingFilterSignal"
+        [actions]="actions"
+    />
+    <ps-pagination [paginationValues]="paginatedData"></ps-pagination>
+</div>

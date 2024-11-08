@@ -1,7 +1,7 @@
 ﻿import { Route } from "@angular/router";
 import { DetailsComponent } from "./components/details/details.component";
-import { DepartmentsComponent } from "../departments/departments.component";
 import { RolesComponent } from "./components/roles/roles.component";
+import { DepartmentsComponent } from "./components/departments/departments.component";
 
 export const companyRoutes: Route[] = [
     {
