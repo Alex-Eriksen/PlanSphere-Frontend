@@ -9,12 +9,15 @@
         ></ps-small-header>
         <div class="flex flex-row flex-wrap justify-between gap-6">
             <ps-search-input [searchSignal]="searchSignal" [placeholder]="'SEARCH'" appliedClass="!w-[18.75rem]"></ps-search-input>
-            <ps-button
-                label="CREATE_NEW"
-                buttonStyleType="button--primary"
-                buttonType="buttonType"
-                (click)="openDepartmentPopup()"
-            ></ps-button>
+            @if(!isUserDeparts()){
+                <ps-button
+                    label="CREATE_NEW"
+                    buttonStyleType="button--primary"
+                    buttonType="buttonType"
+                    (click)="openDepartmentPopup()"
+                ></ps-button>
+            }
+
 
         </div>
     </div>
