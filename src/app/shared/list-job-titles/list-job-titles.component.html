@@ -1,35 +1,30 @@
-<div class="r-screen-[25rem] p-4 relative">
-    <ps-sub-header
-        [label]="'JOB_TITLE.NAME_PLURAL' | translate"
-        [tooltip]="'JOB_TITLE.TOOLTIP' | translate"
-    ></ps-sub-header>
-    <div class="flex flex-row justify-between mt-12">
-        <ps-small-header [heading]="'JOB_TITLE.OVERVIEW'  | translate"
+<div class="flex flex-row flex-wrap gap-4 justify-between">
+    <ps-small-header
+        heading="JOB_TITLE.OVERVIEW"
         [subheading]="'JOB_TITLE.DESCRIPTION' | translate : { sourceLevel : sourceLevel()}"
-        ></ps-small-header>
-        <div class="flex flex-row justify-between gap-6">
-            <ps-search-input [searchSignal]="searchSignal" [placeholder]="'SEARCH'" appliedClass="!w-[18.75rem]"></ps-search-input>
-            <ps-button
-                (click)="openJobTitlePopup(false)"
-                appliedClasses="!px-6"
-                buttonStyleType="button--primary"
-                buttonType="button"
-                class="!ms-auto"
-                imageAlt="ADD"
-                imageSrc="../../../assets/images/icons/plus.svg"
-                label="CREATE_NEW"
-            />
-        </div>
+    ></ps-small-header>
+    <div class="flex flex-row justify-between gap-6">
+        <ps-search-input [searchSignal]="searchSignal" [placeholder]="'SEARCH'" appliedClass="!w-[18.75rem]"></ps-search-input>
+        <ps-button
+            (click)="openJobTitlePopup(false)"
+            appliedClasses="!px-6"
+            buttonStyleType="button--primary"
+            buttonType="button"
+            class="!ms-auto"
+            imageAlt="ADD"
+            imageSrc="../../../assets/images/icons/plus.svg"
+            label="CREATE_NEW"
+        />
     </div>
-    <ps-small-list-table
-        [data]="paginatedData.results()"
-        [headers]="headers"
-        [isLoading]="isTableLoading"
-        [sortingFilterSignal]="sortingFilterSignal"
-        [actions]="actions"
-        (toggleItem)="updateJobTitleInheritance($event)"
-    />
-    <ps-pagination [paginationValues]="paginatedData"></ps-pagination>
 </div>
+<ps-small-list-table
+    [data]="paginatedData.results()"
+    [headers]="headers"
+    [isLoading]="isTableLoading"
+    [sortingFilterSignal]="sortingFilterSignal"
+    [actions]="actions"
+    (toggleItem)="updateJobTitleInheritance($event)"
+/>
+<ps-pagination [paginationValues]="paginatedData"></ps-pagination>
 
 

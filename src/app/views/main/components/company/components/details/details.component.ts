@@ -91,7 +91,7 @@ export class DetailsComponent implements OnInit {
 
     loadCompanyDetails(id: number): void {
         this.#companyService.companyById(id).subscribe({
-            next: (data: ICompany) => this.formGroup.patchValue(data),
+            next: (value: ICompany) => this.formGroup.patchValue(value),
             error: () => this.#toastService.showToast('COMPANY.DO_NOT_EXIST'),
             complete: () => this.isPageLoading = false
         });

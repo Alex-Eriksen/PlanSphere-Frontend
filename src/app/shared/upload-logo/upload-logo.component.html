@@ -1,0 +1,31 @@
+<div class="flex flex-col items-center w-[12.5rem]">
+    <ps-small-header
+    [heading]="label()"
+    appliedClasses="!m-2"
+    />
+    <div class="h-[12.5rem] w-full border border-gray-300 overflow-hidden rounded-md flex items-center justify-center p-2">
+        @if (displayImage) {
+            <img
+                [src]="displayImage"
+                [alt]="'UPLOADED_DIVISION_LOGO' | translate"
+                class="object-cover w-[calc(100%-1rem)] h-[calc(100%-1rem)]"
+            />
+        } @else {
+            <img
+                ngSrc="../../../assets/images/icons/upload-image-placeholder.svg"
+                class="object-cover opacity-75"
+                priority
+                [alt]="'UPLOADED_DIVISION_LOGO' | translate"
+                height=33.75 width="60" />
+        }
+    </div>
+    <ps-button
+        appliedClasses="!w-full h-[2rem] mt-2"
+        class="w-full"
+        (click)="imageInput.click()"
+        [label]="image().value ? 'CHANGE' : 'UPLOAD'"
+        buttonStyleType="button--tertiary"
+        buttonType="button"
+    ></ps-button>
+    <input class="absolute invisible" #imageInput (change)="selectImage($event)" type="file" accept="image/*" />
+</div>
