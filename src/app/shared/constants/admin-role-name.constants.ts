@@ -1,3 +1,3 @@
 export const AdminRoleNames = {
-    SystemAdministrator: "System Administrator"
+    SystemAdministrator: "__System_Administrator__"
 };

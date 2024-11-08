@@ -3,8 +3,6 @@ import { IOrganisationSettings } from "./organisation-settings";
 
 export interface IOrganisationPayload {
     name: string;
-    logoUrl?: string;
     address: IAddress;
     settings: IOrganisationSettings;
-    createdAt: Date;
 }

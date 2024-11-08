@@ -30,11 +30,8 @@
         <ps-line class="m-5"></ps-line>
 
         <!-- Created At Section -->
-        <div class="flex lg:flex-row md:flex-col justify-between mt-5 gap-5">
-
+        <div class="flex flex-row flex-wrap justify-end mt-5">
             <ps-input [control]="formGroup.controls.createdAt" label="ORGANISATION.CREATED_AT"></ps-input>
-
-            <ps-button [buttonStyleType]="'button--secondary'" [buttonType]="'button--secondary'" label="ORGANISATION.DELETE.TITLE" (click)="openDeleteDialog()"></ps-button>
         </div>
     </div>
 }

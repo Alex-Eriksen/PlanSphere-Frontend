@@ -80,7 +80,6 @@ export class OrganisationPopupComponent implements OnInit, OnDestroy {
         }
         this.isFormSubmitting = true;
         if (this.componentInputs.isEditPopup) {
-            console.log(this.formGroup.getRawValue());
             this.#organisationService.update(this.componentInputs.sourceLevelId!, this.formGroup.value as IOrganisationPayload)
                 .subscribe({
                     next: () => {

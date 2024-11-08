@@ -37,11 +37,4 @@ export const organisationHeaders: ITableHeader[] = [
         type: TableHeaderType.Text,
         maxTextLength: 70,
     },
-    // {
-    //     key: "userMembers",
-    //     label: "ORGANISATION.LIST.USER_MEMBERS",
-    //     isSortable: true,
-    //     type: TableHeaderType.Text,
-    //     maxTextLength: 70,
-    // }
 ]
