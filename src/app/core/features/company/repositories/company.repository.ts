@@ -17,8 +17,9 @@ export class CompanyRepository {
         return this.#http.get<ICompany>(APIS.company.getById(sourceLevelId, companyId));
     }
 
-    listCompanies(sourceLevelId: number, params: IPaginationSortPayload): Observable<IPaginatedResponse> {
-        return this.#http.get<IPaginatedResponse>(APIS.company.listCompanies(sourceLevelId), {
+    listCompanies(sourceLevelId: number, params: IPaginationSortPayload, isUserCompanies: boolean): Observable<IPaginatedResponse> {
+        const endpoint = isUserCompanies ? APIS.company.listUserCompanies : APIS.company.listCompanies(sourceLevelId);
+        return this.#http.get<IPaginatedResponse>(endpoint, {
             params: new HttpParams({
                 fromObject: { ...params },
             }),
