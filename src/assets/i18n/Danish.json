@@ -36,6 +36,23 @@
     "CREATED_AT": "Oprettelsesdato",
     "ACTIVATE": "Aktivér",
     "DEACTIVATE": "Deaktivér",
+    "TODAY": "I dag",
+    "MONDAY": "Mandag",
+    "TUESDAY": "Tirsdag",
+    "WEDNESDAY": "Onsdag",
+    "THURSDAY": "Torsdag",
+    "FRIDAY": "Fredag",
+    "SATURDAY": "Lørdag",
+    "SUNDAY": "Søndag",
+    "CALENDER": {
+        "CHECK_IN": "Check ind",
+        "FILTERS": {
+            "DAY": "Dag",
+            "WEEK": "Uge",
+            "WORK_WEEK": "Arbejdsuge",
+            "MONTH": "Måned"
+        }
+    },
     "ERROR": {
         "UNAUTHORIZED": "Du har ikke rettigheden til denne funktionalitet."
     },
