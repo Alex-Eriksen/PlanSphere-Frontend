@@ -39,6 +39,16 @@
     "ERROR": {
         "UNAUTHORIZED": "Du har ikke rettigheden til denne funktionalitet."
     },
+    "TODAY": "I dag",
+    "CALENDER": {
+        "CHECK_IN": "Check ind",
+        "FILTERS": {
+            "DAY": "Dag",
+            "WEEK": "Uge",
+            "WORK_WEEK": "Arbejdsuge",
+            "MONTH": "Måned"
+        }
+    },
     "VALIDATION": {
         "IS_REQUIRED": "er påkrævet",
         "IS_NOT_A_VALID_EMAIL": "er i et forkert format",
