@@ -6,6 +6,15 @@
 // Reset
 @import "./base/reset";
 
+@import "components/sidebar";
+@import "components/input";
+@import "components/button";
+@import "components/select";
+@import "components/select-option";
+@import "components/navigation-tabs";
+@import "components/page";
+@import "components/toggle";
+
 @layer base {
   :root {
     --color-primary: var(--clr-primary);

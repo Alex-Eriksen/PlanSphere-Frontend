@@ -1,0 +1,28 @@
+<button
+    id="button"
+    [attr.aria-label]="label() | translate"
+    [disabled]="isLoading() || disabled()"
+    [ngClass]="[appliedClasses(), buttonStyleType()]"
+    [type]="buttonType()"
+    class="flex justify-center items-center whitespace-nowrap"
+>
+    @if (isLoading()) {
+        <div [ngClass]="{ 'px-5': imagePosition() !== 'center' }">
+            <ps-spinner width="20" height="20" [appliedClasses]="appliedSpinnerClasses()"></ps-spinner>
+        </div>
+    } @else {
+        @if (imageSrc() && imagePosition() === "before") {
+            <img [src]="imageSrc()" [alt]="imageAlt() ?? '' | translate" class="me-2" />
+        }
+        <span class="tracking-[0.5px]" [ngClass]="labelCaseSensitiveClass()">
+            {{ label() | translate }}
+        </span>
+        @if (imageSrc() && imagePosition() === "after") {
+            <img [src]="imageSrc()" [alt]="imageAlt() ?? '' | translate" class="ms-2" />
+        }
+
+        @if (imageSrc() && imagePosition() === "center") {
+            <img [src]="imageSrc()" [alt]="imageAlt() ?? '' | translate" />
+        }
+    }
+</button>

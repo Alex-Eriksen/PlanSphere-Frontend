@@ -2,5 +2,216 @@
     "DATE": "Dato",
     "CELSIUS": "Celsius",
     "FAHRENHEIT": "Fahrenheit",
-    "SUMMARY": "Resumé"
+    "SUMMARY": "Resumé",
+    "PLANSPHERE": "PlanSphere",
+    "FRONTPAGE": "Forside",
+    "EMAIL": "Email",
+    "PASSWORD": "Kodeord",
+    "NO": "Nej",
+    "YES": "Ja",
+    "LOGIN": "Log ind",
+    "LOGOUT": "Log ud",
+    "LOGOUT_CONFIRMATION": "Er du sikker på du vil logge ud?",
+    "CANCEL": "Annuller",
+    "SAVE": "Gem",
+    "DELETE": "Slet",
+    "CREATE": "Opret",
+    "CHANGE": "Skift",
+    "UPLOAD_PICTURE": "Upload billede",
+    "PICTURE": "Billede",
+    "UPLOAD": "Upload",
+    "CLOSE": "Luk",
+    "CONFIRM": "Bekræft",
+    "WARNING": "Advarsel",
+    "SHOWING_COUNT": "Viser {{start}}-{{end}} af {{total}} {{type}}",
+    "ITEMS": "elementer",
+    "CREATE_NEW": "Opret ny",
+    "FORGOT_PASSWORD": "Glemt kodeord",
+    "NAME": "Navn",
+    "SOURCELEVEL": "Kilde nivaeu",
+    "SEARCH": "Søg",
+    "ACTIVE": "Aktiv",
+    "SOURCE": "Kilde",
+    "CREATED_BY": "Oprettet af",
+    "CREATED_AT": "Oprettelsesdato",
+    "ACTIVATE": "Aktivér",
+    "DEACTIVATE": "Deaktivér",
+    "VALIDATION": {
+        "IS_REQUIRED": "er påkrævet",
+        "IS_NOT_A_VALID_EMAIL": "er i et forkert format",
+        "IS_NOT_VALID": "er invalidt",
+        "IS_INVALID": "er invalidt"
+    },
+    "ORGANISATION": {
+        "NAME": "Organisation",
+        "NAME_PLURAL": "Organisationer",
+        "NAME_SPECIFIC": "Organisations navn",
+        "ORGANISATION_INFO": "Organisations information",
+        "FILL_ORGANISATION_DETAILS": "Udfyld din organisationsoplysninger her",
+        "DO_NOT_EXIST": "Denne organisation eksitere ikke",
+        "FIELD_TO_FETCH": "Fejlede i at hente organisationens detaljer",
+        "LOGO": "Logo",
+        "SET_NEW_OWNER": "Sæt ny ejer",
+        "CREATED_AT": "Oprettelse dato",
+        "NAME_OF": "Titel",
+        "OVERVIEW": "Oversigt af organisationer",
+        "DESCRIPTION": "Nedenfor er en liste over alle organisationer. Du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
+        "TOOLTIP": "Her kan du oprette nye organisationer.",
+        "CREATE": {
+            "TITLE": "Opret en organisation",
+            "TOOLTIP": "Her opretter du en ny organisation",
+            "NAME": "Navngiv din organisation"
+        },
+        "EDIT": {
+            "TITLE": "Ændrer organisation",
+            "TOOLTIP": "Her ændrer du en organisation",
+            "NAME": "Navngiv din organisation"
+        },
+        "DELETE": {
+            "TITLE": "Slet organisation",
+            "TOOLTIP": "Du er ved at slette din organisation. Denne handling kan ikke fortrydes.",
+            "QUESTION": "Er du sikker på du vil slette din organisation?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes din organisation, og den vil ikke være tilgængelig igen."
+        },
+        "LIST": {
+            "NAME": "Organisation",
+            "ORGANISATION_MEMBERS": "Organisations medlemmer",
+            "COMPANY_MEMBERS": "Virksomheds medlemmer",
+            "DEPARTMENT_MEMBERS": "Afdelings medlemmer",
+            "TEAM_MEMBERS": "Team medlemmer"
+        }
+    },
+    "COMPANY": {
+        "NAME": "Virksomhed",
+        "NAME_PLURAL": "Virksomheder",
+        "NAME_SPECIFIC": "Virksomheds navn",
+        "OVERVIEW": "Oversigt af virksomhedder",
+        "VAT": "CVR Nummer",
+        "TOOLTIP": "Her kan du oprette nye virksomheder som kan bruges til at fordele forskellige opgaver til forskellige virksomheder",
+        "DESCRIPTION": "Nedenfor er en  liste over alle virksomheder inden for din Organisation. Du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
+        "DO_NOT_EXIST": "Denne virksomhed eksitere ikke",
+        "COMPANY_INFO": "Virksomheds information",
+        "COMPANY_DETAILS": "Virksomheds Detaljer",
+        "FILL_COMPANY_DETAILS": "Udfyld din virksomhedsoplysninger her",
+        "LOGO": "Virksomheds Logo",
+        "CREATE": {
+            "TITLE": "Opret en Virksomhed",
+            "TOOLTIP": "Her opretter du en ny Virksomhed",
+            "NAME": "Navngiv din Virksomhed"
+        },
+        "DELETE": {
+            "TITLE": "Slet Virksomhed",
+            "TOOLTIP": "Du er ved at slette en virksomhed. Denne handling kan ikke fortrydes",
+            "QUESTION": "Er du sikker på du vil slette denne virksomhed?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes virksomheden, og den vil ikke være tilgængelig for brugerne."
+        }
+
+    },
+    "DEPARTMENT": {
+        "NAME": "Afdeling",
+        "NAME_PLURAL": "Afdelinger",
+        "OVERVIEW": "Oversigt af afdellinger",
+        "LIST_DESCRIPTION": "Nedenfor er en  liste over alle afdellinger inden for din Virksomhed. Du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
+        "TOOLTIP": "Her kan du oprette nye afdellinger som kan bruges til at fordele forskellige typer af opgaver til forskellige dele af din virksomhed",
+        "NAME_SPECIFIC": "Afdelings navn",
+        "DESCRIPTION": "Beskrivelse",
+        "BUILDING": "Bygning",
+        "DO_NOT_EXIST": "Denne afdeling eksitere ikke",
+        "DEPARTMENT_DETAILS": "Afdelings Detaljer",
+        "FILL_DEPARTMENT_DETAILS": "Udfyld din afdelingsoplysninger her",
+        "DEPARTMENT_INFO": "Afdelings information",
+        "CREATE": {
+            "TITLE": "Opret en Afdeling",
+            "TOOLTIP": "Her opretter du en ny Afdeling"
+        },
+        "DELETE": {
+            "TITLE": "Slet Afdeling",
+            "TOOLTIP": "Du er ved at slette en afdeling. Denne handling kan ikke fortrydes",
+            "QUESTION": "Er du sikker på du vil slette denne afdeling?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes afdellingen, og den vil ikke være tilgængelig for brugerne."
+        }
+    },
+    "TEAM": {
+        "NAME": "Team",
+        "NAME_PLURAL": "Teams"
+    },
+    "DETAIL": {
+        "NAME": "Detalje",
+        "NAME_PLURAL": "Detaljer"
+    },
+    "JOB_TITLE": {
+        "NAME": "Job titel",
+        "NAME_PLURAL": "Job titler",
+        "OVERVIEW": "Oversigt af job titler",
+        "TOOLTIP": "Her kan du oprette nye job titler som kan tildeles til brugere for at forbedre organisering af brugere.",
+        "DESCRIPTION": "Nedenfor er en  liste over alle jobtitler inden for en {{sourceLevel}}. Du kan ændre arvefunktionen for en jobtitel, og du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
+        "NAME_OF": "Titel",
+        "CREATE": {
+            "TITLE": "Opret en job titel",
+            "TOOLTIP": "Her opretter du en ny job titel",
+            "NAME": "Navngiv din job titel"
+        },
+        "EDIT": {
+            "TITLE": "Ændrer job titel",
+            "TOOLTIP": "Her ændrer du en job titel",
+            "NAME": "Navngiv din job titel"
+        },
+        "ACTIVATED": {
+            "NAME": "Aktiver nedarvning",
+            "DESCRIPTION": "Hvis aktiv, vil den blive nedarvet til niveauer under organisationen.",
+            "IS_ACTIVE": "Gør job titlen aktiv i systemet"
+        },
+        "DELETE": {
+            "TITLE": "Slet job titel",
+            "TOOLTIP": "Du er ved at slette denne jobtitel. Denne handling kan ikke fortrydes.",
+            "QUESTION": "Er du sikker på du vil slette denne job titel?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes job titlen, og den vil ikke være tilgængelig for brugerne."
+        }
+    },
+    "NO_RESULTS": "Ingen resultater",
+    "ADDRESS": {
+        "NAME": "Addresse",
+        "STREET_NAME": "Vejnavn",
+        "HOUSE_NUMBER": "Husnummer",
+        "DOOR": "Dør",
+        "FLOOR": "Etage",
+        "ZIPCODE": "Postnummer",
+        "COUNTRY": "Land"
+    },
+    "CONTACT" : {
+        "NAME": "Kontakt informationer",
+        "CARE_OF": "Varetagers Navn",
+        "CONTACT_NAME": "Kontakt Navn",
+        "CONTACT_EMAIL": "Kontakt Email",
+        "CONTACT_PHONENUMBER": "Kontakt Telefonnummer"
+    },
+    "ROLE": {
+        "NAME": "Rolle",
+        "NAME_PLURAL": "Roller",
+        "DESCRIPTION": "Her kan du se alle de roller som er blevet oprettet på {{sourceLevel}} niveauet.",
+        "ROLE_NAME": "Rolle navn",
+        "ROLE_NAME_DESCRIPTION": "Angiv navnet på rollen så du kan genkende den i systemet.",
+        "TOOLTIP": "Roller bliver brugt i systemet til at give brugere rettigheder.",
+        "STANDARD": "Standard rolle",
+        "CREATE": {
+            "NAME": "Opret ny rolle",
+            "TOOLTIP": "Her kan du oprette nye roller som kan tildeles til brugere for at give dem rettighederne som rollen har."
+        },
+        "EDIT": {
+            "NAME": "Rediger rolle",
+            "TOOLTIP": "Her kan du redigere roller og rette deres rettigheder."
+        },
+        "DELETE": {
+            "NAME": "Slet rolle",
+            "TOOLTIP": "Her kan du fjerne uønskede roller i systemet.",
+            "QUESTION": "Er du sikker på du vil slette denne rolle?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes rollen, og vil blive fjernet fra alle brugere som har den tildelt."
+        }
+    },
+    "RIGHT": {
+        "NAME": "Rettighed",
+        "NAME_PLURAL": "Rettigheder",
+        "ADD_RIGHT": "Tilføj rettighed",
+        "NUMBER_OF": "Antal rettigheder"
+    }
 }

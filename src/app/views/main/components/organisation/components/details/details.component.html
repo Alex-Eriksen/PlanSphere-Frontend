@@ -1,0 +1,33 @@
+@if (isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div class="border-gray-900/10 pb-12">
+        <div class="flex flex-row justify-between">
+            <ps-small-header heading="ORGANISATION.ORGANISATION_INFO" subheading="ORGANISATION.FILL_ORGANISATION_DETAILS"></ps-small-header>
+
+            <!-- Logo section -->
+            <div class="flex flex-grow justify-end">
+                <ps-small-header heading="ORGANISATION.LOGO"></ps-small-header>
+            </div>
+        </div>
+
+        <form [formGroup]="formGroup" (focusout)="patchDetails()">
+            <!-- Organisation Name Section -->
+            <div class="mt-5 flex flex-row gap-y-4">
+                <div class="w-full">
+                    <ps-input [control]="formGroup.controls.name" label="ORGANISATION.NAME_SPECIFIC"></ps-input>
+                </div>
+            </div>
+
+            <!-- Address Section -->
+            <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
+        </form>
+        <ps-line class="m-5"></ps-line>
+
+        <!-- Created At Section -->
+        <div class="flex flex-row flex-wrap justify-end mt-5">
+            <ps-input [control]="formGroup.controls.createdAt" label="ORGANISATION.CREATED_AT"></ps-input>
+        </div>
+    </div>
+}
+

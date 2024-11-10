@@ -1,0 +1,12 @@
+<div class="sidebar-nav-item flex flex-col bg-gray-200 rounded-lg" [ngClass]="{'collapsed': selfCollapsed}">
+    <button
+        class="sidebar-nav-item-button rounded-lg text-sm w-full text-left font-medium bg-gray-200 py-2.5 px-3.5 flex flex-wrap gap-2 justify-between items-center"
+        [routerLink]="routerLink"
+        routerLinkActive="tab--active"
+        >
+        <div class="flex gap-2">
+            <i [class]="tab().icon" class="w-3.5"></i>
+            <span [ngClass]="{'hidden': collapsed()}">{{ tab().label | translate }}</span>
+        </div>
+    </button>
+</div>

@@ -1,0 +1,40 @@
+.button {
+  @apply font-semibold text-black text-sm py-3 px-6 rounded-lg
+  focus:outline disabled:opacity-40 -outline-offset-1 disabled:cursor-not-allowed isolate;
+
+  &:not(:disabled) {
+    @apply hover:brightness-95;
+  }
+
+  & > span {
+    @apply blur-0;
+  }
+
+  &--primary {
+    @extend .button;
+    @apply bg-primary text-white focus:outline-[3px] focus:outline-primary-60;
+  }
+
+  &--secondary {
+    @extend .button;
+    @apply bg-black-300 focus:outline-2 focus:outline-black-500;
+  }
+
+  &--tertiary {
+    @extend .button;
+    @apply bg-white border border-black-300  focus:outline-2 focus:outline-black-300 py-3 px-6 uppercase;
+  }
+
+  &--quaternary {
+    @extend .button;
+    @apply bg-secondary border border-secondary text-white;
+  }
+}
+
+ps-button {
+    @apply w-fit;
+}
+
+.form-button {
+  @apply py-3 px-6 uppercase #{!important};
+}

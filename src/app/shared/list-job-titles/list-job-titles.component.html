@@ -1,0 +1,30 @@
+<div class="flex flex-row flex-wrap gap-4 justify-between">
+    <ps-small-header
+        heading="JOB_TITLE.OVERVIEW"
+        [subheading]="'JOB_TITLE.DESCRIPTION' | translate : { sourceLevel : sourceLevel()}"
+    ></ps-small-header>
+    <div class="flex flex-row justify-between gap-6">
+        <ps-search-input [searchSignal]="searchSignal" [placeholder]="'SEARCH'" appliedClass="!w-[18.75rem]"></ps-search-input>
+        <ps-button
+            (click)="openJobTitlePopup(false)"
+            appliedClasses="!px-6"
+            buttonStyleType="button--primary"
+            buttonType="button"
+            class="!ms-auto"
+            imageAlt="ADD"
+            imageSrc="../../../assets/images/icons/plus.svg"
+            label="CREATE_NEW"
+        />
+    </div>
+</div>
+<ps-small-list-table
+    [data]="paginatedData.results()"
+    [headers]="headers"
+    [isLoading]="isTableLoading"
+    [sortingFilterSignal]="sortingFilterSignal"
+    [actions]="actions"
+    (toggleItem)="updateJobTitleInheritance($event)"
+/>
+<ps-pagination [paginationValues]="paginatedData"></ps-pagination>
+
+

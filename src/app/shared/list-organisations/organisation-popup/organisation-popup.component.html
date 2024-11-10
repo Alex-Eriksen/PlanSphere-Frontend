@@ -1,0 +1,44 @@
+<div class="sticky top-0 z-10">
+    <ps-dialog-header
+        [label]="
+      componentInputs.isEditPopup
+        ? 'ORGANISATION.EDIT.TITLE'
+        : 'ORGANISATION.CREATE.TITLE'
+    "
+        [tooltipLabel]="
+      componentInputs.isEditPopup
+        ? 'ORGANISATION.EDIT.TITLE'
+        : 'ORGANISATION.CREATE.TOOLTIP'
+    "
+    ></ps-dialog-header>
+</div>
+@if(isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div class="p-6">
+        <ps-small-header
+            [heading]="componentInputs.isEditPopup
+            ? 'ORGANISATION.EDIT.NAME'
+            : 'ORGANISATION.CREATE.NAME' | translate"
+        ></ps-small-header>
+        <ps-input label="NAME" [control]="formGroup.controls.name"></ps-input>
+        <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
+    </div>
+}
+<div class="py-3 bg-black-50 flex border border-black-100 px-6 sticky bottom-0 z-10 justify-between">
+    <ps-button
+        [appliedClasses]="'!py-3 !px-6'"
+        (click)="closeDialog()"
+        label="CANCEL"
+        buttonStyleType="button--tertiary"
+        buttonType="button"
+    />
+    <ps-button
+        [appliedClasses]="'!py-3 !px-6'"
+        [label]="componentInputs.isEditPopup ? 'SAVE' : 'CREATE' | translate"
+        buttonStyleType="button--primary"
+        buttonType="button"
+        [isLoading]="isFormSubmitting"
+        (click)="submitForm()"
+    />
+</div>

@@ -1,0 +1,26 @@
+<div id="sidebar" [ngClass]="{'collapsed': collapsed}">
+    <div class="logo-container">
+        <img ngSrc="assets/images/PlanSphereLogo.png" alt="Logo" height="48" width="48" priority>
+        @if (!collapsed) {
+            <p class="font-medium text-2xl mb-2">{{ "PLANSPHERE" | translate }}</p>
+        }
+    </div>
+    <div class="relative">
+        <hr class="absolute border-t border-black-200 left-0 right-0" />
+    </div>
+    <div class="sidebar-nav">
+        @for (item of navigations; track item.label) {
+            @if (isTabVisible(item)) {
+                <ps-sidebar-item [collapsed]="collapsed" [tab]="item"></ps-sidebar-item>
+            }
+        }
+    </div>
+    <div class="flex justify-between w-full py-2 px-4 flex-col">
+        <ps-user-nav (logOut)="confirmLogOut()" [collapsed]="collapsed" [loggedInUserData]="loggedInUserData!"></ps-user-nav>
+        <div class="h-12 my-auto flex justify-end sidebar-collapse-button" [ngClass]="{'w-full': collapsed}">
+            <button (click)="toggleCollapse()">
+                <i class="fa-solid" [ngClass]="{'fa-angles-right': collapsed, 'fa-angles-left': !collapsed}"></i>
+            </button>
+        </div>
+    </div>
+</div>

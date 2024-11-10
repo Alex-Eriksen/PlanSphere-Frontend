@@ -1,0 +1,20 @@
+<div
+    [ngClass]="appliedClasses()"
+    class="flex justify-between items-center p-6 sticky top-0 bg-white z-10 border-b border-black-100"
+>
+    <div class="flex gap-2 items-center">
+        <p class="text-xl font-medium">{{ label() | translate }}</p>
+        <ps-tooltip [tooltip]="tooltipLabel()"></ps-tooltip>
+    </div>
+    @if (includeExitButton()) {
+        <button (click)="closeDialog()" type="button">
+            <img
+                [alt]="'CLOSE_ICON' | translate"
+                height="44"
+                ngSrc="assets/images/icons/close-icon.svg"
+                priority
+                width="44"
+            />
+        </button>
+    }
+</div>

@@ -1,0 +1,472 @@
+<div #wrapperUi [ngClass]="appliedClasses()" class="mb-6 overflow-auto relative min-h-52">
+    @if (!isLoading() || data().length) {
+        <table
+            #table
+            id="small-list-table"
+            mat-table
+            [dataSource]="data()"
+            cdkDropList
+            [cdkDropListDisabled]="isDragDropListDisabled"
+            (cdkDropListDropped)="dragAndDrop($event)"
+        >
+            @for (header of headers(); track header.key) {
+                <ng-container [matColumnDef]="header.key" [sticky]="$first" [stickyEnd]="$last">
+                    @if (header.type === TableHeaderType.Checkbox && !header.label && hasAllCheckbox()) {
+                        <th
+                            class="!pe-0 w-8"
+                            mat-header-cell
+                            *matHeaderCellDef
+                            [ngClass]="{ '!text-end': $first && isDraggable() }"
+                        >
+                            <mat-checkbox
+                                [ngClass]="{ '!hidden': data().length === 0 }"
+                                (change)="$event ? toggleAllRows($event.checked, header.key) : null"
+                                [checked]="isAllSelected(header.key)"
+                                [indeterminate]="isOneSelected(header.key) && !isAllSelected(header.key)"
+                                [aria-label]="checkboxLabel(header.key) | translate"
+                                [disableRipple]="true"
+                            >
+                            </mat-checkbox>
+                        </th>
+                    } @else {
+                        @if (header.isSortable) {
+                            <th mat-header-cell *matHeaderCellDef>
+                                <div class="flex items-center gap-2">
+                                    @if (header.type === TableHeaderType.TextWithIcon) {
+                                        <div class="w-4 h-4"></div>
+                                    }
+                                    @if (header.type === TableHeaderType.TextWithImageOrFirstLetter) {
+                                        <div class="w-7 h-7"></div>
+                                    }
+                                    <button
+                                        (keydown.enter)="updateFilterSignal(header.key)"
+                                        (click)="updateFilterSignal(header.key)"
+                                        class="flex items-center gap-2 w-fit cursor-pointer"
+                                        type="button"
+                                    >
+                                        <p class="text-xs font-medium whitespace-nowrap" [attr.aria-label]="header.label | translate">
+                                            {{ header.label | translate }}
+                                        </p>
+                                        <img
+                                            ngSrc="assets/images/icons/double-vert-chevron.svg"
+                                            priority="true"
+                                            width="8"
+                                            height="10"
+                                            [alt]="'SORT' | translate"
+                                        />
+                                    </button>
+                                </div>
+                            </th>
+                        } @else {
+                            <th mat-header-cell *matHeaderCellDef [ngClass]="{ '!px-0': header.type === TableHeaderType.RadioGroup }">
+                                <div
+                                    [ngClass]="{'justify-center':(!header.label && header.labelIconUrl) || header.type === TableHeaderType.Checkmark }"
+                                    class="flex items-center gap-4"
+                                >
+                                    @if (header.type === TableHeaderType.TextWithIcon) {
+                                        <div class="w-4 h-4"></div>
+                                    }
+                                    @if (header.type === TableHeaderType.TextWithImageOrFirstLetter) {
+                                        <div class="w-7 h-7"></div>
+                                    }
+                                    <p class="text-xs font-medium whitespace-nowrap" [attr.aria-label]="header.label | translate">
+                                        {{ header.label | translate }}
+                                        @if (header.labelIconUrl) {
+                                            @if (header.labelIconTooltipText && header.labelIconTooltipTitle) {
+                                                <mat-menu
+                                                    [attr.aria-labelledby]="'tooltipTitle tooltipText'"
+                                                    [hasBackdrop]="false"
+                                                    class="menu--large"
+                                                    #columnIconMenu="matMenu"
+                                                >
+                                                    <div class="px-6 py-4 max-w-[22rem]">
+                                                        <p id="tooltipTitle" class="font-medium text-xs mb-4">
+                                                            {{ header.labelIconTooltipTitle | translate }}
+                                                        </p>
+                                                        <hr class="absolute start-0 end-0" />
+                                                        <p id="tooltipText" class="font-light text-xs mt-8">
+                                                            {{ header.labelIconTooltipText | translate }}
+                                                        </p>
+                                                    </div>
+                                                </mat-menu>
+                                                <button
+                                                    [attr.aria-labelledby]="'tooltipTitle tooltipText'"
+                                                    class="outline-none"
+                                                    type="button"
+                                                    [matMenuTriggerFor]="columnIconMenu"
+                                                    #columnIconMenuTrigger="matMenuTrigger"
+                                                    (focus)="columnIconMenuTrigger.openMenu()"
+                                                    (click)="columnIconMenuTrigger.openMenu()"
+                                                    (mouseover)="columnIconMenuTrigger.openMenu()"
+                                                    (mouseleave)="columnIconMenuTrigger.closeMenu()"
+                                                    (focusout)="columnIconMenuTrigger.closeMenu()"
+                                                >
+                                                    <img
+                                                        class="max-w-none"
+                                                        [src]="header.labelIconUrl | translate"
+                                                        width="16"
+                                                        height="14"
+                                                        [alt]="header.labelIconTooltipTitle"
+                                                    />
+                                                </button>
+                                            } @else {
+                                                <img
+                                                    class="max-w-none"
+                                                    [src]="header.labelIconUrl"
+                                                    width="16"
+                                                    height="14"
+                                                    [alt]="header.labelIconTooltipTitle ?? '' | translate"
+                                                />
+                                            }
+                                        }
+                                    </p>
+                                </div>
+                            </th>
+                        }
+                    }
+                    <td
+                        [ngClass]="{ 'w-8 !pe-0': header.type === TableHeaderType.Checkbox, '!px-0': header.type === TableHeaderType.RadioGroup, 'grey-background':header.type === TableHeaderType.ContractStatus || header.type === TableHeaderType.TextWithHeartAndVisibleIcon}"
+                        class="whitespace-nowrap"
+                        mat-cell
+                        *matCellDef="let row"
+                    >
+                        <div
+                            [ngClass]="{'!justify-center': (!header.label && header.labelIconUrl) || header.type === TableHeaderType.Checkmark}"
+                            class="flex justify-between items-center gap-1"
+                        >
+                            @if ($first && isDraggable()) {
+                                <div
+                                    (mouseleave)="isDragDropListDisabled = true"
+                                    (mouseover)="isDragDropListDisabled = false"
+                                    (focus)="isDragDropListDisabled = false"
+                                    class="cursor-move p-2"
+                                >
+                                    <img
+                                        class="max-w-none"
+                                        ngSrc="assets/images/icons/drag.svg"
+                                        priority="true"
+                                        width="8"
+                                        height="16"
+                                        [alt]="'DRAG' | translate"
+                                    />
+                                </div>
+                            }
+                            @if (
+                                !row[header.key] &&
+                                emptyCellValue() !== "" &&
+                                header.type !== TableHeaderType.Toggle &&
+                                row[header.key] !== false
+                                ) {
+                                <span>{{ emptyCellValue() }}</span>
+                            } @else {
+                                @switch (header.type) {
+                                    @case (TableHeaderType.FavouriteToggle) {
+                                        <button
+                                            class="cursor-pointer"
+                                            (click)="row.isFavourite = !row.isFavourite; heart.emit(row.id)"
+                                            type="button"
+                                        >
+                                            <img
+                                                class="max-w-none"
+                                                [alt]="(row.isFavourite ? 'UNFAVOURITE' : 'FAVOURITE') | translate"
+                                                [ngSrc]="row.isFavourite
+                                                    ? 'assets/images/icons/heart-solid.svg'
+                                                    : 'assets/images/icons/heart-outlined.svg'"
+                                                priority="true"
+                                                width="20"
+                                                height="17"
+                                            />
+                                        </button>
+                                    }
+                                    @case (TableHeaderType.Image) {
+                                        <img [src]="row[header.key]" alt="Image" width="30" height="30" class="rounded-lg" />
+                                    }
+                                    @case (TableHeaderType.Boolean) {
+                                        <p [ngClass]="getRowAppliedClasses(row, header)"
+                                            [attr.aria-label]="(header.label | translate) + ' ' + (row[header.key] | translate)">
+                                            {{ (row[header.key] ? "YES" : "NO") | translate }}
+                                        </p>
+                                    }
+                                    @case (TableHeaderType.Checkbox) {
+                                        <mat-checkbox
+                                            (click)="$event.stopPropagation()"
+                                            (change)="emitSelectedItem(row, $event.checked, header.key)"
+                                            [checked]="checkboxDisabledIds() ? disabledAll(row.id, header.key) : isCheckboxSelected(row.id, header.key)"
+                                            [aria-label]="checkboxLabel(row) | translate"
+                                            [disabled]="checkboxDisabledIds() ? isCheckboxDisabled(row.id) : false"
+                                        >
+                                        </mat-checkbox>
+                                    }
+                                    @case (TableHeaderType.Radio) {
+                                        <mat-radio-button
+                                            (click)="$event.stopPropagation()"
+                                            (change)="emitRadioSelectedRow(row)"
+                                            [checked]="isRadioButtonChecked(row)"
+                                            [aria-label]="radioButtonLabel(row) | translate"
+                                        >
+                                        </mat-radio-button>
+                                    }
+                                    @case (TableHeaderType.RadioGroup) {
+                                        <mat-radio-button
+                                            [checked]="isRadioGroupKeySelected(header.key, row)"
+                                            (change)="
+                        selectRadioGroup.emit({ key: header.key, row }); updateRadioGroupControl(header.key, row)
+                      "
+                                            [name]="row.id"
+                                        >
+                                        </mat-radio-button>
+                                    }
+                                    @case (TableHeaderType.Toggle) {
+                                        <mat-slide-toggle
+                                            [disabled]="!!toggleButtonDisableHashMap()?.get(row.id)"
+                                            [(ngModel)]="row[header.key]"
+                                            (change)="toggleRow($event, row)"
+                                        ></mat-slide-toggle>
+                                    }
+                                    @case (TableHeaderType.Date) {
+                                        @if (isDateValid(row[header.key])) {
+                                            <p
+                                                [ngClass]="getRowAppliedClasses(row, header)"
+                                                [attr.aria-label]="
+                          (header.label | translate) + ' ' + (row[header.key] | customDate: header.includeTimeInDate)
+                        "
+                                            >
+                                                {{ row[header.key] | customDate: header.includeTimeInDate }}
+                                            </p>
+                                        } @else if (header.needsTranslation) {
+                                            <p
+                                                class="text-black-500"
+                                                [ngClass]="getRowAppliedClasses(row, header)"
+                                                [attr.aria-label]="(header.label | translate) + ' ' + (row[header.key] | translate)"
+                                            >
+                                                {{ row[header.key] | translate }}
+                                            </p>
+                                        }
+                                    }
+                                    @case (TableHeaderType.TextWithIcon) {
+                                        <div class="flex items-center gap-2">
+                                            @if (!isMouseoverIconVisibleFn || isMouseoverIconVisibleFn(row)) {
+                                                <button
+                                                    type="button"
+                                                    [attr.aria-label]="'SETTINGS.USERS.SHOW_MORE_INFO' | translate"
+                                                    class="outline-none"
+                                                    [matMenuTriggerFor]="menu"
+                                                    #menuTrigger="matMenuTrigger"
+                                                    (focus)="menuTrigger.openMenu()"
+                                                    (click)="menuTrigger.openMenu()"
+                                                    (mouseover)="menuTrigger.openMenu()"
+                                                    (mouseleave)="menuTrigger.closeMenu()"
+                                                    (focusout)="menuTrigger.closeMenu()"
+                                                >
+                                                    <img
+                                                        [alt]="'MORE_INFO' | translate"
+                                                        ngSrc="assets/images/icons/mouseover.svg"
+                                                        priority
+                                                        width="16"
+                                                        height="16"
+                                                    />
+                                                    <mat-menu [hasBackdrop]="false" class="menu--large" #menu="matMenu">
+                                                        @if (iconMenuComponentType()) {
+                                                            <div>
+                                                                <ng-container
+                                                                    *ngComponentOutlet="iconMenuComponentType(); inputs: row['mouseoverMenuInputs']"
+                                                                ></ng-container>
+                                                            </div>
+                                                        }
+                                                    </mat-menu>
+                                                </button>
+                                            } @else {
+                                                <div class="w-4 h-4"></div>
+                                            }
+                                            <p [ngClass]="getRowAppliedClasses(row, header)" class="whitespace-nowrap">
+                                                @if (header.needsTranslation) {
+                                                    <span [attr.aria-label]="(header.label | translate) + ' ' + (row[header.key] | translate)"
+                                                    >{{ row[header.key] | translate }}
+                                                     </span>
+                                                } @else {
+                                                    <span [attr.aria-label]="(header.label | translate) + ' ' + row[header.key]">{{
+                                                            row[header.key]
+                                                        }}</span>
+                                                }
+                                                @if (row["mouseoverItemTextCount"] && row["mouseoverItemTextCount"] > 1) {
+                                                    <span [attr.aria-label]="row['mouseoverItemTextCount']">{{
+                                                            "(" + row["mouseoverItemTextCount"] + ")"
+                                                        }}</span>
+                                                }
+                                            </p>
+                                        </div>
+                                    }
+                                    @default {
+                                        @if (header.partialTranslationKey) {
+                                            @if (
+                                                header.maxTextLength &&
+                                                (row[header.key] | partialTranslate: header.partialTranslationKey).length > header.maxTextLength
+                                                ) {
+                                                <div class="flex items-center gap-1">
+                                                    <p
+                                                        [ngClass]="getRowAppliedClasses(row, header)"
+                                                        [attr.aria-label]="(header.label | translate) + ' ' +(row[header.key] | partialTranslate: header.partialTranslationKey)"
+                                                        class="whitespace-nowrap"
+                                                    >
+                                                        {{ row[header.key] | partialTranslate: header.partialTranslationKey | truncate: header.maxTextLength }}
+                                                    </p>
+                                                    <img
+                                                        class="cursor-pointer"
+                                                        [matTooltip]="row[header.key] | partialTranslate: header.partialTranslationKey"
+                                                        [alt]="'MORE_INFO' | translate"
+                                                        ngSrc="assets/images/icons/mouseover.svg"
+                                                        priority
+                                                        width="16"
+                                                        height="16"
+                                                    />
+                                                </div>
+                                            } @else {
+                                                <p [ngClass]="getRowAppliedClasses(row, header)" [attr.aria-label]="(header.label | translate) + ' ' + (row[header.key] | partialTranslate: header.partialTranslationKey)" class="whitespace-nowrap">
+                                                    {{ row[header.key] | partialTranslate: header.partialTranslationKey }}
+                                                </p>
+                                            }
+                                        } @else if (header.needsTranslation) {
+                                            @if (header.maxTextLength && (row[header.key] | translate).length > header.maxTextLength) {
+                                                <div class="flex items-center gap-1">
+                                                    <p
+                                                        [ngClass]="getRowAppliedClasses(row, header)"
+                                                        [attr.aria-label]="(header.label | translate) + ' ' + (row[header.key] | translate)"
+                                                        class="whitespace-nowrap"
+                                                    >
+                                                        {{ row[header.key] | translate | truncate: header.maxTextLength }}
+                                                    </p>
+                                                    <img
+                                                        class="cursor-pointer"
+                                                        [matTooltip]="row[header.key] | translate"
+                                                        [alt]="'MORE_INFO' | translate"
+                                                        ngSrc="assets/images/icons/mouseover.svg"
+                                                        priority
+                                                        width="16"
+                                                        height="16"
+                                                    />
+                                                </div>
+                                            } @else {
+                                                <p
+                                                    [ngClass]="getRowAppliedClasses(row, header)"
+                                                    [attr.aria-label]="(header.label | translate) + ' ' + (row[header.key] | translate)"
+                                                    class="whitespace-nowrap"
+                                                >
+                                                    {{ row[header.key] | translate }}
+                                                </p>
+                                            }
+                                        } @else {
+                                            @if (header.maxTextLength && row[header.key].length > header.maxTextLength) {
+                                                <div class="flex items-center gap-1">
+                                                    <p
+                                                        [ngClass]="getRowAppliedClasses(row, header)"
+                                                        [attr.aria-label]="(header.label | translate) + ' ' + row[header.key]"
+                                                        class="whitespace-nowrap"
+                                                    >
+                                                        {{ row[header.key] | truncate: header.maxTextLength }}
+                                                    </p>
+                                                    <img
+                                                        class="cursor-pointer"
+                                                        [matTooltip]="row[header.key]"
+                                                        [alt]="'MORE_INFO' | translate"
+                                                        ngSrc="assets/images/icons/mouseover.svg"
+                                                        priority
+                                                        width="16"
+                                                        height="16"
+                                                    />
+                                                </div>
+                                            } @else {
+                                                <p
+                                                    [ngClass]="getRowAppliedClasses(row, header)"
+                                                    [attr.aria-label]="(header.label | translate) + ' ' + row[header.key]"
+                                                    class="whitespace-nowrap"
+                                                >
+                                                    {{ row[header.key] ?? '-' }}
+                                                </p>
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            @if ($last) {
+                                <div class="flex items-center gap-2">
+                                    @if (hasSchedule()) {
+                                        <button
+                                            [disabled]="isScheduleDisabled()"
+                                            (click)="schedule.emit(row)"
+                                            class="border border-black-300 rounded flex items-center bg-white justify-center"
+                                            [ngClass]="isScheduleDisabled() ? 'cursor-not-allowed text-black-300' : 'cursor-pointer'"
+                                        >
+                                            <mat-icon>calendar_today</mat-icon>
+                                        </button>
+                                    }
+                                    @if (hasConfirmationCheckbox()) {
+                                        <button
+                                            [ngClass]="{ '!bg-success-25 !border-success': row[confirmationCheckboxPropertyName()] }"
+                                            (click)="
+                        row[confirmationCheckboxPropertyName()] = !row[confirmationCheckboxPropertyName()];
+                        confirmToggle.emit(row)
+                      "
+                                            class="cursor-pointer border border-black-300 rounded flex items-center bg-white justify-center"
+                                        >
+                                            <mat-icon>check</mat-icon>
+                                        </button>
+                                        <button
+                                            (click)="confirmDelete.emit(row)"
+                                            class="cursor-pointer border border-black-300 rounded flex items-center bg-white justify-center"
+                                        >
+                                            <mat-icon>delete_outline</mat-icon>
+                                        </button>
+                                    }
+                                    @if (actions()) {
+                                        <button
+                                            type="button"
+                                            [matMenuTriggerFor]="actionsMenu"
+                                            [attr.aria-label]="'DROPDOWN_MENU' | translate"
+                                            class="cursor-pointer flex items-center bg-white justify-center rounded border border-black-300"
+                                        >
+                                            <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #actionsMenu="matMenu">
+                                            @for (action of actions(); track action.labelFn) {
+                                                @if (!action.isVisible || action.isVisible.call(this, row)) {
+                                                    <button
+                                                        type="button"
+                                                        [attr.aria-label]="action.labelFn(row) | translate"
+                                                        (keydown.enter)="action.callbackFn(row)"
+                                                        (click)="action.callbackFn(row)"
+                                                        mat-menu-item
+                                                    >
+                                                        {{ action.labelFn(row) | translate }}
+                                                    </button>
+                                                }
+                                            }
+                                        </mat-menu>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </td>
+                </ng-container>
+            }
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            @if (isDraggable()) {
+                <tr mat-row *matRowDef="let row; columns: displayedColumns" class="draggable" #row cdkDrag></tr>
+            } @else {
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            }
+        </table>
+        @for (row of extraRowsArray(); track $index) {
+            <div class="my-1 text-center py-2.5 bg-success-25 border border-success rounded-md">
+                <p class="font-light text-sm">{{ extraRowsLabel() | translate }}</p>
+            </div>
+        }
+    }
+    @if (!isLoading() && !data().length) {
+        <div class="bg-black-50 flex items-center justify-center py-8 rounded border border-black-300">
+            <p [attr.aria-label]="'NO_RESULTS' | translate" class="text-xs font-light">{{ "NO_RESULTS" | translate }}</p>
+        </div>
+    }
+    @if (isLoading()) {
+        <ps-loading-overlay></ps-loading-overlay>
+    }
+</div>

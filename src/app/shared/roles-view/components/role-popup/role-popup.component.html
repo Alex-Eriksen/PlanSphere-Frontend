@@ -1,0 +1,70 @@
+<div class="sticky top-0 bg-white z-30">
+    <ps-popup-header
+        [includeExitButton]="true"
+        [label]="
+            componentInputs.isEditPopup
+                ? 'ROLE.EDIT.NAME'
+                : 'ROLE.CREATE.NAME'
+        "
+        [tooltipLabel]="
+            componentInputs.isEditPopup
+                ? 'ROLE.EDIT.TOOLTIP'
+                : 'ROLE.CREATE.TOOLTIP'
+        "></ps-popup-header>
+    @if (!isLoading) {
+        <form [formGroup]="formGroup" class="p-6 flex flex-col gap-4">
+            <ps-small-header
+                heading="ROLE.ROLE_NAME"
+                subheading="ROLE.ROLE_NAME_DESCRIPTION"
+            ></ps-small-header>
+            <ps-input
+                label="NAME"
+                [control]="formGroup.controls.name"
+            ></ps-input>
+            <ps-line></ps-line>
+            <ps-small-header
+                heading="RIGHT.NAME_PLURAL"
+            ></ps-small-header>
+            @for (roleRightRequest of roleRightRequests.controls; track roleRightRequest) {
+                <ps-right-request-item
+                    (remove)="removeRoleRightRequest($event)"
+                    [sourceLevel]="componentInputs.sourceLevel"
+                    [companyOptions]="companyOptions"
+                    [departmentOptions]="departmentOptions"
+                    [teamOptions]="teamOptions"
+                    [organisationOptions]="organisationOptions"
+                    [rightOptions]="rightOptions"
+                    [formGroup]="roleRightRequest"
+                ></ps-right-request-item>
+            }
+            <ps-button
+                buttonType="button"
+                buttonStyleType="button--tertiary"
+                imageSrc="assets/images/icons/plus-black.svg"
+                imagePosition="before"
+                label="RIGHT.ADD_RIGHT"
+                labelCaseSensitiveClass=""
+                (click)="addRoleRightRequest()"
+            ></ps-button>
+        </form>
+    } @else {
+        <ps-loading-overlay></ps-loading-overlay>
+    }
+    <div class="py-3 bg-black-50 flex border border-black-100 px-6 sticky bottom-0 z-10 justify-between">
+        <ps-button
+            (click)="closePopup()"
+            [appliedClasses]="'!py-3 !px-6'"
+            label="CLOSE"
+            buttonStyleType="button--tertiary"
+            buttonType="button"
+        />
+        <ps-button
+            (click)="submitForm()"
+            [appliedClasses]="'!py-3 !px-6'"
+            [label]="componentInputs.isEditPopup ? 'SAVE' : 'CREATE'"
+            buttonStyleType="button--primary"
+            buttonType="button"
+            [isLoading]="isSubmitting"
+        />
+    </div>
+</div>

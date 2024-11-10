@@ -1,0 +1,92 @@
+@if (paginationValues.results().length) {
+    <div class="flex justify-between items-center px-3">
+        <div>
+            <p class="text-sm font-light">
+                {{
+                    "SHOWING_COUNT"
+                        | translate
+                        : {
+                            start: paginationStartingIndex,
+                            end: paginationEndingIndex,
+                            total: paginationValues.totalCount(),
+                            type: type | translate
+                        }
+                }}
+            </p>
+        </div>
+        <div class="flex justify-center items-center">
+            <button
+                type="button"
+                (click)="previousPage()"
+                [disabled]="paginationValues.currentPage() === 1"
+                class="mr-1 w-10 h-10 border border-black-200 rounded-md disabled:opacity-50"
+            >
+                <i class="fa-solid fa-arrow-left fa-sm"></i>
+            </button>
+            <button
+                type="button"
+                (click)="updateSelectedPageNumber(firstPage)"
+                [ngClass]="{ activePage: paginationValues.currentPage() === firstPage }"
+                class="text-black text-sm mr-1 w-10 h-10 border border-black-200 cursor-pointer rounded-md"
+            >
+                {{ firstPage }}
+            </button>
+            @if (paginationValues.totalPages() > 5 && paginationValues.currentPage() > 3) {
+                <span class="mr-1 w-10 h-10 border border-black-200 rounded-md text-center pt-2">...</span>
+            }
+            @for (currentPageNumber of pages; track currentPageNumber) {
+                <button
+                    type="button"
+                    class="text-black text-sm mr-1 w-10 h-10 border border-black-200 cursor-pointer rounded-md"
+                    [ngClass]="{
+            activePage: paginationValues.currentPage() === currentPageNumber
+          }"
+                    (click)="updateSelectedPageNumber(currentPageNumber)"
+                >
+                    {{ currentPageNumber }}
+                </button>
+            }
+            @if (
+                paginationValues.totalPages() > 5 &&
+                paginationValues.currentPage() !== paginationValues.totalPages() &&
+                paginationValues.currentPage() !== paginationValues.totalPages() - 1
+                ) {
+                <span class="mr-1 w-10 h-10 border border-black-200 rounded-md text-center pt-2">...</span>
+            }
+            @if (paginationValues.totalPages() !== 1) {
+                <button
+                    type="button"
+                    (click)="updateSelectedPageNumber(paginationValues.totalPages())"
+                    [ngClass]="{
+            activePage: paginationValues.currentPage() === paginationValues.totalPages()
+          }"
+                    class="text-black text-sm mr-1 w-10 h-10 border border-black-200 cursor-pointer rounded-md"
+                >
+                    {{ paginationValues.totalPages() }}
+                </button>
+            }
+
+            <button
+                type="button"
+                (click)="nextPage()"
+                [disabled]="paginationValues.currentPage() >= paginationValues.totalPages()"
+                class="w-10 h-10 disabled:opacity-50 border border-black-200 focus:outline-none rounded-md peer"
+            >
+                <i class="fa-solid fa-arrow-right fa-sm"></i>
+            </button>
+        </div>
+        <div class="flex gap-2 items-center">
+            <p class="text-sm font-light">{{ "DISPLAY" | translate }}</p>
+            <mat-select
+                [value]="paginationValues.pageSize()"
+                (selectionChange)="updateDataByPageSize($event.value)"
+                class="border border-black-300 rounded-md py-1.5 px-3.5 text-sm text-black-300 !w-[5rem] !h-10"
+            >
+                @for (pageSize of pageSizeRange; track pageSize) {
+                    <mat-option [value]="pageSize">{{ pageSize }}</mat-option>
+                }
+                <mat-option [value]="paginationValues.totalCount()">{{ "ALL" | translate }}</mat-option>
+            </mat-select>
+        </div>
+    </div>
+}
