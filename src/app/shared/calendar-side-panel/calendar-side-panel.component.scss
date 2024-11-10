@@ -1,0 +1,7 @@
+.bg-primary-selected {
+    background-color: color-mix(in srgb, var(--color-primary) 50%, white);
+}
+
+.bg-primary-selected-hovered {
+    background-color: color-mix(in srgb, var(--color-primary) 20%, white);
+}

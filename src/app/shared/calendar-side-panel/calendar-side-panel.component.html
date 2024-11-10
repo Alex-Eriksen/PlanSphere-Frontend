@@ -1,0 +1,46 @@
+<div class="p-4 cursor-default select-none">
+    <div class="flex items-center justify-between mb-4">
+        <button class="text-gray-500 hover:text-blue-500 focus:outline-none" (click)="decrementMonth()">
+            <img src="assets/images/icons/chevron-right.svg" class="rotate-180" alt="Previous Month" width="12" height="20">
+        </button>
+        <h2 class="text-lg font-semibold text-gray-700">{{Object.values(CalendarMonths)[this.selectedMonth().value]}} {{selectedDate().value.getFullYear()}}</h2>
+        <button class="text-gray-500 hover:text-blue-500 focus:outline-none" (click)="incrementMonth()">
+            <img src="assets/images/icons/chevron-right.svg" alt="Next Month" width="12" height="20">
+        </button>
+    </div>
+
+    <div class="grid grid-cols-7 text-center text-sm text-gray-600">
+        <!-- Weekday Headers -->
+        <div class="font-semibold">M</div>
+        <div class="font-semibold">T</div>
+        <div class="font-semibold">W</div>
+        <div class="font-semibold">T</div>
+        <div class="font-semibold">F</div>
+        <div class="font-semibold">S</div>
+        <div class="font-semibold">S</div>
+
+        @for(day of daysInMonth().controls; track day ) {
+            <ps-calendar-side-panel-item
+                [calendarOption]="calendarOption()"
+                [currentDate]="currentDate()"
+                [day]="day"
+                [daysInMonth]="daysInMonth()"
+                [selectedDate]="selectedDate()"
+                [selectedMonth]="selectedMonth()"
+                [selectedWeek]="selectedWeek()"
+                [currentSelectedDay]="currentSelectedDay()"
+                [hoveredWeek]="hoveredWeek">
+            </ps-calendar-side-panel-item>
+        }
+    </div>
+
+    <hr class=" my-2 bg-gray-400">
+
+    <div class="flex justify-center">
+
+        <ps-button
+            [label]="'CALENDER.CHECK_IN'"
+            buttonStyleType="button--quaternary"
+            buttonType="button"/>
+    </div>
+</div>
