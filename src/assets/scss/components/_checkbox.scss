@@ -1,0 +1,43 @@
+.mat-mdc-checkbox {
+  .mdc-checkbox {
+    .mdc-checkbox__native-control ~ .mdc-checkbox__background {
+      .mdc-checkbox__checkmark,
+      .mdc-checkbox__mixedmark {
+        @apply w-2.5 m-auto;
+      }
+    }
+
+    &__background {
+      @apply rounded bg-white border-[1.5px] border-black-300 #{!important};
+    }
+
+    &__ripple {
+      @apply hidden;
+    }
+  }
+
+  .mdc-checkbox__native-control:disabled ~ .mdc-checkbox__background {
+    @apply opacity-50;
+  }
+
+  &.mat-mdc-checkbox-checked {
+    .mdc-checkbox__background {
+      @apply bg-primary border-primary #{!important};
+    }
+  }
+
+  .mat-mdc-checkbox-ripple {
+    @apply hidden;
+  }
+}
+
+.mdc-checkbox .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control[data-indeterminate="true"]:enabled ~ .mdc-checkbox__background {
+  @apply border-primary bg-primary #{!important};
+}
+
+.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked,
+.mat-pseudo-checkbox-full.mat-pseudo-checkbox-indeterminate {
+  @apply bg-primary   #{!important};
+}

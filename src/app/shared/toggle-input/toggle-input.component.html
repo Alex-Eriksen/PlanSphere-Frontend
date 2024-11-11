@@ -1,0 +1,14 @@
+<div class="inline-flex gap-2">
+    <mat-slide-toggle
+        [ngClass]="appliedClasses()"
+        class="text-sm font-light"
+        [checked]="control().value"
+        [disabled]="control().disabled"
+        (change)="toggle($event)"
+    >
+        <span class="ml-2">{{ label() | translate }}</span>
+    </mat-slide-toggle>
+    @if(tooltip()) {
+        <ps-tooltip [tooltip]="tooltip()"></ps-tooltip>
+    }
+</div>

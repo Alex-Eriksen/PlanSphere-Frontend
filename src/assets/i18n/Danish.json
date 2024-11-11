@@ -36,6 +36,9 @@
     "CREATED_AT": "Oprettelsesdato",
     "ACTIVATE": "Aktivér",
     "DEACTIVATE": "Deaktivér",
+    "ERROR": {
+        "UNAUTHORIZED": "Du har ikke rettigheden til denne funktionalitet."
+    },
     "VALIDATION": {
         "IS_REQUIRED": "er påkrævet",
         "IS_NOT_A_VALID_EMAIL": "er i et forkert format",
@@ -180,10 +183,66 @@
     },
     "CONTACT" : {
         "NAME": "Kontakt informationer",
-        "CARE_OF": "Varetagers Navn",
-        "CONTACT_NAME": "Kontakt Navn",
-        "CONTACT_EMAIL": "Kontakt Email",
-        "CONTACT_PHONENUMBER": "Kontakt Telefonnummer"
+        "CARE_OF": "Varetagers navn",
+        "CONTACT_NAME": "Kontakt navn",
+        "CONTACT_EMAIL": "Kontakt email",
+        "CONTACT_PHONENUMBER": "Kontakt telefonnummer"
+    },
+    "USER": {
+        "NAME": "Bruger",
+        "PROFILE": "Profil",
+        "DETAILS": {
+            "NAME": "Bruger oplysninger"
+        },
+        "SETTINGS": {
+            "NAME": "Bruger indstillinger",
+            "PRIVACY": {
+                "PRIVACY_SETTINGS": "Privatlivsindstillinger",
+                "TOOLTIP": "Indstil hvorvidt dine informationer vil blive skjult for andre brugere. OPS: Dette gælder ikke administratorere eller brugere med ren læse rettighed.",
+                "PRIVATE_EMAIL": "Privat email",
+                "PRIVATE_ADDRESS": "Privat addresse",
+                "PRIVATE_BIRTHDAY": "Privat fødselsdag",
+                "PRIVATE_PHONE_NUMBER": "Privat telefonnummer"
+            },
+            "WORK_SCHEDULE": {
+                "WORK_SCHEDULE_NAME": "Arbejdsskemaindstillinger",
+                "AUTO_CHECK_IN_OUT": {
+                    "NAME": "Automatisk tjek ind og ud",
+                    "TOOLTIP": "Hvis automatisk tjek ind og ud er slået til vil systemet automatisk tjekke dig ind og ud udfra til arbejdsskema."
+                },
+                "AUTO_CHECK_OUT_DISABLED": {
+                    "NAME": "Midlertidig tjek ud slået fra",
+                    "TOOLTIP": "Hvis denne indstilling er slået til vil systemet ikke tjekke dig automatisk ud næste gang hvis automatisk tjek ind og ud er slået til."
+                }
+            }
+        }
+    },
+    "WORK_SCHEDULE": {
+        "NAME": "Arbejdsskema",
+        "INHERIT_WORK_SCHEDULE": "Nedarv arbejdsskema",
+        "WORKING_DAYS": "Arbejds dage"
+    },
+    "TO": "Til",
+    "SHIFT_LOCATION": {
+        "OFFICE": "Kontor",
+        "REMOTE": "Fjern"
+    },
+    "WEEK_DAY": {
+        "MONDAY": "Mandag",
+        "TUESDAY": "Tirsdag",
+        "WEDNESDAY": "Onsdag",
+        "THURSDAY": "Torsdag",
+        "FRIDAY": "Fredag",
+        "SATURDAY": "Lørdag",
+        "SUNDAY": "Søndag"
+    },
+    "SETTINGS": {
+        "NAME": "Indstillinger",
+        "NAME_PLURAL": "Indstillinger",
+        "CARE_OF": "Varetagers navn",
+        "CONTACT_NAME": "Kontakt navn",
+        "CONTACT_EMAIL": "Kontakt email",
+        "CONTACT_PHONENUMBER": "Kontakt telefonnummer"
     },
     "ROLE": {
         "NAME": "Rolle",
