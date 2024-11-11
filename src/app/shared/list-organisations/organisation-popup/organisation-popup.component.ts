@@ -14,7 +14,7 @@ import { LoadingOverlayComponent } from "../../loading-overlay/loading-overlay.c
 import { MatSlideToggle } from "@angular/material/slide-toggle";
 import { SmallHeaderComponent } from "../../small-header/small-header.component";
 import { TranslateModule } from "@ngx-translate/core";
-import { AddressInputComponent } from "../../address-input/address-input/address-input.component";
+import { AddressInputComponent } from "../../address-input/address-input.component";
 
 @Component({
   selector: 'ps-organisation-popup',

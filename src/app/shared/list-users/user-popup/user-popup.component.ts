@@ -1,10 +1,10 @@
 import { Component, inject, input, OnDestroy, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
-import { NonNullableFormBuilder } from "@angular/forms";
+import { FormBuilder } from "@angular/forms";
 import { IUserPopupInputs } from "./user-popup-inputs.interfaces";
 import { Subscription, tap } from "rxjs";
 import { markAllControlsAsTouchedAndDirty } from "../../utilities/form.utilities";
-import { AddressInputComponent } from "../../address-input/address-input/address-input.component";
+import { AddressInputComponent } from "../../address-input/address-input.component";
 import { ButtonComponent } from "../../button/button.component";
 import { DialogHeaderComponent } from "../../dialog-header/dialog-header.component";
 import { InputComponent } from "../../input/input.component";
@@ -13,6 +13,7 @@ import { SmallHeaderComponent } from "../../small-header/small-header.component"
 import { TranslateModule } from "@ngx-translate/core";
 import { IUserPayload } from "../../../core/features/users/utilities/user-payload";
 import { UserService } from "../../../core/features/users/services/user.service";
+import { userFormGroupBuilder } from "../../../core/features/users/utilities/userFormGroupBuilder.utilities";
 
 @Component({
   selector: 'ps-user-popup',
@@ -32,7 +33,8 @@ import { UserService } from "../../../core/features/users/services/user.service"
 export class UserPopupComponent implements OnInit, OnDestroy {
     readonly #userService = inject(UserService);
     readonly #matDialog = inject(MatDialog);
-    readonly #fb = inject(NonNullableFormBuilder);
+    readonly #fb = inject(FormBuilder);
+    formGroup!: any;
     readonly componentInputs: IUserPopupInputs = inject(MAT_DIALOG_DATA);
     userId = input.required<number>();
     isPageLoading: boolean = false;
@@ -40,33 +42,9 @@ export class UserPopupComponent implements OnInit, OnDestroy {
 
     #loadUserSubscription: Subscription = new Subscription();
 
-    formGroup = this.#fb.group({
-        firstName: this.#fb.control(""),
-        lastName: this.#fb.control(""),
-        email: this.#fb.control(""),
-        phoneNumber: this.#fb.control(""),
-        address: this.#fb.group({
-            streetName: this.#fb.control(""),
-            houseNumber: this.#fb.control(""),
-            door: this.#fb.control(""),
-            floor: this.#fb.control(""),
-            postalCode: this.#fb.control(""),
-            countryId: this.#fb.control(""),
-        }),
-        settings: this.#fb.group({
-            isBirthdayPrivate: this.#fb.control({value: true, disabled: false}),
-            isEmailPrivate:this.#fb.control({value: true, disabled: false}),
-            isPhoneNumberPrivate:this.#fb.control({value: true, disabled: false}),
-            isAddressPrivate:this.#fb.control({value: true, disabled: false}),
-            inheritWorkSchedule:this.#fb.control({value: true, disabled: false}),
-            inheritedWorkScheduleId:this.#fb.control({value: 0, disabled: false}),
-            autoCheckInOut:this.#fb.control({value: true, disabled: false}),
-            autoCheckOutDisabled:this.#fb.control({value: true, disabled: false})
-        })
-    });
-
     ngOnInit(): void {
         this.isPageLoading = true;
+        this.formGroup = userFormGroupBuilder(this.#fb);
         if (this.componentInputs.isEditPopup) {
             this.#initializeEditPopup();
         } else {

@@ -1,3 +1,31 @@
-<ps-small-header
-    heading="USER.DETAILS.NAME"
-></ps-small-header>
+@if (isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div class="border-gray-900/10 pb-12">
+        <div class="flex flex-row justify-between">
+            <ps-small-header heading="USER.USER_INFO" subheading="USER.FILL_USER_DETAILS"></ps-small-header>
+
+            <!-- image section -->
+            <div class="flex flex-grow justify-end">
+            </div>
+        </div>
+
+        <form [formGroup]="formGroup" (focusout)="patchDetails()">
+            <!-- User details Section -->
+            <div class="mt-5 flex flex-row gap-y-4">
+                <div class="w-full">
+                    <ps-input [control]="formGroup.controls.firstName" label="USER.NAME_SPECIFIC"></ps-input>
+                    <ps-input [control]="formGroup.controls.lastName" label="USER.NAME_SPECIFIC"></ps-input>
+                    <ps-input [control]="formGroup.controls.email" label="USER.NAME_SPECIFIC"></ps-input>
+                    <ps-input [control]="formGroup.controls.phoneNumber" label="USER.NAME_SPECIFIC"></ps-input>
+                </div>
+            </div>
+
+            <div>
+                <!-- Address Section -->
+                <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
+            </div>
+        </form>
+    </div>
+}
+

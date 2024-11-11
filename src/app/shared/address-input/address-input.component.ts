@@ -1,13 +1,13 @@
 import { Component, inject, input, OnInit } from "@angular/core";
 import { FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { LineComponent } from "../../line/line.component";
-import { SmallHeaderComponent } from "../../small-header/small-header.component";
-import { InputComponent } from "../../input/input.component";
-import { castControlFromAbstractToFormControl } from "../../utilities/form.utilities";
-import { SelectFieldComponent } from "../../select-field/select-field.component";
-import { IDropdownOption } from "../../interfaces/dropdown-option.interface";
-import { CountryService } from "../../../core/features/address/services/country.service";
-import { ZipCodeService } from "../../../core/features/address/services/zipCode.service";
+import { LineComponent } from "../line/line.component";
+import { SmallHeaderComponent } from "../small-header/small-header.component";
+import { InputComponent } from "../input/input.component";
+import { castControlFromAbstractToFormControl } from "../utilities/form.utilities";
+import { SelectFieldComponent } from "../select-field/select-field.component";
+import { IDropdownOption } from "../interfaces/dropdown-option.interface";
+import { CountryService } from "../../core/features/address/services/country.service";
+import { ZipCodeService } from "../../core/features/address/services/zipCode.service";
 
 @Component({
   selector: 'ps-address-input',

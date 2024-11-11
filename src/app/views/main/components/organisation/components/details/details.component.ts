@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from "@angular/core";
 import { OrganisationService } from "../../../../../../core/features/organisation/services/organisation.service";
 import { IOrganisation } from "../../../../../../core/features/organisation/models/organisation.model";
-import { FormBuilder, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { InputComponent } from "../../../../../../shared/input/input.component";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
 import { IOrganisationDetails } from "../../../../../../core/features/organisation/models/organisation-details.model";
@@ -12,14 +12,14 @@ import { AuthenticationService } from "../../../../../../core/features/authentic
 import { ILoggedInUser } from "../../../../../../core/features/authentication/models/logged-in-user.model";
 import { LineComponent } from "../../../../../../shared/line/line.component";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
-import { AddressInputComponent } from "../../../../../../shared/address-input/address-input/address-input.component";
+import { AddressInputComponent } from "../../../../../../shared/address-input/address-input.component";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
 import { DialogService } from "../../../../../../core/services/dialog.service";
 import {
     ListOrganisationsComponent
 } from "../../../../../../shared/list-organisations/list-organisations.component";
 import { OrganisationPopupComponent } from "../../../../../../shared/list-organisations/organisation-popup/organisation-popup.component";
-import { addressFormBuilderControle } from "../../../../../../core/features/address/utilities/address.utilities";
+import { organisationFormGroupBuilder } from "../../../../../../core/features/organisation/utilities/organisationFormGroupBuilder.utilities";
 
 @Component({
     selector: 'ps-details',
@@ -44,7 +44,8 @@ export class DetailsComponent implements OnInit {
     organisation?: IOrganisation;
     readonly #authenticationService = inject(AuthenticationService);
     readonly #organisationService = inject(OrganisationService);
-    readonly #fb = inject(NonNullableFormBuilder);
+    readonly #fb = inject(FormBuilder);
+    formGroup!: any;
     readonly #toastService = inject(ToastService);
     readonly #dialogService = inject(DialogService);
     readonly #isDeletingOrganisation = signal(false);
@@ -53,18 +54,8 @@ export class DetailsComponent implements OnInit {
     ngOnInit(): void {
         this.isPageLoading = true;
         this.fetchOrganisationIdFromUser();
+        this.formGroup = organisationFormGroupBuilder(this.#fb);
     }
-
-    formGroup = this.#fb.group({
-        name: this.#fb.control("", Validators.required),
-        logoUrl: this.#fb.control("", Validators.required),
-        address: addressFormBuilderControle(this.#fb as FormBuilder),
-        settings: this.#fb.group({
-            defaultRoleId: this.#fb.control({ value: 1, disabled: true }),
-            defaultWorkScheduleId: this.#fb.control({ value: 1, disabled: true }),
-        }),
-        createdAt: this.#fb.control({ value: new Date, disabled: true }),
-    });
 
     openDeleteDialog() : void {
         this.#dialogService.open(
@@ -101,7 +92,7 @@ export class DetailsComponent implements OnInit {
     patchDetails(): void {
         const paths = updateNestedControlsPathAndValue(this.formGroup);
         if (Object.keys(paths).length) {
-            this.#organisationService.patch(this.organisationId, paths).subscribe()
+            this.#organisationService.patch(this.organisationId, paths).subscribe();
         }
     }
 

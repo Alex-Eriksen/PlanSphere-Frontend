@@ -12,14 +12,13 @@ export const mapZipCodesToDropdownOptions = (lookUps: IZipCodeLookup[]): IDropdo
     });
 };
 
-export const addressFormBuilderControle = (formBuilder: FormBuilder): FormGroup => {
-    return formBuilder.group({
-        streetName: (""),
-        houseNumber: (""),
-        door: (""),
-        floor: (""),
-        postalCode: (""),
-        countryId: (""),
+export const addressFormBuilderControl = (fb: FormBuilder): FormGroup => {
+    return fb.group({
+        streetName: fb.control(""),
+        houseNumber: fb.control(""),
+        door: fb.control(""),
+        floor: fb.control(""),
+        postalCode: fb.control(""),
+        countryId: fb.control(""),
     });
-
 }
