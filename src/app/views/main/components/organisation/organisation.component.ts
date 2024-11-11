@@ -34,6 +34,11 @@ export class OrganisationComponent {
             label: "ROLE.NAME_PLURAL",
             routeLink: "roles",
             icon: "fa-solid fa-user-check"
+        },
+        {
+            label: "USER.NAME_PLURAL",
+            routeLink: "users",
+            icon: "fa-solid fa-user-check"
         }
     ];
 }

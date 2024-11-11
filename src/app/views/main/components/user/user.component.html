@@ -1,1 +1,5 @@
-<p>user works!</p>
+@if (isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <ps-list-users [sourceLevelId]="sourceLevelId"></ps-list-users>
+}

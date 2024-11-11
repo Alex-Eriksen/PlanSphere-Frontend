@@ -6,7 +6,7 @@ import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-t
 import { mapToSignalPaginatedResponse } from "../../../../shared/utilities/signals.utilities";
 import { signal } from "@angular/core";
 
-export const mapOrganisationToSignelSmallListInputOperator = (): OperatorFunction<IPaginatedResponse<IOrganisation>, ISignalPaginatedResponse<ISmallListTableInput>
+export const mapOrganisationToSignalSmallListInputOperator = (): OperatorFunction<IPaginatedResponse<IOrganisation>, ISignalPaginatedResponse<ISmallListTableInput>
 > => {
     return map((paginatedOrganisations) => ({
         ...mapToSignalPaginatedResponse(paginatedOrganisations),

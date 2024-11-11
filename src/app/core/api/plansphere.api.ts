@@ -61,5 +61,13 @@ export const APIS = {
     },
     zipCode: {
         getZipCodeLookups: environment.apiUrl + "ZipCode/GetZipCodeLookups",
+    },
+    user: {
+        createUser: () => environment.apiUrl + "User/CreateUser",
+        getUserById: (sourceLevelId: number) => environment.apiUrl + `User/GetUserById/${sourceLevelId}`,
+        listUsers: () => environment.apiUrl + "User/ListUsers",
+        patchUser: (sourceLevelId: number) => environment.apiUrl + `User/PatchUser/${sourceLevelId}`,
+        updateUser: (sourceLevelId: number) => environment.apiUrl + `User/UpdateUser/${sourceLevelId}`,
+        deleteUser: (sourceLevelId: number) => environment.apiUrl + `User/DeleteUser/${sourceLevelId}`,
     }
 }
