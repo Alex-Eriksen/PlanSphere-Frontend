@@ -82,6 +82,10 @@
             "COMPANY_MEMBERS": "Virksomheds medlemmer",
             "DEPARTMENT_MEMBERS": "Afdelings medlemmer",
             "TEAM_MEMBERS": "Team medlemmer"
+        },
+        "SETTINGS": {
+            "NAME": "Organisations indstillinger",
+            "NAME_PLURAL": "Organisations indstillinger"
         }
     },
     "COMPANY": {
@@ -220,7 +224,8 @@
     "WORK_SCHEDULE": {
         "NAME": "Arbejdsskema",
         "INHERIT_WORK_SCHEDULE": "Nedarv arbejdsskema",
-        "WORKING_DAYS": "Arbejds dage"
+        "WORKING_DAYS": "Arbejds dage",
+        "STANDARD_NAME": "Standard arbejdsskema"
     },
     "TO": "Til",
     "SHIFT_LOCATION": {
