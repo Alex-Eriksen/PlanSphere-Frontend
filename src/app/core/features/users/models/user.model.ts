@@ -7,8 +7,8 @@ export interface IUser extends IBase {
     lastName: string;
     email: string;
     address: IAddress;
-    phoneNumber: string;
-    birthday: Date;
+    phoneNumber: string | null;
+    birthday: Date | null;
     settings: IUserSettings;
     createdAt: string;
     createdBy: string;
