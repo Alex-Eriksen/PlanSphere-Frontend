@@ -26,7 +26,7 @@
                     label="SAVE"
                     buttonStyleType="button--primary"
                     buttonType="button"
-                    (click)="updateWorkSchedule.emit(formGroup().value)"
+                    (click)="updateWorkSchedule.emit(formGroup().getRawValue())"
                     [isLoading]="isUpdating()"
                 ></ps-button>
             }

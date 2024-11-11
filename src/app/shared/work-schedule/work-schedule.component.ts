@@ -9,7 +9,7 @@ import { DayOfWeekTranslationMapper } from "../../core/mappers/day-of-week-trans
 import { DayOfWeek } from "../../core/enums/day-of-week.enum";
 import { TranslateModule } from "@ngx-translate/core";
 import { IWorkScheduleShift } from "../../core/features/workSchedules/models/work-schedule-shift.model";
-import { constructWorkScheduleShiftFormGroup } from "../../core/features/workSchedules/utilities/work-schedule.utilities";
+import { constructWorkScheduleShiftFormGroup, sortWorkScheduleShifts } from "../../core/features/workSchedules/utilities/work-schedule.utilities";
 import { ShiftLocation } from "../../core/enums/shift-location.enum";
 import { LineComponent } from "../line/line.component";
 import { IWorkSchedule } from "../../core/features/workSchedules/models/work-schedule.model";
@@ -61,19 +61,19 @@ export class WorkScheduleComponent implements OnInit {
 
     protected selectedDayChanged(value: { event: MatCheckboxChange, day: DayOfWeek }): void {
         if (!value.event.checked) {
-            const index = this.selectedDaysOfTheWeek.indexOf(value.day);
-            const controlIndex = castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).value.indexOf((y: IWorkScheduleShift[]) => y.map(x => x.day === value.day));
+            const controlIndex = (castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).value as IWorkScheduleShift[]).findIndex(x => x.day === value.day);
             castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).removeAt(controlIndex);
-            this.selectedDaysOfTheWeek.splice(index, 1);
         } else {
-            this.selectedDaysOfTheWeek.push(value.day);
-            castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).push(constructWorkScheduleShiftFormGroup(this.#fb, {
-                day: value.day,
-                startTime: '09:00:00',
-                endTime: '17:00:00',
-                id: -1,
-                location: ShiftLocation.Office
-            }));
+            castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).push(
+                constructWorkScheduleShiftFormGroup(this.#fb, {
+                    day: value.day,
+                    startTime: '09:00:00',
+                    endTime: '17:00:00',
+                    id: 0,
+                    location: ShiftLocation.Office
+                })
+            );
+            castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).patchValue(sortWorkScheduleShifts(castControlFromAbstractToFormArray(this.formGroup().controls['workScheduleShifts']).value));
         }
     }
 

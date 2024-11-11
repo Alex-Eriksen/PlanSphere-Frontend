@@ -5,7 +5,7 @@ import { ShiftLocation } from "../../../enums/shift-location.enum";
 import { DayOfWeek } from "../../../enums/day-of-week.enum";
 
 export const recursivelyFindParentWorkSchedule = (workSchedule: IWorkSchedule): IWorkSchedule => {
-    if (workSchedule.parent != null) return recursivelyFindParentWorkSchedule(workSchedule.parent);
+    if (workSchedule.parent !== null) return recursivelyFindParentWorkSchedule(workSchedule.parent);
     return workSchedule;
 }
 
@@ -36,4 +36,8 @@ const constructWorkScheduleShiftFormArray = (fb: NonNullableFormBuilder, workSch
     const array = fb.array<FormGroup>([]);
     workScheduleShifts?.forEach((workScheduleShift) => array.push(constructWorkScheduleShiftFormGroup(fb, workScheduleShift)));
     return array;
+}
+
+export const sortWorkScheduleShifts = (workScheduleShifts: IWorkScheduleShift[]): IWorkScheduleShift[] => {
+    return workScheduleShifts.sort((a, b) => Object.values(DayOfWeek).indexOf(a.day) - Object.values(DayOfWeek).indexOf(b.day));
 }

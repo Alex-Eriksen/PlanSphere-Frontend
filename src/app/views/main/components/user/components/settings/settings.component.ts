@@ -103,10 +103,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
     #getUserDetails(): Observable<IUser> {
         return this.#userService.getUserDetails().pipe(tap((user) => {
             this.userDetails = user;
-            this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, recursivelyFindParentWorkSchedule(user.settings.workSchedule));
             this.formGroup.patchValue(user);
             this.formGroup.controls.settings.controls.inheritedWorkScheduleId.patchValue(user.settings.workSchedule.parent?.id);
             this.#updateAutoCheckOutDisabled(user.settings.autoCheckInOut);
+            this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, recursivelyFindParentWorkSchedule(user.settings.workSchedule), user.settings.inheritWorkSchedule);
         }));
     }
 
@@ -140,7 +140,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.loadingWorkSchedule = true;
         this.formGroup.controls.settings.controls.inheritWorkSchedule.enable();
         this.#workScheduleService.getWorkScheduleById(workScheduleId).subscribe((workSchedule) => {
-            this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, recursivelyFindParentWorkSchedule(workSchedule), true);
+            this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, recursivelyFindParentWorkSchedule(workSchedule), this.formGroup.controls.settings.controls.inheritWorkSchedule.value);
             this.loadingWorkSchedule = false;
         });
     }
@@ -150,6 +150,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.#workScheduleService.updateWorkSchedule(SourceLevel.Organisation, 0, workSchedule).subscribe({
             next: () => {
                 this.isUpdatingWorkSchedule = false;
+                this.#updateWorkSchedule(workSchedule.id);
             },
             error: err => {
                 this.#toastService.showToast(err.error.Message);
