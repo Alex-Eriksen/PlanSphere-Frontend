@@ -1,8 +1,7 @@
 import { IAddress } from "../../address/models/address.model";
-import { IUserSettings } from "./user.settings.model";
+import { IUserSettings } from "../models/user-settings.model";
 
-export interface IUser {
-    id: number;
+export interface IUserPayload {
     firstName: string;
     lastName: string;
     email: string;
@@ -10,4 +9,5 @@ export interface IUser {
     phoneNumber: string;
     birthday: string;
     settings: IUserSettings;
+    profilePictureUrl: string;
 }

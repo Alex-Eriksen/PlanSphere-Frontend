@@ -1,4 +1,5 @@
 export interface IUserPopupInputs {
-    sourceLevelId: number;
+    sourceLevelId?: number;
+    userId: number;
     isEditPopup: boolean;
 }

@@ -16,10 +16,14 @@ export const APIS = {
         updateWorkScheduleWithoutId: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `WorkSchedule/UpdateWorkSchedule/${sourceLevel}/${sourceLevelId}`,
     },
     users: {
+        createUser: () => environment.apiUrl + "User/CreateUser",
         getUserDetailsWithId: (userId: number) => environment.apiUrl + `User/GetUserDetails/${userId}`,
         getUserDetailsWithoutId: environment.apiUrl + `User/GetUserDetails`,
         patchUserWithId: (userId: number) => environment.apiUrl + `User/PatchUser/${userId}`,
         patchUserWithoutId: environment.apiUrl + `User/PatchUser`,
+        listUsers: () => environment.apiUrl + "User/ListUsers",
+        updateUser: (userId: number) => environment.apiUrl + `User/UpdateUser/${userId}`,
+        deleteUser: (userId: number) => environment.apiUrl + `User/DeleteUser/${userId}`,
     },
     roles: {
         createRole: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Role/CreateRole/${sourceLevel}/${sourceLevelId}`,
@@ -74,12 +78,4 @@ export const APIS = {
     zipCode: {
         getZipCodeLookups: environment.apiUrl + "ZipCode/GetZipCodeLookups",
     },
-    user: {
-        createUser: () => environment.apiUrl + "User/CreateUser",
-        getUserById: (sourceLevelId: number) => environment.apiUrl + `User/GetUserById/${sourceLevelId}`,
-        listUsers: () => environment.apiUrl + "User/ListUsers",
-        patchUser: (sourceLevelId: number) => environment.apiUrl + `User/PatchUser/${sourceLevelId}`,
-        updateUser: (sourceLevelId: number) => environment.apiUrl + `User/UpdateUser/${sourceLevelId}`,
-        deleteUser: (sourceLevelId: number) => environment.apiUrl + `User/DeleteUser/${sourceLevelId}`,
-    }
 }

@@ -1,5 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from "@angular/core";
-import { UserService } from "../../../core/features/user/services/user.service";
+import { Component, inject, input, OnDestroy, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { NonNullableFormBuilder } from "@angular/forms";
 import { IUserPopupInputs } from "./user-popup-inputs.interfaces";
@@ -12,7 +11,8 @@ import { InputComponent } from "../../input/input.component";
 import { LoadingOverlayComponent } from "../../loading-overlay/loading-overlay.component";
 import { SmallHeaderComponent } from "../../small-header/small-header.component";
 import { TranslateModule } from "@ngx-translate/core";
-import { IUserPayload } from "../../../core/features/user/utilities/user-payload";
+import { IUserPayload } from "../../../core/features/users/utilities/user-payload";
+import { UserService } from "../../../core/features/users/services/user.service";
 
 @Component({
   selector: 'ps-user-popup',
@@ -34,6 +34,7 @@ export class UserPopupComponent implements OnInit, OnDestroy {
     readonly #matDialog = inject(MatDialog);
     readonly #fb = inject(NonNullableFormBuilder);
     readonly componentInputs: IUserPopupInputs = inject(MAT_DIALOG_DATA);
+    userId = input.required<number>();
     isPageLoading: boolean = false;
     isFormSubmitting: boolean = false;
 
@@ -84,7 +85,7 @@ export class UserPopupComponent implements OnInit, OnDestroy {
         }
         this.isFormSubmitting = true;
         if (this.componentInputs.isEditPopup) {
-            this.#userService.updateUser(this.componentInputs.sourceLevelId!, this.formGroup.value as IUserPayload)
+            this.#userService.updateUser(this.componentInputs.userId, this.formGroup.value as IUserPayload)
                 .subscribe({
                     next: () => {
                         this.isFormSubmitting = false;
@@ -115,7 +116,7 @@ export class UserPopupComponent implements OnInit, OnDestroy {
     }
 
     #getUser() {
-        return this.#userService.getUserById(this.componentInputs.sourceLevelId!)
+        return this.#userService.getUserDetails(this.componentInputs.userId!)
             .pipe(
                 tap((user) =>
                     this.formGroup.patchValue(user)));

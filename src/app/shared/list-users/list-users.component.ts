@@ -6,7 +6,6 @@ import { SmallHeaderComponent } from "../small-header/small-header.component";
 import { SmallListTableComponent } from "../small-list-table/small-list-table.component";
 import { SubHeaderComponent } from "../sub-header/sub-header.component";
 import { TranslateModule } from "@ngx-translate/core";
-import { UserService } from "../../core/features/user/services/user.service";
 import { MatDialog } from "@angular/material/dialog";
 import { constructInitialSignalPaginatedResponse, copyPaginatedSignalResponse } from "../utilities/signals.utilities";
 import { ISmallListTableInput } from "../interfaces/small-list-table-input.interface";
@@ -22,6 +21,7 @@ import { UserPopupComponent } from "./user-popup/user-popup.component";
 import { IUserPopupInputs } from "./user-popup/user-popup-inputs.interfaces";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { userHeaders } from "../table-headers/user.headers";
+import { UserService } from "../../core/features/users/services/user.service";
 
 @Component({
   selector: 'ps-list-users',
@@ -46,7 +46,8 @@ export class ListUsersComponent extends BasePaginatedTableWithSearchComponent {
     readonly #dialogService = inject(DialogService);
     readonly #isDeletingUser = signal(false);
     readonly #destroyRef = inject(DestroyRef);
-    sourceLevelId = input.required<number>();
+    //sourceLevelId = input.required<number>();
+    userId = input.required<number>();
     sortingFilterSignal: WritableSignal<ITableSortingFilter> = signal({
         sortBy: "firstName",
         sortDescending: false,
@@ -87,7 +88,7 @@ export class ListUsersComponent extends BasePaginatedTableWithSearchComponent {
             minWidth: "75dvw",
             maxHeight: "95dvh",
             data: {
-                sourceLevelId: row != null ? row.id : this.sourceLevelId(),
+                userId: row != null ? row.id : this.userId(),
                 isEditPopup: isEditPopup,
             }
         })
