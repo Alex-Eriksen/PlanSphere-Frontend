@@ -1,5 +1,6 @@
-@if (isPageLoading) {
-    <ps-loading-overlay></ps-loading-overlay>
-} @else {
-    <ps-list-users [sourceLevelId]="sourceLevelId"></ps-list-users>
-}
+<div class="max-w-screen-max-screen">
+    <ps-navigation-tabs [tabs]="tabs"></ps-navigation-tabs>
+    <div class="page">
+        <router-outlet></router-outlet>
+    </div>
+</div>

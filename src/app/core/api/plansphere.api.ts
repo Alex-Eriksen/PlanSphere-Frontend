@@ -9,6 +9,18 @@ export const APIS = {
         revokeToken: environment.apiUrl + "Authentication/revokeRefreshToken",
         getLoggedInUser: environment.apiUrl + "Authentication/GetLoggedInUser",
     },
+    workSchedules: {
+        lookUpWorkSchedules: environment.apiUrl + "WorkSchedule/LookUpWorkSchedules",
+        getWorkScheduleById: (workScheduleId: number) => environment.apiUrl + `WorkSchedule/GetWorkScheduleById/${workScheduleId}`,
+        updateWorkScheduleWithId: (sourceLevel: SourceLevel, sourceLevelId: number, workScheduleId: number) => environment.apiUrl + `WorkSchedule/UpdateWorkSchedule/${sourceLevel}/${sourceLevelId}/${workScheduleId}`,
+        updateWorkScheduleWithoutId: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `WorkSchedule/UpdateWorkSchedule/${sourceLevel}/${sourceLevelId}`,
+    },
+    users: {
+        getUserDetailsWithId: (userId: number) => environment.apiUrl + `User/GetUserDetails/${userId}`,
+        getUserDetailsWithoutId: environment.apiUrl + `User/GetUserDetails`,
+        patchUserWithId: (userId: number) => environment.apiUrl + `User/PatchUser/${userId}`,
+        patchUserWithoutId: environment.apiUrl + `User/PatchUser`,
+    },
     roles: {
         createRole: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Role/CreateRole/${sourceLevel}/${sourceLevelId}`,
         listAll: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Role/ListRoles/${sourceLevel}/${sourceLevelId}`,

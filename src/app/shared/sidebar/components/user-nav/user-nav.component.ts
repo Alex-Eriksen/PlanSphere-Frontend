@@ -4,6 +4,7 @@ import { NgClass } from "@angular/common";
 import { MatMenu, MatMenuTrigger } from "@angular/material/menu";
 import { ButtonComponent } from "../../../button/button.component";
 import { TranslateModule } from "@ngx-translate/core";
+import { RouterLink, RouterLinkActive } from "@angular/router";
 
 @Component({
   selector: 'ps-user-nav',
@@ -13,7 +14,9 @@ import { TranslateModule } from "@ngx-translate/core";
         MatMenuTrigger,
         MatMenu,
         ButtonComponent,
-        TranslateModule
+        TranslateModule,
+        RouterLinkActive,
+        RouterLink
     ],
   templateUrl: './user-nav.component.html',
   styleUrl: './user-nav.component.scss'
