@@ -7,6 +7,7 @@ import { FormArray, FormControl } from "@angular/forms";
 import { DayInfo } from "../interfaces/day-info.interface";
 import { LoadingOverlayComponent } from "../loading-overlay/loading-overlay.component";
 import { CalendarSidePanelItemComponent } from "../calendar-side-panel-item/calendar-side-panel-item.component";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
   selector: 'ps-calendar-side-panel',
@@ -17,7 +18,8 @@ import { CalendarSidePanelItemComponent } from "../calendar-side-panel-item/cale
         NgClass,
         LoadingOverlayComponent,
         CalendarSidePanelItemComponent,
-        NgOptimizedImage
+        NgOptimizedImage,
+        TranslateModule
     ],
   templateUrl: './calendar-side-panel.component.html',
   styleUrl: './calendar-side-panel.component.scss'

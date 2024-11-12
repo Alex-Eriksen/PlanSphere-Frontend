@@ -1,9 +1,9 @@
 <div class="p-4 cursor-default select-none">
-    <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center justify-between mx-2 mb-4">
         <button class="text-gray-500 hover:text-blue-500 focus:outline-none" (click)="decrementMonth()">
             <img src="assets/images/icons/chevron-right.svg" class="rotate-180" alt="Previous Month" width="12" height="20">
         </button>
-        <h2 class="text-lg font-semibold text-gray-700">{{Object.values(CalendarMonths)[this.selectedMonth().value]}} {{selectedDate().value.getFullYear()}}</h2>
+        <h2 class="text-lg font-semibold text-gray-700">{{Object.values(CalendarMonths)[this.selectedMonth().value].toUpperCase() | translate}} {{selectedDate().value.getFullYear()}}</h2>
         <button class="text-gray-500 hover:text-blue-500 focus:outline-none" (click)="incrementMonth()">
             <img src="assets/images/icons/chevron-right.svg" alt="Next Month" width="12" height="20">
         </button>

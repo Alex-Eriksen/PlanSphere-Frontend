@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { DayInfo } from "../../shared/interfaces/day-info.interface";
 import { BehaviorSubject } from "rxjs";
 import {
@@ -8,11 +8,14 @@ import {
 import { DayOfWeek } from "../../shared/enums/day-of-week.enum";
 import { IWorkSchedule } from "../features/workSchedules/models/work-schedule.model";
 import { DayInfoMonth } from "../../shared/enums/day-info-month.enum";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarDateService {
+
+    readonly #translateService = inject(TranslateService);
 
     #daysInMonth = new BehaviorSubject<DayInfo[]>([]);
     #currentSelectedDay = new BehaviorSubject<DayInfo | null>(null);
@@ -30,27 +33,22 @@ export class CalendarDateService {
 
     setDaysInMonth(days: DayInfo[]) {
         this.#daysInMonth.next(days);
-        console.log("Initialized");
     }
 
     setCurrentSelectedDay(day: DayInfo) {
         this.#currentSelectedDay.next(day);
-        console.log("Initialized");
     }
 
     setSelectedWeek(week: number | null) {
         this.#selectedWeek.next(week);
-        console.log("Initialized");
     }
 
     setSelectedMonth(month: number) {
         this.#selectedMonth.next(month);
-        console.log("Initialized");
     }
 
     setSelectedDate(date: Date) {
         this.#selectedDate.next(date);
-        console.log("Initialized");
     }
 
     isDateCurrentDate(day: DayInfo): boolean {
@@ -73,8 +71,6 @@ export class CalendarDateService {
 
     isSelectedDateOfWeek(dayName: string): boolean {
         const date = this.#getWeekDayInDaysInMonths(dayName, this.#currentSelectedDay.value!.weekNumber);
-        console.log(this.#currentDate.value.getFullYear());
-        console.log(this.#selectedDate.value.getFullYear());
         return (
             this.#currentDate.value.getDate() === date.date &&
             this.#currentDate.value.getMonth() === date.month &&
@@ -115,13 +111,6 @@ export class CalendarDateService {
         return this.#refactorDate(this.#daysInMonth.value.find(x => x.name === dayName && x.weekNumber === weekNumber)!.date);
     }
 
-    #refactorDate(date: number): string {
-        if(date > 9) {
-            return date.toString();
-        }
-        return `0${date}`;
-    }
-
     formatDayHeader(): string {
         const day = this.getDayDate();
         const month = getMonthDisplayName(this.#selectedMonth.value!);
@@ -131,8 +120,8 @@ export class CalendarDateService {
 
     formatWorkWeekHeader(workSchedule: IWorkSchedule): string {
         const workWeek = this.#getWeekBoundaries(
-            workSchedule.shifts[0].day,
-            workSchedule.shifts.at(-1)!.day
+            workSchedule.workScheduleShifts[0].day,
+            workSchedule.workScheduleShifts.at(-1)!.day
         );
         return this.#formatDateRange(workWeek.firstDay, workWeek.lastDay);
     }
@@ -159,13 +148,24 @@ export class CalendarDateService {
         const year = this.#selectedDate.value.getFullYear();
 
         if (sameMonth) {
-            return `${this.#refactorDate(firstDay.date)}. - ${this.#refactorDate(lastDay.date)}. ${getMonthDisplayName(firstDay.month)} ${year}`;
+            return `${this.#refactorDate(firstDay.date)}. - ${this.#refactorDate(lastDay.date)}. ${this.#translate(getMonthDisplayName(firstDay.month))} ${year}`;
         }
 
-        return `${this.#refactorDate(firstDay.date)}. ${getMonthDisplayName(firstDay.month)} - ${this.#refactorDate(lastDay.date)}. ${getMonthDisplayName(lastDay.month)} ${year}`;
+        return `${this.#refactorDate(firstDay.date)}. ${this.#translate(getMonthDisplayName(firstDay.month))} - ${this.#refactorDate(lastDay.date)}. ${this.#translate(getMonthDisplayName(lastDay.month))} ${year}`;
+    }
+
+    #refactorDate(date: number): string {
+        if(date > 9) {
+            return date.toString();
+        }
+        return `0${date}`;
     }
 
     #getWeekDayInDaysInMonths(dayName: string, weekNumber: number): DayInfo {
         return this.#daysInMonth.value.find(x => x.name === dayName && x.weekNumber === weekNumber)!;
+    }
+
+    #translate(key: string): string {
+        return this.#translateService.instant(key.toUpperCase())
     }
 }

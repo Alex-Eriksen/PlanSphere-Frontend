@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, input, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, inject, input, OnInit, output, ViewChild } from "@angular/core";
 import { CalendarOptions } from "../enums/calendar-options.enum";
 import { IWorkSchedule } from "../../core/features/workSchedules/models/work-schedule.model";
 import { DayOfWeek } from "../enums/day-of-week.enum";
@@ -10,6 +10,7 @@ import { ButtonComponent } from "../button/button.component";
 import { DayInfo } from "../interfaces/day-info.interface";
 import { CalendarDateService } from "../../core/services/calendar-date.service";
 import { TranslateModule } from "@ngx-translate/core";
+import { IWorkScheduleShift } from "../../core/features/workSchedules/models/work-schedule-shift.model";
 
 @Component({
   selector: 'ps-calender-table',
@@ -39,7 +40,14 @@ export class CalenderTableComponent implements OnInit, AfterViewInit{
     daysInMonth = input.required<FormArray<FormControl<DayInfo>>>();
     currentSelectedDay = input.required<FormControl<DayInfo>>();
 
+    onNextClick = output<void>();
+    onPreviousClick = output<void>();
+    onCalendarOptionChange = output<CalendarOptions>();
+    onCurrentDateClick = output<void>();
+
     weeksInMonth: number[] = []
+
+    hours: number[] = Array.from({ length: 24 }, (_, i) => i);
 
     ngOnInit() {
         this.selectedMonth().valueChanges.subscribe(() => {
@@ -65,6 +73,7 @@ export class CalenderTableComponent implements OnInit, AfterViewInit{
         const date = this.daysInMonth().value.find(x => x.name === dayName && x.weekNumber === weekNumber)!;
         this.currentSelectedDay().patchValue(date);
     }
+
 
     getHeaderDate(): string {
         switch (this.calendarOption().value) {
@@ -104,8 +113,9 @@ export class CalenderTableComponent implements OnInit, AfterViewInit{
         return this.#calendarDateService.isPastDate(dayName, weekNumber);
     }
 
-    isWorkDay(dayName: string, workHour: IWorkHour): boolean {
-        return this.workSchedule().value.shifts.some(shift => shift.day === Object.keys(DayOfWeek)[Object.keys(DayOfWeek).indexOf(dayName)]) && workHour.isWorkHour;
+    isWorkDay(dayName: string, hour: number): boolean {
+        const workHour = this.workHours().value.find(workHour => workHour.day === dayName && workHour.id === hour);
+        return workHour !== undefined && workHour.isWorkHour;
     }
 
     isSelectedDate(dayName: string, weekNumber: number): boolean {
@@ -114,6 +124,10 @@ export class CalenderTableComponent implements OnInit, AfterViewInit{
 
     isCurrentDate(dayName: string, weekNumber: number): boolean {
         return this.#calendarDateService.isDateInMonthCurrentDate(dayName, weekNumber);
+    }
+
+    isWorkHour(workScheduleShift: IWorkScheduleShift, hour: number): boolean {
+        return this.workHours().value.find(workHour => workHour.day === workScheduleShift.day && workHour.id === hour)!.isWorkHour;
     }
 
     #scrollToFirstWorkHour(): void {
