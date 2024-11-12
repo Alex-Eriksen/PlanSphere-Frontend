@@ -1,24 +1,26 @@
 ﻿import { OnInit, inject, Component } from "@angular/core";
-import { CompanyService } from "../../../../../../../core/features/company/services/company.service";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
 import { ICompaniesPopupInputs } from "./companies-popup-inputs.interface";
-import { markAllControlsAsTouchedAndDirty } from "../../../../../../../shared/utilities/form.utilities";
-import { ICompanyRequest } from "../../../../../../../core/features/company/models/company-request.model";
-import { SmallListTableComponent } from "../../../../../../../shared/small-list-table/small-list-table.component";
-import { PaginationComponent } from "../../../../../../../shared/pagination/pagination.component";
-import { SubHeaderComponent } from "../../../../../../../shared/sub-header/sub-header.component";
 import { TranslateModule } from "@ngx-translate/core";
-import { SmallHeaderComponent } from "../../../../../../../shared/small-header/small-header.component";
-import { SearchInputComponent } from "../../../../../../../shared/search-input/search-input.component";
-import { ButtonComponent } from "../../../../../../../shared/button/button.component";
-import { InputComponent } from "../../../../../../../shared/input/input.component";
-import { SelectFieldComponent } from "../../../../../../../shared/select-field/select-field.component";
-import { IDropdownOption } from "../../../../../../../shared/interfaces/dropdown-option.interface";
-import { DialogHeaderComponent } from "../../../../../../../shared/dialog-header/dialog-header.component";
-import { LoadingOverlayComponent } from "../../../../../../../shared/loading-overlay/loading-overlay.component";
-import { LineComponent } from "../../../../../../../shared/line/line.component";
-import { CountryService } from "../../../../../../../core/features/address/services/country.service";
+import { SmallListTableComponent } from "../../small-list-table/small-list-table.component";
+import { PaginationComponent } from "../../pagination/pagination.component";
+import { SubHeaderComponent } from "../../sub-header/sub-header.component";
+import { SmallHeaderComponent } from "../../small-header/small-header.component";
+import { SearchInputComponent } from "../../search-input/search-input.component";
+import { ButtonComponent } from "../../button/button.component";
+import { InputComponent } from "../../input/input.component";
+import { SelectFieldComponent } from "../../select-field/select-field.component";
+import { DialogHeaderComponent } from "../../dialog-header/dialog-header.component";
+import { LoadingOverlayComponent } from "../../loading-overlay/loading-overlay.component";
+import { LineComponent } from "../../line/line.component";
+import { CompanyService } from "../../../core/features/company/services/company.service";
+import { IDropdownOption } from "../../interfaces/dropdown-option.interface";
+import { CountryService } from "../../../core/features/address/services/country.service";
+import { markAllControlsAsTouchedAndDirty } from "../../utilities/form.utilities";
+import { ICompanyRequest } from "../../../core/features/company/models/company-request.model";
+import { AddressInputComponent } from "../../address-input/address-input/address-input.component";
+
 
 @Component({
     selector: 'ps-companies-popup',
@@ -35,7 +37,8 @@ import { CountryService } from "../../../../../../../core/features/address/servi
         SelectFieldComponent,
         DialogHeaderComponent,
         LoadingOverlayComponent,
-        LineComponent
+        LineComponent,
+        AddressInputComponent
     ],
     templateUrl: './companies-popup.component.html',
     styleUrl: './companies-popup.component.scss'

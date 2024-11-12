@@ -1,12 +1,7 @@
-<div class="flex gap-4">
-    <ps-input
-        label="ICompany id"
-        [control]="companyId"
-    ></ps-input>
-    <ps-button
-        label="Navigate to company"
-        buttonStyleType="button--primary"
-        buttonType="button"
-        (click)="navigateToCompanyById()"
-    ></ps-button>
-</div>
+@if(isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div class="page">
+    <ps-companies-list [organisationId]="organisationId" [isUserCompanies]="true"></ps-companies-list>
+    </div>
+}
