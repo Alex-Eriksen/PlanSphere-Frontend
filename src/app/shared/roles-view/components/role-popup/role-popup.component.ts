@@ -84,7 +84,8 @@ export class RolePopupComponent implements OnInit, OnDestroy {
             this.#lookUpRights(),
             this.#lookUpCompanies(),
             this.#lookUpOrganisations(),
-            // TODO: Add look up department and teams
+            this.#lookUpDepartments(),
+            // TODO: Add look up  teams
             this.#getRoleById(),
         ]).subscribe(() => this.isLoading = false);
     }
