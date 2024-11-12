@@ -34,8 +34,8 @@ export class CompanyRepository {
         return this.#http.patch<void>(APIS.company.patch(sourceLevelId), bodyRequest)
     }
 
-    delete(sourceLevelId: number): Observable<void>{
-        return this.#http.delete<void>(APIS.company.delete(sourceLevelId));
+    delete(sourceLevelId: number, companyId: number): Observable<void>{
+        return this.#http.delete<void>(APIS.company.delete(sourceLevelId, companyId));
     }
 
     uploadLogo(Image: FormData, id: number): Observable<string> {

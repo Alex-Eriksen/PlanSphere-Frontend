@@ -111,7 +111,7 @@ export class CompaniesListComponent extends BasePaginatedTableWithSearchComponen
 
     #deleteCompany(id: number): void {
         this.#isDeletingCompany.set(true);
-        this.#companyService.deleteCompany(id).subscribe({
+        this.#companyService.deleteCompany(this.organisationId(), id).subscribe({
             next: () => this.loadDataWithCorrectParams(),
             complete: () => {
                 this.#isDeletingCompany.set(false);
