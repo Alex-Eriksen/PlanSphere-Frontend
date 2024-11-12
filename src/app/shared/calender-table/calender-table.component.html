@@ -2,7 +2,7 @@
     <!-- NAVBAR -->
     <div class="flex flex-row gap-2 p-2 bg-white border border-gray-200">
         <ps-button
-            (click)="setCurrentDate().patchValue(null)"
+            (click)="onCurrentDateButtonClick()"
             class="rounded-sm"
             appliedClasses="!px-4 !py-2"
             label="TODAY"
@@ -10,10 +10,10 @@
             buttonType="buttonType"
             buttonStyleType="button--tertiary"
         ></ps-button>
-        <button class="flex justify-center items-center hover:bg-gray-100 rotate-180 w-[2.5rem] h-[2.5rem] rounded-md" (click)="onPreviousClick.emit()">
+        <button class="flex justify-center items-center hover:bg-gray-100 rotate-180 w-[2.5rem] h-[2.5rem] rounded-md" (click)="onPreviousButtonClick()">
             <img src="assets/images/icons/chevron-right.svg" class="w-[1rem] h-[1rem]" alt="">
         </button>
-        <button class="flex justify-center items-center hover:bg-gray-100 w-[2.5rem] h-[2.5rem] rounded-md" (click)="onNextClick.emit()">
+        <button class="flex justify-center items-center hover:bg-gray-100 w-[2.5rem] h-[2.5rem] rounded-md" (click)="onNextButtonClick()">
             <img src="assets/images/icons/chevron-right.svg" class="w-[1rem] h-[1rem]" alt="">
         </button>
 
@@ -32,7 +32,7 @@
                 imagePosition="before"
                 buttonStyleType="button--tertiary"
                 buttonType="button"
-                (click)="onCalendarOptionChange.emit(CalendarOptions.Day)"/>
+                (click)="onCalendarOptionChange(CalendarOptions.Day)"/>
             <ps-button
                 class="rounded-sm"
                 appliedClasses="!px-4 !py-2"
@@ -41,7 +41,7 @@
                 imagePosition="before"
                 buttonStyleType="button--tertiary"
                 buttonType="button"
-                (click)="onCalendarOptionChange.emit(CalendarOptions.WorkWeek)"/>
+                (click)="onCalendarOptionChange(CalendarOptions.WorkWeek)"/>
             <ps-button
                 class="rounded-sm"
                 appliedClasses="!px-4 !py-2"
@@ -50,7 +50,7 @@
                 imagePosition="before"
                 buttonStyleType="button--tertiary"
                 buttonType="button"
-                (click)="onCalendarOptionChange.emit(CalendarOptions.Week)"/>
+                (click)="onCalendarOptionChange(CalendarOptions.Week)"/>
             <ps-button
                 class="rounded-sm"
                 appliedClasses="!px-4 !py-2"
@@ -59,12 +59,12 @@
                 imagePosition="before"
                 buttonStyleType="button--tertiary"
                 buttonType="button"
-                (click)="onCalendarOptionChange.emit(CalendarOptions.Month)"/>
+                (click)="onCalendarOptionChange(CalendarOptions.Month)"/>
         </div>
     </div>
 
     <div class="overflow-y-auto max-h-[70vh] w-full" #workHoursTable>
-        @switch (calendarOption().value) {
+        @switch (calendarOption()) {
             @case (CalendarOptions.Day) {
                 <table class="min-w-full table-fixed border-collapse border border-gray-300 select-none">
                     <thead>
@@ -72,7 +72,7 @@
                         <th class="bg-white border border-gray-200"></th>
                         <th class="bg-white border border-gray-200 w-full text-left">
                             <div class="flex flex-col gap-1 py-2 ps-2">
-                                <span class="text-black-500">{{ this.currentSelectedDay().value.name.toUpperCase() | translate}}</span>
+                                <span class="text-black-500">{{ this.currentSelectedDay().name.toUpperCase() | translate}}</span>
                                 <span
                                     class="w-[2rem] h-[2rem] p-1 text-center"
                                     [ngClass]="isSelectedDayCurrentDate() ? 'text-white border rounded-full bg-blue-500' : 'text-black-500'"
@@ -89,11 +89,11 @@
                                     {{ hour }}
                                 </td>
 
-                                <td [ngClass]="isWorkDay(this.currentSelectedDay().value.name, hour) ? 'bg-white' : 'bg-gray-100'" class="border border-gray-200 border-t border-t-gray-300"></td>
+                                <td [ngClass]="isWorkDay(this.currentSelectedDay().name, hour) ? 'bg-white' : 'bg-gray-100'" class="border border-gray-200 border-t border-t-gray-300"></td>
                             </tr>
                             <tr>
                                 <td class="bg-white text-gray-600 text-sm font-medium text-center border border-gray-200 border-b border-b-gray-300 px-4 py-2 w-[1.5rem]"></td>
-                                <td [ngClass]="isWorkDay(this.currentSelectedDay().value.name, hour) ? 'bg-white' : 'bg-gray-100'" class="px-6 py-4 border border-gray-200 border-b border-b-gray-300"></td>
+                                <td [ngClass]="isWorkDay(this.currentSelectedDay().name, hour) ? 'bg-white' : 'bg-gray-100'" class="px-6 py-4 border border-gray-200 border-b border-b-gray-300"></td>
                             </tr>
                         }
                     </tbody>
@@ -105,7 +105,7 @@
                     <thead>
                     <tr>
                         <th class="bg-white border border-gray-200 w-[1.5rem]"></th>
-                        @for (shift of workSchedule().value.workScheduleShifts; track shift; let count = $count;) {
+                        @for (shift of workSchedule().workScheduleShifts; track shift; let count = $count;) {
                             <th class="bg-white border border-gray-200 text-left w-1/{{count}}">
                                 <div class="flex flex-col gap-1 py-2 ps-2">
                                     <span class="text-black-500">{{shift.day | translate}}</span>
@@ -128,13 +128,13 @@
                                     {{ hour }}
                                 </td>
 
-                                @for (shift of workSchedule().value.workScheduleShifts; track shift;) {
+                                @for (shift of workSchedule().workScheduleShifts; track shift;) {
                                     <td [ngClass]="isWorkHour(shift, hour) ? 'bg-white' : 'bg-gray-100'" class="border border-gray-200 border-t border-t-gray-300"></td>
                                 }
                             </tr>
                             <tr>
                                 <td class="bg-white text-gray-600 text-sm font-medium text-center border border-gray-200 border-b border-b-gray-300 px-4 py-2 w-[1.5rem]"></td>
-                                @for (shift of workSchedule().value.workScheduleShifts; track shift;) {
+                                @for (shift of workSchedule().workScheduleShifts; track shift;) {
                                     <td [ngClass]="isWorkHour(shift, hour) ? 'bg-white' : 'bg-gray-100'" class="px-6 py-4 border border-gray-200 border-b border-b-gray-300"></td>
                                 }
                             </tr>
@@ -207,7 +207,7 @@
                     @for(week of weeksInMonth; track week; let index = $index; let count = $count ) {
                         <tr class="w-1/7" [ngClass]="count === 5 ? 'h-[7.5rem]' : 'h-[6.25rem] overflow-'">
                             @for(day of Object.values(DayOfWeek); track day;) {
-                                <td class="border border-gray-200 text-start align-top p-1 overflow-auto" (click)="setSelectedDate(day, index + 1)"
+                                <td class="border border-gray-200 text-start align-top p-1 overflow-auto" (click)="onDayItemClick(day, index + 1)"
                                     [ngClass]="{
                                     'bg-gray-100': isPastDate(day, index + 1),
                                     'bg-white': !isPastDate(day, index + 1),

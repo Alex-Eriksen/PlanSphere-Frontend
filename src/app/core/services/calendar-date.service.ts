@@ -69,6 +69,10 @@ export class CalendarDateService {
         return date.date === this.#currentSelectedDay.value!.date &&  date.month === this.#currentSelectedDay.value!.month;
     }
 
+    isSelectedDate(day: DayInfo): boolean {
+        return day === this.#currentSelectedDay.getValue();
+    }
+
     isSelectedDateOfWeek(dayName: string): boolean {
         const date = this.#getWeekDayInDaysInMonths(dayName, this.#currentSelectedDay.value!.weekNumber);
         return (
@@ -84,8 +88,8 @@ export class CalendarDateService {
 
     isPastDate(dayName: string, weekNumber: number): boolean {
         const date = this.#getWeekDayInDaysInMonths(dayName, weekNumber);
-        const newDate = new Date(this.#currentDate.value.getFullYear(), date.month, date.date);
-        return this.#currentDate.value > newDate;
+        const newDate = new Date(this.#selectedDate.getValue().getFullYear(), date.month, date.date, 0, 0, 0);
+        return this.#currentDate.getValue() > newDate;
     }
 
     isFirstInWeek(day: DayInfo): boolean {
@@ -160,6 +164,7 @@ export class CalendarDateService {
         }
         return `0${date}`;
     }
+
 
     #getWeekDayInDaysInMonths(dayName: string, weekNumber: number): DayInfo {
         return this.#daysInMonth.value.find(x => x.name === dayName && x.weekNumber === weekNumber)!;

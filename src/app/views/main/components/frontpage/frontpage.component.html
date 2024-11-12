@@ -2,16 +2,6 @@
     <ps-loading-overlay></ps-loading-overlay>
 } @else {
     <ps-calendar
-        [calendarOption]="formGroup.controls.calendarOption"
-        [currentDate]="formGroup.controls.currentDate"
-        [selectedDate]="formGroup.controls.selectedDate"
-        [selectedMonth]="formGroup.controls.selectedMonth"
-        [selectedWeek]="formGroup.controls.selectedWeek"
-        [hasIncremented]="formGroup.controls.hasIncremented"
-        [setCurrentDate]="formGroup.controls.setCurrentDate"
-        [daysInMonth]="formGroup.controls.daysInMonth"
-        [currentSelectedDay]="formGroup.controls.currentSelectedDay"
-        [workHours]="formGroup.controls.workHours"
-        [workSchedule]="formGroup.controls.workSchedule"
+        [workSchedule]="workSchedule"
     ></ps-calendar>
 }

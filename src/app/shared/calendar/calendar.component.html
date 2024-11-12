@@ -1,32 +1,28 @@
-<div class="flex flex-row gap-4">
-    <ps-calendar-side-panel
-        *ngIf="!hideSidePanel"
-        [calendarOption]="calendarOption()"
-        [currentDate]="currentDate()"
-        [selectedDate]="selectedDate()"
-        [selectedMonth]="selectedMonth()"
-        [selectedWeek]="selectedWeek()"
-        [hasIncremented]="hasIncremented()"
-        [setCurrentDate]="setCurrentDate()"
-        [daysInMonth]="daysInMonth()"
-        [currentSelectedDay]="currentSelectedDay()">
-    </ps-calendar-side-panel>
-    <ps-calender-table
-        class="flex-grow"
-        [calendarOption]="calendarOption()"
-        [currentDate]="currentDate()"
-        [selectedDate]="selectedDate()"
-        [selectedMonth]="selectedMonth()"
-        [selectedWeek]="selectedWeek()"
-        [workHours]="workHours()"
-        [workSchedule]="workSchedule()"
-        [hasIncremented]="hasIncremented()"
-        [setCurrentDate]="setCurrentDate()"
-        [daysInMonth]="daysInMonth()"
-        [currentSelectedDay]="currentSelectedDay()"
-        (onNextClick)="onNextButtonClick()"
-        (onPreviousClick)="onPreviousButtonClick()"
-        (onCalendarOptionChange)="onCalendarOptionChange($event)"
-        (onCurrentDateClick)="onCurrentDateButtonClick()"
-    ></ps-calender-table>
-</div>
+@if(isLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div class="flex flex-row gap-4">
+        <ps-calendar-side-panel
+            *ngIf="!hideSidePanel"
+            [calendarOption]="calendarOption"
+            [currentDate]="currentDate"
+            [selectedDate]="selectedDate"
+            [selectedMonth]="selectedMonth"
+            [selectedWeek]="selectedWeek"
+            [daysInMonth]="daysInMonth"
+            [currentSelectedDay]="currentSelectedDay!">
+        </ps-calendar-side-panel>
+        <ps-calender-table
+            class="flex-grow"
+            [calendarOption]="calendarOption"
+            [currentDate]="currentDate"
+            [selectedDate]="selectedDate"
+            [selectedMonth]="selectedMonth"
+            [selectedWeek]="selectedWeek"
+            [workHours]="workHours"
+            [workSchedule]="workSchedule()"
+            [daysInMonth]="daysInMonth"
+            [currentSelectedDay]="currentSelectedDay!"
+        ></ps-calender-table>
+    </div>
+}

@@ -3,7 +3,7 @@
         <button class="text-gray-500 hover:text-blue-500 focus:outline-none" (click)="decrementMonth()">
             <img src="assets/images/icons/chevron-right.svg" class="rotate-180" alt="Previous Month" width="12" height="20">
         </button>
-        <h2 class="text-lg font-semibold text-gray-700">{{Object.values(CalendarMonths)[this.selectedMonth().value].toUpperCase() | translate}} {{selectedDate().value.getFullYear()}}</h2>
+        <h2 class="text-lg font-semibold text-gray-700">{{Object.values(CalendarMonths)[this.selectedMonth()].toUpperCase() | translate}} {{selectedDate().getFullYear()}}</h2>
         <button class="text-gray-500 hover:text-blue-500 focus:outline-none" (click)="incrementMonth()">
             <img src="assets/images/icons/chevron-right.svg" alt="Next Month" width="12" height="20">
         </button>
@@ -19,14 +19,10 @@
         <div class="font-semibold">S</div>
         <div class="font-semibold">S</div>
 
-        @for(day of daysInMonth().controls; track day ) {
+        @for(day of daysInMonth(); track day ) {
             <ps-calendar-side-panel-item
                 [calendarOption]="calendarOption()"
-                [currentDate]="currentDate()"
                 [day]="day"
-                [daysInMonth]="daysInMonth()"
-                [selectedDate]="selectedDate()"
-                [selectedMonth]="selectedMonth()"
                 [selectedWeek]="selectedWeek()"
                 [currentSelectedDay]="currentSelectedDay()"
                 [hoveredWeek]="hoveredWeek">

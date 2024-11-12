@@ -1,32 +1,9 @@
 import { DayInfo } from "../../../../shared/interfaces/day-info.interface";
-import { FormBuilder, FormControl } from "@angular/forms";
 import { DayOfWeek } from "../../../../shared/enums/day-of-week.enum";
 import { DayInfoMonth } from "../../../../shared/enums/day-info-month.enum";
-import { CalendarOptions } from "../../../../shared/enums/calendar-options.enum";
 import { IWorkSchedule } from "../../../../core/features/workSchedules/models/work-schedule.model";
 import { IWorkHour } from "../../../../shared/interfaces/work-hour.interface";
 import { CalendarMonths } from "../../../../shared/enums/calender-months.enum";
-import { IWorkScheduleShift } from "../../../../core/features/workSchedules/models/work-schedule-shift.model";
-
-export const generateFormGroup = (
-    fb: FormBuilder,
-    workSchedule: IWorkSchedule
-): ReturnType<typeof fb.group> => {
-    const currentDate = new Date();
-    return fb.group({
-        selectedDate: fb.control<Date>(currentDate),
-        currentDate: fb.control<Date>(currentDate),
-        calendarOption: fb.control<CalendarOptions>(CalendarOptions.Day),
-        selectedWeek: fb.control<number | null>(null),
-        selectedMonth: fb.control<number>(currentDate.getMonth()),
-        workHours: fb.control<IWorkHour[]>(generateWorkHours(workSchedule)),
-        workSchedule: fb.control<IWorkSchedule>(workSchedule),
-        hasIncremented: fb.control<boolean>(false),
-        setCurrentDate: fb.control<any>(null),
-        daysInMonth: fb.array<FormControl<DayInfo>>([]),
-        currentSelectedDay: fb.control<DayInfo | null>(null),
-    })
-}
 
 export const generateDaysForMonth = (month: number, year: number): DayInfo[] => {
     const daysInMonth: DayInfo[] = [];
@@ -108,7 +85,7 @@ export function getDayOfWeekFromDaysInMonth(daysInMonth: DayInfo[], dayName: str
     return daysInMonth.find(x => x.weekNumber === weekNumber && x.name === dayName)!;
 }
 
-function generateWorkHours(workSchedule: IWorkSchedule): IWorkHour[] {
+export function generateWorkHours(workSchedule: IWorkSchedule): IWorkHour[] {
     const workHours: IWorkHour[] = []
 
     for(const shift of workSchedule.workScheduleShifts) {

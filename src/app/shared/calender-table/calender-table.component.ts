@@ -1,9 +1,18 @@
-import { AfterViewInit, Component, ElementRef, inject, input, OnInit, output, ViewChild } from "@angular/core";
+import {
+    AfterViewInit,
+    Component, DestroyRef,
+    ElementRef,
+    inject,
+    input,
+    OnChanges,
+    OnInit,
+    SimpleChanges,
+    ViewChild
+} from "@angular/core";
 import { CalendarOptions } from "../enums/calendar-options.enum";
 import { IWorkSchedule } from "../../core/features/workSchedules/models/work-schedule.model";
 import { DayOfWeek } from "../enums/day-of-week.enum";
 import { NgClass } from "@angular/common";
-import { FormArray, FormControl } from "@angular/forms";
 import { IWorkHour } from "../interfaces/work-hour.interface";
 import { SmallHeaderComponent } from "../small-header/small-header.component";
 import { ButtonComponent } from "../button/button.component";
@@ -11,6 +20,8 @@ import { DayInfo } from "../interfaces/day-info.interface";
 import { CalendarDateService } from "../../core/services/calendar-date.service";
 import { TranslateModule } from "@ngx-translate/core";
 import { IWorkScheduleShift } from "../../core/features/workSchedules/models/work-schedule-shift.model";
+import { CalendarFacadeService } from "../../core/services/calendar.facade.service";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'ps-calender-table',
@@ -24,63 +35,91 @@ import { IWorkScheduleShift } from "../../core/features/workSchedules/models/wor
   templateUrl: './calender-table.component.html',
   styleUrl: './calender-table.component.scss'
 })
-export class CalenderTableComponent implements OnInit, AfterViewInit{
+export class CalenderTableComponent implements OnInit, AfterViewInit, OnChanges{
     @ViewChild('workHoursTable') workHoursTable!: ElementRef;
     #calendarDateService = inject(CalendarDateService);
+    #calendarFacadeService = inject(CalendarFacadeService);
+    #destroyRef = inject(DestroyRef)
 
-    calendarOption = input.required<FormControl<CalendarOptions>>();
-    currentDate = input.required<FormControl<Date>>();
-    selectedDate = input.required<FormControl<Date>>();
-    workSchedule = input.required<FormControl<IWorkSchedule>>();
-    workHours = input.required<FormControl<IWorkHour[]>>();
-    selectedWeek = input.required<FormControl<number | null>>();
-    selectedMonth = input.required<FormControl<number | null>>();
-    hasIncremented = input.required<FormControl<boolean>>();
-    setCurrentDate = input.required<FormControl<any>>();
-    daysInMonth = input.required<FormArray<FormControl<DayInfo>>>();
-    currentSelectedDay = input.required<FormControl<DayInfo>>();
-
-    onNextClick = output<void>();
-    onPreviousClick = output<void>();
-    onCalendarOptionChange = output<CalendarOptions>();
-    onCurrentDateClick = output<void>();
+    calendarOption = input.required<CalendarOptions>();
+    currentDate = input.required<Date>();
+    selectedDate = input.required<Date>();
+    workSchedule = input.required<IWorkSchedule>();
+    workHours = input.required<IWorkHour[]>();
+    selectedWeek = input.required<number | null>();
+    selectedMonth = input.required<number>();
+    daysInMonth = input.required<DayInfo[]>();
+    currentSelectedDay = input.required<DayInfo>();
 
     weeksInMonth: number[] = []
 
     hours: number[] = Array.from({ length: 24 }, (_, i) => i);
 
     ngOnInit() {
-        this.selectedMonth().valueChanges.subscribe(() => {
-            if (this.calendarOption().value === CalendarOptions.Month) {
-                this.weeksInMonth = Array(this.daysInMonth().length / 7).fill(0);
-                return;
-            }
-            this.#scrollToFirstWorkHour();
-        })
+        this.weeksInMonth = Array(this.daysInMonth().length / 7).fill(0);
+        this.#calendarFacadeService.selectedMonth$
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe(() => {
+                if (this.calendarOption() === CalendarOptions.Month) {
+                    this.weeksInMonth = Array(this.daysInMonth().length / 7).fill(0);
+                    return;
 
-        this.calendarOption().valueChanges.subscribe((value: CalendarOptions) => {
-            if(value === CalendarOptions.Month) return;
-            this.#scrollToFirstWorkHour();
-        })
+                }
+                this.#scrollToFirstWorkHour();
+            });
 
+        this.#calendarFacadeService.calendarOption$
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe((value: CalendarOptions) => {
+                if(value === CalendarOptions.Month) return;
+                this.#scrollToFirstWorkHour();
+            });
     }
 
     ngAfterViewInit() {
-        this.#scrollToCurrentWorkHour();
+        if (this.workHoursTable) {
+            this.#scrollToCurrentWorkHour();
+        }
     }
 
-    setSelectedDate(dayName: string, weekNumber: number): void {
-        const date = this.daysInMonth().value.find(x => x.name === dayName && x.weekNumber === weekNumber)!;
-        this.currentSelectedDay().patchValue(date);
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['daysInMonth']) {
+            if (this.calendarOption() === CalendarOptions.Month) {
+                this.weeksInMonth = Array(this.daysInMonth().length / 7).fill(0);
+                return;
+
+            }
+            this.#scrollToFirstWorkHour();
+        }
+    }
+
+    onNextButtonClick() {
+        this.#calendarFacadeService.increment();
+    }
+
+    onPreviousButtonClick() {
+        this.#calendarFacadeService.decrement();
+    }
+
+    onCalendarOptionChange(option: CalendarOptions) {
+        this.#calendarFacadeService.setCalendarOption(option);
+    }
+
+    onCurrentDateButtonClick() {
+        this.#calendarFacadeService.setCurrentDate();
+    }
+
+    onDayItemClick(day: string, weekNumber: number) {
+        this.#calendarFacadeService.setSelectedDate(day, weekNumber);
     }
 
 
     getHeaderDate(): string {
-        switch (this.calendarOption().value) {
+        switch (this.calendarOption()) {
             case CalendarOptions.Day:
                 return this.#calendarDateService.formatDayHeader();
             case CalendarOptions.WorkWeek:
-                return this.#calendarDateService.formatWorkWeekHeader(this.workSchedule().value);
+                return this.#calendarDateService.formatWorkWeekHeader(this.workSchedule());
             case CalendarOptions.Week:
                 return this.#calendarDateService.formatWeekHeader();
             case CalendarOptions.Month:
@@ -89,7 +128,7 @@ export class CalenderTableComponent implements OnInit, AfterViewInit{
     }
 
     getDate(day?: string, weekNumber?: number): string {
-        switch (this.calendarOption().value) {
+        switch (this.calendarOption()) {
             case CalendarOptions.Day:
                 return this.#calendarDateService.getDayDate();
             case CalendarOptions.WorkWeek:
@@ -114,7 +153,7 @@ export class CalenderTableComponent implements OnInit, AfterViewInit{
     }
 
     isWorkDay(dayName: string, hour: number): boolean {
-        const workHour = this.workHours().value.find(workHour => workHour.day === dayName && workHour.id === hour);
+        const workHour = this.workHours().find(workHour => workHour.day === dayName && workHour.id === hour);
         return workHour !== undefined && workHour.isWorkHour;
     }
 
@@ -127,11 +166,13 @@ export class CalenderTableComponent implements OnInit, AfterViewInit{
     }
 
     isWorkHour(workScheduleShift: IWorkScheduleShift, hour: number): boolean {
-        return this.workHours().value.find(workHour => workHour.day === workScheduleShift.day && workHour.id === hour)!.isWorkHour;
+        return this.workHours().find(workHour => workHour.day === workScheduleShift.day && workHour.id === hour)!.isWorkHour;
     }
 
     #scrollToFirstWorkHour(): void {
-        const workHour = this.workHours().value.find(hour => hour.isWorkHour)!.id - 1;
+        if (!this.workHoursTable) return;
+
+        const workHour = this.workHours().find(hour => hour.isWorkHour)!.id - 1;
         const tableElement = this.workHoursTable.nativeElement as HTMLElement;
         const rows = tableElement.querySelectorAll('tr');
 
@@ -143,6 +184,8 @@ export class CalenderTableComponent implements OnInit, AfterViewInit{
     }
 
     #scrollToCurrentWorkHour(): void {
+        if (!this.workHoursTable) return;
+
         const currentHour = new Date().getHours();
         const tableElement = this.workHoursTable.nativeElement as HTMLElement;
         const rows = tableElement.querySelectorAll('tr');

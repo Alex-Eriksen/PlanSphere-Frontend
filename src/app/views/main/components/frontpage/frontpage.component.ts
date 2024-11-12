@@ -2,10 +2,6 @@ import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { ButtonComponent } from "../../../../shared/button/button.component";
 import { LoadingOverlayComponent } from "../../../../shared/loading-overlay/loading-overlay.component";
 import { NgClass, NgIf } from "@angular/common";
-import {
-    generateFormGroup,
-} from "./calendar.utilities";
-import { FormBuilder } from "@angular/forms";
 import { LineComponent } from "../../../../shared/line/line.component";
 import { SubHeaderComponent } from "../../../../shared/sub-header/sub-header.component";
 import { SmallHeaderComponent } from "../../../../shared/small-header/small-header.component";
@@ -18,6 +14,7 @@ import { UserService } from "../../../../core/features/users/services/user.servi
 import { catchError, finalize, of, tap } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { IUser } from "../../../../core/features/users/models/user.model";
+import { IWorkSchedule } from "../../../../core/features/workSchedules/models/work-schedule.model";
 
 @Component({
   selector: 'ps-frontpage',
@@ -39,12 +36,11 @@ import { IUser } from "../../../../core/features/users/models/user.model";
   styleUrl: './frontpage.component.scss'
 })
 export class FrontpageComponent implements OnInit {
-    readonly #fb = inject(FormBuilder);
     readonly #destroyRef = inject(DestroyRef);
     readonly #authenticationService = inject(AuthenticationService);
     readonly #userService = inject(UserService);
     isPageLoading: boolean = false;
-    formGroup: any;
+    workSchedule!: IWorkSchedule;
 
     ngOnInit() {
         this.isPageLoading = true;
@@ -52,7 +48,7 @@ export class FrontpageComponent implements OnInit {
             .pipe(
                 takeUntilDestroyed(this.#destroyRef),
                 tap((userDetails: IUser) => {
-                    this.formGroup = generateFormGroup(this.#fb, userDetails.settings.workSchedule);
+                    this.workSchedule = userDetails.settings.workSchedule;
                 }),
                 catchError((error) => {
                     console.error('Error fetching user details:', error);
