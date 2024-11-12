@@ -12,7 +12,7 @@ import { markAllControlsAsTouchedAndDirty, updateNestedControlsPathAndValue } fr
 import { ToastService } from "../../../../../../core/services/error-toast.service";
 import { LineComponent } from "../../../../../../shared/line/line.component";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
-import { AddressInputComponent } from "../../../../../../shared/address-input/address-input/address-input.component";
+import { AddressInputComponent } from "../../../../../../shared/address-input/address-input.component";
 
 @Component({
   selector: 'ps-details',

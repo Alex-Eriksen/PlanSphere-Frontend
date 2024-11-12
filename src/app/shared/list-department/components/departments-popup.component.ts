@@ -1,10 +1,7 @@
 ﻿import { Component, inject, OnInit } from "@angular/core";
-
 import { TranslateModule } from "@ngx-translate/core";
-
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
-
 import { IDepartmentsPopupInputs } from "./departments-popup-inputs.component";
 import { SmallListTableComponent } from "../../small-list-table/small-list-table.component";
 import { PaginationComponent } from "../../pagination/pagination.component";
@@ -22,7 +19,7 @@ import { IDropdownOption } from "../../interfaces/dropdown-option.interface";
 import { markAllControlsAsTouchedAndDirty } from "../../utilities/form.utilities";
 import { IDepartment } from "../../../core/features/department/models/department.model";
 import { CountryService } from "../../../core/features/address/services/country.service";
-import { AddressInputComponent } from "../../address-input/address-input/address-input.component";
+import { AddressInputComponent } from "../../address-input/address-input.component";
 
 @Component({
     selector: 'ps-companies-popup',

@@ -3,7 +3,7 @@
 } @else {
     <div class="border-gray-900/10 pb-12">
         <div class="flex flex-row justify-between">
-            <ps-small-header heading="USER.USER_INFO" subheading="USER.FILL_USER_DETAILS"></ps-small-header>
+            <ps-small-header heading="USER.EDIT_OWN.TITLE" subheading="USER.EDIT_OWN.DESCRIPTION"></ps-small-header>
 
             <!-- image section -->
             <div class="flex flex-grow justify-end">
@@ -12,17 +12,15 @@
 
         <form [formGroup]="formGroup" (focusout)="patchDetails()">
             <!-- User details Section -->
-            <div class="mt-5 flex flex-row gap-y-4">
-                <div class="w-full">
-                    <ps-input [control]="formGroup.controls.firstName" label="USER.NAME_SPECIFIC"></ps-input>
-                    <ps-input [control]="formGroup.controls.lastName" label="USER.NAME_SPECIFIC"></ps-input>
-                    <ps-input [control]="formGroup.controls.email" label="USER.NAME_SPECIFIC"></ps-input>
-                    <ps-input [control]="formGroup.controls.phoneNumber" label="USER.NAME_SPECIFIC"></ps-input>
-                </div>
+            <div class="mt-5 flex flex-row gap-4">
+                <ps-input [control]="formGroup.controls.firstName" label="USER.EDIT_OWN.FIRSTNAME"></ps-input>
+                <ps-input [control]="formGroup.controls.lastName" label="USER.EDIT_OWN.LASTNAME"></ps-input>
+                <ps-input [control]="formGroup.controls.email" label="USER.EDIT_OWN.EMAIL"></ps-input>
+                <ps-input [control]="formGroup.controls.phoneNumber" label="USER.EDIT_OWN.PHONENUMBER"></ps-input>
             </div>
 
+            <!-- Address Section -->
             <div>
-                <!-- Address Section -->
                 <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
             </div>
         </form>
