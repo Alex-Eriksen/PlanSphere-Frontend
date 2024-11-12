@@ -59,6 +59,7 @@ export const APIS = {
     company: {
         getById: (sourceLevelId: number, companyId: number)=> environment.apiUrl + `Company/GetCompanyById/${sourceLevelId}/${companyId}`,
         listCompanies: (sourceLevelId: number)=>environment.apiUrl + `Company/ListCompanies/${sourceLevelId}`,
+        listUserCompanies: environment.apiUrl + "Company/ListUserCompanies",
         create: (sourceLevelId: number) => environment.apiUrl + `Company/CreateCompany/${sourceLevelId}`,
         patch: (sourceLevelId: number)=> environment.apiUrl + `Company/PatchCompany/${sourceLevelId}`,
         delete: (sourceLevelId: number) => environment.apiUrl + `Company/DeleteCompany/${sourceLevelId}`,

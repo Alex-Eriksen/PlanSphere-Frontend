@@ -12,6 +12,7 @@ import { markAllControlsAsTouchedAndDirty, updateNestedControlsPathAndValue } fr
 import { ToastService } from "../../../../../../core/services/error-toast.service";
 import { LineComponent } from "../../../../../../shared/line/line.component";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
+import { AddressInputComponent } from "../../../../../../shared/address-input/address-input/address-input.component";
 
 @Component({
   selector: 'ps-details',
@@ -23,7 +24,8 @@ import { SmallHeaderComponent } from "../../../../../../shared/small-header/smal
         LoadingOverlayComponent,
         ReactiveFormsModule,
         LineComponent,
-        SmallHeaderComponent
+        SmallHeaderComponent,
+        AddressInputComponent
     ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
