@@ -12,7 +12,7 @@
 
         <form [formGroup]="formGroup" (focusout)="patchDetails()">
             <!-- User details Section -->
-            <div class="mt-5 flex flex-row gap-4">
+            <div class="mt-5 flex flex-row flex-wrap gap-4">
                 <ps-input [control]="formGroup.controls.firstName" label="USER.EDIT_OWN.FIRSTNAME"></ps-input>
                 <ps-input [control]="formGroup.controls.lastName" label="USER.EDIT_OWN.LASTNAME"></ps-input>
                 <ps-input [control]="formGroup.controls.email" label="USER.EDIT_OWN.EMAIL"></ps-input>

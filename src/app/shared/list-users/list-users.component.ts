@@ -22,6 +22,7 @@ import { IUserPopupInputs } from "./user-popup/user-popup-inputs.interfaces";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { userHeaders } from "../table-headers/user.headers";
 import { UserService } from "../../core/features/users/services/user.service";
+import { SourceLevel } from "../../core/enums/source-level.enum";
 
 @Component({
   selector: 'ps-list-users',
@@ -46,7 +47,8 @@ export class ListUsersComponent extends BasePaginatedTableWithSearchComponent {
     readonly #dialogService = inject(DialogService);
     readonly #isDeletingUser = signal(false);
     readonly #destroyRef = inject(DestroyRef);
-    //sourceLevelId = input.required<number>();
+    sourceLevelId = input.required<number>();
+    sourceLevel = input.required<SourceLevel>();
     userId = input.required<number>();
     sortingFilterSignal: WritableSignal<ITableSortingFilter> = signal({
         sortBy: "firstName",
@@ -90,6 +92,8 @@ export class ListUsersComponent extends BasePaginatedTableWithSearchComponent {
             data: {
                 userId: row != null ? row.id : this.userId(),
                 isEditPopup: isEditPopup,
+                sourceLevel: this.sourceLevel(),
+                sourceLevelId: this.sourceLevelId(),
             }
         })
             .afterClosed()

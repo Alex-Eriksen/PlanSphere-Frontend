@@ -6,6 +6,7 @@ import { APIS } from "../../../api/plansphere.api";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
 import { IUserPayload } from "../utilities/user-payload";
+import { SourceLevel } from "../../../enums/source-level.enum";
 
 @Injectable({
     providedIn: 'root'
@@ -13,8 +14,8 @@ import { IUserPayload } from "../utilities/user-payload";
 export class UserRepository {
     readonly #http = inject(HttpClient);
 
-    createUser(bodyRequest: any): Observable<void> {
-        return this.#http.post<void>(APIS.users.createUser(), bodyRequest);
+    createUser(bodyRequest: any, sourceLevel: SourceLevel, sourceLevelId: number): Observable<void> {
+        return this.#http.post<void>(APIS.users.createUser(sourceLevel, sourceLevelId), bodyRequest);
     }
 
     getUserDetails(userId?: number): Observable<IUser> {

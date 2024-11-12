@@ -72,7 +72,7 @@ export class UserPopupComponent implements OnInit, OnDestroy {
                 });
         } else {
             this.#userService
-                .createUser(this.formGroup.value)
+                .createUser(this.formGroup.value, this.componentInputs.sourceLevel, this.componentInputs.sourceLevelId)
                 .subscribe({
                     next: () => {
                         this.isFormSubmitting = false;

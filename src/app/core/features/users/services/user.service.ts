@@ -7,6 +7,7 @@ import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-p
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
 import { mapUserToSignalSmallListInputOperator } from "../utilities/mapUserToSignalSmallListInputOperator";
 import { IUserPayload } from "../utilities/user-payload";
+import { SourceLevel } from "../../../enums/source-level.enum";
 
 @Injectable({
     providedIn: 'root'
@@ -14,8 +15,8 @@ import { IUserPayload } from "../utilities/user-payload";
 export class UserService {
     readonly #userRepository = inject(UserRepository);
 
-    createUser(bodyRequest: any): Observable<void> {
-        return this.#userRepository.createUser(bodyRequest);
+    createUser(bodyRequest: any, sourceLevel: SourceLevel, sourceLevelId: number): Observable<void> {
+        return this.#userRepository.createUser(bodyRequest, sourceLevel, sourceLevelId);
     }
 
     getUserDetails(userId?: number): Observable<IUser> {

@@ -4,19 +4,22 @@ import { AuthenticationService } from "../../../../../../core/features/authentic
 import { ToastService } from "../../../../../../core/services/error-toast.service";
 import { ListUsersComponent } from "../../../../../../shared/list-users/list-users.component";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
+import { SourceLevel } from "../../../../../../core/enums/source-level.enum";
+import { ListJobTitlesComponent } from "../../../../../../shared/list-job-titles/list-job-titles.component";
 
 @Component({
   selector: 'ps-users',
   standalone: true,
     imports: [
         ListUsersComponent,
-        LoadingOverlayComponent
+        LoadingOverlayComponent,
+        ListJobTitlesComponent
     ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
 export class UsersComponent implements OnInit {
-    sourceLevelId!: number;
+    protected readonly SourceLevel = SourceLevel;
     userId!: number;
     readonly #authenticationService = inject(AuthenticationService);
     readonly #toastService = inject(ToastService);

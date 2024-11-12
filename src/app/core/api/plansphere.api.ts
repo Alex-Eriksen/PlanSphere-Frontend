@@ -16,7 +16,7 @@ export const APIS = {
         updateWorkScheduleWithoutId: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `WorkSchedule/UpdateWorkSchedule/${sourceLevel}/${sourceLevelId}`,
     },
     users: {
-        createUser: () => environment.apiUrl + "User/CreateUser",
+        createUser: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `User/CreateUser/${sourceLevel}/${sourceLevelId}`,
         getUserDetailsWithId: (userId: number) => environment.apiUrl + `User/GetUserDetails/${userId}`,
         getUserDetailsWithoutId: environment.apiUrl + `User/GetUserDetails`,
         patchUserWithId: (userId: number) => environment.apiUrl + `User/PatchUser/${userId}`,
