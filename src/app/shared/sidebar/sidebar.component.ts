@@ -111,15 +111,18 @@ export class SidebarComponent implements OnInit {
             isVisible: () => this.#canSeeMultipleTeams()
         },
     ];
+    isLoading: boolean = false;
 
     ngOnInit() {
+        this.isLoading = true;
         this.#authService.LoggedInUserObservable
             .pipe(takeUntilDestroyed(this.#destroyRef))
-            .subscribe({
-            next: data => {
+            .subscribe((data) => {
+                if (data === null) return;
                 this.loggedInUserData = data;
+                this.isLoading = false;
             }
-        });
+        );
 
         this.collapsed = localStorage.getItem(LOCAL_STORAGE_KEYS.SideNavState) == "true";
         this.toggleSideNav.emit({screenWidth: this.screenWidth, collapsed: this.collapsed});

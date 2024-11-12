@@ -10,7 +10,7 @@
     </div>
     <div class="sidebar-nav">
         @for (item of navigations; track item.label) {
-            @if (isTabVisible(item)) {
+            @if (!isLoading && isTabVisible(item)) {
                 <ps-sidebar-item [collapsed]="collapsed" [tab]="item"></ps-sidebar-item>
             }
         }
