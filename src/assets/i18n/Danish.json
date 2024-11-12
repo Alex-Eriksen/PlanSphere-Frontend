@@ -111,8 +111,11 @@
             "TOOLTIP": "Du er ved at slette en virksomhed. Denne handling kan ikke fortrydes",
             "QUESTION": "Er du sikker på du vil slette denne virksomhed?",
             "CONFIRMATION": "Hvis du klikker på Bekræft, slettes virksomheden, og den vil ikke være tilgængelig for brugerne."
+        },
+        "SETTINGS": {
+            "NAME": "Virksomheds indstillinger",
+            "NAME_PLURAL": "Virksomheds indstillinger"
         }
-
     },
     "DEPARTMENT": {
         "NAME": "Afdeling",
@@ -224,6 +227,7 @@
     "WORK_SCHEDULE": {
         "NAME": "Arbejdsskema",
         "INHERIT_WORK_SCHEDULE": "Nedarv arbejdsskema",
+        "INHERIT_WORK_SCHEDULE_FROM": "Nedarv arbejdsskema fra {{sourceLevel}}",
         "WORKING_DAYS": "Arbejds dage",
         "STANDARD_NAME": "Standard arbejdsskema"
     },
