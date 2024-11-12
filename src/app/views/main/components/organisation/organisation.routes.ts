@@ -3,6 +3,7 @@ import { DetailsComponent } from "./components/details/details.component";
 import { JobTitlesComponent } from "./components/jobtitles/job-titles.component";
 import { CompaniesComponent } from "./components/companies/companies.component";
 import { RolesComponent } from "./components/roles/roles.component";
+import { SettingsComponent } from "./components/settings/settings.component";
 
 export const organisationRoutes: Routes = [
     {
@@ -36,6 +37,13 @@ export const organisationRoutes: Routes = [
         component: RolesComponent,
         data: {
             name: "ROLE.NAME_PLURAL"
+        }
+    },
+    {
+        path: "settings",
+        component: SettingsComponent,
+        data: {
+            name: "SETTINGS.NAME_PLURAL"
         }
     }
 ]

@@ -34,6 +34,10 @@ export class DepartmentComponent {
             label: "ROLE.NAME_PLURAL",
             routeLink: "roles",
             icon: "fa-solid fa-user-check"
+        },
+        {
+            label: "SETTINGS.NAME_PLURAL",
+            routeLink: "settings"
         }
     ]
 }

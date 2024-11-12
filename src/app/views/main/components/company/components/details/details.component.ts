@@ -99,9 +99,5 @@ export class DetailsComponent implements OnInit {
         });
     }
 
-    deleteCompany(id: number): void {
-        this.#companyService.deleteCompany(id)
-    }
-
     protected readonly input = input;
 }
