@@ -1,11 +1,11 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { ButtonComponent } from "../../../../shared/button/button.component";
 import { LoadingOverlayComponent } from "../../../../shared/loading-overlay/loading-overlay.component";
 import { NgClass, NgIf } from "@angular/common";
 import {
     generateFormGroup,
 } from "./calendar.utilities";
-import { NonNullableFormBuilder } from "@angular/forms";
+import { FormBuilder } from "@angular/forms";
 import { LineComponent } from "../../../../shared/line/line.component";
 import { SubHeaderComponent } from "../../../../shared/sub-header/sub-header.component";
 import { SmallHeaderComponent } from "../../../../shared/small-header/small-header.component";
@@ -13,6 +13,11 @@ import { TranslateModule } from "@ngx-translate/core";
 import { CalenderTableComponent } from "../../../../shared/calender-table/calender-table.component";
 import { CalendarSidePanelComponent } from "../../../../shared/calendar-side-panel/calendar-side-panel.component";
 import { CalendarComponent } from "../../../../shared/calendar/calendar.component";
+import { AuthenticationService } from "../../../../core/features/authentication/services/authentication.service";
+import { UserService } from "../../../../core/features/users/services/user.service";
+import { catchError, finalize, of, tap } from "rxjs";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { IUser } from "../../../../core/features/users/models/user.model";
 
 @Component({
   selector: 'ps-frontpage',
@@ -34,15 +39,29 @@ import { CalendarComponent } from "../../../../shared/calendar/calendar.componen
   styleUrl: './frontpage.component.scss'
 })
 export class FrontpageComponent implements OnInit {
-    readonly #fb = inject(NonNullableFormBuilder);
+    readonly #fb = inject(FormBuilder);
+    readonly #destroyRef = inject(DestroyRef);
+    readonly #authenticationService = inject(AuthenticationService);
+    readonly #userService = inject(UserService);
     isPageLoading: boolean = false;
     formGroup: any;
 
     ngOnInit() {
         this.isPageLoading = true;
-        if (this.isPageLoading) {
-            this.formGroup = generateFormGroup(this.#fb);
-            this.isPageLoading = false;
-        }
+        this.#userService.getUserDetails(this.#authenticationService.getUserId())
+            .pipe(
+                takeUntilDestroyed(this.#destroyRef),
+                tap((userDetails: IUser) => {
+                    this.formGroup = generateFormGroup(this.#fb, userDetails.settings.workSchedule);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching user details:', error);
+                    return of(null);
+                }),
+                finalize(() => {
+                    this.isPageLoading = false;
+                })
+            )
+            .subscribe();
     }
 }
