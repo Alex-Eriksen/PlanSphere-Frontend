@@ -67,12 +67,12 @@ export class RolesViewComponent extends BasePaginatedTableWithSearchComponent {
         {
             callbackFn: (row: ISmallListTableInput) => this.openPopup(true, row),
             labelFn: () => "ROLE.EDIT.NAME",
-            isVisible: (row: ISmallListTableInput) => row['sourceLevel'] === this.sourceLevel(),
+            isVisible: (row: ISmallListTableInput) => row['rawSourceLevel'] === this.sourceLevel(),
         },
         {
             callbackFn: (row: ISmallListTableInput) => this.#openDeleteDialog(row),
             labelFn: () => "ROLE.DELETE.NAME",
-            isVisible: (row: ISmallListTableInput) => row['sourceLevel'] === this.sourceLevel() && row['isDefaultRole'] === false,
+            isVisible: (row: ISmallListTableInput) => row['rawSourceLevel'] === this.sourceLevel() && row['isDefaultRole'] === false,
         },
     ]
     sourceLevel = input.required<SourceLevel>();

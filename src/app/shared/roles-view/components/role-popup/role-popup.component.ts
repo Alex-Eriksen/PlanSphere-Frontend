@@ -22,6 +22,8 @@ import { SourceLevel } from "../../../../core/enums/source-level.enum";
 import { OrganisationService } from "../../../../core/features/organisations/services/organisation.service";
 import { IOrganisationLookUp } from "../../../../core/features/organisations/models/organisation-look-up.model";
 import { IRole } from "../../../../core/features/roles/models/role.model";
+import { IDepartmentLookup } from "../../../../core/features/department/models/department-look-up.model";
+import { DepartmentService } from "../../../../core/features/department/services/department.service";
 
 @Component({
   selector: 'ps-role-popup',
@@ -46,6 +48,7 @@ export class RolePopupComponent implements OnInit, OnDestroy {
     readonly #dialogRef: MatDialogRef<RolePopupComponent> = inject(MatDialogRef);
     readonly #fb = inject(NonNullableFormBuilder);
     readonly #companyService = inject(CompanyService);
+    readonly #departmentService = inject(DepartmentService);
     readonly #organisationService = inject(OrganisationService);
     #rolePopupSubscription!: Subscription;
     isLoading = false;
@@ -91,7 +94,8 @@ export class RolePopupComponent implements OnInit, OnDestroy {
             this.#lookUpRights(),
             this.#lookUpCompanies(),
             this.#lookUpOrganisations(),
-            // TODO: Add look up department and teams
+            this.#lookUpDepartments(),
+            // TODO: Add look up teams
         ]).subscribe(() => this.isLoading = false);
     }
 
@@ -101,6 +105,12 @@ export class RolePopupComponent implements OnInit, OnDestroy {
 
     #lookUpCompanies(): Observable<ICompanyLookUp[]> {
         return this.#companyService.lookUpCompanies().pipe(tap((companies) => this.companyOptions = generateDropdownOptionsFromLookUps(companies)));
+    }
+
+    #lookUpDepartments(): Observable<IDepartmentLookup[]> {
+        return this.#departmentService.lookUpDepartments()
+            .pipe(tap((departments) =>
+                this.departmentOptions = generateDropdownOptionsFromLookUps(departments)));
     }
 
     #lookUpOrganisations(): Observable<IOrganisationLookUp[]> {

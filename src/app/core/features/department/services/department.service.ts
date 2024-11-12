@@ -7,6 +7,7 @@ import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination
 import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-paginated-response.interface";
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
 import { mapDepartmentsToSignalSmallListInputOperator } from "../utilities/department-utilities";
+import { IDepartmentLookup } from "../models/department-look-up.model";
 
 @Injectable({
     providedIn: 'root'
@@ -32,5 +33,9 @@ export class DepartmentService {
 
     patchDepartment(sourceLevelId: number, bodyRequest: any): Observable<void>{
         return this.#departmentRepository.patch(sourceLevelId, bodyRequest)
+    }
+
+    lookUpDepartments(): Observable<IDepartmentLookup[]> {
+        return this.#departmentRepository.lookUpDepartments();
     }
 }
