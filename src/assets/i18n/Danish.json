@@ -139,6 +139,10 @@
             "TOOLTIP": "Du er ved at slette en afdeling. Denne handling kan ikke fortrydes",
             "QUESTION": "Er du sikker på du vil slette denne afdeling?",
             "CONFIRMATION": "Hvis du klikker på Bekræft, slettes afdellingen, og den vil ikke være tilgængelig for brugerne."
+        },
+        "SETTINGS": {
+            "NAME": "Afdelings indstillinger",
+            "NAME_PLURAL": "Afdelings indstillinger"
         }
     },
     "TEAM": {
