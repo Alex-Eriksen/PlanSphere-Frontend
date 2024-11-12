@@ -9,15 +9,11 @@ import { CalendarOptions } from "../enums/calendar-options.enum";
 import { DayInfo } from "../interfaces/day-info.interface";
 import { IWorkSchedule } from "../../core/features/workSchedules/models/work-schedule.model";
 import { DayInfoMonth } from "../enums/day-info-month.enum";
-import {
-    decrementMonth,
-    generateDaysForMonth,
-    incrementMonth
-} from "../../views/main/components/frontpage/calendar.utilities";
-import { DayOfWeek } from "../enums/day-of-week.enum";
 import { IWorkHour } from "../interfaces/work-hour.interface";
 import { BreakpointObserver, BreakpointState } from "@angular/cdk/layout";
 import { CalendarDateService } from "../../core/services/calendar-date.service";
+import { Subject, takeUntil } from "rxjs";
+import { CalendarFacadeService } from "../../core/services/calendar.facade.service";
 
 @Component({
   selector: 'ps-calendar',
@@ -37,6 +33,8 @@ import { CalendarDateService } from "../../core/services/calendar-date.service";
 export class CalendarComponent implements OnInit {
     readonly #breakpointObserver = inject(BreakpointObserver);
     #calendarDateService = inject(CalendarDateService);
+    #calendarFacadeService = inject(CalendarFacadeService);
+    #destroy$ = new Subject<void>();
 
     selectedDate = input.required<FormControl<Date>>();
     currentDate = input.required<FormControl<Date>>();
@@ -53,20 +51,98 @@ export class CalendarComponent implements OnInit {
     hideSidePanel = false;
 
     ngOnInit(): void {
-        this.#generateDaysForSelectedMonth();
-        const currentDate = this.daysInMonth().value.find(x => x.date === this.currentDate().value.getDate() && x.month === this.currentDate().value.getMonth())!;
+        this.#subscribeToCalendarChanges();
+        this.#subscribeToFormControlChanges();
+        this.#subscribeToBreakpointChanges();
+
+        this.#calendarFacadeService.initializeCalendar(
+            this.selectedDate(),
+            this.currentDate(),
+            this.currentSelectedDay(),
+            this.calendarOption(),
+            this.selectedWeek(),
+            this.selectedMonth(),
+            this.daysInMonth()
+        );
+
+        console.log(this.calendarOption().value)
+
+        const currentDate = this.daysInMonth().value.find(x => x.date === this.currentDate().value.getDate() && x.month === this.currentDate().value.getMonth())!
 
         this.currentSelectedDay().patchValue(currentDate);
         this.selectedMonth().patchValue(currentDate.month, {emitEvent: false});
         this.selectedWeek().patchValue(currentDate.weekNumber);
+    }
+
+    #subscribeToCalendarChanges(): void {
+        this.#calendarFacadeService.selectedDate$
+            .pipe(takeUntil(this.#destroy$))
+            .subscribe(date => {
+                this.selectedDate().setValue(date);
+                this.#calendarDateService.setSelectedDate(date);
+            });
+
+        this.#calendarFacadeService.currentDate$
+            .pipe(takeUntil(this.#destroy$))
+            .subscribe(date => this.currentDate().setValue(date));
+
+        this.#calendarFacadeService.currentSelectedDay$
+            .pipe(takeUntil(this.#destroy$))
+            .subscribe(day => this.currentSelectedDay().setValue(day!));
+
+        this.#calendarFacadeService.calendarOption$
+            .pipe(takeUntil(this.#destroy$))
+            .subscribe(option => this.calendarOption().setValue(option));
+
+        this.#calendarFacadeService.selectedWeek$
+            .pipe(takeUntil(this.#destroy$))
+            .subscribe(week => {
+                this.selectedWeek().setValue(week);
+                this.#calendarDateService.setSelectedWeek(week);
+            });
+
+        this.#calendarFacadeService.selectedMonth$
+            .pipe(takeUntil(this.#destroy$))
+            .subscribe(month => {
+                this.selectedMonth().setValue(month)
+                this.#calendarDateService.setSelectedMonth(month);
+            });
+
+        this.#calendarFacadeService.daysInMonth$
+            .pipe(takeUntil(this.#destroy$))
+            .subscribe(days => {
+                this.daysInMonth().clear();
+                days.forEach(day => {
+                    this.daysInMonth().push(new FormControl<DayInfo>(day, { nonNullable: true }));
+                });
+                this.#calendarDateService.setDaysInMonth(days);
+            });
+    }
+
+    onNextButtonClick() {
+        this.#calendarFacadeService.increment();
+    }
+
+    onPreviousButtonClick() {
+        this.#calendarFacadeService.decrement();
+    }
+
+    onCalendarOptionChange(option: CalendarOptions) {
+        this.#calendarFacadeService.setCalendarOption(option);
+    }
+
+    onCurrentDateButtonClick() {
+        this.#calendarFacadeService.setCurrentDate();
+    }
 
 
+    #subscribeToFormControlChanges(): void {
         this.setCurrentDate().valueChanges.subscribe(() => {
             const newDate = new Date();
 
             this.selectedDate().patchValue(newDate);
             this.selectedMonth().patchValue(newDate.getMonth());
-            this.#calendarDateService.setSelectedMonth(currentDate.month);
+            this.#calendarDateService.setSelectedMonth(newDate.getMonth());
 
             if(this.calendarOption().value === CalendarOptions.Day) {
                 const nextIndex = this.daysInMonth().value.find(x => x!.date === this.currentDate().value.getDate() && x!.isMonth === DayInfoMonth.Current);
@@ -77,7 +153,7 @@ export class CalendarComponent implements OnInit {
             if(this.calendarOption().value === CalendarOptions.WorkWeek || this.calendarOption().value === CalendarOptions.Week) {
                 const nextIndex = this.daysInMonth().value.find(x => x!.date === this.currentDate().value.getDate() && x!.isMonth === DayInfoMonth.Current);
                 this.selectedWeek().patchValue(nextIndex!.weekNumber);
-                this.#calendarDateService.setSelectedWeek(currentDate.weekNumber);
+                this.#calendarDateService.setSelectedWeek(nextIndex!.weekNumber);
 
                 this.currentSelectedDay().patchValue(nextIndex!)
             }
@@ -85,10 +161,10 @@ export class CalendarComponent implements OnInit {
 
         this.selectedMonth().valueChanges.subscribe((value: number) => {
             if(this.selectedDate().value.getMonth() + 1 === value)
-                this.changeMonth(true);
+                this.#calendarFacadeService.changeMonth(true);
 
             if(this.selectedDate().value.getMonth() - 1 === value)
-                this.changeMonth(false);
+                this.#calendarFacadeService.changeMonth(false);
 
             this.#calendarDateService.setSelectedMonth(this.selectedMonth().value);
 
@@ -104,137 +180,17 @@ export class CalendarComponent implements OnInit {
             this.#calendarDateService.setSelectedWeek(week);
         })
 
-        this.daysInMonth().valueChanges.subscribe((days) => {
-            this.#calendarDateService.setDaysInMonth(days);
-        })
+    }
 
-        this.calendarOption().valueChanges.subscribe(() => {
-            this.setCurrentDate().patchValue(null);
-        });
-
-        this.hasIncremented().valueChanges.subscribe((value: boolean) => {
-            value ? this.increment() : this.decrement();
-        })
-
+    #subscribeToBreakpointChanges(): void {
         this.#breakpointObserver
             .observe(['(max-width: 850px)'])
+            .pipe(takeUntil(this.#destroy$))
             .subscribe((state: BreakpointState) => {
                 this.hideSidePanel = state.matches;
             });
-
-        this.#initializeCalendarService();
     }
 
-    increment(): void {
-        switch (this.calendarOption().value) {
-            case CalendarOptions.Day: {
-                const index = this.daysInMonth().value.indexOf(this.currentSelectedDay().value) + 1; // Gets index of the current selected day and increments to fetch next value
-                let nextDay = this.daysInMonth().value[index]; // if this is undefined, has reached end of month
-
-                if(nextDay === undefined) { // if undefined
-                    this.changeMonth(true);
-                    nextDay = this.daysInMonth().value[7];
-                }
-
-                this.currentSelectedDay().patchValue(nextDay!)
-                break;
-            }
-            case CalendarOptions.Month: { // increment month, and select first day
-                this.changeMonth(true);
-                const nextDay = this.daysInMonth().value.find(x => x!.isMonth === DayInfoMonth.Current); // find first day in next month
-                this.currentSelectedDay().patchValue(nextDay!);
-                break;
-            }
-            case CalendarOptions.WorkWeek:
-            case CalendarOptions.Week: {
-                this.selectedWeek().patchValue(this.selectedWeek().value! + 1);
-                const maxWeeks = this.daysInMonth().value.length / 7;
-                if(this.selectedWeek().value! <= maxWeeks) { // if selected week hasn't reached max (5 or 6), increment by one week and select monday.
-                    const nextDay = this.daysInMonth().value.find(x => x.weekNumber === this.selectedWeek().value && x.name === DayOfWeek.Monday);
-                    this.currentSelectedDay().patchValue(nextDay!)
-                    return;
-                }
-
-                this.changeMonth(true);
-                this.selectedWeek().patchValue(2);
-                const nextDay = this.daysInMonth().value.find(x => x.weekNumber === this.selectedWeek().value && x.name === DayOfWeek.Monday);
-                this.currentSelectedDay().patchValue(nextDay!)
-                break;
-            }
-        }
-    }
-
-    decrement(): void {
-        switch (this.calendarOption().value) {
-            case CalendarOptions.Day: {
-                const index = this.daysInMonth().value.indexOf(this.currentSelectedDay().value) - 1; // Gets index of the current selected day and increments to fetch next value
-                let previousDay = this.daysInMonth().value[index]; // if this is undefined, has reached end of month
-
-                if(previousDay === undefined) { // if undefined, generate new month and assign last day of month
-                    this.changeMonth(false);
-                    const lastIndex = this.daysInMonth().value.length - 1;
-                    previousDay = this.daysInMonth().value[lastIndex];
-                }
-
-                this.currentSelectedDay().patchValue(previousDay!)
-                break;
-            }
-            case CalendarOptions.Month: { // increment month, and select first day
-                this.changeMonth(false);
-                const nextDay = this.daysInMonth().value.find(x => x!.isMonth === DayInfoMonth.Current); // find first day in next month
-                this.currentSelectedDay().patchValue(nextDay!);
-                break;
-            }
-            case CalendarOptions.WorkWeek:
-            case CalendarOptions.Week: {
-                this.selectedWeek().patchValue(this.selectedWeek().value! - 1);
-                if(this.selectedWeek().value! != 0) { // if selected week hasn't reached minimum (1), decrement by one week and select monday.
-                    const previousMonday = this.daysInMonth().value.find(x => x.weekNumber === this.selectedWeek().value && x.name === DayOfWeek.Monday);
-                    this.currentSelectedDay().patchValue(previousMonday!)
-                    return;
-                }
-
-                this.changeMonth(false);
-                const numberOfWeeks = (this.daysInMonth().value.length / 7) - 1;
-                this.selectedWeek().patchValue(numberOfWeeks);
-                const lastMondayOfMonth = this.daysInMonth().value.find(x => x.weekNumber === numberOfWeeks && x.name === DayOfWeek.Monday);
-                this.currentSelectedDay().patchValue(lastMondayOfMonth!)
-                break;
-            }
-        }
-    }
-
-    changeMonth(increment: boolean): void {
-        const selectedDate = increment ?
-            incrementMonth(this.selectedDate().value.getMonth(), this.selectedDate().value.getFullYear()) :
-            decrementMonth(this.selectedDate().value.getMonth(), this.selectedDate().value.getFullYear());
-
-        this.selectedDate().value.setFullYear(selectedDate.year, selectedDate.month);
-        this.#calendarDateService.setSelectedDate(this.selectedDate().value);
-        this.selectedMonth().patchValue(selectedDate.month, {emitEvent: false});
-        this.#generateDaysForSelectedMonth();
-    }
-
-    #generateDaysForSelectedMonth(isInitial: boolean = false): void {
-        const month = isInitial ? this.currentDate().value.getMonth() : this.selectedDate().value.getMonth();
-        const year = isInitial ? this.currentDate().value.getFullYear() : this.selectedDate().value.getFullYear();
-
-        const days: DayInfo[] = generateDaysForMonth(month, year);
-
-        this.daysInMonth().clear();
-        days.forEach(day => {
-            const newControl = new FormControl<DayInfo>(day, {nonNullable: true});
-            this.daysInMonth().push(newControl);
-        });
-    }
-
-    #initializeCalendarService(): void {
-        this.#calendarDateService.setSelectedMonth(this.selectedMonth().value);
-        this.#calendarDateService.setCurrentSelectedDay(this.currentSelectedDay().value);
-        this.#calendarDateService.setSelectedDate(this.selectedDate().value);
-        this.#calendarDateService.setSelectedWeek(this.selectedWeek().value);
-        this.#calendarDateService.setDaysInMonth(this.daysInMonth().value);
-    }
 
     protected readonly CalendarOptions = CalendarOptions;
 }

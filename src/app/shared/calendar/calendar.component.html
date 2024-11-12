@@ -23,6 +23,10 @@
         [hasIncremented]="hasIncremented()"
         [setCurrentDate]="setCurrentDate()"
         [daysInMonth]="daysInMonth()"
-        [currentSelectedDay]="currentSelectedDay()">
-    </ps-calender-table>
+        [currentSelectedDay]="currentSelectedDay()"
+        (onNextClick)="onNextButtonClick()"
+        (onPreviousClick)="onPreviousButtonClick()"
+        (onCalendarOptionChange)="onCalendarOptionChange($event)"
+        (onCurrentDateClick)="onCurrentDateButtonClick()"
+    ></ps-calender-table>
 </div>
