@@ -5,7 +5,7 @@ import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-t
 import { signal } from "@angular/core";
 import { mapToSignalPaginatedResponse } from "../../../../shared/utilities/signals.utilities";
 import { IRoleListItem } from "../models/role-list-item.model";
-import { IRole } from "../models/role.model";
+import { SourceLevelTranslationMapper } from "../../../mappers/source-level-translation.mapper";
 
 export const mapRolesToSignalSmallListInputOperator = (): OperatorFunction<
     IPaginatedResponse<IRoleListItem>,
@@ -13,15 +13,17 @@ export const mapRolesToSignalSmallListInputOperator = (): OperatorFunction<
 > => {
     return map((paginatedJobTitles) => ({
         ...mapToSignalPaginatedResponse(paginatedJobTitles),
-        results: signal(mapJobTitlesToSmallListInput(paginatedJobTitles.results)),
+        results: signal(mapRolesToSmallListInput(paginatedJobTitles.results)),
     }));
 };
 
-const mapJobTitlesToSmallListInput = (roles: IRoleListItem[]): ISmallListTableInput[] => {
+const mapRolesToSmallListInput = (roles: IRoleListItem[]): ISmallListTableInput[] => {
     return roles.map((role) => ({
         ...role,
         title: role.name,
         active: role.isInheritanceActive,
+        sourceLevel: SourceLevelTranslationMapper.get(role.sourceLevel),
+        rawSourceLevel: role.sourceLevel
     }));
 };
 

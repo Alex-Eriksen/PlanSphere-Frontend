@@ -68,6 +68,7 @@ export const APIS = {
         create: (sourceLevelId: number) => environment.apiUrl + `Department/CreateDepartment/${sourceLevelId}`,
         patch: (sourceLevelId: number) => environment.apiUrl + `Department/PatchDepartment/${sourceLevelId}`,
         delete: (sourceLevelId: number, departmentId: number) => environment.apiUrl + `Department/DeleteDepartment/${sourceLevelId}/${departmentId}`,
+        lookUpDepartments: environment.apiUrl + "Department/LookUpDepartments",
     },
     country: {
         getCountryLookups: environment.apiUrl + "Country/GetCountryLookups",
