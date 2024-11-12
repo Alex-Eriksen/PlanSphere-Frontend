@@ -1,60 +1,25 @@
 import { DayInfo } from "../../../../shared/interfaces/day-info.interface";
-import { FormControl, NonNullableFormBuilder } from "@angular/forms";
+import { FormBuilder, FormControl } from "@angular/forms";
 import { DayOfWeek } from "../../../../shared/enums/day-of-week.enum";
 import { DayInfoMonth } from "../../../../shared/enums/day-info-month.enum";
 import { CalendarOptions } from "../../../../shared/enums/calendar-options.enum";
 import { IWorkSchedule } from "../../../../core/features/workSchedules/models/work-schedule.model";
 import { IWorkHour } from "../../../../shared/interfaces/work-hour.interface";
-import { ShiftLocation } from "../../../../shared/enums/shift-location.enum";
 import { CalendarMonths } from "../../../../shared/enums/calender-months.enum";
+import { IWorkScheduleShift } from "../../../../core/features/workSchedules/models/work-schedule-shift.model";
 
-export const generateFormGroup = (fb: NonNullableFormBuilder): any => {
-    const workSchedule: IWorkSchedule = {
-        shifts: [
-            {
-                id: 1,
-                startTime: new Date(2024, 11, 8, 8),
-                endTime: new Date(2024, 11, 8, 16),
-                day: DayOfWeek.Monday,
-                location: ShiftLocation.Office
-            },
-            {
-                id: 2,
-                startTime: new Date(2024, 11, 9, 8),
-                endTime: new Date(2024, 11, 9, 16),
-                day: DayOfWeek.Tuesday,
-                location: ShiftLocation.Office
-            },
-            {
-                id: 3,
-                startTime: new Date(2024, 11, 10, 8),
-                endTime: new Date(2024, 11, 10, 16),
-                day: DayOfWeek.Wednesday,
-                location: ShiftLocation.Office
-            },
-            {
-                id: 4,
-                startTime: new Date(2024, 11,11, 8),
-                endTime: new Date(2024, 11, 11, 16),
-                day: DayOfWeek.Thursday,
-                location: ShiftLocation.Office
-            },
-            {
-                id: 5,
-                startTime: new Date(2024, 11, 12, 8),
-                endTime: new Date(2024, 11, 12, 16),
-                day: DayOfWeek.Friday,
-                location: ShiftLocation.Office
-            }
-        ]
-    };
+export const generateFormGroup = (
+    fb: FormBuilder,
+    workSchedule: IWorkSchedule
+): ReturnType<typeof fb.group> => {
+    const currentDate = new Date();
     return fb.group({
-        selectedDate: fb.control<Date>(new Date()),
-        currentDate: fb.control<Date>(new Date()),
+        selectedDate: fb.control<Date>(currentDate),
+        currentDate: fb.control<Date>(currentDate),
         calendarOption: fb.control<CalendarOptions>(CalendarOptions.Day),
         selectedWeek: fb.control<number | null>(null),
-        selectedMonth: fb.control<number>(new Date().getMonth()),
-        workHours: fb.control<IWorkHour[]>(generateWorkHours()),
+        selectedMonth: fb.control<number>(currentDate.getMonth()),
+        workHours: fb.control<IWorkHour[]>(generateWorkHours(workSchedule)),
         workSchedule: fb.control<IWorkSchedule>(workSchedule),
         hasIncremented: fb.control<boolean>(false),
         setCurrentDate: fb.control<any>(null),
@@ -143,14 +108,36 @@ export function getDayOfWeekFromDaysInMonth(daysInMonth: DayInfo[], dayName: str
     return daysInMonth.find(x => x.weekNumber === weekNumber && x.name === dayName)!;
 }
 
-function generateWorkHours(): IWorkHour[] {
+function generateWorkHours(workSchedule: IWorkSchedule): IWorkHour[] {
     const workHours: IWorkHour[] = []
-    for (let hour = 0; hour < 24; hour++) {
-        workHours.push({
-            id: hour,
-            isWorkHour: hour > 7 && hour < 17,
-        });
+
+    for(const shift of workSchedule.workScheduleShifts) {
+        const startDate = timeOnlyToDate(shift.startTime);
+        const endDate = timeOnlyToDate(shift.endTime);
+        const startHour = startDate.getHours();
+        const endHour = endDate.getHours();
+        for (let hour = 0; hour < 24; hour++) {
+            workHours.push({
+                id: hour,
+                isWorkHour: isHourInShift(hour, startHour, endHour),
+                day: shift.day,
+            });
+        }
     }
     return workHours;
 }
 
+export function timeOnlyToDate(timeOnly: string): Date {
+    const [hours, minutes, seconds] = timeOnly.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, seconds, 0);
+    return date;
+}
+
+export function isHourInShift(hour: number, startHour: number, endHour: number): boolean {
+    if (startHour <= endHour) {
+        return hour >= startHour && hour < endHour;
+    } else {
+        return hour >= startHour || hour < endHour;
+    }
+}
