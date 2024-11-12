@@ -6,7 +6,7 @@
         [disabled]="control().disabled"
         (change)="toggle($event)"
     >
-        <span class="ml-2">{{ label() | translate }}</span>
+        <span class="ml-2">{{ label() | translate: translationArgs() }}</span>
     </mat-slide-toggle>
     @if(tooltip()) {
         <ps-tooltip [tooltip]="tooltip()"></ps-tooltip>

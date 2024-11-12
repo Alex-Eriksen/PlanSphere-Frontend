@@ -15,7 +15,7 @@ import { IDepartmentLookup } from "../models/department-look-up.model";
 export class DepartmentService {
     readonly #departmentRepository = inject(DepartmentRepository)
 
-    departmentById(sourceLevelId: number, sourceLevel: SourceLevel, departmentId: number): Observable<IDepartment> {
+    getDepartmentById(sourceLevelId: number, sourceLevel: SourceLevel, departmentId: number): Observable<IDepartment> {
         return this.#departmentRepository.getById(sourceLevelId, sourceLevel, departmentId)
     }
 

@@ -93,7 +93,7 @@ export class DetailsComponent implements OnInit{
     }
 
     loadDepartmentDetails(sourceLevel: SourceLevel, departmentId: number): void {
-        this.#departmentService.departmentById( departmentId, sourceLevel, departmentId).subscribe({
+        this.#departmentService.getDepartmentById( departmentId, sourceLevel, departmentId).subscribe({
             next: (data: IDepartment) => this.formGroup.patchValue(data),
             error: () => this.#toastService.showToast('DEPARTMENT.DO_NOT_EXIST'),
             complete: () => this.isPageLoading = false
