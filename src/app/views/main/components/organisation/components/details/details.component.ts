@@ -1,10 +1,9 @@
 import { Component, inject, OnInit, signal } from "@angular/core";
-import { OrganisationService } from "../../../../../../core/features/organisation/services/organisation.service";
-import { IOrganisation } from "../../../../../../core/features/organisation/models/organisation.model";
+import { IOrganisation } from "../../../../../../core/features/organisations/models/organisation.model";
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { InputComponent } from "../../../../../../shared/input/input.component";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
-import { IOrganisationDetails } from "../../../../../../core/features/organisation/models/organisation-details.model";
+import { IOrganisationDetails } from "../../../../../../core/features/organisations/models/organisation-details.model";
 import { SubHeaderComponent } from "../../../../../../shared/sub-header/sub-header.component";
 import { ButtonComponent } from "../../../../../../shared/button/button.component";
 import { updateNestedControlsPathAndValue } from "../../../../../../shared/utilities/form.utilities";
@@ -15,11 +14,10 @@ import { SmallHeaderComponent } from "../../../../../../shared/small-header/smal
 import { AddressInputComponent } from "../../../../../../shared/address-input/address-input.component";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
 import { DialogService } from "../../../../../../core/services/dialog.service";
-import {
-    ListOrganisationsComponent
-} from "../../../../../../shared/list-organisations/list-organisations.component";
+import { ListOrganisationsComponent } from "../../../../../../shared/list-organisations/list-organisations.component";
 import { OrganisationPopupComponent } from "../../../../../../shared/list-organisations/organisation-popup/organisation-popup.component";
-import { organisationFormGroupBuilder } from "../../../../../../core/features/organisation/utilities/organisationFormGroupBuilder.utilities";
+import { organisationFormGroupBuilder } from "../../../../../../core/features/organisations/utilities/organisationFormGroupBuilder.utilities";
+import { OrganisationService } from "../../../../../../core/features/organisations/services/organisation.service";
 
 @Component({
     selector: 'ps-details',

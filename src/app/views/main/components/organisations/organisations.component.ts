@@ -3,10 +3,10 @@ import { ListOrganisationsComponent } from "../../../../shared/list-organisation
 import { ILoggedInUser } from "../../../../core/features/authentication/models/logged-in-user.model";
 import { AuthenticationService } from "../../../../core/features/authentication/services/authentication.service";
 import { ToastService } from "../../../../core/services/error-toast.service";
-import { IOrganisationDetails } from "../../../../core/features/organisation/models/organisation-details.model";
-import { OrganisationService } from "../../../../core/features/organisation/services/organisation.service";
+import { IOrganisationDetails } from "../../../../core/features/organisations/models/organisation-details.model";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
 import { LoadingOverlayComponent } from "../../../../shared/loading-overlay/loading-overlay.component";
+import { OrganisationService } from "../../../../core/features/organisations/services/organisation.service";
 
 @Component({
   selector: 'ps-organisations',

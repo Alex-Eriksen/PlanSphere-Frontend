@@ -1,12 +1,11 @@
 import { Component, inject, OnDestroy, OnInit } from "@angular/core";
-import { OrganisationService } from "../../../core/features/organisation/services/organisation.service";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
 import { IOrganisationPopupInputs } from "./organisation-popup-inputs.interfaces";
 import { Observable, Subscription, tap } from "rxjs";
 import { markAllControlsAsTouchedAndDirty } from "../../utilities/form.utilities";
-import { IOrganisationDetails } from "../../../core/features/organisation/models/organisation-details.model";
-import { IOrganisationPayload } from "../../../core/features/organisation/models/organisation-payload";
+import { IOrganisationDetails } from "../../../core/features/organisations/models/organisation-details.model";
+import { IOrganisationPayload } from "../../../core/features/organisations/models/organisation-payload";
 import { ButtonComponent } from "../../button/button.component";
 import { DialogHeaderComponent } from "../../dialog-header/dialog-header.component";
 import { InputComponent } from "../../input/input.component";
@@ -15,6 +14,7 @@ import { MatSlideToggle } from "@angular/material/slide-toggle";
 import { SmallHeaderComponent } from "../../small-header/small-header.component";
 import { TranslateModule } from "@ngx-translate/core";
 import { AddressInputComponent } from "../../address-input/address-input.component";
+import { OrganisationService } from "../../../core/features/organisations/services/organisation.service";
 
 @Component({
   selector: 'ps-organisation-popup',
