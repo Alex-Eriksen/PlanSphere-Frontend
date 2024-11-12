@@ -1,5 +1,5 @@
 import { Component, input, OnInit } from "@angular/core";
-import { INavigationTab } from "../../../navigation-tabs/navigation-tab.interface";
+import { INavigationTab, ISidebarNavigationTab } from "../../../navigation-tabs/navigation-tab.interface";
 import { TranslateModule } from "@ngx-translate/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { NgClass } from "@angular/common";
@@ -19,21 +19,17 @@ import { NgClass } from "@angular/common";
 export class SidebarItemComponent implements OnInit{
     collapsed = input.required<boolean>();
     selfCollapsed = false;
-    tab = input.required<INavigationTab>();
+    tab = input.required<ISidebarNavigationTab>();
     parentPath = input<string>();
 
     routerLink: string = "";
 
     ngOnInit() {
         if (this.parentPath()) {
-            this.routerLink = `${this.parentPath()}/${this.tab().routeLink}`;
+            this.routerLink = `${this.parentPath()}/${this.tab().routeLinkFn()}`;
             return;
         }
 
-        this.routerLink = this.tab().routeLink;
-    }
-
-    toggleCollapse() {
-        this.selfCollapsed = !this.selfCollapsed;
+        this.routerLink = this.tab().routeLinkFn();
     }
 }

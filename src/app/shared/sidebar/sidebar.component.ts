@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit, output } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
-import { INavigationTab } from "../navigation-tabs/navigation-tab.interface";
+import { INavigationTab, ISidebarNavigationTab } from "../navigation-tabs/navigation-tab.interface";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatListItem, MatNavList } from "@angular/material/list";
 import { Router, RouterLink, RouterLinkActive } from "@angular/router";
@@ -16,6 +16,8 @@ import { ButtonComponent } from "../button/button.component";
 import { UserNavComponent } from "./components/user-nav/user-nav.component";
 import { DialogService } from "../../core/services/dialog.service";
 import { finalize } from "rxjs";
+import { SourceLevel } from "../../core/enums/source-level.enum";
+import { Right } from "../../core/enums/right.enum";
 
 @Component({
   selector: 'ps-sidebar',
@@ -45,57 +47,75 @@ export class SidebarComponent implements OnInit {
     readonly #authService = inject(AuthenticationService);
     readonly #router = inject(Router);
     readonly #dialogService = inject(DialogService);
-    navigations: INavigationTab[] = [
+    navigations: ISidebarNavigationTab[] = [
         {
             label: "FRONTPAGE",
             routeLink: "frontpage",
+            routeLinkFn: () => "frontpage",
             icon: "fa-solid fa-house"
         },
         {
             label: "ORGANISATION.NAME",
             routeLink: "organisation",
+            routeLinkFn: () => `organisation`,
             icon: "fa-solid fa-sitemap",
+            isVisible: () => this.#hasOrganisationViewAccess()
         },
         {
             label: "ORGANISATION.NAME_PLURAL",
             routeLink: "organisations",
+            routeLinkFn: () => `organisations`,
             icon: "fa-solid fa-sitemap",
             isVisible: () => this.loggedInUserData?.roles.find(x => x.name === AdminRoleNames.SystemAdministrator) !== undefined
         },
         {
             label: "COMPANY.NAME",
             routeLink: "company",
-            icon: "fa-solid fa-building"
+            routeLinkFn: () => `company/${this.#getSingleCompanyId()}`,
+            icon: "fa-solid fa-building",
+            isVisible: () => this.#canSeeOneCompany()
         },
         {
             label: "COMPANY.NAME_PLURAL",
             routeLink: "companies",
-            icon: "fa-solid fa-building"
+            routeLinkFn: () => "companies",
+            icon: "fa-solid fa-building",
+            isVisible: () => this.#canSeeMultipleCompanies()
         },
         {
             label: "DEPARTMENT.NAME",
             routeLink: "department",
-            icon: "fa-solid fa-building-user"
+            routeLinkFn: () => `department/${this.#getSingleDepartmentId()}`,
+            icon: "fa-solid fa-building-user",
+            isVisible: () => this.#canSeeOneDepartment()
         },
         {
             label: "DEPARTMENT.NAME_PLURAL",
             routeLink: "departments",
-            icon: "fa-solid fa-building-user"
+            routeLinkFn: () => "departments",
+            icon: "fa-solid fa-building-user",
+            isVisible: () => this.#canSeeMultipleDepartments()
         },
         {
             label: "TEAM.NAME",
             routeLink: "team",
-            icon: "fa-solid fa-people-group"
+            routeLinkFn: () => `team/${this.#getSingleTeamId()}`,
+            icon: "fa-solid fa-people-group",
+            isVisible: () => this.#canSeeOneTeam()
         },
         {
             label: "TEAM.NAME_PLURAL",
             routeLink: "teams",
-            icon: "fa-solid fa-people-group"
+            routeLinkFn: () => "teams",
+            icon: "fa-solid fa-people-group",
+            isVisible: () => this.#canSeeMultipleTeams()
         },
     ];
 
     ngOnInit() {
-        this.#authService.LoggedInUserObservable.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe({
+        this.#authService.LoggedInUserObservable
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe({
             next: data => {
                 this.loggedInUserData = data;
             }
@@ -135,5 +155,73 @@ export class SidebarComponent implements OnInit {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         return tab.isVisible ? tab.isVisible() : true;
+    }
+
+    #canSeeMultipleCompanies(): boolean {
+        const hasAccessThroughOrganisation = this.#hasOrganisationViewAccess();
+        if (hasAccessThroughOrganisation) return true;
+        return this.loggedInUserData!.roles.filter(x => x.rights.find(y => y.sourceLevel === SourceLevel.Company && (y.rightId as Right) <= Right.View)).length > 1;
+    }
+
+    #canSeeMultipleDepartments(): boolean {
+        const hasAccessThroughOrganisation = this.#hasOrganisationViewAccess();
+        if (hasAccessThroughOrganisation) return true;
+
+        const hasAccessThroughCompany = this.#hasCompanyViewAccess();
+        if (hasAccessThroughCompany) return true;
+
+        return this.loggedInUserData!.roles.filter(x => x.rights.find(y => y.sourceLevel === SourceLevel.Department  && (y.rightId as Right) <= Right.View)).length > 1;
+    }
+
+    #canSeeMultipleTeams(): boolean {
+        const hasAccessThroughOrganisation = this.#hasOrganisationViewAccess();
+        if (hasAccessThroughOrganisation) return true;
+
+        const hasAccessThroughCompany = this.#hasCompanyViewAccess();
+        if (hasAccessThroughCompany) return true;
+
+        const hasAccessThroughDepartment = this.#hasDepartmentViewAccess();
+        if (hasAccessThroughDepartment) return true;
+
+        return this.loggedInUserData!.roles.filter(x => x.rights.find(y => y.sourceLevel === SourceLevel.Team  && (y.rightId as Right) <= Right.View)).length > 1;
+    }
+
+    #canSeeOneCompany(): boolean {
+        if (this.#canSeeMultipleCompanies()) return false;
+        return this.loggedInUserData!.roles.filter(x => x.rights.find(y => y.sourceLevel === SourceLevel.Company && (y.rightId as Right) <= Right.View)).length === 1;
+    }
+
+    #canSeeOneDepartment(): boolean {
+        if (this.#canSeeMultipleCompanies()) return false;
+        return this.loggedInUserData!.roles.filter(x => x.rights.find(y => y.sourceLevel === SourceLevel.Department && (y.rightId as Right) <= Right.View)).length === 1;
+    }
+
+    #canSeeOneTeam(): boolean {
+        if (this.#canSeeMultipleTeams()) return false;
+        return this.loggedInUserData!.roles.filter(x => x.rights.find(y => y.sourceLevel === SourceLevel.Team && (y.rightId as Right) <= Right.View)).length === 1;
+    }
+
+    #getSingleCompanyId(): number {
+        return this.loggedInUserData!.roles.find(x => x.rights.some(y => y.sourceLevel === SourceLevel.Company && (y.rightId as Right) <= Right.View))!.rights.find(y => y.sourceLevel === SourceLevel.Company && (y.rightId as Right) <= Right.View)!.sourceLevelId;
+    }
+
+    #getSingleDepartmentId(): number {
+        return this.loggedInUserData!.roles.find(x => x.rights.some(y => y.sourceLevel === SourceLevel.Department && (y.rightId as Right) <= Right.View))!.rights.find(y => y.sourceLevel === SourceLevel.Department && (y.rightId as Right) <= Right.View)!.sourceLevelId;
+    }
+
+    #getSingleTeamId(): number {
+        return this.loggedInUserData!.roles.find(x => x.rights.some(y => y.sourceLevel === SourceLevel.Team && (y.rightId as Right) <= Right.View))!.rights.find(y => y.sourceLevel === SourceLevel.Team && (y.rightId as Right) <= Right.View)!.sourceLevelId;
+    }
+
+    #hasOrganisationViewAccess(): boolean {
+        return this.loggedInUserData?.roles.find(x => x.rights.find(y => y.sourceLevel === SourceLevel.Organisation && (y.rightId as Right) <= Right.View)) !== undefined;
+    }
+
+    #hasCompanyViewAccess(): boolean {
+        return this.loggedInUserData?.roles.find(x => x.rights.find(y => y.sourceLevel === SourceLevel.Company && (y.rightId as Right) <= Right.View)) !== undefined;
+    }
+
+    #hasDepartmentViewAccess(): boolean {
+        return this.loggedInUserData?.roles.find(x => x.rights.find(y => y.sourceLevel === SourceLevel.Department && (y.rightId as Right) <= Right.View)) !== undefined;
     }
 }
