@@ -1,5 +1,5 @@
 import { Component, input, OnInit } from "@angular/core";
-import { INavigationTab, ISidebarNavigationTab } from "../../../navigation-tabs/navigation-tab.interface";
+import { ISidebarNavigationTab } from "../../../navigation-tabs/navigation-tab.interface";
 import { TranslateModule } from "@ngx-translate/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { NgClass } from "@angular/common";

@@ -2,6 +2,8 @@ import { inject, Injectable } from "@angular/core";
 import { AuthenticationRepository } from "../repositories/authentication.repository";
 import { BehaviorSubject, Observable, tap } from "rxjs";
 import { ILoggedInUser } from "../models/logged-in-user.model";
+import { SourceLevel } from "../../../enums/source-level.enum";
+import { ISourceLevelRights } from "../models/source-level-rights.model";
 
 @Injectable({
     providedIn: 'root'
@@ -43,5 +45,9 @@ export class AuthenticationService {
 
     isLoggedIn(): boolean {
         return this.#tokenSubject$.value !== "" && this.#tokenSubject$.value !== null;
+    }
+
+    getRights(sourceLevel?: SourceLevel, sourceLevelId?: number): Observable<ISourceLevelRights> {
+        return this.#authenticationRepository.getRights(sourceLevel, sourceLevelId);
     }
 }
