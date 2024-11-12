@@ -22,6 +22,7 @@ import { IDropdownOption } from "../../interfaces/dropdown-option.interface";
 import { markAllControlsAsTouchedAndDirty } from "../../utilities/form.utilities";
 import { IDepartment } from "../../../core/features/department/models/department.model";
 import { CountryService } from "../../../core/features/address/services/country.service";
+import { AddressInputComponent } from "../../address-input/address-input/address-input.component";
 
 @Component({
     selector: 'ps-companies-popup',
@@ -38,7 +39,8 @@ import { CountryService } from "../../../core/features/address/services/country.
         SelectFieldComponent,
         DialogHeaderComponent,
         LoadingOverlayComponent,
-        LineComponent
+        LineComponent,
+        AddressInputComponent
     ],
     templateUrl: './departments-popup.component.html',
     styleUrl: './departments-popup.component.scss'

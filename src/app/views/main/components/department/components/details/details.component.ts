@@ -16,6 +16,7 @@ import {
     updateNestedControlsPathAndValue
 } from "../../../../../../shared/utilities/form.utilities";
 import { CountryService } from "../../../../../../core/features/address/services/country.service";
+import { AddressInputComponent } from "../../../../../../shared/address-input/address-input/address-input.component";
 
 
 @Component({
@@ -26,7 +27,8 @@ import { CountryService } from "../../../../../../core/features/address/services
         LoadingOverlayComponent,
         ReactiveFormsModule,
         LineComponent,
-        SmallHeaderComponent
+        SmallHeaderComponent,
+        AddressInputComponent
     ],
     selector: "ps-details",
     standalone: true,
