@@ -6,6 +6,7 @@ import { APIS } from "../../../api/plansphere.api";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
 import { SourceLevel } from "../../../enums/source-level.enum";
+import { IDepartmentLookup } from "../models/department-look-up.model";
 
 @Injectable({
     providedIn: 'root'
@@ -36,5 +37,9 @@ export class DepartmentRepository {
 
     delete(sourceLevelId: number, departmentId: number): Observable<void>{
         return this.#http.delete<void>(APIS.department.delete(sourceLevelId, departmentId));
+    }
+
+    lookUpDepartments(): Observable<IDepartmentLookup[]> {
+        return this.#http.get<IDepartmentLookup[]>(APIS.department.lookUpDepartments);
     }
 }

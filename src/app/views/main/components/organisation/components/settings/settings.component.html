@@ -1,0 +1,21 @@
+@if(isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div class="flex gap-4 flex-col">
+        <ps-small-header
+            heading="ORGANISATION.SETTINGS.NAME_PLURAL"
+        ></ps-small-header>
+        <div class="flex flex-col gap-4">
+            <ps-small-header
+                heading="WORK_SCHEDULE.STANDARD_NAME"
+            ></ps-small-header>
+            <ps-work-schedule
+                #workSchedule
+                [formGroup]="workScheduleFormGroup"
+                [canSave]="true"
+                [isUpdating]="isUpdatingWorkSchedule"
+                (updateWorkSchedule)="updateWorkSchedule($event)"
+            ></ps-work-schedule>
+        </div>
+    </div>
+}

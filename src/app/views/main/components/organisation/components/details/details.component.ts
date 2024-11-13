@@ -16,11 +16,14 @@ import { ToastService } from "../../../../../../core/services/error-toast.servic
 import { DialogService } from "../../../../../../core/services/dialog.service";
 import { ListOrganisationsComponent } from "../../../../../../shared/list-organisations/list-organisations.component";
 import { OrganisationPopupComponent } from "../../../../../../shared/list-organisations/organisation-popup/organisation-popup.component";
+import { addressFormBuilderControle } from "../../../../../../core/features/address/utilities/address.utilities";
+import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
+import { ISourceLevelRights } from "../../../../../../core/features/authentication/models/source-level-rights.model";
 import { organisationFormGroupBuilder } from "../../../../../../core/features/organisations/utilities/organisationFormGroupBuilder.utilities";
 import { OrganisationService } from "../../../../../../core/features/organisations/services/organisation.service";
 
 @Component({
-    selector: 'ps-details',
+    selector: "ps-details",
     standalone: true,
     imports: [
         InputComponent,
@@ -32,12 +35,12 @@ import { OrganisationService } from "../../../../../../core/features/organisatio
         SmallHeaderComponent,
         AddressInputComponent,
         ListOrganisationsComponent,
-        OrganisationPopupComponent,
+        OrganisationPopupComponent
     ],
-    templateUrl: './details.component.html',
-    styleUrl: './details.component.scss'
+    templateUrl: "./details.component.html",
+    styleUrl: "./details.component.scss"
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, IRightsListener {
     organisationId! : number;
     organisation?: IOrganisation;
     readonly #authenticationService = inject(AuthenticationService);
@@ -48,10 +51,14 @@ export class DetailsComponent implements OnInit {
     readonly #dialogService = inject(DialogService);
     readonly #isDeletingOrganisation = signal(false);
     isPageLoading: boolean = false;
+    rightsData!: ISourceLevelRights;
 
     ngOnInit(): void {
         this.isPageLoading = true;
         this.fetchOrganisationIdFromUser();
+        if (!this.rightsData.hasEditRights && !this.rightsData.hasAdministratorRights) {
+            this.formGroup.disable();
+        }
         this.formGroup = organisationFormGroupBuilder(this.#fb);
     }
 
@@ -94,7 +101,7 @@ export class DetailsComponent implements OnInit {
         }
     }
 
-    deleteOrganisation(id: number): void {
-        this.#organisationService.delete(id).subscribe();
+    setRightsData(rights: ISourceLevelRights): void {
+        this.rightsData = rights;
     }
 }

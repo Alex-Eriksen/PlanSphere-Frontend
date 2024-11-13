@@ -1,5 +1,7 @@
 import { Component, inject, OnInit } from "@angular/core";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
+import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
+import { ISourceLevelRights } from '../../../../../../core/features/authentication/models/source-level-rights.model';
 import { AddressInputComponent } from "../../../../../../shared/address-input/address-input.component";
 import { InputComponent } from "../../../../../../shared/input/input.component";
 import { LineComponent } from "../../../../../../shared/line/line.component";
@@ -13,8 +15,8 @@ import { updateNestedControlsPathAndValue } from "../../../../../../shared/utili
 import { SettingsComponent } from "../settings/settings.component";
 
 @Component({
-  selector: 'ps-details',
-  standalone: true,
+    selector: "ps-details",
+    standalone: true,
     imports: [
         SmallHeaderComponent,
         AddressInputComponent,
@@ -24,10 +26,10 @@ import { SettingsComponent } from "../settings/settings.component";
         ReactiveFormsModule,
         SettingsComponent
     ],
-  templateUrl: './details.component.html',
-  styleUrl: './details.component.scss'
+    templateUrl: "./details.component.html",
+    styleUrl: "./details.component.scss"
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, IRightsListener {
     readonly #fb = inject(FormBuilder);
     readonly #authenticationService = inject(AuthenticationService);
     readonly #toastService = inject(ToastService);
@@ -43,6 +45,10 @@ export class DetailsComponent implements OnInit {
         }
         this.getUserById(this.#userId);
         this.formGroup = userFormGroupBuilder(this.#fb);
+    }
+
+    setRightsData(rights: ISourceLevelRights): void {
+        throw new Error('Method not implemented.');
     }
 
     getUserById(userId: number): void {

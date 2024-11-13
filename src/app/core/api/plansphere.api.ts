@@ -8,6 +8,7 @@ export const APIS = {
         refreshToken: environment.apiUrl + "Authentication/RefreshToken",
         revokeToken: environment.apiUrl + "Authentication/revokeRefreshToken",
         getLoggedInUser: environment.apiUrl + "Authentication/GetLoggedInUser",
+        getSourceLevelRights: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Authentication/GetSourceLevelRights/${sourceLevel}/${sourceLevelId}`
     },
     workSchedules: {
         lookUpWorkSchedules: environment.apiUrl + "WorkSchedule/LookUpWorkSchedules",
@@ -21,6 +22,7 @@ export const APIS = {
         getUserDetailsWithoutId: environment.apiUrl + `User/GetUserDetails`,
         patchUserWithId: (userId: number) => environment.apiUrl + `User/PatchUser/${userId}`,
         patchUserWithoutId: environment.apiUrl + `User/PatchUser`,
+        getRights: environment.apiUrl + `Authentication/GetSourceLevelRights`,
         listUsers: () => environment.apiUrl + "User/ListUsers",
         updateUser: (userId: number) => environment.apiUrl + `User/UpdateUser/${userId}`,
         deleteUser: (userId: number) => environment.apiUrl + `User/DeleteUser/${userId}`,
@@ -62,7 +64,7 @@ export const APIS = {
         listUserCompanies: environment.apiUrl + "Company/ListUserCompanies",
         create: (sourceLevelId: number) => environment.apiUrl + `Company/CreateCompany/${sourceLevelId}`,
         patch: (sourceLevelId: number)=> environment.apiUrl + `Company/PatchCompany/${sourceLevelId}`,
-        delete: (sourceLevelId: number) => environment.apiUrl + `Company/DeleteCompany/${sourceLevelId}`,
+        delete: (sourceLevelId: number, companyId: number) => environment.apiUrl + `Company/DeleteCompany/${sourceLevelId}/${companyId}`,
         uploadLogo: (id: number) => environment.apiUrl + `Company/UploadCompanyLogo/${id}`
     },
     department: {
@@ -72,11 +74,12 @@ export const APIS = {
         create: (sourceLevelId: number) => environment.apiUrl + `Department/CreateDepartment/${sourceLevelId}`,
         patch: (sourceLevelId: number) => environment.apiUrl + `Department/PatchDepartment/${sourceLevelId}`,
         delete: (sourceLevelId: number, departmentId: number) => environment.apiUrl + `Department/DeleteDepartment/${sourceLevelId}/${departmentId}`,
+        lookUpDepartments: environment.apiUrl + "Department/LookUpDepartments",
     },
     country: {
         getCountryLookups: environment.apiUrl + "Country/GetCountryLookups",
     },
     zipCode: {
         getZipCodeLookups: environment.apiUrl + "ZipCode/GetZipCodeLookups",
-    },
+    }
 }

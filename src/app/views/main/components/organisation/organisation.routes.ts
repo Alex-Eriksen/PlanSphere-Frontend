@@ -4,6 +4,7 @@ import { JobTitlesComponent } from "./components/jobtitles/job-titles.component"
 import { CompaniesComponent } from "./components/companies/companies.component";
 import { RolesComponent } from "./components/roles/roles.component";
 import { UsersComponent } from "./components/users/users.component";
+import { SettingsComponent } from "./components/settings/settings.component";
 
 export const organisationRoutes: Routes = [
     {
@@ -44,6 +45,13 @@ export const organisationRoutes: Routes = [
         component: UsersComponent,
         data: {
             name: "USER.NAME_PLURAL"
+        }
+    },
+    {
+        path: "settings",
+        component: SettingsComponent,
+        data: {
+            name: "SETTINGS.NAME_PLURAL"
         }
     }
 ]

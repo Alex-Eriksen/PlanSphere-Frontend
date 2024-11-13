@@ -7,6 +7,7 @@ import { IOrganisationDetails } from "../models/organisation-details.model";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
 import { IOrganisationPayload } from "../models/organisation-payload";
+import { IOrganisationDetails } from "../models/organisation.model";
 
 @Injectable({
     providedIn: 'root'

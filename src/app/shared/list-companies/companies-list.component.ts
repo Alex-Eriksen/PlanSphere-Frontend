@@ -47,6 +47,7 @@ export class CompaniesListComponent extends BasePaginatedTableWithSearchComponen
     readonly #dialogService = inject(DialogService)
     readonly #router = inject(Router)
     readonly #destroyRef = inject(DestroyRef)
+    hasEditRights = input(false);
     override paginatedData: ISignalPaginatedResponse<ISmallListTableInput> = constructInitialSignalPaginatedResponse();
     headers = companyTableHeaders;
     sortingFilterSignal: WritableSignal<ITableSortingFilter> = signal({
@@ -63,7 +64,7 @@ export class CompaniesListComponent extends BasePaginatedTableWithSearchComponen
         {
             callbackFn: (row: ISmallListTableInput) => this.#openDeleteDialog(row),
             labelFn: () => "COMPANY.DELETE.TITLE",
-            isVisible: () => !this.isUserCompanies()
+            isVisible: () => !this.isUserCompanies() && this.hasEditRights()
         }
     ]
 
@@ -92,7 +93,6 @@ export class CompaniesListComponent extends BasePaginatedTableWithSearchComponen
         });
     }
 
-
     #openDeleteDialog(row: ISmallListTableInput): void {
         this.#dialogService.open(
             {
@@ -111,7 +111,7 @@ export class CompaniesListComponent extends BasePaginatedTableWithSearchComponen
 
     #deleteCompany(id: number): void {
         this.#isDeletingCompany.set(true);
-        this.#companyService.deleteCompany(id).subscribe({
+        this.#companyService.deleteCompany(this.organisationId(), id).subscribe({
             next: () => this.loadDataWithCorrectParams(),
             complete: () => {
                 this.#isDeletingCompany.set(false);

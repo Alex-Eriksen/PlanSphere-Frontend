@@ -10,6 +10,14 @@ export const RoleTableHeaders: ITableHeader[] = [
         maxTextLength: 70,
     },
     {
+        key: "sourceLevel",
+        label: "SOURCE",
+        isSortable: true,
+        type: TableHeaderType.Text,
+        maxTextLength: 70,
+        needsTranslation: true
+    },
+    {
         key: "name",
         label: "NAME",
         isSortable: true,
@@ -21,6 +29,13 @@ export const RoleTableHeaders: ITableHeader[] = [
         label: "RIGHT.NUMBER_OF",
         isSortable: false,
         type: TableHeaderType.Text,
+        maxTextLength: 70,
+    },
+    {
+        key: "isDefaultRole",
+        label: "ROLE.STANDARD",
+        isSortable: true,
+        type: TableHeaderType.Boolean,
         maxTextLength: 70,
     },
     {
@@ -36,19 +51,5 @@ export const RoleTableHeaders: ITableHeader[] = [
         isSortable: true,
         type: TableHeaderType.Date,
         maxTextLength: 70
-    },
-    {
-        key: "sourceLevel",
-        label: "SOURCE",
-        isSortable: true,
-        type: TableHeaderType.Text,
-        maxTextLength: 70,
-    },
-    {
-        key: "isDefaultRole",
-        label: "ROLE.STANDARD",
-        isSortable: true,
-        type: TableHeaderType.Boolean,
-        maxTextLength: 70,
     },
 ];

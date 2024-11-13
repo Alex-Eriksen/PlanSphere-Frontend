@@ -16,7 +16,9 @@ import {
     updateNestedControlsPathAndValue
 } from "../../../../../../shared/utilities/form.utilities";
 import { CountryService } from "../../../../../../core/features/address/services/country.service";
-import { AddressInputComponent } from "../../../../../../shared/address-input/address-input.component";
+import { AddressInputComponent } from "../../../../../../shared/address-input/address-input/address-input.component";
+import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
+import { ISourceLevelRights } from "../../../../../../core/features/authentication/models/source-level-rights.model";
 
 
 @Component({
@@ -35,7 +37,7 @@ import { AddressInputComponent } from "../../../../../../shared/address-input/ad
     styleUrl: "./details.component.scss",
     templateUrl: "./details.component.html"
 })
-export class DetailsComponent implements OnInit{
+export class DetailsComponent implements OnInit, IRightsListener {
     departmentId = input.required<number>()
     department?: IDepartment
     readonly #departmentService = inject(DepartmentService);
@@ -93,15 +95,17 @@ export class DetailsComponent implements OnInit{
     }
 
     loadDepartmentDetails(sourceLevel: SourceLevel, departmentId: number): void {
-        this.#departmentService.departmentById( departmentId, sourceLevel, departmentId).subscribe({
+        this.#departmentService.getDepartmentById( departmentId, sourceLevel, departmentId).subscribe({
             next: (data: IDepartment) => this.formGroup.patchValue(data),
             error: () => this.#toastService.showToast('DEPARTMENT.DO_NOT_EXIST'),
             complete: () => this.isPageLoading = false
         });
     }
 
-    deleteDepartment(id: number): void {
-        this.#departmentService.deleteDepartment(id, id)
+    setRightsData(rights: ISourceLevelRights) {
+        if (!rights.hasEditRights && !rights.hasAdministratorRights) {
+            this.formGroup.disable();
+        }
     }
 
     protected readonly input = input;

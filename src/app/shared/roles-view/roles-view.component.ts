@@ -45,34 +45,38 @@ export class RolesViewComponent extends BasePaginatedTableWithSearchComponent {
         sortBy: "name",
         sortDescending: false,
     });
+    hasEditRights = input(false);
     override loadDataEffect$: EffectRef = effect(() => {this.loadDataWithCorrectParams()});
     override loadData(params: IPaginationSortPayload): void {
         this.isTableLoading = true;
-        this.#roleService.getRoles(params, this.sourceLevel(), this.sourceLevelId()).subscribe((paginatedProperties) => {
+        this.#roleService.getRoles(params, this.sourceLevel(), this.sourceLevelId())
+            .subscribe((paginatedProperties) => {
             copyPaginatedSignalResponse(this.paginatedData, paginatedProperties);
             this.isTableLoading = false;
+            this.disabledMap = new Map<number, boolean>();
+            this.paginatedData.results().forEach((data) => this.disabledMap.set(data.id, !this.hasEditRights()));
         });
     }
     override actions: ITableAction[] = [
         {
-            isVisible: (row: ISmallListTableInput) => row["isInheritanceActive"] === true,
+            isVisible: (row: ISmallListTableInput) => row["isInheritanceActive"] === true && this.hasEditRights(),
             callbackFn: (row: ISmallListTableInput) => this.updateRoleInheritance({ row: row, checked: row["isInheritanceActive"] }, true),
             labelFn: () => "DEACTIVATE",
         },
         {
-            isVisible: (row: ISmallListTableInput) => row["isInheritanceActive"] === false,
+            isVisible: (row: ISmallListTableInput) => row["isInheritanceActive"] === false && this.hasEditRights(),
             callbackFn: (row: ISmallListTableInput) => this.updateRoleInheritance({ row: row, checked: row["isInheritanceActive"] }, true),
             labelFn: () => "ACTIVATE",
         },
         {
             callbackFn: (row: ISmallListTableInput) => this.openPopup(true, row),
             labelFn: () => "ROLE.EDIT.NAME",
-            isVisible: (row: ISmallListTableInput) => row['sourceLevel'] === this.sourceLevel(),
+            isVisible: (row: ISmallListTableInput) => row['rawSourceLevel'] === this.sourceLevel() && this.hasEditRights(),
         },
         {
             callbackFn: (row: ISmallListTableInput) => this.#openDeleteDialog(row),
             labelFn: () => "ROLE.DELETE.NAME",
-            isVisible: (row: ISmallListTableInput) => row['sourceLevel'] === this.sourceLevel() && row['isDefaultRole'] === false,
+            isVisible: (row: ISmallListTableInput) => row['rawSourceLevel'] === this.sourceLevel() && row['isDefaultRole'] === false && this.hasEditRights(),
         },
     ]
     sourceLevel = input.required<SourceLevel>();
@@ -82,6 +86,7 @@ export class RolesViewComponent extends BasePaginatedTableWithSearchComponent {
     readonly #dialogService = inject(DialogService);
     readonly #destroyRef = inject(DestroyRef);
     readonly #isDeletingRole = signal(false);
+    protected disabledMap!: Map<number, boolean>;
 
     loadDataWithCorrectParams(): void {
         this.loadData({

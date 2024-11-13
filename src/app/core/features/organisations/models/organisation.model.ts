@@ -1,10 +1,12 @@
-export interface IOrganisation {
-    id: number;
+import { IAddress } from "../../address/models/address.model";
+import { IBase } from "../../../abstract/models/base.model";
+import { IOrganisationSettings } from "./organisation-settings.model";
+
+export interface IOrganisationDetails extends IBase
+{
     name: string;
     logoUrl?: string;
-    jobTitles? : string[];
-    organisationMembers: number;
-    companyMembers: number;
-    departmentMembers: number;
-    teamMembers: number;
+    address: IAddress;
+    settings: IOrganisationSettings;
+    createdAt: Date;
 }

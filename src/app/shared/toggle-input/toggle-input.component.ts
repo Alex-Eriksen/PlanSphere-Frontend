@@ -21,6 +21,7 @@ import { TooltipComponent } from "../tooltip/tooltip.component";
 export class ToggleInputComponent {
     control = input<FormControl<boolean>>(new FormControl());
     label = input<string>("");
+    translationArgs = input({});
     tooltip = input<string>("");
     appliedClasses = input<string>("");
     toggleChanged = output<boolean>();

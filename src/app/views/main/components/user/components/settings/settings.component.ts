@@ -20,10 +20,12 @@ import { JsonPipe } from "@angular/common";
 import { IWorkSchedule } from "../../../../../../core/features/workSchedules/models/work-schedule.model";
 import { SourceLevel } from "../../../../../../core/enums/source-level.enum";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
+import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
+import { ISourceLevelRights } from "../../../../../../core/features/authentication/models/source-level-rights.model";
 
 @Component({
-  selector: 'ps-settings',
-  standalone: true,
+    selector: "ps-settings",
+    standalone: true,
     imports: [
         SmallHeaderComponent,
         ToggleInputComponent,
@@ -36,10 +38,10 @@ import { ToastService } from "../../../../../../core/services/error-toast.servic
         TranslateModule,
         JsonPipe
     ],
-  templateUrl: './settings.component.html',
-  styleUrl: './settings.component.scss'
+    templateUrl: "./settings.component.html",
+    styleUrl: "./settings.component.scss"
 })
-export class SettingsComponent implements OnInit, OnDestroy {
+export class SettingsComponent implements OnInit, OnDestroy, IRightsListener {
     readonly #userService = inject(UserService);
     readonly #workScheduleService = inject(WorkScheduleService);
     readonly #fb = inject(NonNullableFormBuilder);
@@ -50,6 +52,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     loadingWorkSchedule = false;
     workScheduleOptions: IDropdownOption[] = [];
     userDetails!: IUser;
+    rightsData!: ISourceLevelRights;
 
     workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb);
     formGroup = this.#fb.group({
@@ -157,5 +160,17 @@ export class SettingsComponent implements OnInit, OnDestroy {
                 this.isUpdatingWorkSchedule = false;
             }
         });
+    }
+
+    setRightsData(rights: ISourceLevelRights): void {
+        this.rightsData = rights;
+        rights.hasSetAutomaticCheckInOutRights ? this.formGroup.controls.settings.controls.autoCheckInOut.enable() : this.formGroup.controls.settings.controls.autoCheckInOut.disable();
+        if (rights.hasSetOwnWorkScheduleRights) {
+            this.formGroup.controls.settings.controls.inheritWorkSchedule.enable();
+            this.formGroup.controls.settings.controls.inheritedWorkScheduleId.enable();
+        } else {
+            this.formGroup.controls.settings.controls.inheritWorkSchedule.disable();
+            this.formGroup.controls.settings.controls.inheritedWorkScheduleId.disable();
+        }
     }
 }
