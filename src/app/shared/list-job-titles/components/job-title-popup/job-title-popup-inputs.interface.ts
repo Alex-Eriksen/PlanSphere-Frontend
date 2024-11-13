@@ -1,4 +1,4 @@
-import { SourceLevel } from "../../../core/enums/source-level.enum";
+import { SourceLevel } from "../../../../core/enums/source-level.enum";
 
 export interface IJobTitlePopupInputs {
     jobTitleId?: number;

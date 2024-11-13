@@ -1,19 +1,19 @@
 import { Component, inject, OnDestroy, OnInit } from "@angular/core";
 import { IJobTitlePopupInputs } from "./job-title-popup-inputs.interface";
-import { JobTitleService } from "../../../core/features/jobTitle/services/job-title.service";
+import { JobTitleService } from "../../../../core/features/jobTitle/services/job-title.service";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
 import { Observable, Subscription, tap } from "rxjs";
-import { IJobTitle } from "../../../core/features/jobTitle/models/job-title.model";
-import { IJobTitlePayload } from "../../../core/features/jobTitle/models/job-title-payload";
-import { markAllControlsAsTouchedAndDirty } from "../../utilities/form.utilities";
-import { DialogHeaderComponent } from "../../dialog-header/dialog-header.component";
-import { LoadingOverlayComponent } from "../../loading-overlay/loading-overlay.component";
-import { SmallHeaderComponent } from "../../small-header/small-header.component";
-import { ButtonComponent } from "../../button/button.component";
+import { IJobTitle } from "../../../../core/features/jobTitle/models/job-title.model";
+import { IJobTitlePayload } from "../../../../core/features/jobTitle/models/job-title-payload";
+import { markAllControlsAsTouchedAndDirty } from "../../../utilities/form.utilities";
+import { DialogHeaderComponent } from "../../../dialog-header/dialog-header.component";
+import { LoadingOverlayComponent } from "../../../loading-overlay/loading-overlay.component";
+import { SmallHeaderComponent } from "../../../small-header/small-header.component";
+import { ButtonComponent } from "../../../button/button.component";
 import { TranslateModule } from "@ngx-translate/core";
-import { InputComponent } from "../../input/input.component";
-import { TooltipComponent } from "../../tooltip/tooltip.component";
+import { InputComponent } from "../../../input/input.component";
+import { TooltipComponent } from "../../../tooltip/tooltip.component";
 import { MatSlideToggle } from "@angular/material/slide-toggle";
 
 @Component({
@@ -104,7 +104,7 @@ export class JobTitlePopupComponent implements OnInit, OnDestroy {
     }
 
     #getJobTitle(): Observable<IJobTitle> {
-        return this.#jobTitleService.getJobTitle(this.componentInputs.jobTitleId!)
+        return this.#jobTitleService.getJobTitle(this.componentInputs.sourceLevel, this.componentInputs.sourceLevelId, this.componentInputs.jobTitleId!)
             .pipe(
                 tap((jobTitle) => {
                     this.formGroup.patchValue(jobTitle);

@@ -8,6 +8,7 @@ import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination
 import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-paginated-response.interface";
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
 import { mapJobTitlesToSignalSmallListInputOperator } from "../utilities/job-title.utilities";
+import { IJobTitleLookUp } from "../models/job-title-look-up.model";
 
 @Injectable({
     providedIn: 'root'
@@ -23,8 +24,8 @@ export class JobTitleService {
         return this.#jobTitleRepository.getPaginatedJobTitles(params, sourceLevel, sourceLevelId).pipe(mapJobTitlesToSignalSmallListInputOperator());
     }
 
-    getJobTitle(id: number): Observable<IJobTitle> {
-        return this.#jobTitleRepository.getJobTitle(id);
+    getJobTitle(sourceLevel: SourceLevel, sourceLevelId: number, jobTitleId: number): Observable<IJobTitle> {
+        return this.#jobTitleRepository.getJobTitle(sourceLevel, sourceLevelId, jobTitleId);
     }
 
     createJobTitle(payload: IJobTitlePayload, sourceLevel: SourceLevel, sourceLevelId: number): Observable<void> {
@@ -41,5 +42,9 @@ export class JobTitleService {
 
     toggleInheritance(id: number, sourceLevel: SourceLevel, sourceLevelId: number): Observable<void> {
         return this.#jobTitleRepository.toggleInheritance(id, sourceLevel, sourceLevelId);
+    }
+
+    lookUpJobTitles(): Observable<IJobTitleLookUp[]> {
+        return this.#jobTitleRepository.lookUpJobTitles();
     }
 }
