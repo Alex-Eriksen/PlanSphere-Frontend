@@ -23,7 +23,7 @@ export class CompaniesComponent implements OnInit, IRightsListener {
     readonly #toastService = inject(ToastService);
     organisationId: number = 0;
     isPageLoading: boolean = false;
-    rightsData!: ISourceLevelRights;
+    hasEditRights = false;
 
     ngOnInit() {
         this.isPageLoading = true;
@@ -39,10 +39,6 @@ export class CompaniesComponent implements OnInit, IRightsListener {
     }
 
     setRightsData(rights: ISourceLevelRights) {
-        this.rightsData = rights;
-    }
-
-    protected hasEditRights(): boolean {
-        return this.rightsData.hasEditRights || this.rightsData.hasAdministratorRights;
+        this.hasEditRights = rights.hasEditRights || rights.hasAdministratorRights;
     }
 }
