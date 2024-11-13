@@ -9,6 +9,7 @@ import { LoadingOverlayComponent } from "../loading-overlay/loading-overlay.comp
 import { CalendarSidePanelItemComponent } from "../calendar-side-panel-item/calendar-side-panel-item.component";
 import { TranslateModule } from "@ngx-translate/core";
 import { CalendarFacadeService } from "../../core/services/calendar.facade.service";
+import { slideInOut } from "../../views/main/components/frontpage/calendar.utilities";
 
 @Component({
   selector: 'ps-calendar-side-panel',
@@ -23,7 +24,8 @@ import { CalendarFacadeService } from "../../core/services/calendar.facade.servi
         TranslateModule
     ],
   templateUrl: './calendar-side-panel.component.html',
-  styleUrl: './calendar-side-panel.component.scss'
+  styleUrl: './calendar-side-panel.component.scss',
+  animations: [slideInOut]
 })
 export class CalendarSidePanelComponent {
     #calendarFacadeService = inject(CalendarFacadeService);
@@ -35,11 +37,35 @@ export class CalendarSidePanelComponent {
     daysInMonth = input.required<DayInfo[]>();
     currentSelectedDay = input.required<DayInfo>();
 
+    animationDirection: 'left' | 'right' = 'right';
+    animationKey = 0;
+    isVisible = true;
+
     hoveredWeek = new FormControl<number | null>(0);
 
-    incrementMonth = () => this.#calendarFacadeService.changeMonth(true);
+    incrementMonth() {
+        this.animationDirection = 'right';
+        this.triggerMonthChange(true);
+    }
 
-    decrementMonth = () => this.#calendarFacadeService.changeMonth(false);
+    decrementMonth() {
+        this.animationDirection = 'left';
+        this.triggerMonthChange(false);
+    }
+
+    triggerMonthChange(increment: boolean) {
+        // Temporarily hide the panel content to trigger re-render
+        this.isVisible = false;
+        setTimeout(() => {
+            if (increment) {
+                this.#calendarFacadeService.changeMonth(true);
+            } else {
+                this.#calendarFacadeService.changeMonth(false);
+            }
+            this.animationKey++; // Update the key to help trigger change detection
+            this.isVisible = true; // Re-show the content to trigger animation
+        }, 50); // Small delay for visibility toggle
+    }
 
     protected readonly CalendarMonths = CalendarMonths;
     protected readonly Object = Object;

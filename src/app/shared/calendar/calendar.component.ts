@@ -12,7 +12,6 @@ import { BreakpointObserver, BreakpointState } from "@angular/cdk/layout";
 import { CalendarDateService } from "../../core/services/calendar-date.service";
 import { CalendarFacadeService } from "../../core/services/calendar.facade.service";
 import { generateWorkHours } from "../../views/main/components/frontpage/calendar.utilities";
-import { Subject } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({

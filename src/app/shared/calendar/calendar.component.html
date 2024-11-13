@@ -1,7 +1,7 @@
 @if(isLoading) {
     <ps-loading-overlay></ps-loading-overlay>
 } @else {
-    <div class="flex flex-row gap-4">
+    <div class="flex flex-row gap-4 flex basis-1/5">
         <ps-calendar-side-panel
             *ngIf="!hideSidePanel"
             [calendarOption]="calendarOption"
@@ -13,7 +13,7 @@
             [currentSelectedDay]="currentSelectedDay!">
         </ps-calendar-side-panel>
         <ps-calender-table
-            class="flex-grow"
+            class="flex-grow basis-4/5"
             [calendarOption]="calendarOption"
             [currentDate]="currentDate"
             [selectedDate]="selectedDate"
