@@ -70,6 +70,14 @@ export const APIS = {
         delete: (sourceLevelId: number, departmentId: number) => environment.apiUrl + `Department/DeleteDepartment/${sourceLevelId}/${departmentId}`,
         lookUpDepartments: environment.apiUrl + "Department/LookUpDepartments",
     },
+    team: {
+      getById: (sourceLevelId: number, sourceLevel: SourceLevel, teamId: number) => environment.apiUrl + `Team/GetTeam/${teamId}/${sourceLevel}/${sourceLevelId}`,
+      listTeams: (sourceLevelId: number) => environment.apiUrl + `Team/ListTeams/${sourceLevelId}`,
+      listUserTeams: environment.apiUrl + "Team/ListUserTeams",
+      create: (sourceLevelId: number) => environment.apiUrl + `Team/CreateTeam/${sourceLevelId}`,
+      patch: (sourceLevelId: number) => environment.apiUrl + `Team/PatchTeam/${sourceLevelId}`,
+      delete: (sourceLevelId: number, teamId: number) => environment.apiUrl + `Team/DeleteTeam/${sourceLevelId}/${teamId}`,
+    },
     country: {
         getCountryLookups: environment.apiUrl + "Country/GetCountryLookups",
     },
