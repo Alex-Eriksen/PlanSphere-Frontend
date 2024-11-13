@@ -1,6 +1,6 @@
 import { Component, DestroyRef, effect, inject, input, OnInit, signal, WritableSignal } from "@angular/core";
-import { DepartmentsPopupComponent } from "./components/departments-popup.component";
-import { IDepartmentsPopupInputs } from "./components/departments-popup-inputs.component";
+import { DepartmentsPopupComponent } from "./components/departments-popup/departments-popup.component";
+import { IDepartmentsPopupInputs } from "./components/departments-popup/departments-popup-inputs.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SmallListTableComponent } from "../small-list-table/small-list-table.component";
 import { PaginationComponent } from "../pagination/pagination.component";
@@ -22,7 +22,7 @@ import { ITableSortingFilter } from "../interfaces/table-sorting-filter.interfac
 import { ITableAction } from "../interfaces/table-action.interface";
 import { MatDialog } from "@angular/material/dialog";
 import { IPaginationSortPayload } from "../interfaces/pagination-sort-payload.interface";
-import { CompaniesPopupComponent } from "../list-companies/components/companies-popup.component";
+import { CompaniesPopupComponent } from "../list-companies/components/companies-popup/companies-popup.component";
 
 @Component({
     selector: 'ps-department-list',

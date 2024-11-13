@@ -13,7 +13,7 @@ import { organisationRoutes } from "./components/organisation/organisation.route
 import { companyRoutes } from "./components/company/company.routes";
 import { userRoutes } from "./components/user/user.routes";
 import { departmentRoutes } from "./components/department/department.routes";
-import { teamRoutes } from "./components/team/teamRoutes";
+import { teamRoutes } from "./components/team/team.routes";
 
 export const mainRoutes: Routes = [
     {

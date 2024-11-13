@@ -25,7 +25,7 @@
     }
 </mat-form-field>
 @if(tooltip()){
-    <ps-tooltip [tooltip]="tooltip()"></ps-tooltip>
+    <ps-tooltip class="ms-2" [tooltip]="tooltip()"></ps-tooltip>
 }
 @if (control()!.touched && control()!.dirty && control()!.invalid) {
     @switch (control()!.invalid) {

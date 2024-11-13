@@ -9,7 +9,7 @@ import { SmallHeaderComponent } from "../small-header/small-header.component";
 import { SearchInputComponent } from "../search-input/search-input.component";
 import { ButtonComponent } from "../button/button.component";
 import { InputComponent } from "../input/input.component";
-import { DepartmentsPopupComponent } from "../list-department/components/departments-popup.component";
+import { DepartmentsPopupComponent } from "../list-department/components/departments-popup/departments-popup.component";
 import { DialogService } from "../../core/services/dialog.service";
 import { Router } from "@angular/router";
 import { ISignalPaginatedResponse } from "../interfaces/signal-paginated-response.interface";
@@ -20,9 +20,9 @@ import { teamTableHeaders } from "../table-headers/team-table.headers";
 import { ITableAction } from "../interfaces/table-action.interface";
 import { MatDialog } from "@angular/material/dialog";
 import { IPaginationSortPayload } from "../interfaces/pagination-sort-payload.interface";
-import { TeamsPopupComponent } from "./components/teams-popup.component";
+import { TeamsPopupComponent } from "./components/teams-popup/teams-popup.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { ITeamPopupInputs } from "./components/teams-popup-inputs.component";
+import { ITeamPopupInputs } from "./components/teams-popup/teams-popup-inputs.component";
 
 @Component({
   selector: 'ps-team-list',
