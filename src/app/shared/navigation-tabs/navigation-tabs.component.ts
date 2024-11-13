@@ -18,7 +18,7 @@ export class NavigationTabsComponent {
     tabs = input.required({
         transform: (value: INavigationTab[]) =>
             value.map((tap: INavigationTab) => {
-                return { ...tap, label: tap.label.toUpperCase() };
+                return { ...tap, label: tap.label.toUpperCase()  };
             }),
     });
 }

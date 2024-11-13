@@ -8,6 +8,7 @@ export const APIS = {
         refreshToken: environment.apiUrl + "Authentication/RefreshToken",
         revokeToken: environment.apiUrl + "Authentication/revokeRefreshToken",
         getLoggedInUser: environment.apiUrl + "Authentication/GetLoggedInUser",
+        getSourceLevelRights: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Authentication/GetSourceLevelRights/${sourceLevel}/${sourceLevelId}`
     },
     workSchedules: {
         lookUpWorkSchedules: environment.apiUrl + "WorkSchedule/LookUpWorkSchedules",
@@ -20,6 +21,7 @@ export const APIS = {
         getUserDetailsWithoutId: environment.apiUrl + `User/GetUserDetails`,
         patchUserWithId: (userId: number) => environment.apiUrl + `User/PatchUser/${userId}`,
         patchUserWithoutId: environment.apiUrl + `User/PatchUser`,
+        getRights: environment.apiUrl + `Authentication/GetSourceLevelRights`
     },
     roles: {
         createRole: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Role/CreateRole/${sourceLevel}/${sourceLevelId}`,

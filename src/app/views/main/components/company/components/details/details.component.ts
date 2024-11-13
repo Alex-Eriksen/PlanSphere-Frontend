@@ -13,6 +13,8 @@ import { ToastService } from "../../../../../../core/services/error-toast.servic
 import { LineComponent } from "../../../../../../shared/line/line.component";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
 import { AddressInputComponent } from "../../../../../../shared/address-input/address-input/address-input.component";
+import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
+import { ISourceLevelRights } from "../../../../../../core/features/authentication/models/source-level-rights.model";
 
 @Component({
   selector: 'ps-details',
@@ -30,7 +32,7 @@ import { AddressInputComponent } from "../../../../../../shared/address-input/ad
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, IRightsListener {
     companyId = input.required<number>()
     company?: ICompany
     readonly #companyService = inject(CompanyService);
@@ -39,6 +41,7 @@ export class DetailsComponent implements OnInit {
     readonly #toastService = inject(ToastService);
     countries: IDropdownOption[] = []
     isPageLoading: boolean = false;
+    protected readonly input = input;
 
     ngOnInit(): void {
         this.isPageLoading = true;
@@ -68,7 +71,13 @@ export class DetailsComponent implements OnInit {
         careOf: this.#fb.control(""),
     },{
         updateOn: "blur"
-    })
+    });
+
+    setRightsData(rights: ISourceLevelRights) {
+        if (!rights.hasEditRights && !rights.hasAdministratorRights) {
+            this.formGroup.disable();
+        }
+    }
 
     #loadCountries(): void {
         this.#countryService.getCountryLookups().subscribe({
@@ -98,6 +107,4 @@ export class DetailsComponent implements OnInit {
             complete: () => this.isPageLoading = false
         });
     }
-
-    protected readonly input = input;
 }

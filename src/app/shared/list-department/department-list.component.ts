@@ -44,6 +44,7 @@ import { CompaniesPopupComponent } from "../list-companies/components/companies-
 export class DepartmentListComponent extends BasePaginatedTableWithSearchComponent implements OnInit {
     companyId = input.required<number>()
     isUserDeparts = input(false);
+    hasEditRights = input(false);
     readonly #departmentService = inject(DepartmentService)
     readonly #dialogService = inject(DialogService)
     readonly #router = inject(Router);
@@ -64,7 +65,7 @@ export class DepartmentListComponent extends BasePaginatedTableWithSearchCompone
         {
             callbackFn: (row: ISmallListTableInput) => this.#openDeleteDialog(row),
             labelFn:() => "DEPARTMENT.DELETE.TITLE",
-            isVisible: () => !this.isUserDeparts()
+            isVisible: () => !this.isUserDeparts() && this.hasEditRights()
         }
     ]
 
