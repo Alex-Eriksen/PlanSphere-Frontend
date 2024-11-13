@@ -1,5 +1,5 @@
 @if(isPageLoading) {
     <ps-loading-overlay></ps-loading-overlay>
 } @else {
-    <ps-companies-list [organisationId]="organisationId"></ps-companies-list>
+    <ps-companies-list [organisationId]="organisationId" [hasEditRights]="hasEditRights"></ps-companies-list>
 }

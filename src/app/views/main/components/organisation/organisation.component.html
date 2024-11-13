@@ -1,6 +1,10 @@
 <div class="max-w-screen-max-screen">
+    @if(!isLoading) {
     <ps-navigation-tabs [tabs]="tabs"></ps-navigation-tabs>
     <div class="page">
-        <router-outlet></router-outlet>
+            <router-outlet (activate)="onRouterOutletActivate($event)"></router-outlet>
     </div>
+    } @else {
+        <ps-loading-overlay></ps-loading-overlay>
+    }
 </div>
