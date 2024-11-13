@@ -26,6 +26,10 @@ export class TeamService {
         return this.#teamRepository.delete(sourceLevelId, teamId)
     }
 
+    createTeams(sourceLevelId: number, teamRequest: ITeam): Observable<void> {
+        return this.#teamRepository.create(sourceLevelId, teamRequest)
+    }
+
     patchTeams(sourceLevelId: number, bodyRequest: any): Observable<void> {
         return this.#teamRepository.patch(sourceLevelId, bodyRequest)
     }

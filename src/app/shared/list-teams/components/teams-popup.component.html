@@ -1,1 +1,53 @@
-<p>teams-popup works!</p>
+<div class="sticky top-0 z-10">
+    <ps-dialog-header
+        [label]="'TEAM.CREATE.TITLE'"
+        [tooltipLabel]="'TEAM.CREATE.TOOLTIP'"
+    ></ps-dialog-header>
+</div>
+
+@if(isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div class="p-6">
+        <ps-small-header heading="TEAM.TEAM_INFO" subheading="TEAM.FILL_TEAM_DETAILS"></ps-small-header>
+        <ps-line></ps-line>
+        <div class ="flex flex-col gap-4 mt-6">
+            <div class="flex flex-col md: flex-row gap-3 justify-start">
+                <ps-input
+                    [control]="formGroup.controls.name"
+                    label="TEAM.NAME_SPECIFIC">
+                </ps-input>
+                <ps-input
+                    [control]="formGroup.controls.description"
+                    label="TEAM.DESCRIPTION">
+                </ps-input>
+                <ps-input
+                    [control]="formGroup.controls.identifier"
+                    label="TEAM.IDENTIFIER"
+                    tooltip="TEAM.IDENTIFIER_TOOLTIP">
+
+                </ps-input>
+            </div>
+        </div>
+
+
+
+        <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
+
+    </div>
+}
+<div class="sticky bottom-0 z-10 flex justify-between p-6">
+    <ps-button
+        label="CANCEL"
+        buttonStyleType="button--tertiary"
+        buttonType="buttonType"
+        (click)="closeDialog()"
+    ></ps-button>
+    <ps-button
+        label="CREATE"
+        buttonStyleType="button--primary"
+        buttonType="buttonType"
+        (click)="submitForm()"
+    ></ps-button>
+</div>
+

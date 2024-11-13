@@ -147,7 +147,32 @@
     },
     "TEAM": {
         "NAME": "Team",
-        "NAME_PLURAL": "Teams"
+        "NAME_PLURAL": "Teams",
+        "OVERVIEW": "Oversigt af Teams",
+        "LIST_DESCRIPTION": "Nedenfor er en  liste over alle teams inden for din afdelling. Du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
+        "TOOLTIP": "Her kan du oprette nye teams som kan bruges til at fordele forskellige typer af opgaver til forskellige dele af din afdelling",
+        "NAME_SPECIFIC": "Team navn",
+        "DESCRIPTION": "Beskrivelse",
+        "IDENTIFIER": "Identificer",
+        "IDENTIFIER_TOOLTIP": "Teams bygning, lokale etc.",
+        "DO_NOT_EXIST": "Dette team eksitere ikke",
+        "TEAM_DETAILS": "Teamets Detaljer",
+        "FILL_TEAM_DETAILS": "Udfyld din teamets oplysninger her",
+        "TEAM_INFO": "Team information",
+        "CREATE": {
+            "TITLE": "Opret et team",
+            "TOOLTIP": "Her opretter du et nyt team"
+        },
+        "DELETE": {
+            "TITLE": "Slet Team",
+            "TOOLTIP": "Du er ved at slette et team. Denne handling kan ikke fortrydes",
+            "QUESTION": "Er du sikker på du vil slette dette team?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes teamet, og den vil ikke være tilgængelig for brugerne."
+        },
+        "SETTINGS": {
+            "NAME": "Team indstillinger",
+            "NAME_PLURAL": "Teams indstillinger"
+        }
     },
     "DETAIL": {
         "NAME": "Detalje",
