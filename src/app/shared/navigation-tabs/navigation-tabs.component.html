@@ -1,17 +1,19 @@
 <div class="flex overflow-x-auto gap-4 pb-2 mb-4">
     @for (navigateTab of tabs(); track navigateTab.label) {
-        <div>
-            <input class="hidden" type="radio" [id]="navigateTab.label" [value]="navigateTab.routeLink" />
-            <label
-                [routerLink]="navigateTab.routeLink"
-                routerLinkActive="tab--active"
-                [for]="navigateTab.label"
-                class="capitalize font-light grid place-items-center w-full px-4 min-w-fit py-2 text-black text-sm bg-white border border-black-200 rounded-lg cursor-pointer"
-            >
-        <span class="text-nowrap">
-          {{ navigateTab.label | translate }}
-        </span>
-            </label>
-        </div>
+        @if(!navigateTab.isVisible || navigateTab.isVisible.call(this)) {
+            <div>
+                <input class="hidden" type="radio" [id]="navigateTab.label" [value]="navigateTab.routeLink" />
+                <label
+                    [routerLink]="navigateTab.routeLink"
+                    routerLinkActive="tab--active"
+                    [for]="navigateTab.label"
+                    class="capitalize font-light grid place-items-center w-full px-4 min-w-fit py-2 text-black text-sm bg-white border border-black-200 rounded-lg cursor-pointer"
+                >
+            <span class="text-nowrap">
+              {{ navigateTab.label | translate }}
+            </span>
+                </label>
+            </div>
+        }
     }
 </div>

@@ -52,7 +52,7 @@ export class SettingsComponent implements OnInit, OnDestroy, IRightsListener {
     loadingWorkSchedule = false;
     workScheduleOptions: IDropdownOption[] = [];
     userDetails!: IUser;
-    rights!: ISourceLevelRights;
+    rightsData!: ISourceLevelRights;
 
     workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb);
     formGroup = this.#fb.group({
@@ -163,7 +163,7 @@ export class SettingsComponent implements OnInit, OnDestroy, IRightsListener {
     }
 
     setRightsData(rights: ISourceLevelRights): void {
-        this.rights = rights;
+        this.rightsData = rights;
         rights.hasSetAutomaticCheckInOutRights ? this.formGroup.controls.settings.controls.autoCheckInOut.enable() : this.formGroup.controls.settings.controls.autoCheckInOut.disable();
         if (rights.hasSetOwnWorkScheduleRights) {
             this.formGroup.controls.settings.controls.inheritWorkSchedule.enable();

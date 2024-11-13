@@ -20,9 +20,11 @@ import {
 } from "../../../../../../shared/list-organisations/list-organisations.component";
 import { OrganisationPopupComponent } from "../../../../../../shared/list-organisations/organisation-popup/organisation-popup.component";
 import { addressFormBuilderControle } from "../../../../../../core/features/address/utilities/address.utilities";
+import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
+import { ISourceLevelRights } from "../../../../../../core/features/authentication/models/source-level-rights.model";
 
 @Component({
-    selector: 'ps-details',
+    selector: "ps-details",
     standalone: true,
     imports: [
         InputComponent,
@@ -34,12 +36,12 @@ import { addressFormBuilderControle } from "../../../../../../core/features/addr
         SmallHeaderComponent,
         AddressInputComponent,
         ListOrganisationsComponent,
-        OrganisationPopupComponent,
+        OrganisationPopupComponent
     ],
-    templateUrl: './details.component.html',
-    styleUrl: './details.component.scss'
+    templateUrl: "./details.component.html",
+    styleUrl: "./details.component.scss"
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, IRightsListener {
     organisationId! : number;
     organisation?: IOrganisation;
     readonly #authenticationService = inject(AuthenticationService);
@@ -49,10 +51,14 @@ export class DetailsComponent implements OnInit {
     readonly #dialogService = inject(DialogService);
     readonly #isDeletingOrganisation = signal(false);
     isPageLoading: boolean = false;
+    rightsData!: ISourceLevelRights;
 
     ngOnInit(): void {
         this.isPageLoading = true;
         this.fetchOrganisationIdFromUser();
+        if (!this.rightsData.hasEditRights && !this.rightsData.hasAdministratorRights) {
+            this.formGroup.disable();
+        }
     }
 
     formGroup = this.#fb.group({
@@ -60,27 +66,11 @@ export class DetailsComponent implements OnInit {
         logoUrl: this.#fb.control("", Validators.required),
         address: addressFormBuilderControle(this.#fb as FormBuilder),
         settings: this.#fb.group({
-            defaultRoleId: this.#fb.control({ value: 1, disabled: true }),
-            defaultWorkScheduleId: this.#fb.control({ value: 1, disabled: true }),
+            defaultRoleId: this.#fb.control({ value: 0, disabled: true }),
+            defaultWorkScheduleId: this.#fb.control({ value: 0, disabled: true }),
         }),
         createdAt: this.#fb.control({ value: new Date, disabled: true }),
     });
-
-    openDeleteDialog() : void {
-        this.#dialogService.open(
-            {
-            title: 'ORGANISATION.DELETE.TITLE',
-                tooltipLabel: "ORGANISATION.DELETE.TOOLTIP",
-                callBack: () => this.deleteOrganisation(this.organisationId),
-                submitLabel: "CONFIRM",
-                isInputIncluded: false,
-                descriptions: ["ORGANISATION.DELETE.QUESTION", "ORGANISATION.DELETE.CONFIRMATION"],
-                isSubmitLoading: this.#isDeletingOrganisation,
-                cancelLabel: "CANCEL",
-            },
-            "confirmation"
-        );
-    }
 
     private fetchOrganisationIdFromUser(): void {
         this.#authenticationService.getLoggedInUser().subscribe({
@@ -105,7 +95,7 @@ export class DetailsComponent implements OnInit {
         }
     }
 
-    deleteOrganisation(id: number): void {
-        this.#organisationService.delete(id).subscribe();
+    setRightsData(rights: ISourceLevelRights): void {
+        this.rightsData = rights;
     }
 }

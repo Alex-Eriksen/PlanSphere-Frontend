@@ -1,1 +1,5 @@
-<ps-list-job-titles [sourceLevel]="SourceLevel.Organisation" [sourceLevelId]="1"></ps-list-job-titles>
+@if (isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <ps-list-job-titles [hasEditRights]="hasEditRights" [sourceLevel]="SourceLevel.Organisation" [sourceLevelId]="organisationId"></ps-list-job-titles>
+}

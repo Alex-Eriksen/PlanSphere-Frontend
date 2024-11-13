@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from "@angular/core";
 import { NavigationTabsComponent } from "../../../../shared/navigation-tabs/navigation-tabs.component";
 import { RouterOutlet } from "@angular/router";
 import { INavigationTab } from "../../../../shared/navigation-tabs/navigation-tab.interface";
-import { IRightsListener } from "../../../../core/interfaces/rights-data.interface";
+import { instanceOfRightsListener, IRightsListener } from "../../../../core/interfaces/rights-data.interface";
 import { ISourceLevelRights } from "../../../../core/features/authentication/models/source-level-rights.model";
 import { AuthenticationService } from "../../../../core/features/authentication/services/authentication.service";
 import { LoadingOverlayComponent } from "../../../../shared/loading-overlay/loading-overlay.component";
@@ -41,7 +41,8 @@ export class UserComponent implements OnInit {
         });
     }
 
-    onRouterOutletActivate(activatedComponent: IRightsListener) {
-        activatedComponent.setRightsData(this.rightsData);
+    onRouterOutletActivate(activatedComponent: any) {
+        if (!instanceOfRightsListener(activatedComponent)) return;
+        (activatedComponent as IRightsListener).setRightsData(this.rightsData);
     }
 }

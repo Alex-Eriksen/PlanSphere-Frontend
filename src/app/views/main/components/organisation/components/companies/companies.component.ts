@@ -4,6 +4,8 @@ import { ILoggedInUser } from "../../../../../../core/features/authentication/mo
 import { AuthenticationService } from "../../../../../../core/features/authentication/services/authentication.service";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
+import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
+import { ISourceLevelRights } from "../../../../../../core/features/authentication/models/source-level-rights.model";
 
 
 @Component({
@@ -16,17 +18,18 @@ import { LoadingOverlayComponent } from "../../../../../../shared/loading-overla
     templateUrl: './companies.component.html',
     styleUrl: './companies.component.scss'
 })
-export class CompaniesComponent implements OnInit {
+export class CompaniesComponent implements OnInit, IRightsListener {
     readonly #authenticationService = inject(AuthenticationService)
     readonly #toastService = inject(ToastService);
     organisationId: number = 0;
     isPageLoading: boolean = false;
-
+    rightsData!: ISourceLevelRights;
 
     ngOnInit() {
         this.isPageLoading = true;
         this.#fetchOrganisationIdFromUser()
     }
+
     #fetchOrganisationIdFromUser(): void {
         this.#authenticationService.getLoggedInUser().subscribe({
             next: (user : ILoggedInUser) => this.organisationId = user.organisationId,
@@ -35,4 +38,11 @@ export class CompaniesComponent implements OnInit {
         });
     }
 
+    setRightsData(rights: ISourceLevelRights) {
+        this.rightsData = rights;
+    }
+
+    protected hasEditRights(): boolean {
+        return this.rightsData.hasEditRights || this.rightsData.hasAdministratorRights;
+    }
 }
