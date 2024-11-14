@@ -48,14 +48,15 @@ export class SettingsComponent implements OnInit {
     }
 
     #getOrganisationSettings() {
-        // this.#organisationService.getOrganisationDetailsById(this.#organisationId).subscribe((data) => {
-        //     this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, data.settings.defaultWorkSchedule);
-        //     this.workScheduleComponent()?.updateSelectedDays(data.settings.defaultWorkSchedule.workScheduleShifts);
-        //     this.isPageLoading = false;
-        // });
+        this.#organisationService.getOrganisationDetailsById(this.#organisationId).subscribe((data) => {
+            this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, data.settings.defaultWorkSchedule, false);
+            this.workScheduleComponent()?.updateSelectedDays(data.settings.defaultWorkSchedule.workScheduleShifts);
+            this.isPageLoading = false;
+        });
     }
 
     protected updateWorkSchedule(workSchedule: IWorkSchedule) {
+        console.log(workSchedule);
         this.isUpdatingWorkSchedule = true;
         this.#workScheduleService
             .updateWorkSchedule(

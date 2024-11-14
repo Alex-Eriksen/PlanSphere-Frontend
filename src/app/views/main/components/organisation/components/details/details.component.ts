@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from "@angular/core";
-import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
+import { NonNullableFormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { InputComponent } from "../../../../../../shared/input/input.component";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
 import { IOrganisationDetails } from "../../../../../../core/features/organisations/models/organisation-details.model";
@@ -43,7 +43,7 @@ export class DetailsComponent implements OnInit, IRightsListener {
     organisation?: IOrganisationDetails;
     readonly #authenticationService = inject(AuthenticationService);
     readonly #organisationService = inject(OrganisationService);
-    readonly #fb = inject(FormBuilder);
+    readonly #fb = inject(NonNullableFormBuilder);
     formGroup!: any;
     readonly #toastService = inject(ToastService);
     readonly #dialogService = inject(DialogService);

@@ -6,7 +6,7 @@ import { AddressInputComponent } from "../../../../../../shared/address-input/ad
 import { InputComponent } from "../../../../../../shared/input/input.component";
 import { LineComponent } from "../../../../../../shared/line/line.component";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
-import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
+import { NonNullableFormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { userFormGroupBuilder } from "../../../../../../core/features/users/utilities/userFormGroupBuilder.utilities";
 import { AuthenticationService } from "../../../../../../core/features/authentication/services/authentication.service";
 import { UserService } from "../../../../../../core/features/users/services/user.service";
@@ -30,7 +30,7 @@ import { SettingsComponent } from "../settings/settings.component";
     styleUrl: "./details.component.scss"
 })
 export class DetailsComponent implements OnInit, IRightsListener {
-    readonly #fb = inject(FormBuilder);
+    readonly #fb = inject(NonNullableFormBuilder);
     readonly #authenticationService = inject(AuthenticationService);
     readonly #toastService = inject(ToastService);
     readonly #userService = inject(UserService);

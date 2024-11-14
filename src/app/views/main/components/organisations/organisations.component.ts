@@ -4,9 +4,12 @@ import { ILoggedInUser } from "../../../../core/features/authentication/models/l
 import { AuthenticationService } from "../../../../core/features/authentication/services/authentication.service";
 import { ToastService } from "../../../../core/services/error-toast.service";
 import { IOrganisationDetails } from "../../../../core/features/organisations/models/organisation-details.model";
-import { NonNullableFormBuilder, Validators } from "@angular/forms";
+import { NonNullableFormBuilder } from "@angular/forms";
 import { LoadingOverlayComponent } from "../../../../shared/loading-overlay/loading-overlay.component";
 import { OrganisationService } from "../../../../core/features/organisations/services/organisation.service";
+import {
+    organisationFormGroupBuilder
+} from "../../../../core/features/organisations/utilities/organisationFormGroupBuilder.utilities";
 
 @Component({
   selector: 'ps-organisations',
@@ -25,30 +28,14 @@ export class OrganisationsComponent implements OnInit{
     readonly #toastService = inject(ToastService);
     readonly #organisationService = inject(OrganisationService);
     readonly #fb = inject(NonNullableFormBuilder);
+    formGroup!: any;
     isPageLoading: boolean = false;
 
     ngOnInit() {
         this.isPageLoading = true;
+        this.formGroup = organisationFormGroupBuilder(this.#fb);
         this.fetchOrganisationIdFromUser();
     }
-
-    organisationFormGroup = this.#fb.group({
-        name: this.#fb.control("", Validators.required),
-        logoUrl: this.#fb.control("", Validators.required),
-        address: this.#fb.group({
-            streetName: this.#fb.control(""),
-            houseNumber: this.#fb.control(""),
-            door: this.#fb.control(""),
-            floor: this.#fb.control(""),
-            postalCode: this.#fb.control(""),
-            countryId: this.#fb.control(""),
-        }),
-        settings: this.#fb.group({
-            defaultRoleId: this.#fb.control({ value: 1, disabled: true }),
-            defaultWorkScheduleId: this.#fb.control({ value: 1, disabled: true }),
-        }),
-        createdAt: this.#fb.control({ value: new Date, disabled: true }),
-    });
 
     private fetchOrganisationIdFromUser(): void {
         this.#authenticationService.getLoggedInUser().subscribe({
@@ -60,7 +47,7 @@ export class OrganisationsComponent implements OnInit{
 
     getOrganisationDetail(id: number): void {
         this.#organisationService.getOrganisationDetailsById(id).subscribe({
-            next: (organisation : IOrganisationDetails) => this.organisationFormGroup.patchValue(organisation),
+            next: (organisation : IOrganisationDetails) => this.formGroup.patchValue(organisation),
             error: (error) => console.error('ORGANISATION.FIELD_TO_FETCH', error, this.sourceLevelId),
             complete: () => this.isPageLoading = false
         });

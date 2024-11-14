@@ -1,7 +1,7 @@
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormGroup, NonNullableFormBuilder } from "@angular/forms";
 import { addressFormBuilderControl } from "../../address/utilities/address.utilities";
 
-export function userFormGroupBuilder(fb: FormBuilder): FormGroup {
+export function userFormGroupBuilder(fb: NonNullableFormBuilder): FormGroup {
     return fb.group({
         firstName: fb.control(""),
         lastName: fb.control(""),

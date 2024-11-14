@@ -1,6 +1,6 @@
 import { IDropdownOption } from "../../../../shared/interfaces/dropdown-option.interface";
 import { IZipCodeLookup } from "../models/zip-code-lookup.model";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormGroup, NonNullableFormBuilder } from "@angular/forms";
 
 export const mapZipCodesToDropdownOptions = (lookUps: IZipCodeLookup[]): IDropdownOption[] => {
     return lookUps.map((lookUp) => {
@@ -12,7 +12,7 @@ export const mapZipCodesToDropdownOptions = (lookUps: IZipCodeLookup[]): IDropdo
     });
 };
 
-export const addressFormBuilderControl = (fb: FormBuilder): FormGroup => {
+export const addressFormBuilderControl = (fb: NonNullableFormBuilder): FormGroup => {
     return fb.group({
         streetName: fb.control(""),
         houseNumber: fb.control(""),

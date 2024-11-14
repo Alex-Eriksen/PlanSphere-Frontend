@@ -1,6 +1,6 @@
 import { Component, inject, input, OnDestroy, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
-import { FormBuilder } from "@angular/forms";
+import { NonNullableFormBuilder } from "@angular/forms";
 import { IUserPopupInputs } from "./user-popup-inputs.interfaces";
 import { Subscription, tap } from "rxjs";
 import { markAllControlsAsTouchedAndDirty } from "../../utilities/form.utilities";
@@ -46,7 +46,7 @@ export class UserPopupComponent implements OnInit, OnDestroy {
     readonly #userService = inject(UserService);
     readonly #roleService = inject(RoleService);
     readonly #matDialog = inject(MatDialog);
-    readonly #fb = inject(FormBuilder);
+    readonly #fb = inject(NonNullableFormBuilder);
     formGroup!: any;
     readonly componentInputs: IUserPopupInputs = inject(MAT_DIALOG_DATA);
     userId = input.required<number>();

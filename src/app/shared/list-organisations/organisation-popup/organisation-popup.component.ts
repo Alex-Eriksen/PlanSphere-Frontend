@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
-import { NonNullableFormBuilder, Validators } from "@angular/forms";
+import { NonNullableFormBuilder } from "@angular/forms";
 import { IOrganisationPopupInputs } from "./organisation-popup-inputs.interfaces";
 import { Observable, Subscription, tap } from "rxjs";
 import { markAllControlsAsTouchedAndDirty } from "../../utilities/form.utilities";
@@ -15,6 +15,9 @@ import { SmallHeaderComponent } from "../../small-header/small-header.component"
 import { TranslateModule } from "@ngx-translate/core";
 import { AddressInputComponent } from "../../address-input/address-input.component";
 import { OrganisationService } from "../../../core/features/organisations/services/organisation.service";
+import {
+    organisationFormGroupBuilder
+} from "../../../core/features/organisations/utilities/organisationFormGroupBuilder.utilities";
 
 @Component({
   selector: 'ps-organisation-popup',
@@ -36,32 +39,16 @@ export class OrganisationPopupComponent implements OnInit, OnDestroy {
     readonly #organisationService = inject(OrganisationService);
     readonly #matDialog = inject(MatDialog);
     readonly #fb = inject(NonNullableFormBuilder);
+    formGroup!: any;
     readonly componentInputs: IOrganisationPopupInputs = inject(MAT_DIALOG_DATA);
     isPageLoading: boolean = false;
     isFormSubmitting: boolean = false;
 
     #loadOrganisationSubscription: Subscription = new Subscription();
 
-    formGroup = this.#fb.group({
-        name: this.#fb.control("", Validators.required),
-        logoUrl: this.#fb.control(""),
-        address: this.#fb.group({
-            streetName: this.#fb.control(""),
-            houseNumber: this.#fb.control(""),
-            door: this.#fb.control(""),
-            floor: this.#fb.control(""),
-            postalCode: this.#fb.control(""),
-            countryId: this.#fb.control(""),
-        }),
-        settings: this.#fb.group({
-            defaultRoleId: this.#fb.control({ value: 1, disabled: false }),
-            defaultWorkScheduleId: this.#fb.control({ value: 1, disabled: false }),
-        }),
-        createdAt: this.#fb.control({ value: new Date, disabled: true })
-    });
-
     ngOnInit(): void {
         this.isPageLoading = true;
+        this.formGroup = organisationFormGroupBuilder(this.#fb);
         if (this.componentInputs.isEditPopup) {
             this.#initializeEditPopup();
         } else {
