@@ -73,7 +73,7 @@ export const APIS = {
         lookUpDepartments: environment.apiUrl + "Department/LookUpDepartments",
     },
     team: {
-      getById: (sourceLevelId: number, sourceLevel: SourceLevel, teamId: number) => environment.apiUrl + `Team/GetTeam/${teamId}/${sourceLevel}/${sourceLevelId}`,
+      getById: (sourceLevelId: number, sourceLevel: SourceLevel, teamId: number) => environment.apiUrl + `Team/GetTeamById/${teamId}/${sourceLevel}/${sourceLevelId}`,
       listTeams: (sourceLevelId: number) => environment.apiUrl + `Team/ListTeam/${sourceLevelId}`,
       listUserTeams: environment.apiUrl + "Team/ListUserTeams",
       create: (sourceLevelId: number) => environment.apiUrl + `Team/CreateTeam/${sourceLevelId}`,
