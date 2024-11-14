@@ -1,7 +1,7 @@
 ﻿import { Route } from "@angular/router";
-import { DetailsComponent } from "../department/components/details/details.component";
-import { RolesComponent } from "../department/components/roles/roles.component";
-import { SettingsComponent } from "../department/components/settings/settings.component";
+import { DetailsComponent } from "./components/details/details.component";
+import { RolesComponent } from "./components/roles/roles.component";
+import { SettingsComponent } from "./components/settings/settings.component";
 
 export const teamRoutes: Route[] = [
     {
