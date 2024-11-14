@@ -57,8 +57,8 @@ export class DetailsComponent implements OnInit, IRightsListener{
 
     formGroup = this.#fb.group({
         name: this.#fb.control("", Validators.required),
-        description: this.#fb.control("", Validators.required),
-        identifier: this.#fb.control("", Validators.required),
+        description: this.#fb.control(""),
+        identifier: this.#fb.control(""),
         address: this.#fb.group({
             streetName: this.#fb.control(""),
             houseNumber: this.#fb.control(""),
