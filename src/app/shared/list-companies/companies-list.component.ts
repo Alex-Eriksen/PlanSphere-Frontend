@@ -2,9 +2,9 @@ import { Component, DestroyRef, effect, inject, input, OnInit, signal, WritableS
 import { TranslateModule } from "@ngx-translate/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
-import { CompaniesPopupComponent } from "./components/companies-popup.component";
+import { CompaniesPopupComponent } from "./components/companies-popup/companies-popup.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { ICompaniesPopupInputs } from "./components/companies-popup-inputs.interface";
+import { ICompaniesPopupInputs } from "./components/companies-popup/companies-popup-inputs.interface";
 import { SmallListTableComponent } from "../small-list-table/small-list-table.component";
 import { PaginationComponent } from "../pagination/pagination.component";
 import { SubHeaderComponent } from "../sub-header/sub-header.component";
