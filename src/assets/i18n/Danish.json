@@ -207,7 +207,11 @@
         "TOOLTIP": "Her kan du oprette nye brugere som kan tildeles til forskellige dele af din virksomhed",
         "DESCRIPTION": "Nedenfor er en liste over alle brugere. Du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
         "DETAILS": {
-            "NAME": "Bruger oplysninger"
+            "NAME": "Bruger oplysninger",
+            "FIRSTNAME": "Fornavn",
+            "LASTNAME": "Efternavn",
+            "EMAIL": "Email",
+            "PHONENUMBER": "Telefonnummer"
         },
         "SETTINGS": {
             "NAME": "Bruger indstillinger",
@@ -250,11 +254,7 @@
         },
         "EDIT_OWN": {
             "TITLE": "Profil",
-            "DESCRIPTION": "Her kan du redigere dine oplysninger",
-            "FIRSTNAME": "Fornavn",
-            "LASTNAME": "Efternavn",
-            "EMAIL": "Email",
-            "PHONENUMBER": "Telefonnummer"
+            "DESCRIPTION": "Her kan du redigere dine oplysninger"
         },
         "DO_NOT_EXIST": "Denne bruger eksitere ikke",
         "FIELD_TO_FETCH": "Fejlede i at hente bruger",

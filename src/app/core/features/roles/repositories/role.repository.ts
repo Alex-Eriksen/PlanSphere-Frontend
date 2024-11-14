@@ -7,6 +7,7 @@ import { IRightLookUp } from "../models/right-look-up.model";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
 import { IRole } from "../models/role.model";
+import { IRoleLookUp } from "../models/role-look-up.model";
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +25,10 @@ export class RoleRepository {
                 fromObject: { ...params },
             }),
         });
+    }
+
+    lookUpRoles(sourceLevel: SourceLevel, sourceLevelId: number): Observable<IRoleLookUp[]> {
+        return this.#http.get<IRoleLookUp[]>(APIS.roles.lookUpRoles(sourceLevel, sourceLevelId));
     }
 
     deleteRole(sourceLevel: SourceLevel, sourceLevelId: number, roleId: number) : Observable<void> {

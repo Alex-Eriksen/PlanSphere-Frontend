@@ -4,23 +4,10 @@ import { IOrganisation } from "../models/organisation.model";
 import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-paginated-response.interface";
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
 import { mapToSignalPaginatedResponse } from "../../../../shared/utilities/signals.utilities";
-import { signal } from "@angular/core";
 
 export const mapOrganisationToSignalSmallListInputOperator = (): OperatorFunction<IPaginatedResponse<IOrganisation>, ISignalPaginatedResponse<ISmallListTableInput>
 > => {
     return map((paginatedOrganisations) => ({
         ...mapToSignalPaginatedResponse(paginatedOrganisations),
-        results: signal(mapOrganisationsToSmallListInput(paginatedOrganisations.results)),
     }));
 };
-
-const mapOrganisationsToSmallListInput = (organisations: IOrganisation[]): ISmallListTableInput[] => {
-    return organisations.map((organisation) => ({
-        ...organisation,
-        title: organisation.name,
-        organisationMembers: organisation.organisationMembers || 0,
-        departmentMembers: organisation.departmentMembers || 0,
-        companyMembers: organisation.companyMembers || 0,
-        teamMembers: organisation.teamMembers || 0,
-    }));
-}

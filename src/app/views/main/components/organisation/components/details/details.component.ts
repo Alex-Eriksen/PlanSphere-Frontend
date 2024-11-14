@@ -1,5 +1,4 @@
 import { Component, inject, OnInit, signal } from "@angular/core";
-import { IOrganisation } from "../../../../../../core/features/organisations/models/organisation.model";
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { InputComponent } from "../../../../../../shared/input/input.component";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
@@ -16,7 +15,6 @@ import { ToastService } from "../../../../../../core/services/error-toast.servic
 import { DialogService } from "../../../../../../core/services/dialog.service";
 import { ListOrganisationsComponent } from "../../../../../../shared/list-organisations/list-organisations.component";
 import { OrganisationPopupComponent } from "../../../../../../shared/list-organisations/organisation-popup/organisation-popup.component";
-import { addressFormBuilderControle } from "../../../../../../core/features/address/utilities/address.utilities";
 import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
 import { ISourceLevelRights } from "../../../../../../core/features/authentication/models/source-level-rights.model";
 import { organisationFormGroupBuilder } from "../../../../../../core/features/organisations/utilities/organisationFormGroupBuilder.utilities";
@@ -42,7 +40,7 @@ import { OrganisationService } from "../../../../../../core/features/organisatio
 })
 export class DetailsComponent implements OnInit, IRightsListener {
     organisationId! : number;
-    organisation?: IOrganisation;
+    organisation?: IOrganisationDetails;
     readonly #authenticationService = inject(AuthenticationService);
     readonly #organisationService = inject(OrganisationService);
     readonly #fb = inject(FormBuilder);
@@ -55,28 +53,28 @@ export class DetailsComponent implements OnInit, IRightsListener {
 
     ngOnInit(): void {
         this.isPageLoading = true;
+        this.formGroup = organisationFormGroupBuilder(this.#fb);
         this.fetchOrganisationIdFromUser();
         if (!this.rightsData.hasEditRights && !this.rightsData.hasAdministratorRights) {
             this.formGroup.disable();
         }
-        this.formGroup = organisationFormGroupBuilder(this.#fb);
     }
 
-    openDeleteDialog() : void {
-        this.#dialogService.open(
-            {
-            title: 'ORGANISATION.DELETE.TITLE',
-                tooltipLabel: "ORGANISATION.DELETE.TOOLTIP",
-                callBack: () => this.deleteOrganisation(this.organisationId),
-                submitLabel: "CONFIRM",
-                isInputIncluded: false,
-                descriptions: ["ORGANISATION.DELETE.QUESTION", "ORGANISATION.DELETE.CONFIRMATION"],
-                isSubmitLoading: this.#isDeletingOrganisation,
-                cancelLabel: "CANCEL",
-            },
-            "confirmation"
-        );
-    }
+    // openDeleteDialog() : void {
+    //     this.#dialogService.open(
+    //         {
+    //         title: 'ORGANISATION.DELETE.TITLE',
+    //             tooltipLabel: "ORGANISATION.DELETE.TOOLTIP",
+    //             callBack: () => this.deleteOrganisation(this.organisationId),
+    //             submitLabel: "CONFIRM",
+    //             isInputIncluded: false,
+    //             descriptions: ["ORGANISATION.DELETE.QUESTION", "ORGANISATION.DELETE.CONFIRMATION"],
+    //             isSubmitLoading: this.#isDeletingOrganisation,
+    //             cancelLabel: "CANCEL",
+    //         },
+    //         "confirmation"
+    //     );
+    // }
 
     private fetchOrganisationIdFromUser(): void {
         this.#authenticationService.getLoggedInUser().subscribe({

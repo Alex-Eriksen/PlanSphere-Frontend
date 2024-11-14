@@ -12,9 +12,9 @@ import { markAllControlsAsTouchedAndDirty, updateNestedControlsPathAndValue } fr
 import { ToastService } from "../../../../../../core/services/error-toast.service";
 import { LineComponent } from "../../../../../../shared/line/line.component";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
-import { AddressInputComponent } from "../../../../../../shared/address-input/address-input/address-input.component";
 import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
 import { ISourceLevelRights } from "../../../../../../core/features/authentication/models/source-level-rights.model";
+import { AddressInputComponent } from "../../../../../../shared/address-input/address-input.component";
 
 @Component({
   selector: 'ps-details',
@@ -107,10 +107,4 @@ export class DetailsComponent implements OnInit, IRightsListener {
             complete: () => this.isPageLoading = false
         });
     }
-
-    deleteCompany(id: number): void {
-        this.#companyService.deleteCompany(id)
-    }
-
-    protected readonly input = input;
 }

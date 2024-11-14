@@ -47,6 +47,7 @@ export class ListUsersComponent extends BasePaginatedTableWithSearchComponent {
     readonly #dialogService = inject(DialogService);
     readonly #isDeletingUser = signal(false);
     readonly #destroyRef = inject(DestroyRef);
+    //readonly componentInputs: IUserPopupInputs = inject(MAT_DIALOG_DATA);
     sourceLevelId = input.required<number>();
     sourceLevel = input.required<SourceLevel>();
     userId = input.required<number>();

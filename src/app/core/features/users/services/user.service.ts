@@ -30,8 +30,8 @@ export class UserService {
     listUsers(params: IPaginationSortPayload): Observable<ISignalPaginatedResponse<ISmallListTableInput>> {
         return this.#userRepository.listUsers(params).pipe(mapUserToSignalSmallListInputOperator());
     }
-    updateUser(sourceLevelId: number, bodyRequest: IUserPayload): Observable<void> {
-        return this.#userRepository.updateUser(sourceLevelId, bodyRequest);
+    updateUser(userId: number, bodyRequest: IUserPayload): Observable<void> {
+        return this.#userRepository.updateUser(userId, bodyRequest);
     }
 
     deleteUser(sourceLevelId: number): Observable<void> {

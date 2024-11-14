@@ -3,11 +3,10 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { IOrganisationLookUp } from "../models/organisation-look-up.model";
 import { APIS } from "../../../api/plansphere.api";
-import { IOrganisationDetails } from "../models/organisation-details.model";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
 import { IOrganisationPayload } from "../models/organisation-payload";
-import { IOrganisationDetails } from "../models/organisation.model";
+import { IOrganisationDetails } from "../models/organisation-details.model";
 
 @Injectable({
     providedIn: 'root'

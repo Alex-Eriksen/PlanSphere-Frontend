@@ -22,11 +22,12 @@
             : 'USER.CREATE.DESCRIPTION' | translate"
         ></ps-small-header>
         <div class="flex flex-col gap-4 mt-5">
-            <div class="flex flex-row gap-4">
-                <ps-input label="USER.LIST.FIRSTNAME" [control]="formGroup.controls.firstName"></ps-input>
-                <ps-input label="USER.LIST.LASTNAME" [control]="formGroup.controls.lastName"></ps-input>
-                <ps-input label="USER.LIST.PHONENUMBER" [control]="formGroup.controls.phoneNumber"></ps-input>
-                <ps-input label="USER.LIST.EMAIL" [control]="formGroup.controls.email"></ps-input>
+            <div class="flex flex-row flex-wrap gap-4">
+                <ps-input label="USER.DETAILS.FIRSTNAME" [control]="formGroup.controls.firstName"></ps-input>
+                <ps-input label="USER.DETAILS.LASTNAME" [control]="formGroup.controls.lastName"></ps-input>
+                <ps-input label="USER.DETAILS.PHONENUMBER" [control]="formGroup.controls.phoneNumber"></ps-input>
+                <ps-input label="USER.DETAILS.EMAIL" [control]="formGroup.controls.email"></ps-input>
+                <ps-select-field dropDownLabel="ROLE.NAME_PLURAL" [dropDownOptions]="roles" [selectMultipleOptions]="true" [control]="formGroup.controls['roleIds']"></ps-select-field>
             </div>
         </div>
         <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>

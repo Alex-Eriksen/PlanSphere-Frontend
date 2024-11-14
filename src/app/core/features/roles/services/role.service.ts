@@ -1,13 +1,14 @@
 import { inject, Injectable } from "@angular/core";
 import { SourceLevel } from "../../../enums/source-level.enum";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { RoleRepository } from "../repositories/role.repository";
 import { IRightLookUp } from "../models/right-look-up.model";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-paginated-response.interface";
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
-import { mapRolesToSignalSmallListInputOperator } from "../utilties/role.utilities";
+import { mapRolesToSignalSmallListInputOperator, mapRoleToDropdownOptions } from "../utilties/role.utilities";
 import { IRole } from "../models/role.model";
+import { IDropdownOption } from "../../../../shared/interfaces/dropdown-option.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -25,6 +26,14 @@ export class RoleService {
         sourceLevelId: number
     ): Observable<ISignalPaginatedResponse<ISmallListTableInput>> {
         return this.#roleRepository.getPaginatedRoles(params, sourceLevel, sourceLevelId).pipe(mapRolesToSignalSmallListInputOperator());
+    }
+
+    lookUpRoles(sourceLevel: SourceLevel, sourceLevelId: number): Observable<IDropdownOption[]> {
+        return this.#roleRepository.lookUpRoles(sourceLevel, sourceLevelId).pipe(
+            map((option) => {
+                return mapRoleToDropdownOptions(option);
+            })
+        )
     }
 
     lookUpRights(): Observable<IRightLookUp[]> {

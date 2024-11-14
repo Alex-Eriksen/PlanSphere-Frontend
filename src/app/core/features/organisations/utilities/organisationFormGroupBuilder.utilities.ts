@@ -6,10 +6,6 @@ export function organisationFormGroupBuilder(fb: FormBuilder): FormGroup {
         name: fb.control("", Validators.required),
         logoUrl: fb.control("", Validators.required),
         address: addressFormBuilderControl(fb),
-        settings: fb.group({
-            defaultRoleId: fb.control({ value: 1, disabled: true }),
-            defaultWorkScheduleId: fb.control({ value: 1, disabled: true }),
-        }),
         createdAt: fb.control({ value: new Date, disabled: true }),
     })
 }

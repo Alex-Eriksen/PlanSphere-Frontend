@@ -1,6 +1,5 @@
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { addressFormBuilderControl } from "../../address/utilities/address.utilities";
-import { userSettingsFormGroupBuilder } from "./userSettingsFormGroupBuilder.utilities";
 
 export function userFormGroupBuilder(fb: FormBuilder): FormGroup {
     return fb.group({
@@ -9,6 +8,7 @@ export function userFormGroupBuilder(fb: FormBuilder): FormGroup {
         email: fb.control(""),
         phoneNumber: fb.control(""),
         address: addressFormBuilderControl(fb),
-        settings: userSettingsFormGroupBuilder(fb)
+        //settings: userSettingsFormGroupBuilder(fb),
+        roleIds: fb.control([]),
     });
 }

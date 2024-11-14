@@ -14,6 +14,13 @@ import { TranslateModule } from "@ngx-translate/core";
 import { IUserPayload } from "../../../core/features/users/utilities/user-payload";
 import { UserService } from "../../../core/features/users/services/user.service";
 import { userFormGroupBuilder } from "../../../core/features/users/utilities/userFormGroupBuilder.utilities";
+import { NgIf } from "@angular/common";
+import { SettingsComponent } from "../../../views/main/components/user/components/settings/settings.component";
+import { WorkScheduleComponent } from "../../work-schedule/work-schedule.component";
+import { RolesViewComponent } from "../../roles-view/roles-view.component";
+import { SelectFieldComponent } from "../../select-field/select-field.component";
+import { RoleService } from "../../../core/features/roles/services/role.service";
+import { IDropdownOption } from "../../interfaces/dropdown-option.interface";
 
 @Component({
   selector: 'ps-user-popup',
@@ -25,13 +32,19 @@ import { userFormGroupBuilder } from "../../../core/features/users/utilities/use
         InputComponent,
         LoadingOverlayComponent,
         SmallHeaderComponent,
-        TranslateModule
+        TranslateModule,
+        NgIf,
+        SettingsComponent,
+        WorkScheduleComponent,
+        RolesViewComponent,
+        SelectFieldComponent
     ],
   templateUrl: './user-popup.component.html',
   styleUrl: './user-popup.component.scss'
 })
 export class UserPopupComponent implements OnInit, OnDestroy {
     readonly #userService = inject(UserService);
+    readonly #roleService = inject(RoleService);
     readonly #matDialog = inject(MatDialog);
     readonly #fb = inject(FormBuilder);
     formGroup!: any;
@@ -39,17 +52,26 @@ export class UserPopupComponent implements OnInit, OnDestroy {
     userId = input.required<number>();
     isPageLoading: boolean = false;
     isFormSubmitting: boolean = false;
+    roles: IDropdownOption[] = [];
 
     #loadUserSubscription: Subscription = new Subscription();
 
     ngOnInit(): void {
         this.isPageLoading = true;
+        this.#loadRoles();
         this.formGroup = userFormGroupBuilder(this.#fb);
         if (this.componentInputs.isEditPopup) {
             this.#initializeEditPopup();
         } else {
             this.isPageLoading = false;
         }
+    }
+
+    #loadRoles(): void {
+        this.#roleService.lookUpRoles(this.componentInputs.sourceLevel, this.componentInputs.sourceLevelId).subscribe({
+            next: (roles) => this.roles = roles,
+            error: (error) => console.error("Failed to fetch roles: ", error)
+        });
     }
 
     ngOnDestroy() {
@@ -99,5 +121,4 @@ export class UserPopupComponent implements OnInit, OnDestroy {
                 tap((user) =>
                     this.formGroup.patchValue(user)));
     }
-
 }

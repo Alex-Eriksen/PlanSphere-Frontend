@@ -1,6 +1,6 @@
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormGroup, NonNullableFormBuilder } from "@angular/forms";
 
-export function userSettingsFormGroupBuilder(fb: FormBuilder): FormGroup {
+export function userSettingsFormGroupBuilder(fb: NonNullableFormBuilder): FormGroup {
     return fb.group({
         isBirthdayPrivate: fb.control({ value: true, disabled: false }),
         isEmailPrivate: fb.control({ value: true, disabled: false }),

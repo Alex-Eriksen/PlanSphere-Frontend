@@ -42,8 +42,8 @@ export class UserRepository {
         }
     }
 
-    updateUser(sourceLevelId: number, bodyRequest: IUserPayload): Observable<void> {
-        return this.#http.put<void>(APIS.users.updateUser(sourceLevelId), bodyRequest);
+    updateUser(userId: number, bodyRequest: IUserPayload): Observable<void> {
+        return this.#http.put<void>(APIS.users.updateUser(userId), bodyRequest);
     }
 
     deleteUser(sourceLevelId: number): Observable<void> {

@@ -1,13 +1,12 @@
 import { IAddress } from "../../address/models/address.model";
-import { IUserSettings } from "../models/user-settings.model";
+import { IBase } from "../../../abstract/models/base.model";
 
-export interface IUserPayload {
+export interface IUserPayload extends IBase {
     firstName: string;
     lastName: string;
     email: string;
     address: IAddress;
     phoneNumber: string;
-    birthday: string;
-    settings: IUserSettings;
     profilePictureUrl: string;
+    roleIds: number[];
 }
