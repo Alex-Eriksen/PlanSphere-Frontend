@@ -28,8 +28,8 @@ export class RoleService {
         return this.#roleRepository.getPaginatedRoles(params, sourceLevel, sourceLevelId).pipe(mapRolesToSignalSmallListInputOperator());
     }
 
-    lookUpRoles(sourceLevel: SourceLevel, sourceLevelId: number): Observable<IDropdownOption[]> {
-        return this.#roleRepository.lookUpRoles(sourceLevel, sourceLevelId).pipe(
+    lookUpRoles(): Observable<IDropdownOption[]> {
+        return this.#roleRepository.lookUpRoles().pipe(
             map((option) => {
                 return mapRoleToDropdownOptions(option);
             })

@@ -22,6 +22,7 @@ import { SelectFieldComponent } from "../../select-field/select-field.component"
 import { RoleService } from "../../../core/features/roles/services/role.service";
 import { IDropdownOption } from "../../interfaces/dropdown-option.interface";
 import { LineComponent } from "../../line/line.component";
+import { SourceLevel } from "../../../core/enums/source-level.enum";
 
 @Component({
   selector: 'ps-user-popup',
@@ -52,6 +53,8 @@ export class UserPopupComponent implements OnInit, OnDestroy {
     formGroup!: any;
     readonly componentInputs: IUserPopupInputs = inject(MAT_DIALOG_DATA);
     userId = input.required<number>();
+    sourceLevelId = input.required<number>();
+    sourceLevel = input.required<SourceLevel>();
     isPageLoading: boolean = false;
     isFormSubmitting: boolean = false;
     roles: IDropdownOption[] = [];
@@ -70,7 +73,7 @@ export class UserPopupComponent implements OnInit, OnDestroy {
     }
 
     #loadRoles(): void {
-        this.#roleService.lookUpRoles(this.componentInputs.sourceLevel, this.componentInputs.sourceLevelId).subscribe({
+        this.#roleService.lookUpRoles().subscribe({
             next: (roles) => this.roles = roles,
             error: (error) => console.error("Failed to fetch roles: ", error)
         });
@@ -87,7 +90,7 @@ export class UserPopupComponent implements OnInit, OnDestroy {
         }
         this.isFormSubmitting = true;
         if (this.componentInputs.isEditPopup) {
-            this.#userService.updateUser(this.componentInputs.userId, this.formGroup.value as IUserPayload)
+            this.#userService.updateUser(this.componentInputs.sourceLevel, this.componentInputs.sourceLevelId, this.componentInputs.userId, this.formGroup.value as IUserPayload)
                 .subscribe({
                     next: () => {
                         this.isFormSubmitting = false;

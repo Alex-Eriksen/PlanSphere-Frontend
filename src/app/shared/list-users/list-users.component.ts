@@ -47,7 +47,6 @@ export class ListUsersComponent extends BasePaginatedTableWithSearchComponent {
     readonly #dialogService = inject(DialogService);
     readonly #isDeletingUser = signal(false);
     readonly #destroyRef = inject(DestroyRef);
-    //readonly componentInputs: IUserPopupInputs = inject(MAT_DIALOG_DATA);
     sourceLevelId = input.required<number>();
     sourceLevel = input.required<SourceLevel>();
     userId = input.required<number>();
@@ -59,7 +58,7 @@ export class ListUsersComponent extends BasePaginatedTableWithSearchComponent {
 
     override loadData(params: IPaginationSortPayload): void {
         this.isTableLoading = true;
-        this.#userService.listUsers(params).subscribe((paginatedProperties) => {
+        this.#userService.listUsers(this.sourceLevel(), this.sourceLevelId(), params).subscribe((paginatedProperties) => {
             copyPaginatedSignalResponse(this.paginatedData, paginatedProperties);
             this.isTableLoading = false;
         });
@@ -120,7 +119,7 @@ export class ListUsersComponent extends BasePaginatedTableWithSearchComponent {
 
     #deleteUser(id: number): void {
         this.#isDeletingUser.set(true);
-        this.#userService.deleteUser(id).subscribe({
+        this.#userService.deleteUser(this.sourceLevel(), this.sourceLevelId(), id).subscribe({
             next: () => this.loadDataWithCorrectParams(),
             complete: () => {
                 this.#isDeletingUser.set(false);

@@ -27,14 +27,14 @@ export class UserService {
         return this.#userRepository.patchUserDetails(body, userId);
     }
 
-    listUsers(params: IPaginationSortPayload): Observable<ISignalPaginatedResponse<ISmallListTableInput>> {
-        return this.#userRepository.listUsers(params).pipe(mapUserToSignalSmallListInputOperator());
+    listUsers(sourceLevel: SourceLevel, sourceLevelId: number, params: IPaginationSortPayload): Observable<ISignalPaginatedResponse<ISmallListTableInput>> {
+        return this.#userRepository.listUsers(sourceLevel, sourceLevelId, params).pipe(mapUserToSignalSmallListInputOperator());
     }
-    updateUser(userId: number, bodyRequest: IUserPayload): Observable<void> {
-        return this.#userRepository.updateUser(userId, bodyRequest);
+    updateUser(sourceLevel: SourceLevel, sourceLevelId: number, userId: number, bodyRequest: IUserPayload): Observable<void> {
+        return this.#userRepository.updateUser(sourceLevel, sourceLevelId, userId, bodyRequest);
     }
 
-    deleteUser(sourceLevelId: number): Observable<void> {
-        return this.#userRepository.deleteUser(sourceLevelId);
+    deleteUser(sourceLevel: SourceLevel, sourceLevelId: number, userId: number): Observable<void> {
+        return this.#userRepository.deleteUser(sourceLevel, sourceLevelId, userId,);
     }
 }

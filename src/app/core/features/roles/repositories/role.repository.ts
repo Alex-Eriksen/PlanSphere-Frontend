@@ -27,8 +27,8 @@ export class RoleRepository {
         });
     }
 
-    lookUpRoles(sourceLevel: SourceLevel, sourceLevelId: number): Observable<IRoleLookUp[]> {
-        return this.#http.get<IRoleLookUp[]>(APIS.roles.lookUpRoles(sourceLevel, sourceLevelId));
+    lookUpRoles(): Observable<IRoleLookUp[]> {
+        return this.#http.get<IRoleLookUp[]>(APIS.roles.lookUpRoles());
     }
 
     deleteRole(sourceLevel: SourceLevel, sourceLevelId: number, roleId: number) : Observable<void> {

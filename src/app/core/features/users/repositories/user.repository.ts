@@ -26,8 +26,8 @@ export class UserRepository {
         }
     }
 
-    listUsers(params: IPaginationSortPayload): Observable<IPaginatedResponse> {
-        return this.#http.get<IPaginatedResponse>(APIS.users.listUsers(), {
+    listUsers(sourceLevel: SourceLevel, sourceLevelId: number, params: IPaginationSortPayload, ): Observable<IPaginatedResponse> {
+        return this.#http.get<IPaginatedResponse>(APIS.users.listUsers(sourceLevel, sourceLevelId), {
             params: new HttpParams({
                 fromObject: { ...params },
             })
@@ -42,11 +42,11 @@ export class UserRepository {
         }
     }
 
-    updateUser(userId: number, bodyRequest: IUserPayload): Observable<void> {
-        return this.#http.put<void>(APIS.users.updateUser(userId), bodyRequest);
+    updateUser(sourceLevel: SourceLevel, sourceLevelId: number, userId: number, bodyRequest: IUserPayload): Observable<void> {
+        return this.#http.put<void>(APIS.users.updateUser(sourceLevel, sourceLevelId, userId), bodyRequest);
     }
 
-    deleteUser(sourceLevelId: number): Observable<void> {
-        return this.#http.delete<void>(APIS.users.deleteUser(sourceLevelId));
+    deleteUser(sourceLevel: SourceLevel, sourceLevelId: number, userId: number): Observable<void> {
+        return this.#http.delete<void>(APIS.users.deleteUser(sourceLevel, sourceLevelId, userId));
     }
 }

@@ -13,6 +13,10 @@ import { UserService } from "../../../../../../core/features/users/services/user
 import { ToastService } from "../../../../../../core/services/error-toast.service";
 import { updateNestedControlsPathAndValue } from "../../../../../../shared/utilities/form.utilities";
 import { SettingsComponent } from "../settings/settings.component";
+import { SelectFieldComponent } from "../../../../../../shared/select-field/select-field.component";
+import { TranslateModule } from "@ngx-translate/core";
+import { RoleService } from "../../../../../../core/features/roles/services/role.service";
+import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-option.interface";
 
 @Component({
     selector: "ps-details",
@@ -24,7 +28,9 @@ import { SettingsComponent } from "../settings/settings.component";
         LineComponent,
         LoadingOverlayComponent,
         ReactiveFormsModule,
-        SettingsComponent
+        SettingsComponent,
+        SelectFieldComponent,
+        TranslateModule
     ],
     templateUrl: "./details.component.html",
     styleUrl: "./details.component.scss"
@@ -34,9 +40,11 @@ export class DetailsComponent implements OnInit, IRightsListener {
     readonly #authenticationService = inject(AuthenticationService);
     readonly #toastService = inject(ToastService);
     readonly #userService = inject(UserService);
+    readonly #roleService = inject(RoleService);
     readonly #userId = this.#authenticationService.getUserId();
     formGroup!: any;
     isPageLoading: boolean = false;
+    roles: IDropdownOption[] = [];
 
     ngOnInit() {
         this.isPageLoading = true;
@@ -56,6 +64,13 @@ export class DetailsComponent implements OnInit, IRightsListener {
             next: (user) => this.formGroup.patchValue(user),
             error: (error) => this.#toastService.showToast('USER.FIELD_TO_FETCH', error),
             complete: () => this.isPageLoading = false
+        });
+    }
+
+    #loadRoles(): void {
+        this.#roleService.lookUpRoles().subscribe({
+            next: (roles) => this.roles = roles,
+            error: (error) => console.error("Failed to fetch roles: ", error)
         });
     }
 

@@ -23,6 +23,14 @@
             <div>
                 <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
             </div>
+
+            <div class="flex flex-row flex-wrap mt-5">
+                <ps-line></ps-line>
+                <div class="mt-5">
+                    <ps-small-header [heading]="'ROLE.NAME_PLURAL' | translate"></ps-small-header>
+                    <ps-select-field dropDownLabel="ROLE.NAME_PLURAL" [dropDownOptions]="roles" [selectMultipleOptions]="true" [control]="formGroup.controls['roleIds']"></ps-select-field>
+                </div>
+            </div>
         </form>
     </div>
 }
