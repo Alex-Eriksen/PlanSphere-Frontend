@@ -21,7 +21,8 @@ export const APIS = {
         getUserDetailsWithoutId: environment.apiUrl + `User/GetUserDetails`,
         patchUserWithId: (userId: number) => environment.apiUrl + `User/PatchUser/${userId}`,
         patchUserWithoutId: environment.apiUrl + `User/PatchUser`,
-        getRights: environment.apiUrl + `Authentication/GetSourceLevelRights`
+        getRights: environment.apiUrl + `Authentication/GetSourceLevelRights`,
+        lookUpUsers: environment.apiUrl + "User/LookUpUsers"
     },
     roles: {
         createRole: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Role/CreateRole/${sourceLevel}/${sourceLevelId}`,
@@ -37,6 +38,7 @@ export const APIS = {
     },
     organisations: {
         lookUp: environment.apiUrl + "Organisation/LookUpOrganisations",
+        changeOwnership: (userId: number) => environment.apiUrl + `Organisation/ChangeOrganisationOwner/${userId}`
     },
     jobTitles: {
         listAll: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `JobTitle/ListJobTitle/${sourceLevel}/${sourceLevelId}`,

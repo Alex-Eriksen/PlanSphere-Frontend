@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, viewChild } from "@angular/core";
+import { Component, DestroyRef, inject, OnDestroy, OnInit, signal, viewChild } from "@angular/core";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
 import { WorkScheduleComponent } from "../../../../../../shared/work-schedule/work-schedule.component";
 import { NonNullableFormBuilder } from "@angular/forms";
@@ -10,6 +10,13 @@ import { AuthenticationService } from "../../../../../../core/features/authentic
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { OrganisationService } from "../../../../../../core/features/organisations/services/organisation.service";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
+import { ButtonComponent } from "../../../../../../shared/button/button.component";
+import { UserService } from "../../../../../../core/features/users/services/user.service";
+import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-option.interface";
+import { generateDropdownOptionsFromLookUps } from "../../../../../../shared/utilities/dropdown-option.utilities";
+import { forkJoin, Subscription, tap } from "rxjs";
+import { SelectFieldComponent } from "../../../../../../shared/select-field/select-field.component";
+import { DialogService } from "../../../../../../core/services/dialog.service";
 
 @Component({
   selector: 'ps-settings',
@@ -17,22 +24,31 @@ import { LoadingOverlayComponent } from "../../../../../../shared/loading-overla
     imports: [
         SmallHeaderComponent,
         WorkScheduleComponent,
-        LoadingOverlayComponent
+        LoadingOverlayComponent,
+        ButtonComponent,
+        SelectFieldComponent
     ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
     readonly #authService = inject(AuthenticationService);
-    readonly #organisationService = inject(OrganisationService)
+    readonly #organisationService = inject(OrganisationService);
+    readonly #userService = inject(UserService);
+    readonly #dialogService = inject(DialogService);
     readonly #fb = inject(NonNullableFormBuilder);
     workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb);
     readonly #workScheduleService = inject(WorkScheduleService);
     readonly #destroyRef = inject(DestroyRef);
+    loadSubscription!: Subscription;
     isPageLoading = false;
     isUpdatingWorkSchedule = false;
+    userOptions!: IDropdownOption[];
+    selectedUserControl = this.#fb.control(0, {updateOn: "change"});
+    isChangingOwnership = signal(false);
 
     #organisationId!: number;
+    isOrganisationOwner = false;
     workScheduleComponent = viewChild<WorkScheduleComponent>("workSchedule");
 
     ngOnInit() {
@@ -42,17 +58,30 @@ export class SettingsComponent implements OnInit {
             .subscribe((loggedInUser) => {
                 if (!loggedInUser) return;
                 this.#organisationId = loggedInUser.organisationId;
-                this.#getOrganisationSettings();
+                this.isOrganisationOwner = loggedInUser.ownedOrganisations.includes(this.#organisationId);
+                if (this.isOrganisationOwner) {
+                    this.selectedUserControl.patchValue(loggedInUser.userId);
+                }
+                this.loadSubscription = forkJoin([
+                    this.#getOrganisationSettings(),
+                    this.#lookUpUsers()
+                ]).subscribe(() => this.isPageLoading = false);
             });
+    }
 
+    ngOnDestroy() {
+        this.loadSubscription.unsubscribe();
     }
 
     #getOrganisationSettings() {
-        this.#organisationService.getOrganisationDetailsById(this.#organisationId).subscribe((data) => {
+        return this.#organisationService.getOrganisationDetailsById(this.#organisationId).pipe(tap((data) => {
             this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, data.settings.defaultWorkSchedule);
             this.workScheduleComponent()?.updateSelectedDays(data.settings.defaultWorkSchedule.workScheduleShifts);
-            this.isPageLoading = false;
-        });
+        }));
+    }
+
+    #lookUpUsers() {
+        return this.#userService.lookUpUsers().pipe(tap((users) => this.userOptions = generateDropdownOptionsFromLookUps(users)));
     }
 
     protected updateWorkSchedule(workSchedule: IWorkSchedule) {
@@ -67,5 +96,28 @@ export class SettingsComponent implements OnInit {
             .subscribe(() => {
                 this.isUpdatingWorkSchedule = false;
             });
+    }
+
+    openConfirmOwnerChangeDialog() {
+        this.#dialogService.open(
+            {
+                title: "ORGANISATION.SET_NEW_OWNER",
+                tooltipLabel: "ORGANISATION.SET_NEW_OWNER_TOOLTIP",
+                callBack: () => this.#changeOwner(),
+                submitLabel: "CONFIRM",
+                isInputIncluded: false,
+                descriptions: ["ORGANISATION.CHANGE_OWNER_CONFIRMATION"],
+                isSubmitLoading: this.isChangingOwnership,
+                cancelLabel: "CANCEL",
+            },
+            "confirmation"
+        );
+    }
+
+    #changeOwner() {
+        this.#organisationService.changeOrganisationOwner(this.selectedUserControl.value).subscribe(() => {
+            this.isChangingOwnership.set(false);
+            this.#dialogService.close();
+        });
     }
 }

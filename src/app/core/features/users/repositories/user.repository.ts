@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { IUser } from "../models/user.model";
 import { APIS } from "../../../api/plansphere.api";
+import { IUserLookUp } from "../models/user-look-up.model";
 
 @Injectable({
     providedIn: 'root'
@@ -24,5 +25,9 @@ export class UserRepository {
         } else {
             return this.#http.patch<void>(APIS.users.patchUserWithoutId, body);
         }
+    }
+
+    lookUpUsers(organiationId?: number): Observable<IUserLookUp[]> {
+        return this.#http.get<IUserLookUp[]>(APIS.users.lookUpUsers);
     }
 }

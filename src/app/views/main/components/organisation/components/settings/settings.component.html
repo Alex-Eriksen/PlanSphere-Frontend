@@ -5,6 +5,21 @@
         <ps-small-header
             heading="ORGANISATION.SETTINGS.NAME_PLURAL"
         ></ps-small-header>
+        @if(isOrganisationOwner) {
+            <ps-select-field
+                dropDownLabel="ORGANISATION.OWNER"
+                [dropDownOptions]="userOptions"
+                [control]="selectedUserControl"
+                [selectMultipleOptions]="false"
+            ></ps-select-field>
+            <ps-button
+                (click)="openConfirmOwnerChangeDialog()"
+                [isLoading]="isChangingOwnership()"
+                label="ORGANISATION.SET_NEW_OWNER"
+                buttonType="button"
+                buttonStyleType="button--primary"
+            ></ps-button>
+        }
         <div class="flex flex-col gap-4">
             <ps-small-header
                 heading="WORK_SCHEDULE.STANDARD_NAME"
