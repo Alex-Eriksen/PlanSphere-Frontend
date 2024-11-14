@@ -1,11 +1,9 @@
 ﻿import { Route } from "@angular/router";
-import { DetailsComponent } from "./components/details/details.component";
-import { SettingsComponent } from "./components/settings/settings.component";
-import { RolesComponent } from "./components/roles/roles.component";
-import { TeamsComponent } from "./components/teams/teams.component";
+import { DetailsComponent } from "../department/components/details/details.component";
+import { RolesComponent } from "../department/components/roles/roles.component";
+import { SettingsComponent } from "../department/components/settings/settings.component";
 
-
-export const departmentRoutes: Route[] = [
+export const teamRoutes: Route[] = [
     {
         path:"",
         pathMatch:"full",
@@ -14,13 +12,6 @@ export const departmentRoutes: Route[] = [
     {
         path: 'details',
         component: DetailsComponent,
-        data: {
-            name: "DETAIL.NAME_PLURAL"
-        }
-    },
-    {
-        path: 'teams',
-        component: TeamsComponent,
         data: {
             name: "DETAIL.NAME_PLURAL"
         }
