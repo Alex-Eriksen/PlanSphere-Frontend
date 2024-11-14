@@ -21,6 +21,7 @@ import { RolesViewComponent } from "../../roles-view/roles-view.component";
 import { SelectFieldComponent } from "../../select-field/select-field.component";
 import { RoleService } from "../../../core/features/roles/services/role.service";
 import { IDropdownOption } from "../../interfaces/dropdown-option.interface";
+import { LineComponent } from "../../line/line.component";
 
 @Component({
   selector: 'ps-user-popup',
@@ -37,7 +38,8 @@ import { IDropdownOption } from "../../interfaces/dropdown-option.interface";
         SettingsComponent,
         WorkScheduleComponent,
         RolesViewComponent,
-        SelectFieldComponent
+        SelectFieldComponent,
+        LineComponent
     ],
   templateUrl: './user-popup.component.html',
   styleUrl: './user-popup.component.scss'
