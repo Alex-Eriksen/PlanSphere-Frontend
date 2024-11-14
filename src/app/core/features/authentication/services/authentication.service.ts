@@ -68,6 +68,10 @@ export class AuthenticationService {
         return this.#decodedToken?.OrganisationId;
     }
 
+    isSystemAdministrator(): boolean | undefined {
+        return this.#decodedToken?.SystemAdministrator;
+    }
+
     getRights(sourceLevel?: SourceLevel, sourceLevelId?: number): Observable<ISourceLevelRights> {
         return this.#authenticationRepository.getRights(sourceLevel, sourceLevelId);
     }

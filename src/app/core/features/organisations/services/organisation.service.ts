@@ -17,4 +17,8 @@ export class OrganisationService {
     getOrganisationDetailsById(sourceLevelId: number): Observable<IOrganisationDetails> {
         return this.#organisationRepository.getOrganisationDetailsById(sourceLevelId);
     }
+
+    changeOrganisationOwner(userId: number, organisationId?: number): Observable<void> {
+        return this.#organisationRepository.changeOrganisationOwner(userId, organisationId);
+    }
 }

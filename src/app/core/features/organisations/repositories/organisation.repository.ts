@@ -18,4 +18,8 @@ export class OrganisationRepository {
     getOrganisationDetailsById(sourceLevelId: number): Observable<IOrganisationDetails> {
         return this.#http.get<IOrganisationDetails>(APIS.organisation.getOrganisationDetailsById(sourceLevelId));
     }
+
+    changeOrganisationOwner(userId: number, organisationId?: number): Observable<void>{
+        return this.#http.post<void>(APIS.organisations.changeOwnership(userId), {});
+    }
 }
