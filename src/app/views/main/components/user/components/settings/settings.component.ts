@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, input, OnDestroy, OnInit, viewChild } from "@angular/core";
+import { Component, DestroyRef, inject, OnDestroy, OnInit, viewChild } from "@angular/core";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
 import { NonNullableFormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { ToggleInputComponent } from "../../../../../../shared/toggle-input/toggle-input.component";
@@ -47,8 +47,6 @@ export class SettingsComponent implements OnInit, OnDestroy, IRightsListener {
     readonly #fb = inject(NonNullableFormBuilder);
     readonly #destroyRef = inject(DestroyRef);
     readonly #toastService = inject(ToastService);
-    sourceLevelId = input.required<number>();
-    sourceLevel = input.required<SourceLevel>();
 
     isLoading = false;
     loadingWorkSchedule = false;

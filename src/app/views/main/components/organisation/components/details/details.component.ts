@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { NonNullableFormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { InputComponent } from "../../../../../../shared/input/input.component";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
@@ -12,7 +12,6 @@ import { LineComponent } from "../../../../../../shared/line/line.component";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
 import { AddressInputComponent } from "../../../../../../shared/address-input/address-input.component";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
-import { DialogService } from "../../../../../../core/services/dialog.service";
 import { ListOrganisationsComponent } from "../../../../../../shared/list-organisations/list-organisations.component";
 import { OrganisationPopupComponent } from "../../../../../../shared/list-organisations/organisation-popup/organisation-popup.component";
 import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
@@ -46,8 +45,6 @@ export class DetailsComponent implements OnInit, IRightsListener {
     readonly #fb = inject(NonNullableFormBuilder);
     formGroup!: any;
     readonly #toastService = inject(ToastService);
-    readonly #dialogService = inject(DialogService);
-    readonly #isDeletingOrganisation = signal(false);
     isPageLoading: boolean = false;
     rightsData!: ISourceLevelRights;
 
@@ -59,22 +56,6 @@ export class DetailsComponent implements OnInit, IRightsListener {
             this.formGroup.disable();
         }
     }
-
-    // openDeleteDialog() : void {
-    //     this.#dialogService.open(
-    //         {
-    //         title: 'ORGANISATION.DELETE.TITLE',
-    //             tooltipLabel: "ORGANISATION.DELETE.TOOLTIP",
-    //             callBack: () => this.deleteOrganisation(this.organisationId),
-    //             submitLabel: "CONFIRM",
-    //             isInputIncluded: false,
-    //             descriptions: ["ORGANISATION.DELETE.QUESTION", "ORGANISATION.DELETE.CONFIRMATION"],
-    //             isSubmitLoading: this.#isDeletingOrganisation,
-    //             cancelLabel: "CANCEL",
-    //         },
-    //         "confirmation"
-    //     );
-    // }
 
     private fetchOrganisationIdFromUser(): void {
         this.#authenticationService.getLoggedInUser().subscribe({
