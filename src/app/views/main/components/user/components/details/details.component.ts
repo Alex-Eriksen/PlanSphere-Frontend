@@ -42,7 +42,7 @@ export class DetailsComponent implements OnInit, IRightsListener {
     readonly #userService = inject(UserService);
     readonly #roleService = inject(RoleService);
     readonly #userId = this.#authenticationService.getUserId();
-    formGroup!: any;
+    formGroup = userFormGroupBuilder(this.#fb);
     isPageLoading: boolean = false;
     roles: IDropdownOption[] = [];
 
@@ -53,11 +53,12 @@ export class DetailsComponent implements OnInit, IRightsListener {
             return;
         }
         this.getUserById(this.#userId);
-        this.formGroup = userFormGroupBuilder(this.#fb);
     }
 
     setRightsData(rights: ISourceLevelRights): void {
-        throw new Error('Method not implemented.');
+        if (!rights.hasAdministratorRights) {
+            this.formGroup.controls.roleIds.disable();
+        }
     }
 
     getUserById(userId: number): void {

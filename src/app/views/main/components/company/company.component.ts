@@ -7,6 +7,7 @@ import { ISourceLevelRights } from "../../../../core/features/authentication/mod
 import { SourceLevel } from "../../../../core/enums/source-level.enum";
 import { LoadingOverlayComponent } from "../../../../shared/loading-overlay/loading-overlay.component";
 import { instanceOfRightsListener } from "../../../../core/interfaces/rights-data.interface";
+import { hasEditAccess, hasManageUsersRights, hasViewAccess } from "../../../../shared/utilities/right.utilities";
 
 @Component({
   selector: 'ps-company',
@@ -22,43 +23,43 @@ import { instanceOfRightsListener } from "../../../../core/interfaces/rights-dat
 export class CompanyComponent implements OnInit {
     companyId = input.required<number>();
     readonly #authService = inject(AuthenticationService);
-    rightData!: ISourceLevelRights;
+    rightsData!: ISourceLevelRights;
     isPageLoading = false;
     tabs: INavigationTab[] = [
         {
             label: "DETAIL.NAME_PLURAL",
             routeLink: "details",
             icon: "fa-solid fa-circle-info",
-            isVisible: () => this.hasViewAccess()
+            isVisible: () => hasViewAccess(this.rightsData)
         },
         {
             label: "DEPARTMENT.NAME_PLURAL",
             routeLink: "departments",
             icon: "fa-solid fa-building",
-            isVisible: () => this.hasViewAccess()
+            isVisible: () => hasViewAccess(this.rightsData)
         },
         {
             label: "JOB_TITLE.NAME_PLURAL",
             routeLink: "job-titles",
             icon: "fa-solid fa-table-list",
-            isVisible: () => this.hasViewAccess()
+            isVisible: () => hasViewAccess(this.rightsData)
         },
         {
             label: "ROLE.NAME_PLURAL",
             routeLink: "roles",
             icon: "fa-solid fa-user-check",
-            isVisible: () => this.hasViewAccess()
+            isVisible: () => hasViewAccess(this.rightsData)
         },
         {
             label: "USER.NAME_PLURAL",
             routeLink: "users",
             icon: "fa-solid fa-user-check",
-            isVisible: () => this.hasEditAccess()
+            isVisible: () => hasManageUsersRights(this.rightsData)
         },
         {
             label: "SETTINGS.NAME_PLURAL",
             routeLink: "settings",
-            isVisible: () => this.hasEditAccess()
+            isVisible: () => hasEditAccess(this.rightsData)
         }
     ];
 
@@ -66,21 +67,13 @@ export class CompanyComponent implements OnInit {
         this.isPageLoading = true;
         this.#authService.getRights(SourceLevel.Company, this.companyId())
             .subscribe((rights) => {
-                this.rightData = rights;
+                this.rightsData = rights;
                 this.isPageLoading = false;
             });
     }
 
     onRouterOutletActivate(activatedComponent: any) {
         if (!instanceOfRightsListener(activatedComponent)) return;
-        activatedComponent.setRightsData(this.rightData);
-    }
-
-    hasViewAccess(): boolean {
-        return this.rightData.hasViewRights || this.rightData.hasPureViewRights || this.hasEditAccess();
-    }
-
-    hasEditAccess(): boolean {
-        return this.rightData.hasEditRights || this.rightData.hasAdministratorRights;
+        activatedComponent.setRightsData(this.rightsData);
     }
 }
