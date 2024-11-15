@@ -30,10 +30,6 @@ export class OrganisationRepository {
         return this.#http.post<void>(APIS.organisations.changeOwnership(userId), {});
     }
 
-    lookUpOrganisations(): Observable<IOrganisationLookUp[]> {
-        return this.#http.get<IOrganisationLookUp[]>(APIS.organisations.lookUp);
-    }
-
     getListOfOrganisations(params: IPaginationSortPayload): Observable<IPaginatedResponse> {
         return this.#http.get<IPaginatedResponse>(APIS.organisation.getListOfOrganisations(), {
             params: new HttpParams({

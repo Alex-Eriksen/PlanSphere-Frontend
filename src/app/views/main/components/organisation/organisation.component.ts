@@ -47,15 +47,15 @@ export class OrganisationComponent implements OnInit {
             isVisible: () => this.hasViewAccess()
         },
         {
-            label: "SETTINGS.NAME_PLURAL",
-            routeLink: "settings",
-            icon: "fa-solid fa-cog",
-            isVisible: () => this.hasEditAccess()
-        },
-        {
             label: "USER.NAME_PLURAL",
             routeLink: "users",
             icon: "fa-solid fa-user-check",
+            isVisible: () => this.hasEditAccess()
+        },
+        {
+            label: "SETTINGS.NAME_PLURAL",
+            routeLink: "settings",
+            icon: "fa-solid fa-cog",
             isVisible: () => this.hasEditAccess()
         }
     ];
