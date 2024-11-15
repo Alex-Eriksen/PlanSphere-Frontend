@@ -6,6 +6,7 @@ import { ITeam } from "../models/team.model";
 import { APIS } from "../../../api/plansphere.api";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
+import { ITeamLookUp } from "../models/team-look-up.model";
 
 @Injectable({
     providedIn: 'root'
@@ -36,5 +37,9 @@ export class TeamRepository {
 
     delete(sourceLevelId: number, teamId: number): Observable<void>{
         return this.#http.delete<void>(APIS.team.delete(sourceLevelId, teamId));
+    }
+
+    lookUpTeams(): Observable<ITeamLookUp[]> {
+        return this.#http.get<ITeamLookUp[]>(APIS.team.lookUpTeams);
     }
 }
