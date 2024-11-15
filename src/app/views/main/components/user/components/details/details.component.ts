@@ -48,6 +48,7 @@ export class DetailsComponent implements OnInit, IRightsListener {
 
     ngOnInit() {
         this.isPageLoading = true;
+        this.#loadRoles();
         if (this.#userId === undefined) {
             return;
         }
