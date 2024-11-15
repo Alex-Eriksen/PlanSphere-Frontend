@@ -15,10 +15,7 @@ import { SmallHeaderComponent } from "../../../../../../shared/small-header/smal
 import { AddressInputComponent } from "../../../../../../shared/address-input/address-input/address-input.component";
 import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
 import { ISourceLevelRights } from "../../../../../../core/features/authentication/models/source-level-rights.model";
-import {
-    constructAddressFormGroup,
-    recursivelyFindParentAddress
-} from "../../../../../../core/features/address/utilities/address.utilities";
+import { constructAddressFormGroup, recursivelyFindParentAddress } from "../../../../../../core/features/address/utilities/address.utilities";
 import { ToggleInputComponent } from "../../../../../../shared/toggle-input/toggle-input.component";
 import { forkJoin, Subscription, tap } from "rxjs";
 

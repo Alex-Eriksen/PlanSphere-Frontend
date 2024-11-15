@@ -23,7 +23,14 @@
                 </div>
             </div>
             <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
-
+            <div class="mt-4">
+                <ps-toggle-input
+                    label="INHERIT_ADDRESS"
+                    [control]="formGroup.controls.inheritAddress"
+                    (toggleChanged)="onInheritedToggled($event)"
+                >
+                </ps-toggle-input>
+            </div>
         </form>
     </div>
 }
