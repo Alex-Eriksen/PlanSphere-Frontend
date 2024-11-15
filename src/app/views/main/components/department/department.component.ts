@@ -50,6 +50,12 @@ export class DepartmentComponent implements OnInit {
             isVisible: () => this.hasViewAccess()
         },
         {
+            label: "USER.NAME_PLURAL",
+            routeLink: "users",
+            icon: "fa-solid fa-user-check",
+            isVisible: () => this.hasEditAccess()
+        },
+        {
             label: "SETTINGS.NAME_PLURAL",
             routeLink: "settings",
             isVisible: () => this.hasEditAccess()
