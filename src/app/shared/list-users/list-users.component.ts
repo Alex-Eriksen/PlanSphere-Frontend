@@ -57,10 +57,8 @@ export class ListUsersComponent extends BasePaginatedTableWithSearchComponent {
     readonly loadDataEffect$ = effect(() => {this.loadDataWithCorrectParams()});
 
     override loadData(params: IPaginationSortPayload): void {
-        console.log(this.sourceLevel(), this.sourceLevelId());
         this.isTableLoading = true;
         this.#userService.listUsers(this.sourceLevel(), this.sourceLevelId(), params).subscribe((paginatedProperties) => {
-            console.log(this.sourceLevel(), this.sourceLevelId());
             copyPaginatedSignalResponse(this.paginatedData, paginatedProperties);
             this.isTableLoading = false;
         });
