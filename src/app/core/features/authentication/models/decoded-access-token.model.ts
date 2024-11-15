@@ -5,4 +5,5 @@ export interface DecodedAccessToken extends JwtPayload {
     OrganisationId: number;
     FirstName: string;
     LastName: string;
+    SystemAdministrator: boolean;
 }

@@ -26,6 +26,7 @@ export const APIS = {
         listUsers: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `User/ListUsers/${sourceLevel}/${sourceLevelId}`,
         updateUser: (sourceLevel: SourceLevel, sourceLevelId: number, userId: number) => environment.apiUrl + `User/UpdateUser/${sourceLevel}/${sourceLevelId}/${userId}`,
         deleteUser: (sourceLevel: SourceLevel, sourceLevelId: number, userId: number) => environment.apiUrl + `User/DeleteUser/${sourceLevel}/${sourceLevelId}/${userId}`,
+        lookUpUsers: environment.apiUrl + "User/LookUpUsers"
     },
     roles: {
         createRole: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Role/CreateRole/${sourceLevel}/${sourceLevelId}`,
@@ -42,6 +43,7 @@ export const APIS = {
     },
     organisations: {
         lookUp: environment.apiUrl + "Organisation/LookUpOrganisations",
+        changeOwnership: (userId: number) => environment.apiUrl + `Organisation/ChangeOrganisationOwner/${userId}`
     },
     jobTitles: {
         listAll: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `JobTitle/ListJobTitle/${sourceLevel}/${sourceLevelId}`,
@@ -76,6 +78,14 @@ export const APIS = {
         patch: (sourceLevelId: number) => environment.apiUrl + `Department/PatchDepartment/${sourceLevelId}`,
         delete: (sourceLevelId: number, departmentId: number) => environment.apiUrl + `Department/DeleteDepartment/${sourceLevelId}/${departmentId}`,
         lookUpDepartments: environment.apiUrl + "Department/LookUpDepartments",
+    },
+    team: {
+      getById: (sourceLevelId: number, sourceLevel: SourceLevel, teamId: number) => environment.apiUrl + `Team/GetTeamById/${teamId}/${sourceLevel}/${sourceLevelId}`,
+      listTeams: (sourceLevelId: number) => environment.apiUrl + `Team/ListTeam/${sourceLevelId}`,
+      listUserTeams: environment.apiUrl + "Team/ListUserTeams",
+      create: (sourceLevelId: number) => environment.apiUrl + `Team/CreateTeam/${sourceLevelId}`,
+      patch: (sourceLevelId: number) => environment.apiUrl + `Team/PatchTeam/${sourceLevelId}`,
+      delete: (sourceLevelId: number, teamId: number) => environment.apiUrl + `Team/DeleteTeam/${sourceLevelId}/${teamId}`,
     },
     country: {
         getCountryLookups: environment.apiUrl + "Country/GetCountryLookups",

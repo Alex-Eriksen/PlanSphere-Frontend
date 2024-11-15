@@ -18,8 +18,16 @@ export class OrganisationRepository {
         return this.#http.post<void>(APIS.organisation.createOrganisation(), bodyRequest);
     }
 
+    lookUpOrganisations(): Observable<IOrganisationLookUp[]> {
+        return this.#http.get<IOrganisationLookUp[]>(APIS.organisations.lookUp);
+    }
+
     getOrganisationDetailsById(sourceLevelId: number): Observable<IOrganisationDetails> {
         return this.#http.get<IOrganisationDetails>(APIS.organisation.getOrganisationDetailsById(sourceLevelId));
+    }
+
+    changeOrganisationOwner(userId: number): Observable<void>{
+        return this.#http.post<void>(APIS.organisations.changeOwnership(userId), {});
     }
 
     lookUpOrganisations(): Observable<IOrganisationLookUp[]> {

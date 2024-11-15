@@ -21,12 +21,16 @@ export class OrganisationService {
         return this.#organisationRepository.createOrganisation(bodyRequest);
     }
 
+    lookUpOrganisations(): Observable<IOrganisationLookUp[]> {
+        return this.#organisationRepository.lookUpOrganisations();
+    }
+
     getOrganisationDetailsById(sourceLevelId: number): Observable<IOrganisationDetails> {
         return this.#organisationRepository.getOrganisationDetailsById(sourceLevelId);
     }
 
-    lookUpOrganisations(): Observable<IOrganisationLookUp[]> {
-        return this.#organisationRepository.lookUpOrganisations();
+    changeOrganisationOwner(userId: number): Observable<void> {
+        return this.#organisationRepository.changeOrganisationOwner(userId);
     }
 
     getListOfOrganisations(params: IPaginationSortPayload): Observable<ISignalPaginatedResponse<ISmallListTableInput>> {

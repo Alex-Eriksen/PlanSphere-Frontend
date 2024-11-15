@@ -7,6 +7,7 @@ import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination
 import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
 import { IUserPayload } from "../utilities/user-payload";
 import { SourceLevel } from "../../../enums/source-level.enum";
+import { IUserLookUp } from "../models/user-look-up.model";
 
 @Injectable({
     providedIn: 'root'
@@ -40,6 +41,10 @@ export class UserRepository {
         } else {
             return this.#http.patch<void>(APIS.users.patchUserWithoutId, body);
         }
+    }
+
+    lookUpUsers(organiationId?: number): Observable<IUserLookUp[]> {
+        return this.#http.get<IUserLookUp[]>(APIS.users.lookUpUsers);
     }
 
     updateUser(sourceLevel: SourceLevel, sourceLevelId: number, userId: number, bodyRequest: IUserPayload): Observable<void> {

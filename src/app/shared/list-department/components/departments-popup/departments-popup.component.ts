@@ -1,25 +1,28 @@
 ﻿import { Component, inject, OnInit } from "@angular/core";
+
 import { TranslateModule } from "@ngx-translate/core";
+
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
+
 import { IDepartmentsPopupInputs } from "./departments-popup-inputs.component";
-import { SmallListTableComponent } from "../../small-list-table/small-list-table.component";
-import { PaginationComponent } from "../../pagination/pagination.component";
-import { SubHeaderComponent } from "../../sub-header/sub-header.component";
-import { SmallHeaderComponent } from "../../small-header/small-header.component";
-import { SearchInputComponent } from "../../search-input/search-input.component";
-import { ButtonComponent } from "../../button/button.component";
-import { InputComponent } from "../../input/input.component";
-import { SelectFieldComponent } from "../../select-field/select-field.component";
-import { DialogHeaderComponent } from "../../dialog-header/dialog-header.component";
-import { LoadingOverlayComponent } from "../../loading-overlay/loading-overlay.component";
-import { LineComponent } from "../../line/line.component";
-import { DepartmentService } from "../../../core/features/department/services/department.service";
-import { IDropdownOption } from "../../interfaces/dropdown-option.interface";
-import { markAllControlsAsTouchedAndDirty } from "../../utilities/form.utilities";
-import { IDepartment } from "../../../core/features/department/models/department.model";
-import { CountryService } from "../../../core/features/address/services/country.service";
-import { AddressInputComponent } from "../../address-input/address-input.component";
+import { SmallListTableComponent } from "../../../small-list-table/small-list-table.component";
+import { PaginationComponent } from "../../../pagination/pagination.component";
+import { SubHeaderComponent } from "../../../sub-header/sub-header.component";
+import { SmallHeaderComponent } from "../../../small-header/small-header.component";
+import { SearchInputComponent } from "../../../search-input/search-input.component";
+import { ButtonComponent } from "../../../button/button.component";
+import { InputComponent } from "../../../input/input.component";
+import { SelectFieldComponent } from "../../../select-field/select-field.component";
+import { DialogHeaderComponent } from "../../../dialog-header/dialog-header.component";
+import { LoadingOverlayComponent } from "../../../loading-overlay/loading-overlay.component";
+import { LineComponent } from "../../../line/line.component";
+import { DepartmentService } from "../../../../core/features/department/services/department.service";
+import { IDropdownOption } from "../../../interfaces/dropdown-option.interface";
+import { markAllControlsAsTouchedAndDirty } from "../../../utilities/form.utilities";
+import { IDepartment } from "../../../../core/features/department/models/department.model";
+import { CountryService } from "../../../../core/features/address/services/country.service";
+import { AddressInputComponent } from "../../../address-input/address-input/address-input.component";
 
 @Component({
     selector: 'ps-companies-popup',
