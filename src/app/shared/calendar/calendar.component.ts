@@ -13,6 +13,9 @@ import { CalendarDateService } from "../../core/services/calendar-date.service";
 import { CalendarFacadeService } from "../../core/services/calendar.facade.service";
 import { generateWorkHours } from "../../views/main/components/frontpage/calendar.utilities";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { WorkTimeService } from "../../core/features/workTimes/services/work-time.service";
+import { IWorkTime } from "../../core/features/workTimes/models/work-time.models";
+import { catchError, of, switchMap, tap } from "rxjs";
 
 @Component({
   selector: 'ps-calendar',
@@ -33,8 +36,8 @@ export class CalendarComponent implements OnInit {
     readonly #breakpointObserver = inject(BreakpointObserver);
     readonly #calendarDateService = inject(CalendarDateService);
     readonly #calendarFacadeService = inject(CalendarFacadeService);
-
-    #destroyRef = inject(DestroyRef)
+    readonly #workTimeService = inject(WorkTimeService);
+    readonly #destroyRef = inject(DestroyRef)
 
     workSchedule = input.required<IWorkSchedule>();
 
@@ -47,7 +50,9 @@ export class CalendarComponent implements OnInit {
     workHours: IWorkHour[] = [];
     daysInMonth: DayInfo[] = [];
 
-    hideSidePanel = false;
+    workTimes: IWorkTime[] = [];
+
+    hideSidePanel: boolean = false;
     isLoading: boolean = false;
 
     ngOnInit(): void {
@@ -68,6 +73,38 @@ export class CalendarComponent implements OnInit {
 
         this.#calendarFacadeService.setCurrentDate();
         this.isLoading = false;
+    }
+
+    onCheckButtonClick(): void {
+        if(this.#calendarDateService.hasCheckedIn()) {
+            this.#checkIn();
+        } else {
+            this.#checkOut();
+        }
+    }
+
+    #checkIn(): void {
+        this.#workTimeService.checkIn().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe({
+            error: (error) => {
+                console.error("Failed to check in: ", error);
+            },
+            complete: () => {
+                console.log("Checked in successfully");
+                this.#calendarFacadeService.refreshTable()
+            }
+        })
+    }
+
+    #checkOut(): void {
+        this.#workTimeService.checkOut().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe({
+            error: (error) => {
+                console.error("Failed to check in: ", error);
+            },
+            complete: () => {
+                console.log("Checked in successfully");
+                this.#calendarFacadeService.refreshTable()
+            }
+        })
     }
 
     #subscribeToCalendarChanges(): void {
@@ -101,10 +138,31 @@ export class CalendarComponent implements OnInit {
             });
 
         this.#calendarFacadeService.selectedMonth$
-            .pipe(takeUntilDestroyed(this.#destroyRef))
-            .subscribe(month => {
-                this.selectedMonth = month;
-                this.#calendarDateService.setSelectedMonth(month);
+            .pipe(
+                takeUntilDestroyed(this.#destroyRef),
+                tap(() => {
+                    this.isLoading = true;
+                }),
+                switchMap(month =>
+                    this.#workTimeService.getWorkTimesInMonth({year: this.selectedDate.getFullYear(), month: month + 1}).pipe(
+                        catchError(error => {
+                            console.error('Error fetching work times:', error);
+                            this.isLoading = false;
+                            return of([]);
+                        })
+                    )
+                )
+            )
+            .subscribe(workTimes => {
+                this.workTimes = workTimes.map(workTime => {
+                    return {
+                        ...workTime,
+                        startDateTime: new Date(workTime.startDateTime),
+                        endDateTime: workTime.endDateTime ? new Date(workTime.endDateTime) : null,
+                    }
+                });
+                this.#calendarDateService.setWorkTimes(this.workTimes);
+                this.isLoading = false;
             });
 
         this.#calendarFacadeService.daysInMonth$
@@ -115,7 +173,6 @@ export class CalendarComponent implements OnInit {
             });
     }
 
-
     #subscribeToBreakpointChanges(): void {
         this.#breakpointObserver
             .observe(['(max-width: 850px)'])
@@ -123,7 +180,5 @@ export class CalendarComponent implements OnInit {
             .subscribe((state: BreakpointState) => {
                 this.hideSidePanel = state.matches;
             });
-
-        this.#initializeCalendarService();
     }
 }

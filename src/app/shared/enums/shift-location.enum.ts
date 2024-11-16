@@ -1,4 +1,4 @@
 export enum ShiftLocation {
-    Office,
-    Remote
+    Office = "Office",
+    Remote = "Remote"
 }

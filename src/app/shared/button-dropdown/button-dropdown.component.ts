@@ -1,5 +1,5 @@
 import { Component, input, ViewChild } from "@angular/core";
-import { MatOption, MatSelect } from "@angular/material/select";
+import { MatOption, MatSelect, MatSelectTrigger } from "@angular/material/select";
 import { ButtonComponent } from "../button/button.component";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { IDropdownOption } from "../interfaces/dropdown-option.interface";
@@ -13,6 +13,7 @@ import { NgClass } from "@angular/common";
   standalone: true,
     imports: [
         MatSelect,
+        MatSelectTrigger,
         ButtonComponent,
         ReactiveFormsModule,
         MatOption,

@@ -1,9 +1,14 @@
 import { DayInfo } from "../../../../shared/interfaces/day-info.interface";
 import { DayOfWeek } from "../../../../shared/enums/day-of-week.enum";
 import { DayInfoMonth } from "../../../../shared/enums/day-info-month.enum";
+import { IWorkSchedule } from "../../../../core/features/workSchedules/models/work-schedule.model";
 import { IWorkHour } from "../../../../shared/interfaces/work-hour.interface";
 import { CalendarMonths } from "../../../../shared/enums/calender-months.enum";
-
+import { FormGroup, NonNullableFormBuilder, Validators } from "@angular/forms";
+import { ShiftLocation } from "../../../../core/enums/shift-location.enum";
+import { IWorkTime } from "../../../../core/features/workTimes/models/work-time.models";
+import { WorkTimeType } from "../../../../core/features/workTimes/models/work-time-type.interface";
+import { formatDateWithoutTimezone } from "../../../../shared/utilities/date.utilities";
 
 export const generateDaysForMonth = (month: number, year: number): DayInfo[] => {
     const daysInMonth: DayInfo[] = [];
@@ -24,7 +29,6 @@ export const generateDaysForMonth = (month: number, year: number): DayInfo[] => 
         });
     }
 
-    // Days in the current month
     const daysInCurrentMonth = new Date(year, month + 1, 0).getDate();
     for (let day = 1; day <= daysInCurrentMonth; day++) {
         const dayInfo: DayInfo = {
@@ -41,7 +45,6 @@ export const generateDaysForMonth = (month: number, year: number): DayInfo[] => 
         }
     }
 
-    // Days for the next month to complete the grid
     const lastDayOfWeek = (firstDayOfWeek + daysInCurrentMonth - 1) % 7;
     const nextMonth = month === 11 ? 0 : month + 1;
     const nextMonthYear = month === 11 ? year + 1 : year;
@@ -118,3 +121,22 @@ export function isHourInShift(hour: number, startHour: number, endHour: number):
         return hour >= startHour || hour < endHour;
     }
 }
+
+export function refactorDate(date: number) {
+    return date > 9 ? date.toString() : `0${date}`;
+}
+
+export const constructWorkTimeFormGroup = (fb: NonNullableFormBuilder, workTime?: IWorkTime): FormGroup => {
+    const startDate = new Date();
+    const endDate = new Date();
+    if(workTime) {
+        startDate.setHours(workTime.startDateTime.getHours(), (Math.round(workTime.startDateTime.getMinutes()/30) * 30) % 60, 0, 0);
+        endDate.setHours(workTime.endDateTime!.getHours(), (Math.round(workTime.endDateTime!.getMinutes()/30) * 30) % 60, 0, 0);
+    }
+    return fb.group({
+        startDateTime: fb.control<string>(formatDateWithoutTimezone(startDate), Validators.required),
+        endDateTime: fb.control<string>(formatDateWithoutTimezone(endDate), Validators.required),
+        workTimeType: fb.control<WorkTimeType | null>(workTime?.workTimeType ?? null, Validators.required),
+        location: fb.control<ShiftLocation | null>(workTime?.location ?? null, Validators.required)
+    })
+};

@@ -10,7 +10,7 @@
     </div>
 
     <div class="overflow-hidden relative h-[12.5rem]">
-        <div *ngIf="isVisible" class="grid grid-cols-7 h-full absolute top-0 left-0 text-center text-sm text-gray-600" [@slideInOut]="animationDirection" [attr.data-animation-key]="animationKey">
+        <div class="grid grid-cols-7 h-full absolute top-0 left-0 text-center text-sm text-gray-600">
             <!-- Weekday Headers -->
             <div class="font-semibold">M</div>
             <div class="font-semibold">T</div>
@@ -37,7 +37,8 @@
     <div class="flex justify-center">
 
         <ps-button
-            [label]="'CALENDER.CHECK_IN'"
+            (click)="onCheckButtonClick.emit()"
+            [label]="hasCheckedIn() ? 'CALENDER.CHECK_OUT' : 'CALENDAR.CHECK_IN'"
             buttonStyleType="button--quaternary"
             buttonType="button"/>
     </div>

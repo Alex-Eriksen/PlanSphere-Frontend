@@ -1,5 +1,6 @@
 import { IDropdownOption } from "../interfaces/dropdown-option.interface";
 import { IBaseLookUp } from "../../core/abstract/models/base-look.model";
+import { formatDateWithoutTimezone } from "./date.utilities";
 
 export const generateTranslatedDropdownOptionsFromEnum = (
     enumObject: any,
@@ -38,6 +39,28 @@ export const generateHourAndMinuteDropdownOptions = (): IDropdownOption[] => {
                 value: time.concat(':00'),
             });
         }
+    }
+
+    return options;
+}
+
+export const generateHalfHourDropdownOptions = (): IDropdownOption[] => {
+    const options: IDropdownOption[] = [];
+    const totalHalfHoursInDay = 24 * 2;
+
+    for (let i = 0; i < totalHalfHoursInDay; i++) {
+        const hours = Math.floor(i / 2);
+        const minutes = i % 2 === 0 ? 0 : 30;
+
+        const label = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+
+        const dateValue = new Date();
+        dateValue.setHours(hours, minutes, 0, 0);
+
+        options.push({
+            label: label,
+            value: formatDateWithoutTimezone(dateValue)
+        });
     }
 
     return options;

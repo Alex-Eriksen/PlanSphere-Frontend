@@ -87,5 +87,13 @@ export const APIS = {
     },
     zipCode: {
         getZipCodeLookups: environment.apiUrl + "ZipCode/GetZipCodeLookups",
+    },
+    workTimes: {
+        getWorkTimesInMonth: environment.apiUrl + "WorkTime/GetWorkTimes",
+        createWorkTime: environment.apiUrl + "WorkTime/CreateWorkTime",
+        updateWorkTime: (workTimeId: number) => environment.apiUrl + `WorkTime/UpdateWorkTime/${workTimeId}`,
+        deleteWorkTime: (workTimeId: number) => environment.apiUrl + `WorkTime/DeleteWorkTime/${workTimeId}`,
+        checkIn: environment.apiUrl + "WorkTime/CheckIn",
+        checkOut: environment.apiUrl + "WorkTime/CheckOut"
     }
 }

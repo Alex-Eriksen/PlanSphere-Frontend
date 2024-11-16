@@ -1,6 +1,5 @@
 import { inject, Injectable } from "@angular/core";
 import { DayInfo } from "../../shared/interfaces/day-info.interface";
-import { BehaviorSubject } from "rxjs";
 import {
     getDayOfWeekFromDaysInMonth,
     getMonthDisplayName
@@ -9,116 +8,126 @@ import { DayOfWeek } from "../../shared/enums/day-of-week.enum";
 import { IWorkSchedule } from "../features/workSchedules/models/work-schedule.model";
 import { DayInfoMonth } from "../../shared/enums/day-info-month.enum";
 import { TranslateService } from "@ngx-translate/core";
+import { IWorkTime } from "../features/workTimes/models/work-time.models";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarDateService {
-
     readonly #translateService = inject(TranslateService);
 
-    #daysInMonth = new BehaviorSubject<DayInfo[]>([]);
-    #currentSelectedDay = new BehaviorSubject<DayInfo | null>(null);
-    #currentDate = new BehaviorSubject<Date>(new Date());
-    #selectedDate = new BehaviorSubject<Date>(new Date());
-    #selectedWeek = new BehaviorSubject<number | null>(null);
-    #selectedMonth = new BehaviorSubject<number>(new Date().getMonth());
-
-    daysInMonth$ = this.#daysInMonth.asObservable();
-    currentSelectedDay$ = this.#currentSelectedDay.asObservable();
-    currentDate$ = this.#currentDate.asObservable();
-    selectedDate$ = this.#selectedDate.asObservable();
-    selectedWeek$ = this.#selectedWeek.asObservable();
-    selectedMonth$ = this.#selectedMonth.asObservable();
+    #daysInMonth: DayInfo[] = [];
+    #currentSelectedDay: DayInfo | null = null;
+    #currentDate: Date = new Date();
+    #selectedDate: Date = new Date();
+    #selectedWeek: number | null = null;
+    #selectedMonth: number = new Date().getMonth();
+    #workTimes: IWorkTime[] = [];
 
     setDaysInMonth(days: DayInfo[]) {
-        this.#daysInMonth.next(days);
+        this.#daysInMonth = days;
     }
 
     setCurrentSelectedDay(day: DayInfo) {
-        this.#currentSelectedDay.next(day);
+        this.#currentSelectedDay = day;
     }
 
     setSelectedWeek(week: number | null) {
-        this.#selectedWeek.next(week);
+        this.#selectedWeek = week;
     }
 
     setSelectedMonth(month: number) {
-        this.#selectedMonth.next(month);
+        this.#selectedMonth = month;
     }
 
     setSelectedDate(date: Date) {
-        this.#selectedDate.next(date);
+        this.#selectedDate = date;
+    }
+
+    setWorkTimes(workTimes: IWorkTime[]) {
+        this.#workTimes = workTimes;
     }
 
     isDateCurrentDate(day: DayInfo): boolean {
         return (
             day.isMonth === DayInfoMonth.Current &&
-            day.date === this.#currentDate.value.getDate() &&
-            this.#currentDate.value.getMonth() === this.#selectedDate.value.getMonth() &&
-            this.#currentDate.value.getFullYear() === this.#selectedDate.value.getFullYear());
+            day.date === this.#currentDate.getDate() &&
+            this.#currentDate.getMonth() === this.#selectedDate.getMonth() &&
+            this.#currentDate.getFullYear() === this.#selectedDate.getFullYear()
+        );
     }
 
     isDateInMonthCurrentDate(dayName: string, weekNumber: number): boolean {
         const date = this.#getWeekDayInDaysInMonths(dayName, weekNumber);
-        return date.date === this.#currentDate.value.getDate() && date.month === this.#currentDate.value.getMonth();
+        return date.date === this.#currentDate.getDate() && date.month === this.#currentDate.getMonth();
     }
 
     isDateInMonthSelected(dayName: string, weekNumber: number): boolean {
         const date = this.#getWeekDayInDaysInMonths(dayName, weekNumber);
-        return date.date === this.#currentSelectedDay.value!.date &&  date.month === this.#currentSelectedDay.value!.month;
+        return date.date === this.#currentSelectedDay!.date && date.month === this.#currentSelectedDay!.month;
     }
 
     isSelectedDate(day: DayInfo): boolean {
-        return day === this.#currentSelectedDay.getValue();
+        return day === this.#currentSelectedDay;
     }
 
     isSelectedDateOfWeek(dayName: string): boolean {
-        const date = this.#getWeekDayInDaysInMonths(dayName, this.#currentSelectedDay.value!.weekNumber);
+        const date = this.#getWeekDayInDaysInMonths(dayName, this.#currentSelectedDay!.weekNumber);
         return (
-            this.#currentDate.value.getDate() === date.date &&
-            this.#currentDate.value.getMonth() === date.month &&
-            this.#currentDate.value.getFullYear() === this.#selectedDate.value.getFullYear()
+            this.#currentDate.getDate() === date.date &&
+            this.#currentDate.getMonth() === date.month &&
+            this.#currentDate.getFullYear() === this.#selectedDate.getFullYear()
         );
     }
 
     isSelectedDayCurrentDate(): boolean {
-        return this.#currentDate.value.getDate() === this.#currentSelectedDay.value!.date && this.#currentDate.value.getMonth() === this.#currentSelectedDay.value!.month && this.#currentDate.value.getFullYear() === this.#selectedDate.value.getFullYear();
+        return (
+            this.#currentDate.getDate() === this.#currentSelectedDay!.date &&
+            this.#currentDate.getMonth() === this.#currentSelectedDay!.month &&
+            this.#currentDate.getFullYear() === this.#selectedDate.getFullYear()
+        );
     }
 
     isPastDate(dayName: string, weekNumber: number): boolean {
         const date = this.#getWeekDayInDaysInMonths(dayName, weekNumber);
-        const newDate = new Date(this.#selectedDate.getValue().getFullYear(), date.month, date.date, 0, 0, 0);
-        return this.#currentDate.getValue() > newDate;
+        const newDate = new Date(this.#selectedDate.getFullYear(), date.month, date.date, 0, 0, 0);
+        return this.#currentDate > newDate;
     }
 
     isFirstInWeek(day: DayInfo): boolean {
-        const firstDayInWeek = this.#daysInMonth.value.find(day => day?.weekNumber === day.weekNumber);
-        return day === firstDayInWeek && this.#selectedMonth.value === this.#selectedDate.value.getMonth() && day.weekNumber === this.#selectedWeek.value;
+        const firstDayInWeek = this.#daysInMonth.find(d => d?.weekNumber === day.weekNumber);
+        return (
+            day === firstDayInWeek &&
+            this.#selectedMonth === this.#selectedDate.getMonth() &&
+            day.weekNumber === this.#selectedWeek
+        );
     }
 
     isLastInWeek(day: DayInfo): boolean {
-        const lastDayInWeek = this.#daysInMonth.value.slice().reverse().find(day => day?.weekNumber === day.weekNumber);
-
-        return day === lastDayInWeek && this.#selectedMonth.value === this.#selectedDate.value.getMonth() && day.weekNumber === this.#selectedWeek.value;
+        const lastDayInWeek = this.#daysInMonth.slice().reverse().find(d => d?.weekNumber === day.weekNumber);
+        return (
+            day === lastDayInWeek &&
+            this.#selectedMonth === this.#selectedDate.getMonth() &&
+            day.weekNumber === this.#selectedWeek
+        );
     }
 
     getDayDate(): string {
-        return this.#refactorDate(this.#currentSelectedDay.value!.date);
+        return this.#refactorDate(this.#currentSelectedDay!.date);
     }
 
     getWeekDate(dayName: string): string {
-        return this.#refactorDate(this.#daysInMonth.value.find(x => x.name === dayName && x.weekNumber === this.#currentSelectedDay.value!.weekNumber)!.date);
+        return this.#refactorDate(this.#daysInMonth.find(x => x.name === dayName && x.weekNumber === this.#currentSelectedDay!.weekNumber)!.date);
     }
 
-    getMonthDate(dayName: string, weekNumber: number) {
-        return this.#refactorDate(this.#daysInMonth.value.find(x => x.name === dayName && x.weekNumber === weekNumber)!.date);
+    getMonthDate(dayName: string, weekNumber: number): string {
+        return this.#refactorDate(this.#daysInMonth.find(x => x.name === dayName && x.weekNumber === weekNumber)!.date);
     }
 
     formatDayHeader(): string {
         const day = this.getDayDate();
-        const month = getMonthDisplayName(this.#selectedMonth.value!);
-        const year = this.#selectedDate.value.getFullYear();
+        const month = getMonthDisplayName(this.#selectedMonth);
+        const year = this.#selectedDate.getFullYear();
         return `${day} ${month} ${year}`;
     }
 
@@ -136,40 +145,131 @@ export class CalendarDateService {
     }
 
     formatMonthHeader(): string {
-        const month = getMonthDisplayName(this.#selectedMonth.value!);
-        const year = this.#selectedDate.value.getFullYear();
+        const month = getMonthDisplayName(this.#selectedMonth);
+        const year = this.#selectedDate.getFullYear();
         return `${month} ${year}`;
     }
 
+    getWorkTimeDuration(day: string, weekNumber: number): string {
+        // const dayOfWorkWeek = this.#daysInMonth.find(x => x.weekNumber === weekNumber && x.name === day);
+        // const currentWorkTime = this.#workTimes.find(x => x.startDateTime.getDate() === dayOfWorkWeek?.date && x.startDateTime.getMonth() === dayOfWorkWeek.month);
+        return `${day} ${weekNumber}`;
+        // if (currentWorkTime?.endDateTime === null) {
+
+        // }
+        // return `${currentWorkTime?.startDateTime.getHours()}.${this.#refactorDate(currentWorkTime!.startDateTime.getMinutes())} - ${currentWorkTime?.endDateTime?.getHours()}.${this.#refactorDate(currentWorkTime!.endDateTime?.getMinutes())}`;
+        //
+    }
+
+    getWorkTime(day: string, hour: number) {
+        console.log(day, hour);
+        console.log(this.#selectedWeek, this.#selectedMonth);
+        const dayOfWeek = this.#daysInMonth.find(x => x.weekNumber === this.#selectedWeek && x.month === this.#selectedMonth && x.name === day);
+        return this.#workTimes.find(x =>
+            x.startDateTime.getDate() === dayOfWeek?.date &&
+            x.startDateTime.getMonth() === dayOfWeek.month &&
+            x.startDateTime.getHours() <= hour &&
+            x.endDateTime!.getHours() >= hour);
+    }
+
+    isHourCheckedDay(hour: number, isFirstHalfHour: boolean): boolean {
+        const currentWorkTimes = this.#workTimes.filter(
+            x =>
+                x.startDateTime.getDate() === this.#currentSelectedDay?.date &&
+                x.startDateTime.getMonth() === this.#currentSelectedDay?.month
+        );
+
+        return currentWorkTimes.some(workTime =>
+            this.#isHalfHourWithinWorkTime(workTime, hour, isFirstHalfHour)
+        );
+    }
+
+
+    isHourCheckedWeek(day: string, hour: number, isFirstHalfHour: boolean): boolean {
+        const dayOfWorkWeek = this.#daysInMonth.find(x => x.weekNumber === this.#selectedWeek && x.name === day);
+        const currentWorkTime = this.#workTimes.find(
+            x =>
+                x.startDateTime.getDate() === dayOfWorkWeek?.date &&
+                x.startDateTime.getMonth() === dayOfWorkWeek.month
+        );
+
+        return currentWorkTime ? this.#isHalfHourWithinWorkTime(currentWorkTime, hour, isFirstHalfHour) : false;
+    }
+
+
+    isHourCheckedMonth(day: string, weekNumber: number) {
+        const dayOfWorkWeek = this.#daysInMonth.find(x => x.weekNumber === weekNumber && x.name === day);
+        const currentWorkTime = this.#workTimes.find(x => x.startDateTime.getDate() === dayOfWorkWeek?.date && x.startDateTime.getMonth() === dayOfWorkWeek.month);
+        return currentWorkTime !== undefined;
+    }
+
+    #isHalfHourWithinWorkTime(workTime: IWorkTime, hour: number, isFirstHalfHour: boolean): boolean {
+        if (!workTime) return false;
+
+        const startMinutes = isFirstHalfHour ? 0 : 30;
+        const endMinutes = isFirstHalfHour ? 30 : 60;
+
+        const halfHourStart = new Date(
+            workTime.startDateTime.getFullYear(),
+            workTime.startDateTime.getMonth(),
+            workTime.startDateTime.getDate(),
+            hour,
+            startMinutes
+        );
+
+        const halfHourEnd = new Date(
+            workTime.startDateTime.getFullYear(),
+            workTime.startDateTime.getMonth(),
+            workTime.startDateTime.getDate(),
+            hour,
+            endMinutes
+        );
+
+        return (
+            halfHourStart >= workTime.startDateTime &&
+            halfHourStart < (workTime.endDateTime || new Date()) &&
+            halfHourEnd > workTime.startDateTime
+        );
+    }
+
+
     #getWeekBoundaries(startDay: DayOfWeek, endDay: DayOfWeek) {
-        const firstDay = getDayOfWeekFromDaysInMonth(this.#daysInMonth.value, startDay, this.#selectedWeek.value!);
-        const lastDay = getDayOfWeekFromDaysInMonth(this.#daysInMonth.value, endDay, this.#selectedWeek.value!);
+        const firstDay = getDayOfWeekFromDaysInMonth(this.#daysInMonth, startDay, this.#selectedWeek!);
+        const lastDay = getDayOfWeekFromDaysInMonth(this.#daysInMonth, endDay, this.#selectedWeek!);
         return { firstDay, lastDay };
     }
 
     #formatDateRange(firstDay: DayInfo, lastDay: DayInfo): string {
         const sameMonth = firstDay.month === lastDay.month;
-        const year = this.#selectedDate.value.getFullYear();
+        const year = this.#selectedDate.getFullYear();
 
         if (sameMonth) {
-            return `${this.#refactorDate(firstDay.date)}. - ${this.#refactorDate(lastDay.date)}. ${this.#translate(getMonthDisplayName(firstDay.month))} ${year}`;
+            return `${this.#refactorDate(firstDay.date)} - ${this.#refactorDate(lastDay.date)} ${this.#translate(getMonthDisplayName(firstDay.month))} ${year}`;
         }
 
-        return `${this.#refactorDate(firstDay.date)}. ${this.#translate(getMonthDisplayName(firstDay.month))} - ${this.#refactorDate(lastDay.date)}. ${this.#translate(getMonthDisplayName(lastDay.month))} ${year}`;
+        return `${this.#refactorDate(firstDay.date)} ${this.#translate(getMonthDisplayName(firstDay.month))} - ${this.#refactorDate(lastDay.date)} ${this.#translate(getMonthDisplayName(lastDay.month))} ${year}`;
     }
 
     #refactorDate(date: number): string {
-        if(date > 9) {
-            return date.toString();
-        }
-        return `0${date}`;
+        return date > 9 ? date.toString() : `0${date}`;
     }
 
     #getWeekDayInDaysInMonths(dayName: string, weekNumber: number): DayInfo {
-        return this.#daysInMonth.value.find(x => x.name === dayName && x.weekNumber === weekNumber)!;
+        return this.#daysInMonth.find(x => x.name === dayName && x.weekNumber === weekNumber)!;
     }
 
     #translate(key: string): string {
-        return this.#translateService.instant(key.toUpperCase())
+        return this.#translateService.instant(key.toUpperCase());
+    }
+
+    hasCheckedIn(): boolean {
+        const workTimes = this.getWorkTimesOnDate(this.#currentSelectedDay!.date, this.#currentSelectedDay!.month);
+        if (workTimes === undefined || workTimes.length === 0) return false; // Can check in
+
+        return workTimes.at(-1)!.endDateTime === null;
+    }
+
+    getWorkTimesOnDate(date: number, month: number): IWorkTime[] {
+        return this.#workTimes.filter(x => x.startDateTime.getDate() === date && x.startDateTime.getMonth() === month);
     }
 }

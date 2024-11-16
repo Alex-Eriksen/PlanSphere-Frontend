@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { FormBuilder } from "@angular/forms";
 import { CalendarDateService } from "./calendar-date.service";
@@ -16,6 +16,8 @@ import { DayInfoMonth } from "../../shared/enums/day-info-month.enum";
     providedIn: 'root'
 })
 export class CalendarFacadeService {
+    readonly #calendarDateService = inject(CalendarDateService)
+
     private selectedDateSubject = new BehaviorSubject<Date>(new Date());
     private currentDateSubject = new BehaviorSubject<Date>(new Date());
     private currentSelectedDaySubject = new BehaviorSubject<DayInfo | null>(null);
@@ -31,11 +33,6 @@ export class CalendarFacadeService {
     selectedWeek$ = this.selectedWeekSubject.asObservable();
     selectedMonth$ = this.selectedMonthSubject.asObservable();
     daysInMonth$ = this.daysInMonthSubject.asObservable();
-
-    constructor(
-        private fb: FormBuilder,
-        private calendarDateService: CalendarDateService
-    ) {}
 
     initializeCalendar(
         selectedDate: Date,
@@ -56,6 +53,11 @@ export class CalendarFacadeService {
         const selectedDay = this.daysInMonthSubject.getValue().find(day => day.month === currentDate.getMonth() && day.date === currentDate.getDate())!;
         this.currentSelectedDaySubject.next(selectedDay);
         this.#initializeCalendarService();
+    }
+
+    refreshTable(): void {
+        this.selectedMonthSubject.next(this.selectedMonthSubject.getValue());
+        console.log("Refreshing");
     }
 
     selectDate(selectedDay: DayInfo): void {
@@ -111,10 +113,6 @@ export class CalendarFacadeService {
         }
     }
 
-    incrementMonth(): void {
-
-    }
-
     setCalendarOption(option: CalendarOptions): void {
         this.calendarOptionSubject.next(option);
         if(option === CalendarOptions.Day || option === CalendarOptions.Month) return;
@@ -134,7 +132,7 @@ export class CalendarFacadeService {
             currentDay = this.daysInMonthSubject.getValue().find(x => x.weekNumber === currentDay?.weekNumber && x.name === DayOfWeek.Monday)!;
         }
 
-        this.calendarDateService.setSelectedWeek(currentDay.weekNumber);
+        this.#calendarDateService.setSelectedWeek(currentDay.weekNumber);
 
         this.currentSelectedDaySubject.next(currentDay);
         this.selectedDateSubject.next(newDate);
@@ -180,11 +178,11 @@ export class CalendarFacadeService {
     }
 
     #initializeCalendarService(): void {
-        this.calendarDateService.setSelectedMonth(this.selectedMonthSubject.getValue());
-        this.calendarDateService.setCurrentSelectedDay(this.currentSelectedDaySubject.getValue()!);
-        this.calendarDateService.setSelectedDate(this.selectedDateSubject.getValue());
-        this.calendarDateService.setSelectedWeek(this.selectedWeekSubject.getValue());
-        this.calendarDateService.setDaysInMonth(this.daysInMonthSubject.getValue());
+        this.#calendarDateService.setSelectedMonth(this.selectedMonthSubject.getValue());
+        this.#calendarDateService.setCurrentSelectedDay(this.currentSelectedDaySubject.getValue()!);
+        this.#calendarDateService.setSelectedDate(this.selectedDateSubject.getValue());
+        this.#calendarDateService.setSelectedWeek(this.selectedWeekSubject.getValue());
+        this.#calendarDateService.setDaysInMonth(this.daysInMonthSubject.getValue());
     }
 
     #incrementDay(): void {
@@ -267,6 +265,7 @@ export class CalendarFacadeService {
         this.currentSelectedDaySubject.next(selectedDay);
         const newDate = this.selectedDateSubject.getValue();
         newDate.setDate(selectedDay.date)
+        this.selectedWeekSubject.next(selectedDay.weekNumber);
         this.selectedDateSubject.next(newDate);
     }
 }

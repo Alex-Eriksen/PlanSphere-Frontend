@@ -10,7 +10,8 @@
             [selectedMonth]="selectedMonth"
             [selectedWeek]="selectedWeek"
             [daysInMonth]="daysInMonth"
-            [currentSelectedDay]="currentSelectedDay!">
+            [currentSelectedDay]="currentSelectedDay!"
+            (onCheckButtonClick)="onCheckButtonClick()">
         </ps-calendar-side-panel>
         <ps-calender-table
             class="flex-grow basis-4/5"
@@ -23,6 +24,7 @@
             [workSchedule]="workSchedule()"
             [daysInMonth]="daysInMonth"
             [currentSelectedDay]="currentSelectedDay!"
+            [workTimes]="workTimes"
         ></ps-calender-table>
     </div>
 }

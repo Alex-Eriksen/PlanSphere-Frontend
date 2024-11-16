@@ -44,13 +44,22 @@
     "FRIDAY": "Fredag",
     "SATURDAY": "Lørdag",
     "SUNDAY": "Søndag",
-    "CALENDER": {
+    "LOCATION": "Lokation",
+    "CALENDAR": {
         "CHECK_IN": "Check ind",
         "FILTERS": {
             "DAY": "Dag",
             "WEEK": "Uge",
             "WORK_WEEK": "Arbejdsuge",
             "MONTH": "Måned"
+        },
+        "WORK_TIME_TYPE": {
+            "LABEL": "Arbejdstidstype",
+            "REGULAR": "Regulær",
+            "OVERTIME": "Overtid",
+            "VACATION": "Ferie",
+            "SICK": "Syg",
+            "ABSENT": "Fraværende"
         }
     },
     "ERROR": {
