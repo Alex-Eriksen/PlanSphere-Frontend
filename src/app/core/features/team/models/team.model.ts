@@ -6,6 +6,7 @@ export interface ITeam {
     name: string;
     description: string;
     identifier: string;
+    inheritAddress: boolean;
     address: IAddress;
     settings: ITeamSettings;
 }
