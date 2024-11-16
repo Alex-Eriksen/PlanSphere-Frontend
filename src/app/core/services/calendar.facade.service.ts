@@ -1,6 +1,5 @@
 import { inject, Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { FormBuilder } from "@angular/forms";
 import { CalendarDateService } from "./calendar-date.service";
 import {
     decrementMonth,
@@ -61,6 +60,7 @@ export class CalendarFacadeService {
     }
 
     selectDate(selectedDay: DayInfo): void {
+        let selectedDate: DayInfo;
         switch (this.calendarOptionSubject.getValue()) {
             case CalendarOptions.Day:
                 if (selectedDay.isMonth === DayInfoMonth.Previous) {
@@ -68,7 +68,7 @@ export class CalendarFacadeService {
                 } else if(selectedDay.isMonth === DayInfoMonth.Next) {
                     this.changeMonth(true)
                 }
-                const selectedDate = this.daysInMonthSubject.getValue().find(x => x.date === selectedDay.date && x.isMonth === DayInfoMonth.Current)!;
+                selectedDate = this.daysInMonthSubject.getValue().find(x => x.date === selectedDay.date && x.isMonth === DayInfoMonth.Current)!;
                 this.#selectDateOnDay(selectedDate);
                 break;
             case CalendarOptions.Month:
@@ -76,8 +76,8 @@ export class CalendarFacadeService {
                 break;
             case CalendarOptions.WorkWeek:
             case CalendarOptions.Week:
-                const mondayInSelectedWeek = this.daysInMonthSubject.getValue().find(x => x.weekNumber === selectedDay.weekNumber && x.name === DayOfWeek.Monday)!;
-                this.currentSelectedDaySubject.next(mondayInSelectedWeek);
+                selectedDate = this.daysInMonthSubject.getValue().find(x => x.weekNumber === selectedDay.weekNumber && x.name === DayOfWeek.Monday)!;
+                this.currentSelectedDaySubject.next(selectedDate);
                 this.selectedWeekSubject.next(selectedDay.weekNumber);
                 break;
         }
