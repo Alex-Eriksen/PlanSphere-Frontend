@@ -126,13 +126,16 @@ export function refactorDate(date: number) {
     return date > 9 ? date.toString() : `0${date}`;
 }
 
-export const constructWorkTimeFormGroup = (fb: NonNullableFormBuilder, workTime?: IWorkTime): FormGroup => {
-    const startDate = new Date();
+export const constructWorkTimeFormGroup = (fb: NonNullableFormBuilder, workTime: IWorkTime | undefined, selectedDate: Date): FormGroup => {
+    let startDate = new Date();
     const endDate = new Date();
     if(workTime) {
         startDate.setHours(workTime.startDateTime.getHours(), (Math.round(workTime.startDateTime.getMinutes()/30) * 30) % 60, 0, 0);
         endDate.setHours(workTime.endDateTime!.getHours(), (Math.round(workTime.endDateTime!.getMinutes()/30) * 30) % 60, 0, 0);
+    } else {
+        startDate = selectedDate;
     }
+
     return fb.group({
         startDateTime: fb.control<string>(formatDateWithoutTimezone(startDate), Validators.required),
         endDateTime: fb.control<string>(formatDateWithoutTimezone(endDate), Validators.required),

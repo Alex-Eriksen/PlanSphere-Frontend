@@ -90,7 +90,7 @@ export class CalendarDateService {
 
     isPastDate(dayName: string, weekNumber: number): boolean {
         const date = this.#getWeekDayInDaysInMonths(dayName, weekNumber);
-        const newDate = new Date(this.#selectedDate.getFullYear(), date.month, date.date, 0, 0, 0);
+        const newDate = new Date(this.#selectedDate.getFullYear(), date.month, date.date, 23, 59);
         return this.#currentDate > newDate;
     }
 
@@ -104,12 +104,8 @@ export class CalendarDateService {
     }
 
     isLastInWeek(day: DayInfo): boolean {
-        const lastDayInWeek = this.#daysInMonth.slice().reverse().find(d => d?.weekNumber === day.weekNumber);
-        return (
-            day === lastDayInWeek &&
-            this.#selectedMonth === this.#selectedDate.getMonth() &&
-            day.weekNumber === this.#selectedWeek
-        );
+        const lastDayInWeek = this.#daysInMonth.find(d => d?.weekNumber === day.weekNumber && d.name === DayOfWeek.Sunday);
+        return day === lastDayInWeek;
     }
 
     getDayDate(): string {
@@ -151,25 +147,28 @@ export class CalendarDateService {
     }
 
     getWorkTimeDuration(day: string, weekNumber: number): string {
-        // const dayOfWorkWeek = this.#daysInMonth.find(x => x.weekNumber === weekNumber && x.name === day);
-        // const currentWorkTime = this.#workTimes.find(x => x.startDateTime.getDate() === dayOfWorkWeek?.date && x.startDateTime.getMonth() === dayOfWorkWeek.month);
-        return `${day} ${weekNumber}`;
-        // if (currentWorkTime?.endDateTime === null) {
-
-        // }
-        // return `${currentWorkTime?.startDateTime.getHours()}.${this.#refactorDate(currentWorkTime!.startDateTime.getMinutes())} - ${currentWorkTime?.endDateTime?.getHours()}.${this.#refactorDate(currentWorkTime!.endDateTime?.getMinutes())}`;
-        //
+        const dayOfWorkWeek = this.#daysInMonth.find(x => x.weekNumber === weekNumber && x.name === day);
+        const currentWorkTime = this.#workTimes.find(x => x.startDateTime.getDate() === dayOfWorkWeek?.date && x.startDateTime.getMonth() === dayOfWorkWeek.month);
+        if(currentWorkTime?.endDateTime === null) {
+            return `${currentWorkTime.startDateTime} - ??`;
+        }
+        return `${currentWorkTime?.startDateTime.getHours()}.${this.#refactorDate(currentWorkTime!.startDateTime.getMinutes())} - ${currentWorkTime?.endDateTime?.getHours()}.${this.#refactorDate(currentWorkTime!.endDateTime?.getMinutes())}`;
     }
 
     getWorkTime(day: string, hour: number) {
-        console.log(day, hour);
-        console.log(this.#selectedWeek, this.#selectedMonth);
         const dayOfWeek = this.#daysInMonth.find(x => x.weekNumber === this.#selectedWeek && x.month === this.#selectedMonth && x.name === day);
         return this.#workTimes.find(x =>
             x.startDateTime.getDate() === dayOfWeek?.date &&
             x.startDateTime.getMonth() === dayOfWeek.month &&
             x.startDateTime.getHours() <= hour &&
             x.endDateTime!.getHours() >= hour);
+    }
+
+    getWorkTimeMonth(day: string, weekNumber: number)  {
+        const dayOfWeek = this.#daysInMonth.find(x => x.weekNumber === weekNumber && x.month === this.#selectedMonth && x.name === day);
+        return this.#workTimes.find(x =>
+            x.startDateTime.getDate() === dayOfWeek?.date &&
+            x.startDateTime.getMonth() === dayOfWeek.month);
     }
 
     isHourCheckedDay(hour: number, isFirstHalfHour: boolean): boolean {
@@ -264,7 +263,7 @@ export class CalendarDateService {
 
     hasCheckedIn(): boolean {
         const workTimes = this.getWorkTimesOnDate(this.#currentSelectedDay!.date, this.#currentSelectedDay!.month);
-        if (workTimes === undefined || workTimes.length === 0) return false; // Can check in
+        if (workTimes === undefined || workTimes.length === 0) return false;
 
         return workTimes.at(-1)!.endDateTime === null;
     }

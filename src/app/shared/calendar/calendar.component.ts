@@ -15,7 +15,7 @@ import { generateWorkHours } from "../../views/main/components/frontpage/calenda
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { WorkTimeService } from "../../core/features/workTimes/services/work-time.service";
 import { IWorkTime } from "../../core/features/workTimes/models/work-time.models";
-import { catchError, of, switchMap, tap } from "rxjs";
+import { catchError, map, of, switchMap, tap } from "rxjs";
 
 @Component({
   selector: 'ps-calendar',
@@ -53,6 +53,7 @@ export class CalendarComponent implements OnInit {
     workTimes: IWorkTime[] = [];
 
     hideSidePanel: boolean = false;
+    hideHeader: boolean = false;
     isLoading: boolean = false;
 
     ngOnInit(): void {
@@ -73,10 +74,11 @@ export class CalendarComponent implements OnInit {
 
         this.#calendarFacadeService.setCurrentDate();
         this.isLoading = false;
+        this.#calendarFacadeService.refreshTable();
     }
 
     onCheckButtonClick(): void {
-        if(this.#calendarDateService.hasCheckedIn()) {
+        if(!this.#calendarDateService.hasCheckedIn()) {
             this.#checkIn();
         } else {
             this.#checkOut();
@@ -84,26 +86,30 @@ export class CalendarComponent implements OnInit {
     }
 
     #checkIn(): void {
-        this.#workTimeService.checkIn().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe({
-            error: (error) => {
-                console.error("Failed to check in: ", error);
-            },
-            complete: () => {
-                console.log("Checked in successfully");
-                this.#calendarFacadeService.refreshTable()
-            }
-        })
+        this.#workTimeService.checkIn()
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe({
+                error: (error) => {
+                    console.error("Failed to check in: ", error);
+                },
+                complete: () => {
+                    console.log("Checked in successfully");
+                    this.#calendarFacadeService.refreshTable()
+                }
+            })
     }
 
     #checkOut(): void {
-        this.#workTimeService.checkOut().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe({
-            error: (error) => {
+        this.#workTimeService.checkOut()
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe({
+                error: (error) => {
                 console.error("Failed to check in: ", error);
-            },
-            complete: () => {
-                console.log("Checked in successfully");
-                this.#calendarFacadeService.refreshTable()
-            }
+                },
+                complete: () => {
+                    console.log("Checked in successfully");
+                    this.#calendarFacadeService.refreshTable()
+                }
         })
     }
 
@@ -141,29 +147,34 @@ export class CalendarComponent implements OnInit {
             .pipe(
                 takeUntilDestroyed(this.#destroyRef),
                 tap(() => {
-                    this.isLoading = true;
                 }),
                 switchMap(month =>
-                    this.#workTimeService.getWorkTimesInMonth({year: this.selectedDate.getFullYear(), month: month + 1}).pipe(
+                    this.#workTimeService.getWorkTimesInMonth({
+                        year: this.selectedDate.getFullYear(),
+                        month: month + 1
+                    }).pipe(
                         catchError(error => {
                             console.error('Error fetching work times:', error);
-                            this.isLoading = false;
                             return of([]);
-                        })
+                        }),
+                        map(workTimes => ({
+                            workTimes, month
+                        }))
                     )
                 )
             )
-            .subscribe(workTimes => {
-                this.workTimes = workTimes.map(workTime => {
-                    return {
-                        ...workTime,
-                        startDateTime: new Date(workTime.startDateTime),
-                        endDateTime: workTime.endDateTime ? new Date(workTime.endDateTime) : null,
-                    }
-                });
+            .subscribe(({ workTimes, month }) => {
+                this.workTimes = workTimes.map(workTime => ({
+                    ...workTime,
+                    startDateTime: new Date(workTime.startDateTime),
+                    endDateTime: workTime.endDateTime ? new Date(workTime.endDateTime) : null,
+                }));
+
+                this.selectedMonth = month;
                 this.#calendarDateService.setWorkTimes(this.workTimes);
                 this.isLoading = false;
             });
+
 
         this.#calendarFacadeService.daysInMonth$
             .pipe(takeUntilDestroyed(this.#destroyRef))
@@ -175,10 +186,11 @@ export class CalendarComponent implements OnInit {
 
     #subscribeToBreakpointChanges(): void {
         this.#breakpointObserver
-            .observe(['(max-width: 850px)'])
+            .observe(['(max-width: 1000px)'])
             .pipe(takeUntilDestroyed(this.#destroyRef))
             .subscribe((state: BreakpointState) => {
                 this.hideSidePanel = state.matches;
+                this.hideHeader = state.matches;
             });
     }
 }

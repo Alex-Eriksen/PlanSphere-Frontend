@@ -3,7 +3,7 @@ import {
     ElementRef,
     inject,
     input,
-    OnChanges, OnInit, SimpleChanges,
+    OnChanges, OnInit, output, SimpleChanges,
     ViewChild
 } from "@angular/core";
 import { CalendarOptions } from "../enums/calendar-options.enum";
@@ -23,6 +23,9 @@ import { MatDialog } from "@angular/material/dialog";
 import { WorkTimePopupComponent } from "../work-time-popup/work-time-popup.component";
 import { IWorkTimePopupInputs } from "../work-time-popup/work-time-popup-inputs.interface";
 import { CalendarTableColumnComponent } from "../calendar-table-column/calendar-table-column.component";
+import { AuthenticationService } from "../../core/features/authentication/services/authentication.service";
+import { ISourceLevelRights } from "../../core/features/authentication/models/source-level-rights.model";
+import { LoadingOverlayComponent } from "../loading-overlay/loading-overlay.component";
 
 @Component({
   selector: 'ps-calender-table',
@@ -33,7 +36,8 @@ import { CalendarTableColumnComponent } from "../calendar-table-column/calendar-
         ButtonComponent,
         TranslateModule,
         NgIf,
-        CalendarTableColumnComponent
+        CalendarTableColumnComponent,
+        LoadingOverlayComponent
     ],
   templateUrl: './calender-table.component.html',
   styleUrl: './calender-table.component.scss'
@@ -42,6 +46,7 @@ export class CalenderTableComponent implements OnInit, OnChanges {
     @ViewChild('workHoursTable') workHoursTable!: ElementRef;
     #calendarDateService = inject(CalendarDateService);
     #calendarFacadeService = inject(CalendarFacadeService);
+    #authenticationService = inject(AuthenticationService);
     #destroyRef = inject(DestroyRef)
     #matDialog = inject(MatDialog)
 
@@ -55,12 +60,22 @@ export class CalenderTableComponent implements OnInit, OnChanges {
     daysInMonth = input.required<DayInfo[]>();
     currentSelectedDay = input.required<DayInfo>();
     workTimes = input.required<IWorkTime[]>();
+    hideHeader = input.required<boolean>();
+
+    onCheckButtonClick = output<void>();
 
     weeksInMonth: number[] = []
     hours: number[] = Array.from({ length: 24 }, (_, i) => i);
+    rights!: ISourceLevelRights;
+    isLoading = false;
 
     ngOnInit() {
+        this.isLoading = true;
         this.weeksInMonth = Array(this.daysInMonth().length / 7).fill(0);
+
+        this.#authenticationService.getRights()
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe(rights => this.rights = rights);
 
         this.#calendarFacadeService.selectedMonth$
             .pipe(takeUntilDestroyed(this.#destroyRef))
@@ -78,6 +93,7 @@ export class CalenderTableComponent implements OnInit, OnChanges {
                 if(value === CalendarOptions.Month) return;
                 this.#scrollToFirstWorkHour();
             });
+        this.isLoading = false;
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -91,22 +107,34 @@ export class CalenderTableComponent implements OnInit, OnChanges {
         }
     }
 
-    openWorkTimePopup (workTime: IWorkTime | undefined) {
-        let workTimes: IWorkTime[] = [];
+    openWorkTimePopup (workTime: IWorkTime | undefined, dayOfWeek: DayOfWeek, hour: number, firstHalfHour: boolean) {
+        if(!this.rights.hasManuallySetOwnWorkTimeRights) return;
+
+        if(this.hideHeader()) return;
+
+        let workTimes: IWorkTime[];
+        const startDate = new Date();
+
         if(workTime !== undefined) {
             workTimes = this.#calendarDateService.getWorkTimesOnDate(workTime.startDateTime.getDate(), workTime.startDateTime.getMonth());
+        } else {
+            const day = this.daysInMonth().find(x => x.name === dayOfWeek && x.weekNumber === this.selectedWeek() && x.month === this.selectedMonth())!;
+            workTimes = this.#calendarDateService.getWorkTimesOnDate(day.date, day.month);
+            startDate.setMonth(day.month, day.date);
+            startDate.setHours(hour, firstHalfHour? 0 : 30, 0, 0);
         }
 
         this.#matDialog.open<WorkTimePopupComponent, IWorkTimePopupInputs>(WorkTimePopupComponent, {
             data: {
                 currentWorkTime: workTime,
                 isEditPopup: !!workTime,
-                workTimes: workTimes
+                workTimes: workTimes,
+                startDate: startDate
             }
         }).afterClosed()
             .pipe(takeUntilDestroyed(this.#destroyRef))
-            .subscribe(result => {
-                if (result) {
+            .subscribe((result?: boolean) => {
+                if (result !== null && result === true) {
                     this.#calendarFacadeService.refreshTable();
                 }
             })
@@ -193,6 +221,8 @@ export class CalenderTableComponent implements OnInit, OnChanges {
     protected castStringToDayOfWeek(day: string): DayOfWeek {
         return day as DayOfWeek;
     }
+
+    hasCheckedIn = (): boolean => this.#calendarDateService.hasCheckedIn();
 
     protected readonly DayOfWeek = DayOfWeek;
     protected readonly Object = Object;

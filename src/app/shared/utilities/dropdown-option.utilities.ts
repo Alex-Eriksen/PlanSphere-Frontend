@@ -44,7 +44,7 @@ export const generateHourAndMinuteDropdownOptions = (): IDropdownOption[] => {
     return options;
 }
 
-export const generateHalfHourDropdownOptions = (): IDropdownOption[] => {
+export const generateHalfHourDropdownOptions = (selectedDate: Date): IDropdownOption[] => {
     const options: IDropdownOption[] = [];
     const totalHalfHoursInDay = 24 * 2;
 
@@ -54,7 +54,7 @@ export const generateHalfHourDropdownOptions = (): IDropdownOption[] => {
 
         const label = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 
-        const dateValue = new Date();
+        const dateValue = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
         dateValue.setHours(hours, minutes, 0, 0);
 
         options.push({

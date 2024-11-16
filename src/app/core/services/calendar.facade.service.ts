@@ -56,7 +56,6 @@ export class CalendarFacadeService {
 
     refreshTable(): void {
         this.selectedMonthSubject.next(this.selectedMonthSubject.getValue());
-        console.log("Refreshing");
     }
 
     selectDate(selectedDay: DayInfo): void {
@@ -228,7 +227,7 @@ export class CalendarFacadeService {
         const index = currentDays.indexOf(currentSelectedDay) - 1;
         let previousDay = currentDays[index];
 
-        if(!previousDay) { // if undefined, generate new month and assign last day of month
+        if(!previousDay) {
             this.changeMonth(false);
             const lastIndex = this.daysInMonthSubject.getValue().length - 1;
             previousDay = this.daysInMonthSubject.getValue()[lastIndex];
@@ -262,9 +261,9 @@ export class CalendarFacadeService {
 0    }
 
     #selectDateOnDay(selectedDay: DayInfo) {
-        this.currentSelectedDaySubject.next(selectedDay);
         const newDate = this.selectedDateSubject.getValue();
         newDate.setDate(selectedDay.date)
+        this.currentSelectedDaySubject.next(selectedDay);
         this.selectedWeekSubject.next(selectedDay.weekNumber);
         this.selectedDateSubject.next(newDate);
     }

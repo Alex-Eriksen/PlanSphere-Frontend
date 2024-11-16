@@ -9,27 +9,24 @@
         </button>
     </div>
 
-    <div class="overflow-hidden relative h-[12.5rem]">
-        <div class="grid grid-cols-7 h-full absolute top-0 left-0 text-center text-sm text-gray-600">
-            <!-- Weekday Headers -->
-            <div class="font-semibold">M</div>
-            <div class="font-semibold">T</div>
-            <div class="font-semibold">W</div>
-            <div class="font-semibold">T</div>
-            <div class="font-semibold">F</div>
-            <div class="font-semibold">S</div>
-            <div class="font-semibold">S</div>
-
-            @for(day of daysInMonth(); track day ) {
-                <ps-calendar-side-panel-item
-                    [calendarOption]="calendarOption()"
-                    [day]="day"
-                    [selectedWeek]="selectedWeek()"
-                    [currentSelectedDay]="currentSelectedDay()"
-                    [hoveredWeek]="hoveredWeek">
-                </ps-calendar-side-panel-item>
-            }
-        </div>
+    <div class="grid grid-cols-7 text-center text-sm text-gray-600">
+        <!-- Weekday Headers -->
+        <div class="font-semibold">M</div>
+        <div class="font-semibold">T</div>
+        <div class="font-semibold">W</div>
+        <div class="font-semibold">T</div>
+        <div class="font-semibold">F</div>
+        <div class="font-semibold">S</div>
+        <div class="font-semibold">S</div>
+        @for(day of daysInMonth(); track day ) {
+            <ps-calendar-side-panel-item
+                [calendarOption]="calendarOption()"
+                [day]="day"
+                [selectedWeek]="selectedWeek()"
+                [currentSelectedDay]="currentSelectedDay()"
+                [hoveredWeek]="hoveredWeek">
+            </ps-calendar-side-panel-item>
+        }
     </div>
 
     <hr class=" my-2 bg-gray-400">
@@ -38,7 +35,7 @@
 
         <ps-button
             (click)="onCheckButtonClick.emit()"
-            [label]="hasCheckedIn() ? 'CALENDER.CHECK_OUT' : 'CALENDAR.CHECK_IN'"
+            [label]="hasCheckedIn() ? 'CALENDAR.CHECK_OUT' : 'CALENDAR.CHECK_IN'"
             buttonStyleType="button--quaternary"
             buttonType="button"/>
     </div>
