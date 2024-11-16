@@ -25,7 +25,7 @@ const mapUsersToSmallListInput = (users: IUser[]): ISmallListTableInput[] => {
 export const userFormGroupBuilder = (fb: NonNullableFormBuilder, user?: IUser) => {
     return fb.group({
         id: fb.control({ value: user?.id ?? 0, disabled: false }),
-        firstName: fb.control<string | null>( user?.firstName ?? null, [Validators.required, Validators.maxLength(50), Validators.minLength(2), ]),
+        firstName: fb.control<string | null>( user?.firstName ?? null, [Validators.required, Validators.maxLength(50), Validators.minLength(2)]),
         lastName: fb.control<string | null>(user?.lastName ?? null, [Validators.required, Validators.maxLength(50), Validators.minLength(2)]),
         email: fb.control<string | null>(user?.email ?? null, [Validators.required, Validators.email]),
         phoneNumber: fb.control<string | null>(user?.phoneNumber ?? null, [Validators.required ,Validators.pattern("^[0-9]*$"), Validators.maxLength(8), Validators.minLength(8)]),
