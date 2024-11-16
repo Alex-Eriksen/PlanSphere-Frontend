@@ -7,6 +7,5 @@ export interface IUserPayload extends IBase {
     email: string;
     address: IAddress;
     phoneNumber: string;
-    profilePictureUrl: string;
     roleIds: number[];
 }

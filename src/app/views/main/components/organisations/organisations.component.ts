@@ -7,9 +7,7 @@ import { IOrganisationDetails } from "../../../../core/features/organisations/mo
 import { NonNullableFormBuilder } from "@angular/forms";
 import { LoadingOverlayComponent } from "../../../../shared/loading-overlay/loading-overlay.component";
 import { OrganisationService } from "../../../../core/features/organisations/services/organisation.service";
-import {
-    organisationFormGroupBuilder
-} from "../../../../core/features/organisations/utilities/organisationFormGroupBuilder.utilities";
+import { organisationFormGroupBuilder } from "../../../../core/features/organisations/utilities/organisation.utilities";
 
 @Component({
   selector: 'ps-organisations',
@@ -28,12 +26,11 @@ export class OrganisationsComponent implements OnInit{
     readonly #toastService = inject(ToastService);
     readonly #organisationService = inject(OrganisationService);
     readonly #fb = inject(NonNullableFormBuilder);
-    formGroup!: any;
+    formGroup = organisationFormGroupBuilder(this.#fb);
     isPageLoading: boolean = false;
 
     ngOnInit() {
         this.isPageLoading = true;
-        this.formGroup = organisationFormGroupBuilder(this.#fb);
         this.fetchOrganisationIdFromUser();
     }
 

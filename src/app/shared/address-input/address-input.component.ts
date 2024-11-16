@@ -8,6 +8,7 @@ import { SelectFieldComponent } from "../select-field/select-field.component";
 import { IDropdownOption } from "../interfaces/dropdown-option.interface";
 import { CountryService } from "../../core/features/address/services/country.service";
 import { ZipCodeService } from "../../core/features/address/services/zipCode.service";
+import { generateNumberRangeDropdownOptions } from "../utilities/dropdown-option.utilities";
 
 @Component({
   selector: 'ps-address-input',
@@ -27,24 +28,21 @@ export class AddressInputComponent implements OnInit {
     readonly #countryService = inject(CountryService);
     readonly #zipCodeService = inject(ZipCodeService);
     addressFormGroup = input.required<FormGroup>();
+    floorNumber: number = 10;
     countries: IDropdownOption[] = []
     zipCodes: IDropdownOption[] = []
-    floors: IDropdownOption[] = [
-        { value: "1", label: "1" },
-        { value: "2", label: "2" },
-        { value: "3", label: "3" },
-        { value: "4", label: "4" },
-        { value: "5", label: "5" },
-        { value: "6", label: "6" },
-        { value: "7", label: "7" },
-        { value: "8", label: "8" },
-        { value: "9", label: "9" },
-        { value: "10", label: "10" },
-    ];
+    floors: IDropdownOption[] = generateNumberRangeDropdownOptions(this.floorNumber);
 
     ngOnInit() {
         this.#loadCountries();
         this.#loadZipCodes();
+
+        const floorControl = this.addressFormGroup().get("floor");
+        if (floorControl) {
+            floorControl.valueChanges.subscribe((floorValue: number) => {
+                this.updateFloorsDropdown(floorValue);
+            });
+        }
     }
 
     #loadCountries(): void {
@@ -59,5 +57,10 @@ export class AddressInputComponent implements OnInit {
             next: (data) => this.zipCodes = data,
             error: (error) => console.error("Failed to fetch zip codes: ", error)
         });
+    }
+
+    private updateFloorsDropdown(floorNumber?: number): void {
+        const maxFloors = floorNumber || 10;
+        this.floors = generateNumberRangeDropdownOptions(maxFloors);
     }
 }

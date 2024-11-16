@@ -26,7 +26,7 @@ export const APIS = {
         listUsers: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `User/ListUsers/${sourceLevel}/${sourceLevelId}`,
         updateUser: (sourceLevel: SourceLevel, sourceLevelId: number, userId: number) => environment.apiUrl + `User/UpdateUser/${sourceLevel}/${sourceLevelId}/${userId}`,
         deleteUser: (sourceLevel: SourceLevel, sourceLevelId: number, userId: number) => environment.apiUrl + `User/DeleteUser/${sourceLevel}/${sourceLevelId}/${userId}`,
-        lookUpUsers: environment.apiUrl + "User/LookUpUsers"
+        lookUpUsers: (organisationId?: number) => environment.apiUrl + `User/LookUpUsers/${organisationId}`,
     },
     roles: {
         createRole: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Role/CreateRole/${sourceLevel}/${sourceLevelId}`,

@@ -9,6 +9,7 @@ export interface IUser extends IBase {
     address: IAddress;
     phoneNumber: string;
     birthday: Date;
+    roleIds: number[];
     settings: IUserSettings;
     createdAt: string;
     createdBy: string;

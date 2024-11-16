@@ -34,7 +34,7 @@ export const userHeaders: ITableHeader[] = [
         key: "createdAt",
         label: "USER.LIST.CREATED_AT",
         isSortable: true,
-        type: TableHeaderType.Text,
+        type: TableHeaderType.Date,
         maxTextLength: 70,
     },
     {

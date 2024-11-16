@@ -5,7 +5,7 @@ import { IUser } from "../models/user.model";
 import { APIS } from "../../../api/plansphere.api";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { IPaginatedResponse } from "../../../../shared/interfaces/paginated-response.interface";
-import { IUserPayload } from "../utilities/user-payload";
+import { IUserPayload } from "../models/user-payload";
 import { SourceLevel } from "../../../enums/source-level.enum";
 import { IUserLookUp } from "../models/user-look-up.model";
 
@@ -43,8 +43,8 @@ export class UserRepository {
         }
     }
 
-    lookUpUsers(organiationId?: number): Observable<IUserLookUp[]> {
-        return this.#http.get<IUserLookUp[]>(APIS.users.lookUpUsers);
+    lookUpUsers(organisationId?: number): Observable<IUserLookUp[]> {
+        return this.#http.get<IUserLookUp[]>(APIS.users.lookUpUsers(organisationId));
     }
 
     updateUser(sourceLevel: SourceLevel, sourceLevelId: number, userId: number, bodyRequest: IUserPayload): Observable<void> {

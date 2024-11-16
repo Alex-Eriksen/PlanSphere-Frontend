@@ -16,8 +16,8 @@ import { ListOrganisationsComponent } from "../../../../../../shared/list-organi
 import { OrganisationPopupComponent } from "../../../../../../shared/list-organisations/organisation-popup/organisation-popup.component";
 import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
 import { ISourceLevelRights } from "../../../../../../core/features/authentication/models/source-level-rights.model";
-import { organisationFormGroupBuilder } from "../../../../../../core/features/organisations/utilities/organisationFormGroupBuilder.utilities";
 import { OrganisationService } from "../../../../../../core/features/organisations/services/organisation.service";
+import { organisationFormGroupBuilder } from "../../../../../../core/features/organisations/utilities/organisation.utilities";
 
 @Component({
     selector: "ps-details",
@@ -43,14 +43,13 @@ export class DetailsComponent implements OnInit, IRightsListener {
     readonly #authenticationService = inject(AuthenticationService);
     readonly #organisationService = inject(OrganisationService);
     readonly #fb = inject(NonNullableFormBuilder);
-    formGroup!: any;
+    formGroup = organisationFormGroupBuilder(this.#fb);
     readonly #toastService = inject(ToastService);
     isPageLoading: boolean = false;
     rightsData!: ISourceLevelRights;
 
     ngOnInit(): void {
         this.isPageLoading = true;
-        this.formGroup = organisationFormGroupBuilder(this.#fb);
         this.fetchOrganisationIdFromUser();
         if (!this.rightsData.hasEditRights && !this.rightsData.hasAdministratorRights) {
             this.formGroup.disable();

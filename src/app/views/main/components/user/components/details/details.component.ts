@@ -7,7 +7,6 @@ import { InputComponent } from "../../../../../../shared/input/input.component";
 import { LineComponent } from "../../../../../../shared/line/line.component";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
 import { NonNullableFormBuilder, ReactiveFormsModule } from "@angular/forms";
-import { userFormGroupBuilder } from "../../../../../../core/features/users/utilities/userFormGroupBuilder.utilities";
 import { AuthenticationService } from "../../../../../../core/features/authentication/services/authentication.service";
 import { UserService } from "../../../../../../core/features/users/services/user.service";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
@@ -17,6 +16,7 @@ import { SelectFieldComponent } from "../../../../../../shared/select-field/sele
 import { TranslateModule } from "@ngx-translate/core";
 import { RoleService } from "../../../../../../core/features/roles/services/role.service";
 import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-option.interface";
+import { userFormGroupBuilder } from "../../../../../../core/features/users/utilities/user.utilities";
 
 @Component({
     selector: "ps-details",

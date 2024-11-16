@@ -8,7 +8,7 @@ import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-p
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
 import {
     mapOrganisationToSignalSmallListInputOperator
-} from "../utilities/mapOrganisationToSignalSmallListInputOperator";
+} from "../utilities/organisation.utilities";
 import { IOrganisationPayload } from "../models/organisation-payload";
 
 @Injectable({

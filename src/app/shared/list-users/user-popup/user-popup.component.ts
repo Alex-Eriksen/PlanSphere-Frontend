@@ -11,9 +11,8 @@ import { InputComponent } from "../../input/input.component";
 import { LoadingOverlayComponent } from "../../loading-overlay/loading-overlay.component";
 import { SmallHeaderComponent } from "../../small-header/small-header.component";
 import { TranslateModule } from "@ngx-translate/core";
-import { IUserPayload } from "../../../core/features/users/utilities/user-payload";
+import { IUserPayload } from "../../../core/features/users/models/user-payload";
 import { UserService } from "../../../core/features/users/services/user.service";
-import { userFormGroupBuilder } from "../../../core/features/users/utilities/userFormGroupBuilder.utilities";
 import { NgIf } from "@angular/common";
 import { SettingsComponent } from "../../../views/main/components/user/components/settings/settings.component";
 import { WorkScheduleComponent } from "../../work-schedule/work-schedule.component";
@@ -23,6 +22,7 @@ import { RoleService } from "../../../core/features/roles/services/role.service"
 import { IDropdownOption } from "../../interfaces/dropdown-option.interface";
 import { LineComponent } from "../../line/line.component";
 import { SourceLevel } from "../../../core/enums/source-level.enum";
+import { userFormGroupBuilder } from "../../../core/features/users/utilities/user.utilities";
 
 @Component({
   selector: 'ps-user-popup',
@@ -50,7 +50,7 @@ export class UserPopupComponent implements OnInit, OnDestroy {
     readonly #roleService = inject(RoleService);
     readonly #matDialog = inject(MatDialog);
     readonly #fb = inject(NonNullableFormBuilder);
-    formGroup!: any;
+    formGroup = userFormGroupBuilder(this.#fb);
     readonly componentInputs: IUserPopupInputs = inject(MAT_DIALOG_DATA);
     userId = input.required<number>();
     sourceLevelId = input.required<number>();
@@ -64,7 +64,6 @@ export class UserPopupComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.isPageLoading = true;
         this.#loadRoles();
-        this.formGroup = userFormGroupBuilder(this.#fb);
         if (this.componentInputs.isEditPopup) {
             this.#initializeEditPopup();
         } else {
@@ -86,6 +85,7 @@ export class UserPopupComponent implements OnInit, OnDestroy {
     submitForm(): void {
         if (this.formGroup.invalid) {
             markAllControlsAsTouchedAndDirty(this.formGroup);
+            this.formGroup.disabled;
             return;
         }
         this.isFormSubmitting = true;

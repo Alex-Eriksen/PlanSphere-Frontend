@@ -6,8 +6,8 @@ import { IUserLookUp } from "../models/user-look-up.model";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-paginated-response.interface";
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
-import { mapUserToSignalSmallListInputOperator } from "../utilities/mapUserToSignalSmallListInputOperator";
-import { IUserPayload } from "../utilities/user-payload";
+import { mapUserToSignalSmallListInputOperator } from "../utilities/user.utilities";
+import { IUserPayload } from "../models/user-payload";
 import { SourceLevel } from "../../../enums/source-level.enum";
 
 @Injectable({

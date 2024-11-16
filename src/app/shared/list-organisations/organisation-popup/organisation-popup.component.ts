@@ -15,9 +15,7 @@ import { SmallHeaderComponent } from "../../small-header/small-header.component"
 import { TranslateModule } from "@ngx-translate/core";
 import { AddressInputComponent } from "../../address-input/address-input.component";
 import { OrganisationService } from "../../../core/features/organisations/services/organisation.service";
-import {
-    organisationFormGroupBuilder
-} from "../../../core/features/organisations/utilities/organisationFormGroupBuilder.utilities";
+import { organisationFormGroupBuilder } from "../../../core/features/organisations/utilities/organisation.utilities";
 
 @Component({
   selector: 'ps-organisation-popup',
@@ -39,7 +37,7 @@ export class OrganisationPopupComponent implements OnInit, OnDestroy {
     readonly #organisationService = inject(OrganisationService);
     readonly #matDialog = inject(MatDialog);
     readonly #fb = inject(NonNullableFormBuilder);
-    formGroup!: any;
+    formGroup = organisationFormGroupBuilder(this.#fb);
     readonly componentInputs: IOrganisationPopupInputs = inject(MAT_DIALOG_DATA);
     isPageLoading: boolean = false;
     isFormSubmitting: boolean = false;
@@ -48,7 +46,6 @@ export class OrganisationPopupComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.isPageLoading = true;
-        this.formGroup = organisationFormGroupBuilder(this.#fb);
         if (this.componentInputs.isEditPopup) {
             this.#initializeEditPopup();
         } else {
