@@ -137,4 +137,6 @@ export class ListJobTitlesComponent extends BasePaginatedTableWithSearchComponen
     updateJobTitleInheritance(row: {row: any}) {
         this.#jobTitleService.toggleInheritance(row.row.id, this.sourceLevel(), this.sourceLevelId()).subscribe();
     }
+
+    protected readonly SourceLevel = SourceLevel;
 }

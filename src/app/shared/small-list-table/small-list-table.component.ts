@@ -84,12 +84,12 @@ export class SmallListTableComponent extends BaseTableComponent implements OnIni
     isScheduleDisabled = input(false, { transform: booleanAttribute });
     hasAllCheckbox = input(true, { transform: booleanAttribute });
     extraRows = input(0, { transform: numberAttribute });
+    disableToggle = input(false, {transform: booleanAttribute})
     extraRowsLabel = input("");
     confirmationCheckboxPropertyName = input("");
     schedule = output<ISmallListTableInput>();
     confirmToggle = output<ISmallListTableInput>();
     confirmDelete = output<ISmallListTableInput>();
-
     @Input() isPopupIconAvailable?: (item: ISmallListTableInput) => boolean;
     @Input() isMouseoverIconVisibleFn?: (item: ISmallListTableInput) => boolean;
     @Input() showOrHideLoaderOnClickedRow: WritableSignal<null | number> = signal(null);
@@ -130,6 +130,7 @@ export class SmallListTableComponent extends BaseTableComponent implements OnIni
 
     toggleRow(event: MatSlideToggleChange, row: any) {
         row.active = event.checked;
+        if(this.disableToggle()) return;
         this.toggleItem.emit({ checked: event.checked, row });
     }
 
