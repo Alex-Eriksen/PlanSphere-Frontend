@@ -1,21 +1,9 @@
 import { DayInfo } from "../../../../shared/interfaces/day-info.interface";
 import { DayOfWeek } from "../../../../shared/enums/day-of-week.enum";
 import { DayInfoMonth } from "../../../../shared/enums/day-info-month.enum";
-import { IWorkSchedule } from "../../../../core/features/workSchedules/models/work-schedule.model";
 import { IWorkHour } from "../../../../shared/interfaces/work-hour.interface";
 import { CalendarMonths } from "../../../../shared/enums/calender-months.enum";
-import { animate, style, transition, trigger } from "@angular/animations";
 
-export const slideInOut = trigger('slideInOut', [
-    transition('void => left', [
-        style({ transform: 'translateX(-15%)' }),
-        animate('300ms ease-in', style({ transform: 'translateX(0%)' })),
-    ]),
-    transition('void => right', [
-        style({ transform: 'translateX(15%)' }),
-        animate('300ms ease-in', style({ transform: 'translateX(0%)' })),
-    ]),
-]);
 
 export const generateDaysForMonth = (month: number, year: number): DayInfo[] => {
     const daysInMonth: DayInfo[] = [];

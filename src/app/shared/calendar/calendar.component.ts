@@ -123,5 +123,7 @@ export class CalendarComponent implements OnInit {
             .subscribe((state: BreakpointState) => {
                 this.hideSidePanel = state.matches;
             });
+
+        this.#initializeCalendarService();
     }
 }

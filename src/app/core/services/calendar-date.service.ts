@@ -165,7 +165,6 @@ export class CalendarDateService {
         return `0${date}`;
     }
 
-
     #getWeekDayInDaysInMonths(dayName: string, weekNumber: number): DayInfo {
         return this.#daysInMonth.value.find(x => x.name === dayName && x.weekNumber === weekNumber)!;
     }

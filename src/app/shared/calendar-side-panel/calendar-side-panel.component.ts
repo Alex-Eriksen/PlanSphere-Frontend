@@ -9,7 +9,6 @@ import { LoadingOverlayComponent } from "../loading-overlay/loading-overlay.comp
 import { CalendarSidePanelItemComponent } from "../calendar-side-panel-item/calendar-side-panel-item.component";
 import { TranslateModule } from "@ngx-translate/core";
 import { CalendarFacadeService } from "../../core/services/calendar.facade.service";
-import { slideInOut } from "../../views/main/components/frontpage/calendar.utilities";
 
 @Component({
   selector: 'ps-calendar-side-panel',
@@ -24,8 +23,7 @@ import { slideInOut } from "../../views/main/components/frontpage/calendar.utili
         TranslateModule
     ],
   templateUrl: './calendar-side-panel.component.html',
-  styleUrl: './calendar-side-panel.component.scss',
-  animations: [slideInOut]
+  styleUrl: './calendar-side-panel.component.scss'
 })
 export class CalendarSidePanelComponent {
     #calendarFacadeService = inject(CalendarFacadeService);
