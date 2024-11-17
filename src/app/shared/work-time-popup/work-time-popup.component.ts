@@ -99,11 +99,9 @@ export class WorkTimePopupComponent {
     #prepareRequest(): IWorkTimeRequest {
         const newStartDate = new Date(this.formGroup.controls['startDateTime'].value);
         const newEndDate = new Date(this.formGroup.controls['endDateTime'].value);
-        newStartDate.setHours(newStartDate.getHours() + 1);
-        newEndDate.setHours(newEndDate.getHours() + 1);
         return {
-            startDateTime: newStartDate,
-            endDateTime: newEndDate,
+            startDateTime: newStartDate.toISOString(),
+            endDateTime: newEndDate.toISOString(),
             workTimeType: this.formGroup.value.workTimeType,
             location: this.formGroup.value.location,
         };

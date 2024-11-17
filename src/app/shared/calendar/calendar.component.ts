@@ -166,12 +166,7 @@ export class CalendarComponent implements OnInit {
                 )
             )
             .subscribe(({ workTimes, month }) => {
-                this.workTimes = workTimes.map(workTime => ({
-                    ...workTime,
-                    startDateTime: new Date(workTime.startDateTime),
-                    endDateTime: workTime.endDateTime ? new Date(workTime.endDateTime) : null,
-                }));
-
+                this.workTimes = workTimes;
                 this.selectedMonth = month;
                 this.#calendarDateService.setSelectedMonth(month);
                 this.#calendarDateService.setWorkTimes(this.workTimes);
