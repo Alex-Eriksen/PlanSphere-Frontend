@@ -1,13 +1,17 @@
 import { inject, Injectable } from "@angular/core";
 import { JobTitleRepository } from "../repositories/job-title.repository";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { IJobTitle } from "../models/job-title.model";
 import { IJobTitlePayload } from "../models/job-title-payload";
 import { SourceLevel } from "../../../enums/source-level.enum";
 import { IPaginationSortPayload } from "../../../../shared/interfaces/pagination-sort-payload.interface";
 import { ISignalPaginatedResponse } from "../../../../shared/interfaces/signal-paginated-response.interface";
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
-import { mapJobTitlesToSignalSmallListInputOperator } from "../utilities/job-title.utilities";
+import {
+    mapJobTitlesToSignalSmallListInputOperator,
+    mapJobTitleToDropdownOptions
+} from "../utilities/job-title.utilities";
+import { IDropdownOption } from "../../../../shared/interfaces/dropdown-option.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -41,5 +45,13 @@ export class JobTitleService {
 
     toggleInheritance(id: number, sourceLevel: SourceLevel, sourceLevelId: number): Observable<void> {
         return this.#jobTitleRepository.toggleInheritance(id, sourceLevel, sourceLevelId);
+    }
+
+    jobTitleLookUp(): Observable<IDropdownOption[]> {
+        return this.#jobTitleRepository.jobTitleLookUp().pipe(
+            map((option) => {
+                return mapJobTitleToDropdownOptions(option);
+            })
+        )
     }
 }

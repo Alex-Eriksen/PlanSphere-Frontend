@@ -23,6 +23,7 @@ import { IDropdownOption } from "../../interfaces/dropdown-option.interface";
 import { LineComponent } from "../../line/line.component";
 import { SourceLevel } from "../../../core/enums/source-level.enum";
 import { userFormGroupBuilder } from "../../../core/features/users/utilities/user.utilities";
+import { JobTitleService } from "../../../core/features/jobTitle/services/job-title.service";
 
 @Component({
   selector: 'ps-user-popup',
@@ -48,6 +49,7 @@ import { userFormGroupBuilder } from "../../../core/features/users/utilities/use
 export class UserPopupComponent implements OnInit, OnDestroy {
     readonly #userService = inject(UserService);
     readonly #roleService = inject(RoleService);
+    readonly #jobTitleService = inject(JobTitleService);
     readonly #matDialog = inject(MatDialog);
     readonly #fb = inject(NonNullableFormBuilder);
     formGroup = userFormGroupBuilder(this.#fb);
@@ -58,12 +60,14 @@ export class UserPopupComponent implements OnInit, OnDestroy {
     isPageLoading: boolean = false;
     isFormSubmitting: boolean = false;
     roles: IDropdownOption[] = [];
+    jobTitles: IDropdownOption[] = [];
 
     #loadUserSubscription: Subscription = new Subscription();
 
     ngOnInit(): void {
         this.isPageLoading = true;
         this.#loadRoles();
+        this.#loadJobTitles();
         if (this.componentInputs.isEditPopup) {
             this.#initializeEditPopup();
         } else {
@@ -75,6 +79,13 @@ export class UserPopupComponent implements OnInit, OnDestroy {
         this.#roleService.lookUpRoles().subscribe({
             next: (roles) => this.roles = roles,
             error: (error) => console.error("Failed to fetch roles: ", error)
+        });
+    }
+
+    #loadJobTitles(): void {
+        this.#jobTitleService.jobTitleLookUp().subscribe({
+            next: (jobTitles) => this.jobTitles = jobTitles,
+            error: (error) => console.error("Failed to fetch jobTitles: ", error)
         });
     }
 
