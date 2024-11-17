@@ -199,6 +199,10 @@ export class CalendarFacadeService {
         const index = currentDays.indexOf(currentSelectedDay) + 1;
         let nextDay = currentDays[index];
 
+        if(nextDay.weekNumber != this.selectedWeekSubject.getValue()) {
+            this.selectedWeekSubject.next(nextDay.weekNumber)
+        }
+
         if (!nextDay) {
             this.changeMonth(true);
             nextDay = this.daysInMonthSubject.getValue()[7];
@@ -235,6 +239,10 @@ export class CalendarFacadeService {
         const currentSelectedDay = this.currentSelectedDaySubject.getValue()!;
         const index = currentDays.indexOf(currentSelectedDay) - 1;
         let previousDay = currentDays[index];
+
+        if(previousDay.weekNumber != this.selectedWeekSubject.getValue()) {
+            this.selectedWeekSubject.next(previousDay.weekNumber)
+        }
 
         if(!previousDay) {
             this.changeMonth(false);
