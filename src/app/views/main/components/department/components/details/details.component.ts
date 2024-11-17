@@ -120,21 +120,22 @@ export class DetailsComponent implements OnInit, OnDestroy, IRightsListener {
     }
 
     onInheritedToggled(value: boolean): void {
-        if(value)
-        {
             const paths = updateNestedControlsPathAndValue(this.formGroup);
             if(Object.keys(paths).length) {
                 this.#departmentService.patchDepartment(this.departmentId(), paths).subscribe(() => {
                     this.loadDepartmentDetails(this.sourceLevel ,this.departmentId()).subscribe();
                 });
             }
-            this.formGroup.controls.address.disable();
-        }
-        else
-        {
-            this.formGroup.controls.address.enable();
-            this.formGroup.controls.address.patchValue(this.department.address);
-        }
+            if (value)
+            {
+                this.formGroup.controls.address.disable();
+
+            }
+            else
+            {
+                this.formGroup.controls.address.enable();
+                this.formGroup.controls.address.patchValue(this.department.address);
+            }
     }
 
     loadDepartmentDetails(sourceLevel: SourceLevel, departmentId: number) {
