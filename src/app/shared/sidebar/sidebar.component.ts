@@ -57,7 +57,7 @@ export class SidebarComponent implements OnInit {
         {
             label: "ORGANISATION.NAME",
             routeLink: "organisation",
-            routeLinkFn: () => `organisation`,
+            routeLinkFn: () => `organisation/${this.#getSingleOrganisationId()}`,
             icon: "fa-solid fa-sitemap",
             isVisible: () => this.#hasOrganisationViewAccess()
         },
@@ -202,6 +202,10 @@ export class SidebarComponent implements OnInit {
     #canSeeOneTeam(): boolean {
         if (this.#canSeeMultipleTeams()) return false;
         return this.loggedInUserData!.roles.filter(x => x.rights.find(y => y.sourceLevel === SourceLevel.Team && (y.rightId as Right) <= Right.View)).length === 1;
+    }
+
+    #getSingleOrganisationId(): number {
+        return this.loggedInUserData!.roles.find(x => x.rights.some(y => y.sourceLevel === SourceLevel.Organisation && (y.rightId as Right) <= Right.View))!.rights.find(y => y.sourceLevel === SourceLevel.Organisation && (y.rightId as Right) <= Right.View)!.sourceLevelId;
     }
 
     #getSingleCompanyId(): number {
