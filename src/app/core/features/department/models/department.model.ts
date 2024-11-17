@@ -7,5 +7,6 @@ export interface IDepartment {
     description: string;
     building: string;
     address: IAddress;
+    inheritAddress: boolean;
     settings: IDepartmentSettings;
 }
