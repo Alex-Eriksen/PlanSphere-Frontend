@@ -187,13 +187,15 @@ export class CalendarDateService {
 
     isHourCheckedWeek(day: string, hour: number, isFirstHalfHour: boolean): boolean {
         const dayOfWorkWeek = this.#daysInMonth.find(x => x.weekNumber === this.#selectedWeek && x.name === day);
-        const currentWorkTime = this.#workTimes.find(
+        const currentWorkTimes = this.#workTimes.filter(
             x =>
                 x.startDateTime.getDate() === dayOfWorkWeek?.date &&
                 x.startDateTime.getMonth() === dayOfWorkWeek.month
         );
 
-        return currentWorkTime ? this.#isHalfHourWithinWorkTime(currentWorkTime, hour, isFirstHalfHour) : false;
+        return currentWorkTimes.some(workTime =>
+            this.#isHalfHourWithinWorkTime(workTime, hour, isFirstHalfHour)
+        );
     }
 
 
