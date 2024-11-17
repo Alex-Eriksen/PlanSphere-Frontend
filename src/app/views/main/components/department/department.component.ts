@@ -7,6 +7,7 @@ import { LoadingOverlayComponent } from "../../../../shared/loading-overlay/load
 import { instanceOfRightsListener } from "../../../../core/interfaces/rights-data.interface";
 import { ISourceLevelRights } from "../../../../core/features/authentication/models/source-level-rights.model";
 import { SourceLevel } from "../../../../core/enums/source-level.enum";
+import { hasEditAccess, hasManageUsersRights, hasViewAccess } from "../../../../shared/utilities/right.utilities";
 
 @Component({
     selector: 'ps-company',
@@ -29,30 +30,36 @@ export class DepartmentComponent implements OnInit {
             label: "DETAIL.NAME_PLURAL",
             routeLink: "details",
             icon: "fa-solid fa-circle-info",
-            isVisible: () => this.hasViewAccess()
+            isVisible: () => hasViewAccess(this.rightsData)
         },
         {
           label: "TEAM.NAME_PLURAL",
           routeLink: "teams",
           icon: "fa-solid fa-building",
-            isVisible: () => this.hasViewAccess()
+            isVisible: () => hasViewAccess(this.rightsData)
         },
         {
             label: "JOB_TITLE.NAME_PLURAL",
             routeLink: "job-titles",
             icon: "fa-solid fa-table-list",
-            isVisible: () => this.hasViewAccess()
+            isVisible: () => hasViewAccess(this.rightsData)
         },
         {
             label: "ROLE.NAME_PLURAL",
             routeLink: "roles",
             icon: "fa-solid fa-user-check",
-            isVisible: () => this.hasViewAccess()
+            isVisible: () => hasViewAccess(this.rightsData)
+        },
+        {
+            label: "USER.NAME_PLURAL",
+            routeLink: "users",
+            icon: "fa-solid fa-user-check",
+            isVisible: () => hasManageUsersRights(this.rightsData)
         },
         {
             label: "SETTINGS.NAME_PLURAL",
             routeLink: "settings",
-            isVisible: () => this.hasEditAccess()
+            isVisible: () => hasEditAccess(this.rightsData)
         }
     ]
 
@@ -67,13 +74,5 @@ export class DepartmentComponent implements OnInit {
     onRouterOutletActivate(activatedComponent: any) {
         if (!instanceOfRightsListener(activatedComponent)) return;
         activatedComponent.setRightsData(this.rightsData);
-    }
-
-    hasViewAccess(): boolean {
-        return this.rightsData.hasViewRights || this.rightsData.hasPureViewRights || this.hasEditAccess();
-    }
-
-    hasEditAccess(): boolean {
-        return this.rightsData.hasEditRights || this.rightsData.hasAdministratorRights;
     }
 }

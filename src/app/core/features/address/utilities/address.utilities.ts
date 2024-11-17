@@ -13,18 +13,6 @@ export const mapZipCodesToDropdownOptions = (lookUps: IZipCodeLookup[]): IDropdo
     });
 };
 
-export const addressFormBuilderControle = (formBuilder: FormBuilder): FormGroup => {
-    return formBuilder.group({
-        streetName: (""),
-        houseNumber: (""),
-        door: (""),
-        floor: (""),
-        postalCode: (""),
-        countryId: (""),
-    });
-
-}
-
 export const constructAddressFormGroup = (fb: NonNullableFormBuilder, address?: IAddress, disabled?: boolean): FormGroup => {
     const fg = fb.group({
         id: fb.control({ value: address?.id ?? 0, disabled: true }),

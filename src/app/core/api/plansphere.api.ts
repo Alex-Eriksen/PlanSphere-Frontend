@@ -17,16 +17,21 @@ export const APIS = {
         updateWorkScheduleWithoutId: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `WorkSchedule/UpdateWorkSchedule/${sourceLevel}/${sourceLevelId}`,
     },
     users: {
+        createUser: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `User/CreateUser/${sourceLevel}/${sourceLevelId}`,
         getUserDetailsWithId: (userId: number) => environment.apiUrl + `User/GetUserDetails/${userId}`,
         getUserDetailsWithoutId: environment.apiUrl + `User/GetUserDetails`,
         patchUserWithId: (userId: number) => environment.apiUrl + `User/PatchUser/${userId}`,
         patchUserWithoutId: environment.apiUrl + `User/PatchUser`,
         getRights: environment.apiUrl + `Authentication/GetSourceLevelRights`,
-        lookUpUsers: environment.apiUrl + "User/LookUpUsers"
+        listUsers: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `User/ListUsers/${sourceLevel}/${sourceLevelId}`,
+        updateUser: (sourceLevel: SourceLevel, sourceLevelId: number, userId: number) => environment.apiUrl + `User/UpdateUser/${sourceLevel}/${sourceLevelId}/${userId}`,
+        deleteUser: (sourceLevel: SourceLevel, sourceLevelId: number, userId: number) => environment.apiUrl + `User/DeleteUser/${sourceLevel}/${sourceLevelId}/${userId}`,
+        lookUpUsers: (organisationId?: number) => environment.apiUrl + `User/LookUpUsers/${organisationId}`,
     },
     roles: {
         createRole: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Role/CreateRole/${sourceLevel}/${sourceLevelId}`,
         listAll: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Role/ListRoles/${sourceLevel}/${sourceLevelId}`,
+        lookUpRoles: () => environment.apiUrl + `Role/LookUpRoles/`,
         updateRole: (sourceLevel: SourceLevel, sourceLevelId: number, roleId: number) => environment.apiUrl + `Role/UpdateRole/${sourceLevel}/${sourceLevelId}/${roleId}`,
         deleteRole: (sourceLevel: SourceLevel, sourceLevelId: number, roleId: number) => environment.apiUrl + `Role/DeleteRole/${sourceLevel}/${sourceLevelId}/${roleId}`,
         getById: (sourceLevel: SourceLevel, sourceLevelId: number, roleId: number) => environment.apiUrl + `Role/GetRoleById/${sourceLevel}/${sourceLevelId}/${roleId}`,

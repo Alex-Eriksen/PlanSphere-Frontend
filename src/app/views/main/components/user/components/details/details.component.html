@@ -1,3 +1,37 @@
-<ps-small-header
-    heading="USER.DETAILS.NAME"
-></ps-small-header>
+@if (isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div class="border-gray-900/10 pb-12">
+        <div class="flex flex-row justify-between">
+            <ps-small-header heading="USER.EDIT_OWN.TITLE" subheading="USER.EDIT_OWN.DESCRIPTION"></ps-small-header>
+
+            <!-- image section -->
+            <div class="flex flex-grow justify-end">
+            </div>
+        </div>
+
+        <form [formGroup]="formGroup" (focusout)="patchDetails()">
+            <!-- User details Section -->
+            <div class="mt-5 flex flex-row flex-wrap gap-4">
+                <ps-input [control]="formGroup.controls.firstName" label="USER.DETAILS.FIRSTNAME"></ps-input>
+                <ps-input [control]="formGroup.controls.lastName" label="USER.DETAILS.LASTNAME"></ps-input>
+                <ps-input [control]="formGroup.controls.email" label="USER.DETAILS.EMAIL"></ps-input>
+                <ps-input [control]="formGroup.controls.phoneNumber" label="USER.DETAILS.PHONENUMBER"></ps-input>
+            </div>
+
+            <!-- Address Section -->
+            <div>
+                <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
+            </div>
+
+            <div class="flex flex-row flex-wrap mt-5">
+                <ps-line></ps-line>
+                <div class="mt-5">
+                    <ps-small-header [heading]="'ROLE.NAME_PLURAL' | translate"></ps-small-header>
+                    <ps-select-field dropDownLabel="ROLE.NAME_PLURAL" [dropDownOptions]="roles" [selectMultipleOptions]="true" [control]="formGroup.controls.roleIds"></ps-select-field>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+

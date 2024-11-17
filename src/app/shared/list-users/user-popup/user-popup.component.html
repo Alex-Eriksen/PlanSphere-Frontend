@@ -1,0 +1,59 @@
+<div class="sticky top-0 z-10">
+    <ps-dialog-header
+        [label]="
+      componentInputs.isEditPopup
+        ? 'USER.EDIT.TITLE'
+        : 'USER.CREATE.TITLE'
+    "
+        [tooltipLabel]="
+      componentInputs.isEditPopup
+        ? 'USER.EDIT.TOOLTIP'
+        : 'USER.CREATE.TOOLTIP'
+    "
+    ></ps-dialog-header>
+</div>
+@if(isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div class="p-6">
+        <ps-small-header
+            [heading]="componentInputs.isEditPopup
+            ? 'USER.EDIT.DESCRIPTION'
+            : 'USER.CREATE.DESCRIPTION' | translate"
+        ></ps-small-header>
+        <div class="flex flex-col gap-4 mt-5">
+            <div class="flex flex-row flex-wrap gap-4">
+                <ps-input label="USER.DETAILS.FIRSTNAME" [control]="formGroup.controls.firstName"></ps-input>
+                <ps-input label="USER.DETAILS.LASTNAME" [control]="formGroup.controls.lastName"></ps-input>
+                <ps-input label="USER.DETAILS.PHONENUMBER" [control]="formGroup.controls.phoneNumber"></ps-input>
+                <ps-input label="USER.DETAILS.EMAIL" [control]="formGroup.controls.email"></ps-input>
+            </div>
+        </div>
+        <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
+
+        <div class="flex flex-row flex-wrap mt-5">
+            <ps-line></ps-line>
+            <div class="mt-5">
+                <ps-small-header [heading]="'ROLE.NAME_PLURAL' | translate"></ps-small-header>
+                <ps-select-field dropDownLabel="ROLE.NAME_PLURAL" [dropDownOptions]="roles" [selectMultipleOptions]="true" [control]="formGroup.controls.roleIds"></ps-select-field>
+            </div>
+        </div>
+    </div>
+}
+<div class="py-3 bg-black-50 flex border border-black-100 px-6 sticky bottom-0 z-10 justify-between">
+    <ps-button
+        [appliedClasses]="'!py-3 !px-6'"
+        (click)="closeDialog()"
+        label="CANCEL"
+        buttonStyleType="button--tertiary"
+        buttonType="button"
+    />
+    <ps-button
+        [appliedClasses]="'!py-3 !px-6'"
+        [label]="componentInputs.isEditPopup ? 'SAVE' : 'CREATE' | translate"
+        buttonStyleType="button--primary"
+        buttonType="button"
+        [isLoading]="isFormSubmitting"
+        (click)="submitForm()"
+    />
+</div>
