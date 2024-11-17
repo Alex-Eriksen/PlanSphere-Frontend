@@ -1,5 +1,4 @@
 import { DayInfo } from "../../../../shared/interfaces/day-info.interface";
-import { DayOfWeek } from "../../../../shared/enums/day-of-week.enum";
 import { DayInfoMonth } from "../../../../shared/enums/day-info-month.enum";
 import { IWorkSchedule } from "../../../../core/features/workSchedules/models/work-schedule.model";
 import { IWorkHour } from "../../../../shared/interfaces/work-hour.interface";
@@ -9,6 +8,7 @@ import { ShiftLocation } from "../../../../core/enums/shift-location.enum";
 import { IWorkTime } from "../../../../core/features/workTimes/models/work-time.models";
 import { WorkTimeType } from "../../../../core/features/workTimes/models/work-time-type.interface";
 import { formatDateWithoutTimezone } from "../../../../shared/utilities/date.utilities";
+import { DayOfWeek } from "../../../../core/enums/day-of-week.enum";
 
 export const generateDaysForMonth = (month: number, year: number): DayInfo[] => {
     const daysInMonth: DayInfo[] = [];
@@ -122,16 +122,20 @@ export function isHourInShift(hour: number, startHour: number, endHour: number):
     }
 }
 
-export function refactorDate(date: number) {
-    return date > 9 ? date.toString() : `0${date}`;
+export const generateHours = (): number[] => {
+    return Array.from({ length: 24 }, (_, i) => i);
 }
 
 export const constructWorkTimeFormGroup = (fb: NonNullableFormBuilder, workTime: IWorkTime | undefined, selectedDate: Date): FormGroup => {
     let startDate = new Date();
-    const endDate = new Date();
+    let endDate = new Date();
     if(workTime) {
         startDate.setHours(workTime.startDateTime.getHours(), (Math.round(workTime.startDateTime.getMinutes()/30) * 30) % 60, 0, 0);
-        endDate.setHours(workTime.endDateTime!.getHours(), (Math.round(workTime.endDateTime!.getMinutes()/30) * 30) % 60, 0, 0);
+        if(workTime.endDateTime !== null) {
+            endDate.setHours(workTime.endDateTime!.getHours(), (Math.round(workTime.endDateTime!.getMinutes()/30) * 30) % 60, 0, 0);
+        } else {
+            endDate = setToClosestHalfHour(endDate);
+        }
     } else {
         startDate = selectedDate;
     }
@@ -143,3 +147,20 @@ export const constructWorkTimeFormGroup = (fb: NonNullableFormBuilder, workTime:
         location: fb.control<ShiftLocation | null>(workTime?.location ?? null, Validators.required)
     })
 };
+
+
+export function setToClosestHalfHour(date: Date): Date {
+    const minutes = date.getMinutes();
+    const roundedMinutes = Math.round(minutes / 30) * 30;
+
+    const adjustedDate = new Date(date);
+
+    if (roundedMinutes === 60) {
+        adjustedDate.setHours(adjustedDate.getHours() + 1);
+        adjustedDate.setMinutes(0, 0, 0);
+    } else {
+        adjustedDate.setMinutes(roundedMinutes, 0, 0);
+    }
+
+    return adjustedDate;
+}

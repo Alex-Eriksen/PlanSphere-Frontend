@@ -16,6 +16,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { WorkTimeService } from "../../core/features/workTimes/services/work-time.service";
 import { IWorkTime } from "../../core/features/workTimes/models/work-time.models";
 import { catchError, map, of, switchMap, tap } from "rxjs";
+import { ToastService } from "../../core/services/error-toast.service";
 
 @Component({
   selector: 'ps-calendar',
@@ -38,6 +39,7 @@ export class CalendarComponent implements OnInit {
     readonly #calendarFacadeService = inject(CalendarFacadeService);
     readonly #workTimeService = inject(WorkTimeService);
     readonly #destroyRef = inject(DestroyRef)
+    readonly #toastService = inject(ToastService);
 
     workSchedule = input.required<IWorkSchedule>();
 
@@ -89,11 +91,11 @@ export class CalendarComponent implements OnInit {
         this.#workTimeService.checkIn()
             .pipe(takeUntilDestroyed(this.#destroyRef))
             .subscribe({
-                error: (error) => {
-                    console.error("Failed to check in: ", error);
+                error: () => {
+                    this.#toastService.showToast('CALENDAR.ERRORS.CHECK_IN');
                 },
                 complete: () => {
-                    console.log("Checked in successfully");
+                    this.#toastService.showToast('CALENDAR.CHECK_IN');
                     this.#calendarFacadeService.refreshTable()
                 }
             })
@@ -103,11 +105,11 @@ export class CalendarComponent implements OnInit {
         this.#workTimeService.checkOut()
             .pipe(takeUntilDestroyed(this.#destroyRef))
             .subscribe({
-                error: (error) => {
-                console.error("Failed to check in: ", error);
+                error: () => {
+                    this.#toastService.showToast('CALENDAR.ERRORS.CHECK_OUT');
                 },
                 complete: () => {
-                    console.log("Checked in successfully");
+                    this.#toastService.showToast('CALENDAR.CHECKED_OUT');
                     this.#calendarFacadeService.refreshTable()
                 }
         })
@@ -171,7 +173,9 @@ export class CalendarComponent implements OnInit {
                 }));
 
                 this.selectedMonth = month;
+                this.#calendarDateService.setSelectedMonth(month);
                 this.#calendarDateService.setWorkTimes(this.workTimes);
+                this.#calendarFacadeService.setWorkTimes(this.workTimes);
                 this.isLoading = false;
             });
 

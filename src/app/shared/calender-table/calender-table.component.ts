@@ -8,7 +8,6 @@ import {
 } from "@angular/core";
 import { CalendarOptions } from "../enums/calendar-options.enum";
 import { IWorkSchedule } from "../../core/features/workSchedules/models/work-schedule.model";
-import { DayOfWeek } from "../enums/day-of-week.enum";
 import { NgClass, NgIf } from "@angular/common";
 import { IWorkHour } from "../interfaces/work-hour.interface";
 import { SmallHeaderComponent } from "../small-header/small-header.component";
@@ -26,6 +25,9 @@ import { CalendarTableColumnComponent } from "../calendar-table-column/calendar-
 import { AuthenticationService } from "../../core/features/authentication/services/authentication.service";
 import { ISourceLevelRights } from "../../core/features/authentication/models/source-level-rights.model";
 import { LoadingOverlayComponent } from "../loading-overlay/loading-overlay.component";
+import { DayOfWeek } from "../../core/enums/day-of-week.enum";
+import { generateHours } from "../../views/main/components/frontpage/calendar.utilities";
+import { IWorkTimeData } from "../interfaces/work-time-popup.interface";
 
 @Component({
   selector: 'ps-calender-table',
@@ -65,7 +67,7 @@ export class CalenderTableComponent implements OnInit, OnChanges {
     onCheckButtonClick = output<void>();
 
     weeksInMonth: number[] = []
-    hours: number[] = Array.from({ length: 24 }, (_, i) => i);
+    hours: number[] = generateHours();
     rights!: ISourceLevelRights;
     isLoading = false;
 
@@ -107,7 +109,7 @@ export class CalenderTableComponent implements OnInit, OnChanges {
         }
     }
 
-    openWorkTimePopup (workTime: IWorkTime | undefined, dayOfWeek: DayOfWeek, hour: number, firstHalfHour: boolean) {
+    openWorkTimePopup (data: IWorkTimeData) {
         if(!this.rights.hasManuallySetOwnWorkTimeRights) return;
 
         if(this.hideHeader()) return;
@@ -115,19 +117,19 @@ export class CalenderTableComponent implements OnInit, OnChanges {
         let workTimes: IWorkTime[];
         const startDate = new Date();
 
-        if(workTime !== undefined) {
-            workTimes = this.#calendarDateService.getWorkTimesOnDate(workTime.startDateTime.getDate(), workTime.startDateTime.getMonth());
+        if(data.workTime !== undefined) {
+            workTimes = this.#calendarDateService.getWorkTimesOnDate(data.workTime.startDateTime.getDate(), data.workTime.startDateTime.getMonth());
         } else {
-            const day = this.daysInMonth().find(x => x.name === dayOfWeek && x.weekNumber === this.selectedWeek() && x.month === this.selectedMonth())!;
+            const day = this.daysInMonth().find(x => x.name === data.dayOfWeek && x.weekNumber === this.selectedWeek())!;
             workTimes = this.#calendarDateService.getWorkTimesOnDate(day.date, day.month);
             startDate.setMonth(day.month, day.date);
-            startDate.setHours(hour, firstHalfHour? 0 : 30, 0, 0);
+            startDate.setHours(data.hour, data.firstHalfHour? 0 : 30, 0, 0);
         }
 
         this.#matDialog.open<WorkTimePopupComponent, IWorkTimePopupInputs>(WorkTimePopupComponent, {
             data: {
-                currentWorkTime: workTime,
-                isEditPopup: !!workTime,
+                currentWorkTime: data.workTime,
+                isEditPopup: !!data.workTime,
                 workTimes: workTimes,
                 startDate: startDate
             }

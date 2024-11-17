@@ -10,6 +10,7 @@ import { DayOfWeek } from "../enums/day-of-week.enum";
 import { DayInfo } from "../../shared/interfaces/day-info.interface";
 import { CalendarOptions } from "../../shared/enums/calendar-options.enum";
 import { DayInfoMonth } from "../../shared/enums/day-info-month.enum";
+import { IWorkTime } from "../features/workTimes/models/work-time.models";
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +25,7 @@ export class CalendarFacadeService {
     private selectedWeekSubject = new BehaviorSubject<number | null>(null);
     private selectedMonthSubject = new BehaviorSubject<number>(new Date().getMonth());
     private daysInMonthSubject = new BehaviorSubject<DayInfo[]>([]);
+    private workTimesSubject = new BehaviorSubject<IWorkTime[]>([]);
 
     selectedDate$ = this.selectedDateSubject.asObservable();
     currentDate$ = this.currentDateSubject.asObservable();
@@ -32,6 +34,7 @@ export class CalendarFacadeService {
     selectedWeek$ = this.selectedWeekSubject.asObservable();
     selectedMonth$ = this.selectedMonthSubject.asObservable();
     daysInMonth$ = this.daysInMonthSubject.asObservable();
+    workTimes$ = this.workTimesSubject.asObservable();
 
     initializeCalendar(
         selectedDate: Date,
@@ -52,6 +55,10 @@ export class CalendarFacadeService {
         const selectedDay = this.daysInMonthSubject.getValue().find(day => day.month === currentDate.getMonth() && day.date === currentDate.getDate())!;
         this.currentSelectedDaySubject.next(selectedDay);
         this.#initializeCalendarService();
+    }
+
+    setWorkTimes(workTimes: IWorkTime[]): void {
+        this.workTimesSubject.next(workTimes);
     }
 
     refreshTable(): void {
@@ -122,13 +129,14 @@ export class CalendarFacadeService {
 
     setCurrentDate(): void {
         const newDate = new Date();
-        if(newDate.getMonth() !== this.currentSelectedDaySubject.getValue()?.month) {
+        this.selectedDateSubject.next(newDate);
+        if(newDate.getMonth() !== this.selectedMonthSubject.getValue()) {
             this.#generateDaysForSelectedMonth();
         }
 
-        let currentDay = this.daysInMonthSubject.getValue().find(x => x.date === newDate.getDate() && x.isMonth === DayInfoMonth.Current)!;
+        let currentDay = this.daysInMonthSubject.getValue().find(x => x.date === newDate.getDate() && x.isMonth === DayInfoMonth.Current && x.month === newDate.getMonth())!;
         if(this.calendarOptionSubject.getValue() === CalendarOptions.Week || this.calendarOptionSubject.getValue() === CalendarOptions.WorkWeek) {
-            currentDay = this.daysInMonthSubject.getValue().find(x => x.weekNumber === currentDay?.weekNumber && x.name === DayOfWeek.Monday)!;
+            currentDay = this.daysInMonthSubject.getValue().find(x => x.weekNumber === currentDay?.weekNumber && x.name === DayOfWeek.Monday && x.month === newDate.getMonth())!;
         }
 
         this.#calendarDateService.setSelectedWeek(currentDay.weekNumber);
@@ -137,6 +145,7 @@ export class CalendarFacadeService {
         this.selectedDateSubject.next(newDate);
         this.selectedWeekSubject.next(currentDay.weekNumber);
         this.selectedMonthSubject.next(newDate.getMonth());
+        this.refreshTable();
     }
 
     setSelectedDate(day: string, weekNumber: number): void {
@@ -258,7 +267,7 @@ export class CalendarFacadeService {
         this.changeMonth(false);
         const nextDay = this.daysInMonthSubject.getValue().find(x => x.isMonth === DayInfoMonth.Current && x.date === currentSelectedDay!.date);
         this.currentSelectedDaySubject.next(nextDay!);
-0    }
+    }
 
     #selectDateOnDay(selectedDay: DayInfo) {
         const newDate = this.selectedDateSubject.getValue();

@@ -19,8 +19,8 @@ import {
 } from "../utilities/dropdown-option.utilities";
 import { WorkTimeType } from "../../core/features/workTimes/models/work-time-type.interface";
 import { WorkTimeTypeTranslationMapper } from "../../core/mappers/work-time-type-translation.mapper";
-import { ShiftLocation } from "../enums/shift-location.enum";
 import { ShiftLocationTranslationMapper } from "../../core/mappers/shift-location-translation.mapper";
+import { ShiftLocation } from "../../core/enums/shift-location.enum";
 
 @Component({
   selector: 'ps-work-time-popup',
@@ -69,9 +69,6 @@ export class WorkTimePopupComponent {
     #createWorkTime() {
         this.#workTimeService.createWorkTime(this.#prepareRequest())
             .subscribe({
-                error: (error) => {
-                    console.log(error);
-                },
                 complete: () => {
                     this.isFormSubmitting = false;
                     this.closeDialog(true);
@@ -82,9 +79,6 @@ export class WorkTimePopupComponent {
     #updateWorkTime() {
         this.#workTimeService.updateWorkTime(this.componentInputs.currentWorkTime!.id, this.#prepareRequest())
             .subscribe({
-                error: (error) => {
-                    console.log(error);
-                },
                 complete: () => {
                     this.isFormSubmitting = false;
                     this.closeDialog(true);
@@ -96,9 +90,6 @@ export class WorkTimePopupComponent {
         if(!this.componentInputs.isEditPopup) this.closeDialog();
         this.#workTimeService.deleteWorkTime(this.componentInputs.currentWorkTime!.id)
            .subscribe({
-                error: (error) => {
-                    console.log(error);
-                },
                 complete: () => {
                     this.closeDialog(true);
                 }
@@ -108,8 +99,6 @@ export class WorkTimePopupComponent {
     #prepareRequest(): IWorkTimeRequest {
         const newStartDate = new Date(this.formGroup.controls['startDateTime'].value);
         const newEndDate = new Date(this.formGroup.controls['endDateTime'].value);
-        console.log(newStartDate);
-        console.log(newEndDate);
         newStartDate.setHours(newStartDate.getHours() + 1);
         newEndDate.setHours(newEndDate.getHours() + 1);
         return {

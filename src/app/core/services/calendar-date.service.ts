@@ -4,11 +4,11 @@ import {
     getDayOfWeekFromDaysInMonth,
     getMonthDisplayName
 } from "../../views/main/components/frontpage/calendar.utilities";
-import { DayOfWeek } from "../../shared/enums/day-of-week.enum";
 import { IWorkSchedule } from "../features/workSchedules/models/work-schedule.model";
 import { DayInfoMonth } from "../../shared/enums/day-info-month.enum";
 import { TranslateService } from "@ngx-translate/core";
 import { IWorkTime } from "../features/workTimes/models/work-time.models";
+import { DayOfWeek } from "../enums/day-of-week.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -161,7 +161,7 @@ export class CalendarDateService {
             x.startDateTime.getDate() === dayOfWeek?.date &&
             x.startDateTime.getMonth() === dayOfWeek.month &&
             x.startDateTime.getHours() <= hour &&
-            x.endDateTime!.getHours() >= hour);
+            ((x.endDateTime !== null && x.endDateTime!.getHours() >= hour) || (x.endDateTime === null && new Date().getHours() >= hour)));
     }
 
     getWorkTimeMonth(day: string, weekNumber: number)  {
@@ -262,10 +262,10 @@ export class CalendarDateService {
     }
 
     hasCheckedIn(): boolean {
-        const workTimes = this.getWorkTimesOnDate(this.#currentSelectedDay!.date, this.#currentSelectedDay!.month);
+        const workTimes = this.getWorkTimesOnDate(this.#currentDate.getDate(), this.#currentDate.getMonth()!);
         if (workTimes === undefined || workTimes.length === 0) return false;
 
-        return workTimes.at(-1)!.endDateTime === null;
+        return workTimes.find(x => x.endDateTime === null) !== undefined;
     }
 
     getWorkTimesOnDate(date: number, month: number): IWorkTime[] {

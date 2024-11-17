@@ -10,14 +10,13 @@
     </div>
 
     <div class="grid grid-cols-7 text-center text-sm text-gray-600">
-        <!-- Weekday Headers -->
-        <div class="font-semibold">M</div>
-        <div class="font-semibold">T</div>
-        <div class="font-semibold">W</div>
-        <div class="font-semibold">T</div>
-        <div class="font-semibold">F</div>
-        <div class="font-semibold">S</div>
-        <div class="font-semibold">S</div>
+        <div class="font-semibold">{{'CALENDAR.ABBREVIATIONS.MONDAY' | translate}}</div>
+        <div class="font-semibold">{{'CALENDAR.ABBREVIATIONS.TUESDAY' | translate}}</div>
+        <div class="font-semibold">{{'CALENDAR.ABBREVIATIONS.WEDNESDAY' | translate}}</div>
+        <div class="font-semibold">{{'CALENDAR.ABBREVIATIONS.THURSDAY' | translate}}</div>
+        <div class="font-semibold">{{'CALENDAR.ABBREVIATIONS.FRIDAY' | translate}}</div>
+        <div class="font-semibold">{{'CALENDAR.ABBREVIATIONS.SATURDAY' | translate}}</div>
+        <div class="font-semibold">{{'CALENDAR.ABBREVIATIONS.SUNDAY' | translate}}</div>
         @for(day of daysInMonth(); track day ) {
             <ps-calendar-side-panel-item
                 [calendarOption]="calendarOption()"

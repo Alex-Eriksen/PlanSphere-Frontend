@@ -15,6 +15,9 @@ import { catchError, finalize, of, tap } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { IUser } from "../../../../core/features/users/models/user.model";
 import { IWorkSchedule } from "../../../../core/features/workSchedules/models/work-schedule.model";
+import {
+    recursivelyFindParentWorkSchedule
+} from "../../../../core/features/workSchedules/utilities/work-schedule.utilities";
 
 @Component({
   selector: 'ps-frontpage',
@@ -48,7 +51,7 @@ export class FrontpageComponent implements OnInit {
             .pipe(
                 takeUntilDestroyed(this.#destroyRef),
                 tap((userDetails: IUser) => {
-                    this.workSchedule = userDetails.settings.workSchedule;
+                    this.workSchedule = recursivelyFindParentWorkSchedule(userDetails.settings.workSchedule);
                 }),
                 catchError((error) => {
                     console.error('Error fetching user details:', error);

@@ -7,7 +7,7 @@
              '!border-primary': isCurrentDate()}">
         <div class="flex flex-col gap-2"><span
             class="w-[2rem] h-[2rem] flex justify-center items-center"
-            [ngClass]="{'text-white border rounded-full bg-blue-500': isCurrentDate()}"
+            [ngClass]="{'text-white border rounded-full bg-primary': isCurrentDate()}"
         >{{getDate()}}</span>
             <span *ngIf="isColumnChecked()" class="text-center">{{getWorkTimeDuration()}}</span>
         </div>

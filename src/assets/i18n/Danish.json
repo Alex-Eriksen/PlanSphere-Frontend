@@ -59,6 +59,18 @@
     "LOCATION": "Lokation",
     "CALENDAR": {
         "CHECK_IN": "Check ind",
+        "CHECK_OUT": "Check ud",
+        "CHECKED_IN": "Du er blevet checked ind",
+        "CHECKED_OUT": "Du er blevet checked ud",
+        "ABBREVIATIONS": {
+            "MONDAY": "M",
+            "TUESDAY": "T",
+            "WEDNESDAY": "O",
+            "THURSDAY": "T",
+            "FRIDAY": "F",
+            "SATURDAY": "L",
+            "SUNDAY": "S"
+        },
         "FILTERS": {
             "DAY": "Dag",
             "WEEK": "Uge",
@@ -72,21 +84,16 @@
             "VACATION": "Ferie",
             "SICK": "Syg",
             "ABSENT": "Fraværende"
+        },
+        "ERRORS": {
+            "CHECK_IN": "Noget gik galt dat du forsøgte at checke ind.",
+            "CHECK_OUT": "Noget gik galt dat du forsøgte at check ud."
         }
     },
     "ERROR": {
         "UNAUTHORIZED": "Du har ikke rettigheden til denne funktionalitet."
     },
     "TODAY": "I dag",
-    "CALENDER": {
-        "CHECK_IN": "Check ind",
-        "FILTERS": {
-            "DAY": "Dag",
-            "WEEK": "Uge",
-            "WORK_WEEK": "Arbejdsuge",
-            "MONTH": "Måned"
-        }
-    },
     "VALIDATION": {
         "IS_REQUIRED": "er påkrævet",
         "IS_NOT_A_VALID_EMAIL": "er i et forkert format",

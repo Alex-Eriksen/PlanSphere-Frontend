@@ -1,7 +1,7 @@
 @if(isLoading) {
     <ps-loading-overlay></ps-loading-overlay>
 } @else {
-    <div class=" flex-1 p-2 w-full">
+    <div class="flex flex-col p-2 dynamic-table-height">
         <!-- NAVBAR -->
         <div class="flex flex-row gap-2 p-2 bg-white border border-gray-200">
             <ps-button
@@ -74,7 +74,7 @@
             </div>
         </div>
 
-        <div class="overflow-y-auto max-h-[75vh] w-full" #workHoursTable>
+        <div class="overflow-y-scroll" #workHoursTable>
             @switch (calendarOption()) {
                 @case (CalendarOptions.Day) {
                     <table class="min-w-full table-fixed border-collapse border border-gray-300 select-none">
@@ -86,7 +86,7 @@
                                     <span class="text-black-500">{{ this.currentSelectedDay().name.toUpperCase() | translate}}</span>
                                     <span
                                         class="w-[2rem] h-[2rem] p-1 text-center"
-                                        [ngClass]="isSelectedDayCurrentDate() ? 'text-white border rounded-full bg-blue-500' : 'text-black-500'"
+                                        [ngClass]="isSelectedDayCurrentDate() ? 'text-white border rounded-full bg-primary' : 'text-black-500'"
                                     >{{getDate()}}
                                     </span>
                                 </div>
@@ -104,7 +104,7 @@
                                         [hour]="hour"
                                         [isFirstHalfHour]="true"
                                         [workHours]="workHours()"
-                                        (columnClick)="openWorkTimePopup($event.workTime, $event.dayOfWeek, $event.hour, $event.firstHalfHour)"
+                                        (columnClick)="openWorkTimePopup($event)"
                                     ></ps-calendar-table-column>
                                 </tr>
                                 <tr>
@@ -116,7 +116,7 @@
                                         [hour]="hour"
                                         [isFirstHalfHour]="false"
                                         [workHours]="workHours()"
-                                        (columnClick)="openWorkTimePopup($event.workTime, $event.dayOfWeek, $event.hour, $event.firstHalfHour)"
+                                        (columnClick)="openWorkTimePopup($event)"
                                     ></ps-calendar-table-column>
                                 </tr>
                             }
@@ -140,7 +140,7 @@
                                             <span class="text-black-500">{{shift.day.toUpperCase() | translate}}</span>
                                             <span
                                                 [ngClass]="isSelectedDateOfWeek(shift.day)
-                                                       ? 'bg-blue-500 border rounded-full text-white p-1 text-center'
+                                                       ? 'bg-primary border rounded-full text-white p-1 text-center'
                                                        : 'text-black-700'"
                                                 class="w-[2rem] h-[2rem]">
                                                 {{getDate(shift.day)}}
@@ -166,7 +166,7 @@
                                             [isFirstHalfHour]="true"
                                             [weekNumber]="this.selectedWeek()!"
                                             [workHours]="workHours()"
-                                            (columnClick)="openWorkTimePopup($event.workTime, $event.dayOfWeek, $event.hour, $event.firstHalfHour)"
+                                            (columnClick)="openWorkTimePopup($event)"
                                         ></ps-calendar-table-column>
                                     }
                                 </tr>
@@ -181,7 +181,7 @@
                                             [isFirstHalfHour]="false"
                                             [weekNumber]="this.selectedWeek()!"
                                             [workHours]="workHours()"
-                                            (columnClick)="openWorkTimePopup($event.workTime, $event.dayOfWeek, $event.hour, $event.firstHalfHour)"
+                                            (columnClick)="openWorkTimePopup($event)"
                                         ></ps-calendar-table-column>
                                     }
                                 </tr>
@@ -201,7 +201,7 @@
                                         <span
                                             class="w-[2rem] h-[2rem]"
                                             [ngClass]="isSelectedDateOfWeek(day)
-                                                ? 'bg-blue-500 border rounded-full text-white p-1 text-center'
+                                                ? 'bg-primary border rounded-full text-white p-1 text-center'
                                                 : 'text-black-700'"
                                         >{{getDate(day)}}
                                         </span>
@@ -226,7 +226,7 @@
                                             [isFirstHalfHour]="true"
                                             [weekNumber]="this.selectedWeek()!"
                                             [workHours]="workHours()"
-                                            (columnClick)="openWorkTimePopup($event.workTime, $event.dayOfWeek, $event.hour, $event.firstHalfHour)"
+                                            (columnClick)="openWorkTimePopup($event)"
                                         ></ps-calendar-table-column>
                                     }
                                 </tr>
@@ -241,7 +241,7 @@
                                             [isFirstHalfHour]="false"
                                             [weekNumber]="this.selectedWeek()!"
                                             [workHours]="workHours()"
-                                            (columnClick)="openWorkTimePopup($event.workTime, $event.dayOfWeek, $event.hour, $event.firstHalfHour)"
+                                            (columnClick)="openWorkTimePopup($event)"
                                         ></ps-calendar-table-column>
                                     }
                                 </tr>
@@ -274,7 +274,7 @@
                                         [isFirstHalfHour]="true"
                                         [weekNumber]="index + 1"
                                         [workHours]="workHours()"
-                                        (columnClick)="openWorkTimePopup($event.workTime, $event.dayOfWeek, $event.hour, $event.firstHalfHour)"
+                                        (columnClick)="openWorkTimePopup($event)"
                                     ></ps-calendar-table-column>
                                 }
                             </tr>

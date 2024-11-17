@@ -1,5 +1,4 @@
-import { Component, inject, input, OnChanges, output, SimpleChanges } from "@angular/core";
-import { DayOfWeek } from "../enums/day-of-week.enum";
+import { Component, DestroyRef, inject, input, OnChanges, OnInit, output, SimpleChanges } from "@angular/core";
 import { CalendarOptions } from "../enums/calendar-options.enum";
 import { NgClass, NgIf } from "@angular/common";
 import { CalendarDateService } from "../../core/services/calendar-date.service";
@@ -7,6 +6,9 @@ import { IWorkHour } from "../interfaces/work-hour.interface";
 import { IWorkTime } from "../../core/features/workTimes/models/work-time.models";
 import { CalendarFacadeService } from "../../core/services/calendar.facade.service";
 import { WorkTimeType } from "../../core/features/workTimes/models/work-time-type.interface";
+import { DayOfWeek } from "../../core/enums/day-of-week.enum";
+import { IWorkTimeData } from "../interfaces/work-time-popup.interface";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'ps-calendar-table-column',
@@ -18,9 +20,10 @@ import { WorkTimeType } from "../../core/features/workTimes/models/work-time-typ
   templateUrl: './calendar-table-column.component.html',
   styleUrl: './calendar-table-column.component.scss'
 })
-export class CalendarTableColumnComponent implements OnChanges {
-    #calendarDateService = inject(CalendarDateService);
-    #calendarFacadeService = inject(CalendarFacadeService);
+export class CalendarTableColumnComponent implements OnInit, OnChanges {
+    readonly #calendarDateService = inject(CalendarDateService);
+    readonly #calendarFacadeService = inject(CalendarFacadeService);
+    readonly #destroyRef = inject(DestroyRef)
     dayOfWeek = input.required<DayOfWeek>();
     hour = input.required<number>();
     isFirstHalfHour = input.required<boolean>();
@@ -28,20 +31,34 @@ export class CalendarTableColumnComponent implements OnChanges {
     workHours = input<IWorkHour[]>();
     weekNumber = input<number>();
 
-    columnClick = output<{ workTime?: IWorkTime, dayOfWeek: DayOfWeek, hour: number, firstHalfHour: boolean }>();
+    columnClick = output<IWorkTimeData>();
 
     columnClasses: string[] = [];
     workTime: IWorkTime | undefined;
 
+    ngOnInit() {
+        this.#calendarFacadeService.workTimes$
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe(() => {
+                this.getCellClasses();
+            });
+    }
+
 
     ngOnChanges(changes: SimpleChanges) {
-        if(changes['dayOfWeek']) {
+        if(changes['dayOfWeek'] || changes['weekNumber']) {
             this.getCellClasses()
         }
     }
 
     onColumnClick() {
-        this.columnClick.emit({workTime: this.workTime, dayOfWeek: this.dayOfWeek()!,hour: this.hour()!,firstHalfHour: this.isFirstHalfHour()});
+        const workTimeData: IWorkTimeData = {
+            workTime: this.workTime,
+            dayOfWeek: this.dayOfWeek()!,
+            hour: this.hour()!,
+            firstHalfHour: this.isFirstHalfHour()
+        };
+        this.columnClick.emit(workTimeData);
     }
 
     onMonthDateClick() {

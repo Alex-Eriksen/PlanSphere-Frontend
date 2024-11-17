@@ -1,4 +1,4 @@
-import { DayOfWeek } from "../enums/day-of-week.enum";
+import { DayOfWeek } from "../../core/enums/day-of-week.enum";
 
 export interface IWorkHour {
     id: number;
