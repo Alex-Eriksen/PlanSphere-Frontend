@@ -59,14 +59,18 @@ export class DetailsComponent implements OnInit, OnDestroy, IRightsListener {
                 next: () => {
                     this.formGroup.patchValue(this.company);
                     this.formGroup.controls.address.patchValue(recursivelyFindParentAddress(this.company.address));
-                    this.isPageLoading = false;
                     this.onInheritedToggled(this.company.inheritAddress!);
                 },
+                error: (err) => {
+                        console.log(err);
+                        this.#toastService.showToast('COMPANY.DO_NOT_EXIST');
+                },
+                complete: () => {
+                    this.isPageLoading = false;
+                }
             });
         }
-        if (this.companyId == null){
-            this.#toastService.showToast('COMPANY.DO_NOT_EXIST')
-        }
+
     }
 
     ngOnDestroy() {
