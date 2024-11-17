@@ -5,8 +5,8 @@ export interface ICompanyRequest {
     cvr: string;
     inheritAddress: boolean;
     address: IAddress;
-    careOf: string;
-    contactName: string;
-    contactEmail: string;
-    contactPhoneNumber: string;
+    careOf?: string;
+    contactName?: string;
+    contactEmail?: string;
+    contactPhoneNumber?: string;
 }
