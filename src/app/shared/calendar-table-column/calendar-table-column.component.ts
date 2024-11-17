@@ -128,10 +128,11 @@ export class CalendarTableColumnComponent implements OnInit, OnChanges {
 
         if (isWork && !this.isColumnChecked()) {
             this.columnClasses.push('bg-white');
+            return;
         } else if (!isWork && !this.isColumnChecked()) {
             this.columnClasses.push('bg-gray-100');
+            return;
         }
-
 
         const backgroundClass = this.getWorkTimeBackgroundClass();
         if (!backgroundClass) return;

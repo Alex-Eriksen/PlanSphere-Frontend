@@ -184,6 +184,7 @@ export class CalendarDateService {
     }
 
 
+
     isHourCheckedWeek(day: string, hour: number, isFirstHalfHour: boolean): boolean {
         const dayOfWorkWeek = this.#daysInMonth.find(x => x.weekNumber === this.#selectedWeek && x.name === day);
         const currentWorkTime = this.#workTimes.find(
@@ -205,15 +206,12 @@ export class CalendarDateService {
     #isHalfHourWithinWorkTime(workTime: IWorkTime, hour: number, isFirstHalfHour: boolean): boolean {
         if (!workTime) return false;
 
-        const startMinutes = isFirstHalfHour ? 0 : 30;
-        const endMinutes = isFirstHalfHour ? 30 : 60;
-
         const halfHourStart = new Date(
             workTime.startDateTime.getFullYear(),
             workTime.startDateTime.getMonth(),
             workTime.startDateTime.getDate(),
             hour,
-            startMinutes
+            isFirstHalfHour ? 0 : 30
         );
 
         const halfHourEnd = new Date(
@@ -221,15 +219,15 @@ export class CalendarDateService {
             workTime.startDateTime.getMonth(),
             workTime.startDateTime.getDate(),
             hour,
-            endMinutes
+            isFirstHalfHour ? 30 : 60
         );
 
         return (
             halfHourStart >= workTime.startDateTime &&
-            halfHourStart < (workTime.endDateTime || new Date()) &&
-            halfHourEnd > workTime.startDateTime
+            halfHourEnd <= (workTime.endDateTime || new Date())
         );
     }
+
 
 
     #getWeekBoundaries(startDay: DayOfWeek, endDay: DayOfWeek) {
