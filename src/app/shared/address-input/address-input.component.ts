@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit } from "@angular/core";
+import { Component, DestroyRef, inject, input, OnInit } from "@angular/core";
 import { FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { LineComponent } from "../line/line.component";
 import { SmallHeaderComponent } from "../small-header/small-header.component";
@@ -9,6 +9,7 @@ import { IDropdownOption } from "../interfaces/dropdown-option.interface";
 import { CountryService } from "../../core/features/address/services/country.service";
 import { ZipCodeService } from "../../core/features/address/services/zipCode.service";
 import { generateNumberRangeDropdownOptions } from "../utilities/dropdown-option.utilities";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'ps-address-input',
@@ -27,6 +28,7 @@ export class AddressInputComponent implements OnInit {
     protected readonly castControlFromAbstractToFormControl = castControlFromAbstractToFormControl;
     readonly #countryService = inject(CountryService);
     readonly #zipCodeService = inject(ZipCodeService);
+    readonly #destroyRef = inject(DestroyRef);
     addressFormGroup = input.required<FormGroup>();
     floorNumber: number = 10;
     countries: IDropdownOption[] = []
@@ -39,7 +41,8 @@ export class AddressInputComponent implements OnInit {
 
         const floorControl = this.addressFormGroup().get("floor");
         if (floorControl) {
-            floorControl.valueChanges.subscribe((floorValue: number) => {
+            floorControl.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
+                .subscribe((floorValue: number) => {
                 this.updateFloorsDropdown(floorValue);
             });
         }
