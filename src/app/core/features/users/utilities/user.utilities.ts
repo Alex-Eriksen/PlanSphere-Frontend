@@ -5,7 +5,7 @@ import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-t
 import { signal } from "@angular/core";
 import { mapToSignalPaginatedResponse } from "../../../../shared/utilities/signals.utilities";
 import { IUser } from "../models/user.model";
-import { FormGroup, NonNullableFormBuilder, Validators } from "@angular/forms";
+import { NonNullableFormBuilder, Validators } from "@angular/forms";
 import { constructAddressFormGroup } from "../../address/utilities/address.utilities";
 
 export const mapUserToSignalSmallListInputOperator = (): OperatorFunction<IPaginatedResponse<IUser>, ISignalPaginatedResponse<ISmallListTableInput>
@@ -30,20 +30,6 @@ export const userFormGroupBuilder = (fb: NonNullableFormBuilder, user?: IUser) =
         email: fb.control<string | null>(user?.email ?? null, [Validators.required, Validators.email]),
         phoneNumber: fb.control<string | null>(user?.phoneNumber ?? null, [Validators.required ,Validators.pattern("^[0-9]*$"), Validators.maxLength(8), Validators.minLength(8)]),
         address: constructAddressFormGroup(fb),
-        settings: userSettingsFormGroupBuilder(fb),
         roleIds: fb.control<number[] | []>(user?.roleIds ?? []),
-    });
-}
-
-export const userSettingsFormGroupBuilder = (fb: NonNullableFormBuilder): FormGroup => {
-    return fb.group({
-        inheritWorkSchedule: fb.control(false),
-        inheritedWorkScheduleId: fb.control<number | null>(null, {updateOn: "change"}),
-        autoCheckInOut: fb.control(false),
-        autoCheckOutDisabled: fb.control(false),
-        isEmailPrivate: fb.control(false),
-        isAddressPrivate: fb.control(false),
-        isPhoneNumberPrivate: fb.control(false),
-        isBirthdayPrivate: fb.control(false),
     });
 }
