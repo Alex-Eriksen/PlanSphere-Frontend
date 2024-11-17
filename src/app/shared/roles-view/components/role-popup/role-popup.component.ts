@@ -24,6 +24,8 @@ import { IOrganisationLookUp } from "../../../../core/features/organisations/mod
 import { IRole } from "../../../../core/features/roles/models/role.model";
 import { IDepartmentLookup } from "../../../../core/features/department/models/department-look-up.model";
 import { DepartmentService } from "../../../../core/features/department/services/department.service";
+import { ITeamLookUp } from "../../../../core/features/team/models/team-look-up.model";
+import { TeamService } from "../../../../core/features/team/services/team.service";
 
 @Component({
   selector: 'ps-role-popup',
@@ -49,6 +51,7 @@ export class RolePopupComponent implements OnInit, OnDestroy {
     readonly #fb = inject(NonNullableFormBuilder);
     readonly #companyService = inject(CompanyService);
     readonly #departmentService = inject(DepartmentService);
+    readonly #teamService = inject(TeamService);
     readonly #organisationService = inject(OrganisationService);
     #rolePopupSubscription!: Subscription;
     isLoading = false;
@@ -85,7 +88,7 @@ export class RolePopupComponent implements OnInit, OnDestroy {
             this.#lookUpCompanies(),
             this.#lookUpOrganisations(),
             this.#lookUpDepartments(),
-            // TODO: Add look up  teams
+            this.#lookUpTeams(),
             this.#getRoleById(),
         ]).subscribe(() => this.isLoading = false);
     }
@@ -96,7 +99,7 @@ export class RolePopupComponent implements OnInit, OnDestroy {
             this.#lookUpCompanies(),
             this.#lookUpOrganisations(),
             this.#lookUpDepartments(),
-            // TODO: Add look up teams
+            this.#lookUpTeams()
         ]).subscribe(() => this.isLoading = false);
     }
 
@@ -112,6 +115,10 @@ export class RolePopupComponent implements OnInit, OnDestroy {
         return this.#departmentService.lookUpDepartments()
             .pipe(tap((departments) =>
                 this.departmentOptions = generateDropdownOptionsFromLookUps(departments)));
+    }
+
+    #lookUpTeams(): Observable<ITeamLookUp[]> {
+        return this.#teamService.lookUpTeams().pipe(tap((teams) => this.teamOptions = generateDropdownOptionsFromLookUps(teams)));
     }
 
     #lookUpOrganisations(): Observable<IOrganisationLookUp[]> {
