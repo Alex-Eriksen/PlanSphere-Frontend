@@ -15,6 +15,7 @@ export const mapZipCodesToDropdownOptions = (lookUps: IZipCodeLookup[]): IDropdo
 
 export const constructAddressFormGroup = (fb: NonNullableFormBuilder, address?: IAddress, disabled?: boolean): FormGroup => {
     const fg = fb.group({
+        id: fb.control({ value: address?.id ?? 0, disabled: true }),
         streetName: fb.control<string | null>({ value: address?.streetName ?? null, disabled: false }),
         houseNumber: fb.control<string | null>({ value: address?.houseNumber ?? null, disabled: false }),
         door: fb.control<string | null>({ value: address?.door  ?? null, disabled: false }),
