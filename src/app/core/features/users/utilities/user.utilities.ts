@@ -6,7 +6,7 @@ import { signal } from "@angular/core";
 import { mapToSignalPaginatedResponse } from "../../../../shared/utilities/signals.utilities";
 import { IUser } from "../models/user.model";
 import { FormGroup, NonNullableFormBuilder, Validators } from "@angular/forms";
-import { addressFormBuilderControl } from "../../address/utilities/address.utilities";
+import { constructAddressFormGroup } from "../../address/utilities/address.utilities";
 
 export const mapUserToSignalSmallListInputOperator = (): OperatorFunction<IPaginatedResponse<IUser>, ISignalPaginatedResponse<ISmallListTableInput>
 > => {
@@ -29,7 +29,7 @@ export const userFormGroupBuilder = (fb: NonNullableFormBuilder, user?: IUser) =
         lastName: fb.control<string | null>(user?.lastName ?? null, [Validators.required, Validators.maxLength(50), Validators.minLength(2)]),
         email: fb.control<string | null>(user?.email ?? null, [Validators.required, Validators.email]),
         phoneNumber: fb.control<string | null>(user?.phoneNumber ?? null, [Validators.required ,Validators.pattern("^[0-9]*$"), Validators.maxLength(8), Validators.minLength(8)]),
-        address: addressFormBuilderControl(fb),
+        address: constructAddressFormGroup(fb),
         settings: userSettingsFormGroupBuilder(fb),
         roleIds: fb.control<number[] | []>(user?.roleIds ?? []),
     });

@@ -19,10 +19,10 @@ import { IDropdownOption } from "../../../interfaces/dropdown-option.interface";
 import { CountryService } from "../../../../core/features/address/services/country.service";
 import { markAllControlsAsTouchedAndDirty } from "../../../utilities/form.utilities";
 import { ICompanyRequest } from "../../../../core/features/company/models/company-request.model";
-import { AddressInputComponent } from "../../../address-input/address-input/address-input.component";
 import { ToggleInputComponent } from "../../../toggle-input/toggle-input.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { constructAddressFormGroup } from "../../../../core/features/address/utilities/address.utilities";
+import { AddressInputComponent } from "../../../address-input/address-input.component";
 
 
 @Component({

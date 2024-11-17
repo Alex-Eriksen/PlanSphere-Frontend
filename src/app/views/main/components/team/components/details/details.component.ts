@@ -6,7 +6,6 @@ import { LoadingOverlayComponent } from "../../../../../../shared/loading-overla
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { LineComponent } from "../../../../../../shared/line/line.component";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
-import { AddressInputComponent } from "../../../../../../shared/address-input/address-input/address-input.component";
 import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
 import { ITeam } from "../../../../../../core/features/team/models/team.model";
 import { TeamService } from "../../../../../../core/features/team/services/team.service";
@@ -19,6 +18,7 @@ import { ISourceLevelRights } from "../../../../../../core/features/authenticati
 import { forkJoin, Subscription, tap } from "rxjs";
 import { recursivelyFindParentAddress } from "../../../../../../core/features/address/utilities/address.utilities";
 import { ToggleInputComponent } from "../../../../../../shared/toggle-input/toggle-input.component";
+import { AddressInputComponent } from "../../../../../../shared/address-input/address-input.component";
 
 @Component({
   selector: 'ps-details',
