@@ -21,12 +21,15 @@
                     </ps-input>
                 </div>
             </div>
-
             <!-- Address Section -->
             <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
-
+            <ps-toggle-input
+                appliedClasses="mt-4"
+                label="INHERIT_ADDRESS"
+                [control]="formGroup.controls.inheritAddress"
+                (toggleChanged)="onInheritedToggled($event)"
+            />
             <ps-line appliedClasses="my-4 mt-4"></ps-line>
-
             <!-- Contact Information Section -->
             <div class="flex flex-col gap-4 pt-6">
                 <ps-small-header heading="CONTACT.NAME"></ps-small-header>

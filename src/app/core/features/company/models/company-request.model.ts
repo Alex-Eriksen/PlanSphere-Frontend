@@ -1,11 +1,12 @@
 ﻿import { IAddress } from "../../address/models/address.model";
 
 export interface ICompanyRequest {
-    CompanyName: string;
-    CVR: string;
-    Address: IAddress;
-    CareOf: string;
-    ContactName: string;
-    ContactEmail: string;
-    ContactPhoneNumber: string;
+    companyName: string;
+    cvr: string;
+    inheritAddress: boolean;
+    address: IAddress;
+    careOf?: string;
+    contactName?: string;
+    contactEmail?: string;
+    contactPhoneNumber?: string;
 }

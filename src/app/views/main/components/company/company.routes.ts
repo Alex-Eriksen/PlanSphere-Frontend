@@ -3,6 +3,7 @@ import { DetailsComponent } from "./components/details/details.component";
 import { RolesComponent } from "./components/roles/roles.component";
 import { DepartmentsComponent } from "./components/departments/departments.component";
 import { SettingsComponent } from "./components/settings/settings.component";
+import { UsersComponent } from "./components/users/users.component";
 
 export const companyRoutes: Route[] = [
     {
@@ -29,6 +30,13 @@ export const companyRoutes: Route[] = [
         component: RolesComponent,
         data: {
             name: "ROLE.NAME_PLURAL"
+        }
+    },
+    {
+        path: "users",
+        component: UsersComponent,
+        data: {
+            name: "USER.NAME_PLURAL"
         }
     },
     {

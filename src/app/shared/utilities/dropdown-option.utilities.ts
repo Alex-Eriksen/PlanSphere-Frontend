@@ -40,7 +40,6 @@ export const generateHourAndMinuteDropdownOptions = (): IDropdownOption[] => {
             });
         }
     }
-
     return options;
 }
 
@@ -64,4 +63,14 @@ export const generateHalfHourDropdownOptions = (selectedDate: Date): IDropdownOp
     }
 
     return options;
+}
+
+export const generateNumberRangeDropdownOptions = (maxFloor: number): IDropdownOption[] => {
+    return Array.from({ length: maxFloor }, (_, i) => {
+        const floor = i + 1;
+        return {
+            label: floor.toString(),
+            value: floor.toString(),
+        };
+    });
 }

@@ -1,9 +1,5 @@
 import { Component, DestroyRef, effect, inject, input, signal, WritableSignal } from "@angular/core";
-import { OrganisationService } from "../../core/features/organisation/services/organisation.service";
-import {
-    constructInitialSignalPaginatedResponse,
-    copyPaginatedSignalResponse
-} from "../utilities/signals.utilities";
+import { constructInitialSignalPaginatedResponse, copyPaginatedSignalResponse } from "../utilities/signals.utilities";
 import { ISignalPaginatedResponse } from "../interfaces/signal-paginated-response.interface";
 import { ISmallListTableInput } from "../interfaces/small-list-table-input.interface";
 import { BasePaginatedTableWithSearchComponent } from "../base-paginated-table-with-search-abstract/base-paginated-table-with-search.abstract";
@@ -23,6 +19,7 @@ import { SmallHeaderComponent } from "../small-header/small-header.component";
 import { SubHeaderComponent } from "../sub-header/sub-header.component";
 import { TranslateModule } from "@ngx-translate/core";
 import { IPaginationSortPayload } from "../interfaces/pagination-sort-payload.interface";
+import { OrganisationService } from "../../core/features/organisations/services/organisation.service";
 
 @Component({
   selector: 'ps-list-organisations',

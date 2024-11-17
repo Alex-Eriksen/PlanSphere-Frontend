@@ -11,9 +11,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { OrganisationService } from "../../../../../../core/features/organisations/services/organisation.service";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
 import { ButtonComponent } from "../../../../../../shared/button/button.component";
-import { UserService } from "../../../../../../core/features/users/services/user.service";
 import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-option.interface";
-import { generateDropdownOptionsFromLookUps } from "../../../../../../shared/utilities/dropdown-option.utilities";
 import { forkJoin, Subscription, tap } from "rxjs";
 import { SelectFieldComponent } from "../../../../../../shared/select-field/select-field.component";
 import { DialogService } from "../../../../../../core/services/dialog.service";
@@ -34,7 +32,6 @@ import { DialogService } from "../../../../../../core/services/dialog.service";
 export class SettingsComponent implements OnInit, OnDestroy {
     readonly #authService = inject(AuthenticationService);
     readonly #organisationService = inject(OrganisationService);
-    readonly #userService = inject(UserService);
     readonly #dialogService = inject(DialogService);
     readonly #fb = inject(NonNullableFormBuilder);
     workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb);
@@ -64,7 +61,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
                 }
                 this.loadSubscription = forkJoin([
                     this.#getOrganisationSettings(),
-                    this.#lookUpUsers()
                 ]).subscribe(() => this.isPageLoading = false);
             });
     }
@@ -78,10 +74,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
             this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, data.settings.defaultWorkSchedule);
             this.workScheduleComponent()?.updateSelectedDays(data.settings.defaultWorkSchedule.workScheduleShifts);
         }));
-    }
-
-    #lookUpUsers() {
-        return this.#userService.lookUpUsers().pipe(tap((users) => this.userOptions = generateDropdownOptionsFromLookUps(users)));
     }
 
     protected updateWorkSchedule(workSchedule: IWorkSchedule) {

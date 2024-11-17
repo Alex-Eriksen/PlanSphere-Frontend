@@ -1,4 +1,5 @@
 import { IAddress } from "../../address/models/address.model";
+import { IOrganisationSettings } from "./organisation-settings.model";
 
 export interface IOrganisationDetails
 {
@@ -6,9 +7,10 @@ export interface IOrganisationDetails
     name: string;
     logoUrl?: string;
     address: IAddress;
-    settings: {
-        defaultRoleId: number;
-        defaultWorkScheduleId : number;
-    };
+    settings: IOrganisationSettings
+    owner: string;
     createdAt: Date;
+    createdBy?: string;
+    updatedAt?: Date;
+    updatedBy?: string;
 }
