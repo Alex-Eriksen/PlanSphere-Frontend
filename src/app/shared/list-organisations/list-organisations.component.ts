@@ -1,4 +1,4 @@
-import { Component, DestroyRef, effect, inject, input, signal, WritableSignal } from "@angular/core";
+import { Component, DestroyRef, effect, inject, input, OnInit, signal, WritableSignal } from "@angular/core";
 import { constructInitialSignalPaginatedResponse, copyPaginatedSignalResponse } from "../utilities/signals.utilities";
 import { ISignalPaginatedResponse } from "../interfaces/signal-paginated-response.interface";
 import { ISmallListTableInput } from "../interfaces/small-list-table-input.interface";
@@ -36,7 +36,7 @@ import { OrganisationService } from "../../core/features/organisations/services/
   templateUrl: './list-organisations.component.html',
   styleUrl: './list-organisations.component.scss'
 })
-export class ListOrganisationsComponent extends BasePaginatedTableWithSearchComponent{
+export class ListOrganisationsComponent extends BasePaginatedTableWithSearchComponent implements OnInit{
     readonly #organisationService = inject(OrganisationService);
     override paginatedData: ISignalPaginatedResponse<ISmallListTableInput> = constructInitialSignalPaginatedResponse();
     readonly #matDialog = inject(MatDialog);
@@ -51,13 +51,6 @@ export class ListOrganisationsComponent extends BasePaginatedTableWithSearchComp
     });
 
     readonly loadDataEffect$ = effect(() => {this.loadDataWithCorrectParams()});
-    override loadData(params: IPaginationSortPayload): void {
-        this.isTableLoading = true;
-        this.#organisationService.getListOfOrganisations(params).subscribe((paginatedProperties) => {
-            copyPaginatedSignalResponse(this.paginatedData, paginatedProperties);
-            this.isTableLoading = false;
-        });
-    }
 
     override actions: ITableAction[] = [
         {
@@ -69,6 +62,20 @@ export class ListOrganisationsComponent extends BasePaginatedTableWithSearchComp
             labelFn: () => "ORGANISATION.DELETE.TITLE",
         },
     ]
+
+    ngOnInit() {
+        this.isTableLoading = true;
+        this.loadDataWithCorrectParams();
+    }
+
+    override loadData(params: IPaginationSortPayload): void {
+        this.isTableLoading = true;
+        this.#organisationService.getListOfOrganisations(params).subscribe((paginatedProperties) => {
+            copyPaginatedSignalResponse(this.paginatedData, paginatedProperties);
+            this.isTableLoading = false;
+        });
+    }
+
 
     loadDataWithCorrectParams(): void {
         this.loadData({
