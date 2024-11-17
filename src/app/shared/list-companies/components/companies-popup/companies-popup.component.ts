@@ -1,4 +1,4 @@
-﻿import { OnInit, inject, Component } from "@angular/core";
+﻿import { OnInit, inject, Component, DestroyRef } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
 import { ICompaniesPopupInputs } from "./companies-popup-inputs.interface";
@@ -20,6 +20,9 @@ import { CountryService } from "../../../../core/features/address/services/count
 import { markAllControlsAsTouchedAndDirty } from "../../../utilities/form.utilities";
 import { ICompanyRequest } from "../../../../core/features/company/models/company-request.model";
 import { AddressInputComponent } from "../../../address-input/address-input/address-input.component";
+import { ToggleInputComponent } from "../../../toggle-input/toggle-input.component";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { constructAddressFormGroup } from "../../../../core/features/address/utilities/address.utilities";
 
 
 @Component({
@@ -38,7 +41,8 @@ import { AddressInputComponent } from "../../../address-input/address-input/addr
         DialogHeaderComponent,
         LoadingOverlayComponent,
         LineComponent,
-        AddressInputComponent
+        AddressInputComponent,
+        ToggleInputComponent
     ],
     templateUrl: './companies-popup.component.html',
     styleUrl: './companies-popup.component.scss'
@@ -47,16 +51,19 @@ export class CompaniesPopupComponent implements OnInit{
     readonly #companyService = inject(CompanyService);
     readonly #matDialog = inject(MatDialog);
     readonly #fb = inject(NonNullableFormBuilder);
+    readonly #destroyRef = inject(DestroyRef);
     countries: IDropdownOption[] = []
     readonly #countryService = inject(CountryService);
     readonly componentInputs: ICompaniesPopupInputs = inject(MAT_DIALOG_DATA);
     isPageLoading: boolean = false;
     isFormSubmitting: boolean = false;
 
+    addressFormGroup = constructAddressFormGroup(this.#fb);
     formGroup = this.#fb.group({
         name: this.#fb.control("", Validators.required),
         cvr: this.#fb.control("", Validators.required),
         address: this.#fb.group({
+            inheritAddress:this.#fb.control(false),
             streetName: this.#fb.control("", Validators.required),
             houseNumber: this.#fb.control("", Validators.required),
             door: this.#fb.control("", Validators.required),
@@ -73,6 +80,9 @@ export class CompaniesPopupComponent implements OnInit{
     ngOnInit(): void {
         this.isPageLoading = true;
         this.#loadCountries();
+        this.formGroup.controls.address.controls.inheritAddress.valueChanges
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe((value) => this.#onInheritedToggled(value))
     }
 
     #loadCountries(): void {
@@ -83,6 +93,19 @@ export class CompaniesPopupComponent implements OnInit{
             },
             complete: () => this.isPageLoading = false,
         })
+    }
+
+    #onInheritedToggled(value: boolean): void {
+        if (value) {
+            this.formGroup = constructAddressFormGroup(this.#fb, undefined, true);
+            return;
+        }
+        this.addressFormGroup.enable();
+        this.formGroup.controls.address.controls.inheritAddress.patchValue(false);
+    }
+
+    setInheritance() {
+
     }
 
     submitForm(){

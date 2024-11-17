@@ -7,6 +7,7 @@ export interface ICompany {
     contactName?: string;
     contactEmail?: string;
     contactPhoneNumber?: string;
+    inheritAddress?: boolean;
     address: IAddress;
     careOf?: string;
     createdAt: Date;

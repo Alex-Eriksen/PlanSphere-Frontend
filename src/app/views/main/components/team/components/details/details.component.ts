@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit } from "@angular/core";
+import { Component, inject, input, OnDestroy, OnInit } from "@angular/core";
 import { InputComponent } from "../../../../../../shared/input/input.component";
 import { ButtonComponent } from "../../../../../../shared/button/button.component";
 import { SelectFieldComponent } from "../../../../../../shared/select-field/select-field.component";
@@ -16,49 +16,73 @@ import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-op
 import { SourceLevel } from "../../../../../../core/enums/source-level.enum";
 import { markAllControlsAsTouchedAndDirty, updateNestedControlsPathAndValue } from "../../../../../../shared/utilities/form.utilities";
 import { ISourceLevelRights } from "../../../../../../core/features/authentication/models/source-level-rights.model";
+import { forkJoin, Subscription, tap } from "rxjs";
+import { recursivelyFindParentAddress } from "../../../../../../core/features/address/utilities/address.utilities";
+import { ToggleInputComponent } from "../../../../../../shared/toggle-input/toggle-input.component";
 
 @Component({
   selector: 'ps-details',
   standalone: true,
-  imports: [
-      InputComponent,
-      ButtonComponent,
-      SelectFieldComponent,
-      LoadingOverlayComponent,
-      ReactiveFormsModule,
-      LineComponent,
-      SmallHeaderComponent,
-      AddressInputComponent
-  ],
+    imports: [
+        InputComponent,
+        ButtonComponent,
+        SelectFieldComponent,
+        LoadingOverlayComponent,
+        ReactiveFormsModule,
+        LineComponent,
+        SmallHeaderComponent,
+        AddressInputComponent,
+        ToggleInputComponent
+    ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })
-export class DetailsComponent implements OnInit, IRightsListener{
+export class DetailsComponent implements OnInit, OnDestroy, IRightsListener{
     teamId = input.required<number>()
-    team?: ITeam
+    team!: ITeam
     readonly #teamService = inject(TeamService);
     readonly #fb = inject(NonNullableFormBuilder);
     readonly #countryService = inject(CountryService);
     readonly #toastService = inject(ToastService);
     countries: IDropdownOption[] =[]
     sourceLevel = SourceLevel.Team
+    teamDetailsSubscription!: Subscription;
     isPageLoading: boolean = false;
 
     ngOnInit(): void {
         this.isPageLoading = true;
         if(this.teamId) {
             this.#loadCountries();
-            this.loadTeamDetails(this.sourceLevel, this.teamId())
+            this.teamDetailsSubscription = forkJoin([
+                this.loadTeamDetails(this.sourceLevel, this.teamId())
+            ]).subscribe({
+                next: () => {
+                    this.formGroup.patchValue(this.team);
+                    this.formGroup.controls.address.patchValue(recursivelyFindParentAddress(this.team.address));
+                    this.onInheritedToggled(this.team.inheritAddress!)
+                },
+                error: () => {
+                    if(this.teamId == null){
+                        this.#toastService.showToast('TEAM.DO_NOT_EXIST')
+                    }
+                },
+                complete: () => {
+                    this.isPageLoading = false;
+                }
+            });
         }
-        if(this.teamId == null){
-            this.#toastService.showToast('TEAM.DO_NOT_EXIST')
-        }
+
+    }
+
+    ngOnDestroy() {
+        this.teamDetailsSubscription.unsubscribe();
     }
 
     formGroup = this.#fb.group({
         name: this.#fb.control("", Validators.required),
         description: this.#fb.control(""),
         identifier: this.#fb.control(""),
+        inheritAddress: this.#fb.control(false),
         address: this.#fb.group({
             streetName: this.#fb.control(""),
             houseNumber: this.#fb.control(""),
@@ -90,12 +114,29 @@ export class DetailsComponent implements OnInit, IRightsListener{
         }
     }
 
-    loadTeamDetails(sourceLevel: SourceLevel, teamId: number): void {
-        this.#teamService.getTeamById(teamId, sourceLevel, teamId).subscribe({
-            next: (data: ITeam) => this.formGroup.patchValue(data),
-            error: () => this.#toastService.showToast('TEAM.DO_NOT_EXIST'),
-            complete: () => this.isPageLoading = false
-        });
+    onInheritedToggled(value: boolean): void {
+        if(value)
+        {
+            const paths = updateNestedControlsPathAndValue(this.formGroup);
+            if(Object.keys(paths).length) {
+                this.#teamService.patchTeams(this.teamId(), paths).subscribe(() => {
+                    this.loadTeamDetails(this.sourceLevel ,this.teamId()).subscribe();
+                });
+            }
+            this.formGroup.controls.address.disable();
+        }
+        else
+        {
+            this.formGroup.controls.address.enable();
+            this.formGroup.controls.address.patchValue(this.team.address);
+        }
+    }
+
+    loadTeamDetails(sourceLevel: SourceLevel, teamId: number){
+        return this.#teamService.getTeamById(teamId, sourceLevel, teamId).pipe(tap(data => {
+            this.team = data;
+            this.formGroup.controls.address.patchValue(recursivelyFindParentAddress(data.address));
+        }));
     }
 
     setRightsData(rights: ISourceLevelRights) {
