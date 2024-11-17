@@ -10,6 +10,7 @@ export interface IUser extends IBase {
     phoneNumber: string;
     birthday: Date;
     roleIds: number[];
+    jobTitleIds: number[];
     settings: IUserSettings;
     createdAt: string;
     createdBy: string;

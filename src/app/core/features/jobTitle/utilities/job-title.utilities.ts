@@ -5,6 +5,8 @@ import { IJobTitle } from "../models/job-title.model";
 import { ISmallListTableInput } from "../../../../shared/interfaces/small-list-table-input.interface";
 import { signal } from "@angular/core";
 import { mapToSignalPaginatedResponse } from "../../../../shared/utilities/signals.utilities";
+import { IDropdownOption } from "../../../../shared/interfaces/dropdown-option.interface";
+import { IJobTitleLookUp } from "../models/job-title-look-up.model";
 
 export const mapJobTitlesToSignalSmallListInputOperator = (): OperatorFunction<
     IPaginatedResponse<IJobTitle>,
@@ -23,3 +25,10 @@ const mapJobTitlesToSmallListInput = (jobTitles: IJobTitle[]): ISmallListTableIn
         active: jobTitle.isInheritanceActive,
     }));
 };
+
+export const mapJobTitleToDropdownOptions = (jobTitles: IJobTitleLookUp[]): IDropdownOption[] => {
+    return jobTitles.map((jobTitle) => ({
+        label: jobTitle.value,
+        value: jobTitle.id,
+    }));
+}

@@ -37,6 +37,12 @@
                 <ps-small-header [heading]="'ROLE.NAME_PLURAL' | translate"></ps-small-header>
                 <ps-select-field dropDownLabel="ROLE.NAME_PLURAL" [dropDownOptions]="roles" [selectMultipleOptions]="true" [control]="formGroup.controls.roleIds"></ps-select-field>
             </div>
+
+            <ps-line></ps-line>
+            <div class="mt-5">
+                <ps-small-header [heading]="'JOBTITLE.NAME_PLURAL' | translate"></ps-small-header>
+                <ps-select-field dropDownLabel="JOBTITLE.NAME_PLURAL" [dropDownOptions]="jobTitles" [selectMultipleOptions]="true" [control]="formGroup.controls.jobTitleIds"></ps-select-field>
+            </div>
         </div>
     </div>
 }

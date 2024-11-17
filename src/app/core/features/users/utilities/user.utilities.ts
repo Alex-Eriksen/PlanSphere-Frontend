@@ -31,5 +31,6 @@ export const userFormGroupBuilder = (fb: NonNullableFormBuilder, user?: IUser) =
         phoneNumber: fb.control<string | null>(user?.phoneNumber ?? null, [Validators.required ,Validators.pattern("^[0-9]*$"), Validators.maxLength(8), Validators.minLength(8)]),
         address: constructAddressFormGroup(fb),
         roleIds: fb.control<number[] | []>(user?.roleIds ?? []),
+        jobTitleIds: fb.control<number[] | []>(user?.jobTitleIds ?? []),
     });
 }

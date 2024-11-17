@@ -1,4 +1,4 @@
-import { Component, inject, input, OnDestroy, OnInit } from "@angular/core";
+import { Component, DestroyRef, inject, input, OnDestroy, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { NonNullableFormBuilder } from "@angular/forms";
 import { IUserPopupInputs } from "./user-popup-inputs.interfaces";
@@ -23,6 +23,8 @@ import { IDropdownOption } from "../../interfaces/dropdown-option.interface";
 import { LineComponent } from "../../line/line.component";
 import { SourceLevel } from "../../../core/enums/source-level.enum";
 import { userFormGroupBuilder } from "../../../core/features/users/utilities/user.utilities";
+import { JobTitleService } from "../../../core/features/jobTitle/services/job-title.service";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'ps-user-popup',
@@ -48,8 +50,10 @@ import { userFormGroupBuilder } from "../../../core/features/users/utilities/use
 export class UserPopupComponent implements OnInit, OnDestroy {
     readonly #userService = inject(UserService);
     readonly #roleService = inject(RoleService);
+    readonly #jobTitleService = inject(JobTitleService);
     readonly #matDialog = inject(MatDialog);
     readonly #fb = inject(NonNullableFormBuilder);
+    readonly #destroyRef = inject(DestroyRef);
     formGroup = userFormGroupBuilder(this.#fb);
     readonly componentInputs: IUserPopupInputs = inject(MAT_DIALOG_DATA);
     userId = input.required<number>();
@@ -58,12 +62,14 @@ export class UserPopupComponent implements OnInit, OnDestroy {
     isPageLoading: boolean = false;
     isFormSubmitting: boolean = false;
     roles: IDropdownOption[] = [];
+    jobTitles: IDropdownOption[] = [];
 
     #loadUserSubscription: Subscription = new Subscription();
 
     ngOnInit(): void {
         this.isPageLoading = true;
         this.#loadRoles();
+        this.#loadJobTitles();
         if (this.componentInputs.isEditPopup) {
             this.#initializeEditPopup();
         } else {
@@ -72,9 +78,20 @@ export class UserPopupComponent implements OnInit, OnDestroy {
     }
 
     #loadRoles(): void {
-        this.#roleService.lookUpRoles().subscribe({
+        this.#roleService.lookUpRoles()
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe({
             next: (roles) => this.roles = roles,
             error: (error) => console.error("Failed to fetch roles: ", error)
+        });
+    }
+
+    #loadJobTitles(): void {
+        this.#jobTitleService.jobTitleLookUp()
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe({
+            next: (jobTitles) => this.jobTitles = jobTitles,
+            error: (error) => console.error("Failed to fetch jobTitles: ", error)
         });
     }
 
@@ -91,6 +108,7 @@ export class UserPopupComponent implements OnInit, OnDestroy {
         this.isFormSubmitting = true;
         if (this.componentInputs.isEditPopup) {
             this.#userService.updateUser(this.componentInputs.sourceLevel, this.componentInputs.sourceLevelId, this.componentInputs.userId, this.formGroup.value as IUserPayload)
+                .pipe(takeUntilDestroyed(this.#destroyRef))
                 .subscribe({
                     next: () => {
                         this.isFormSubmitting = false;
@@ -100,6 +118,7 @@ export class UserPopupComponent implements OnInit, OnDestroy {
         } else {
             this.#userService
                 .createUser(this.formGroup.value, this.componentInputs.sourceLevel, this.componentInputs.sourceLevelId)
+                .pipe(takeUntilDestroyed(this.#destroyRef))
                 .subscribe({
                     next: () => {
                         this.isFormSubmitting = false;

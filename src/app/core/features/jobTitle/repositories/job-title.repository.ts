@@ -7,6 +7,7 @@ import { APIS } from "../../../api/plansphere.api";
 import { SourceLevel } from "../../../enums/source-level.enum";
 import { IJobTitlePayload } from "../models/job-title-payload";
 import { IJobTitle } from "../models/job-title.model";
+import { IJobTitleLookUp } from "../models/job-title-look-up.model";
 
 @Injectable({
     providedIn: "root"
@@ -40,5 +41,9 @@ export class JobTitleRepository {
 
     toggleInheritance(id: number, sourceLevel: SourceLevel, sourceLevelId: number): Observable<void> {
         return this.#http.post<void>(APIS.jobTitles.toggleInheritance(sourceLevel, sourceLevelId, id), {});
+    }
+
+    jobTitleLookUp(): Observable<IJobTitleLookUp[]> {
+        return this.#http.get<IJobTitleLookUp[]>(APIS.jobTitles.lookUpJobTitles());
     }
 }
