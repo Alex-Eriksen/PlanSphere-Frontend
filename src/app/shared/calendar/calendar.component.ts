@@ -166,6 +166,12 @@ export class CalendarComponent implements OnInit {
                 )
             )
             .subscribe(({ workTimes, month }) => {
+                workTimes.forEach(workTime => {
+                    workTime.startDateTime.setMinutes(0, 0, 0);
+                    if(workTime.endDateTime) {
+                        workTime.endDateTime.setMinutes(0, 0, 0)
+                    }
+                })
                 this.workTimes = workTimes;
                 this.selectedMonth = month;
                 this.#calendarDateService.setSelectedMonth(month);
