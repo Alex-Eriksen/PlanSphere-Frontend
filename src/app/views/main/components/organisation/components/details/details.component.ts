@@ -66,8 +66,11 @@ export class DetailsComponent implements OnInit, IRightsListener {
 
     getOrganisationDetail(id: number): void {
         this.#organisationService.getOrganisationDetailsById(id).subscribe({
-            next: (organisation : IOrganisationDetails) => this.formGroup.patchValue(organisation),
-            error: (error) => console.error('ORGANISATION.FIELD_TO_FETCH', error, this.organisationId),
+            next: (organisation : IOrganisationDetails) => {
+                this.formGroup.patchValue(organisation);
+                this.formGroup.controls.createdAt.disable();
+            },
+            error: () => this.#toastService.showToast('ORGANISATION.FIELD_TO_FETCH'),
             complete: () => this.isPageLoading = false
         });
     }
