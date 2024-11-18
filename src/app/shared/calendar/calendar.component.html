@@ -1,0 +1,32 @@
+@if(isLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div class="flex flex-row gap-4">
+        <ps-calendar-side-panel
+            class="w-[17.5rem]"
+            *ngIf="!hideSidePanel"
+            [calendarOption]="calendarOption"
+            [currentDate]="currentDate"
+            [selectedDate]="selectedDate"
+            [selectedMonth]="selectedMonth"
+            [selectedWeek]="selectedWeek"
+            [daysInMonth]="daysInMonth"
+            [currentSelectedDay]="currentSelectedDay!"
+            (onCheckButtonClick)="onCheckButtonClick()">
+        </ps-calendar-side-panel>
+        <ps-calender-table
+            class="flex grow"
+            [calendarOption]="calendarOption"
+            [currentDate]="currentDate"
+            [selectedDate]="selectedDate"
+            [selectedMonth]="selectedMonth"
+            [selectedWeek]="selectedWeek"
+            [workHours]="workHours"
+            [workSchedule]="workSchedule()"
+            [daysInMonth]="daysInMonth"
+            [currentSelectedDay]="currentSelectedDay!"
+            [workTimes]="workTimes"
+            [hideHeader]="hideHeader"
+        ></ps-calender-table>
+    </div>
+}

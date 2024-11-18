@@ -5,8 +5,8 @@ import { ILoggedInUser } from "../models/logged-in-user.model";
 import { jwtDecode } from "jwt-decode";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DecodedAccessToken } from "../models/decoded-access-token.model";
-import { SourceLevel } from "../../../enums/source-level.enum";
 import { ISourceLevelRights } from "../models/source-level-rights.model";
+import { SourceLevel } from "../../../enums/source-level.enum";
 
 @Injectable({
     providedIn: 'root'

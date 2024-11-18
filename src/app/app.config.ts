@@ -10,6 +10,7 @@ import { authenticationInitializer } from "./core/initializers/authentication.in
 import { AuthenticationService } from "./core/features/authentication/services/authentication.service";
 import { authenticationInterceptor } from "./core/interceptors/authentication.interceptor";
 import { patchRequestInterceptor } from "./core/interceptors/patch.interceptor";
+import { dateConversionInterceptor } from "./core/interceptors/date-conversion.interceptor";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http);
@@ -22,7 +23,8 @@ export const appConfig: ApplicationConfig = {
           withFetch(),
           withInterceptors([
               authenticationInterceptor,
-              patchRequestInterceptor
+              patchRequestInterceptor,
+              dateConversionInterceptor,
           ]),
       ),
       importProvidersFrom(

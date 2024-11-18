@@ -37,9 +37,64 @@
     "CREATED_AT": "Oprettelsesdato",
     "ACTIVATE": "Aktivér",
     "DEACTIVATE": "Deaktivér",
+    "MONDAY": "Mandag",
+    "TUESDAY": "Tirsdag",
+    "WEDNESDAY": "Onsdag",
+    "THURSDAY": "Torsdag",
+    "FRIDAY": "Fredag",
+    "SATURDAY": "Lørdag",
+    "SUNDAY": "Søndag",
+    "JANUARY": "Januar",
+    "FEBRUARY": "Februar",
+    "MARCH": "Marts",
+    "APRIL": "April",
+    "MAY": "Maj",
+    "JUNE": "Juni",
+    "JULY": "Juli",
+    "AUGUST": "August",
+    "SEPTEMBER": "September",
+    "OCTOBER": "Oktober",
+    "NOVEMBER": "November",
+    "DECEMBER": "December",
+    "LOCATION": "Lokation",
+    "CALENDAR": {
+        "CHECK_IN": "Check ind",
+        "CHECK_OUT": "Check ud",
+        "CHECKED_IN": "Du er blevet checked ind",
+        "CHECKED_OUT": "Du er blevet checked ud",
+        "ABBREVIATIONS": {
+            "MONDAY": "M",
+            "TUESDAY": "T",
+            "WEDNESDAY": "O",
+            "THURSDAY": "T",
+            "FRIDAY": "F",
+            "SATURDAY": "L",
+            "SUNDAY": "S"
+        },
+        "FILTERS": {
+            "CHOOSE": "Vælg filter",
+            "DAY": "Dag",
+            "WEEK": "Uge",
+            "WORK_WEEK": "Arbejdsuge",
+            "MONTH": "Måned"
+        },
+        "WORK_TIME_TYPE": {
+            "LABEL": "Arbejdstidstype",
+            "REGULAR": "Regulær",
+            "OVERTIME": "Overtid",
+            "VACATION": "Ferie",
+            "SICK": "Syg",
+            "ABSENT": "Fraværende"
+        },
+        "ERRORS": {
+            "CHECK_IN": "Noget gik galt dat du forsøgte at checke ind.",
+            "CHECK_OUT": "Noget gik galt dat du forsøgte at check ud."
+        }
+    },
     "ERROR": {
         "UNAUTHORIZED": "Du har ikke rettigheden til denne funktionalitet."
     },
+    "TODAY": "I dag",
     "VALIDATION": {
         "IS_REQUIRED": "er påkrævet",
         "IS_NOT_A_VALID_EMAIL": "er i et forkert format",

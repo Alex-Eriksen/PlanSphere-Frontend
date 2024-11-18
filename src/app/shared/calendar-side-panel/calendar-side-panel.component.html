@@ -1,0 +1,66 @@
+<div class="p-4 cursor-default select-none">
+    <div class="flex items-center justify-between mx-2 mb-4">
+        <button class="text-gray-500 hover:text-blue-500 focus:outline-none" (click)="decrementMonth()">
+            <img src="assets/images/icons/chevron-right.svg" class="rotate-180" alt="Previous Month" width="12" height="20">
+        </button>
+        <h2 class="text-lg font-semibold text-gray-700">{{Object.values(CalendarMonths)[this.selectedMonth()].toUpperCase() | translate}} {{selectedDate().getFullYear()}}</h2>
+        <button class="text-gray-500 hover:text-blue-500 focus:outline-none" (click)="incrementMonth()">
+            <img src="assets/images/icons/chevron-right.svg" alt="Next Month" width="12" height="20">
+        </button>
+    </div>
+
+    <div class="grid grid-cols-7 text-center text-sm text-gray-600">
+        <div class="font-semibold">{{'CALENDAR.ABBREVIATIONS.MONDAY' | translate}}</div>
+        <div class="font-semibold">{{'CALENDAR.ABBREVIATIONS.TUESDAY' | translate}}</div>
+        <div class="font-semibold">{{'CALENDAR.ABBREVIATIONS.WEDNESDAY' | translate}}</div>
+        <div class="font-semibold">{{'CALENDAR.ABBREVIATIONS.THURSDAY' | translate}}</div>
+        <div class="font-semibold">{{'CALENDAR.ABBREVIATIONS.FRIDAY' | translate}}</div>
+        <div class="font-semibold">{{'CALENDAR.ABBREVIATIONS.SATURDAY' | translate}}</div>
+        <div class="font-semibold">{{'CALENDAR.ABBREVIATIONS.SUNDAY' | translate}}</div>
+        @for(day of daysInMonth(); track day ) {
+            <ps-calendar-side-panel-item
+                [calendarOption]="calendarOption()"
+                [day]="day"
+                [selectedWeek]="selectedWeek()"
+                [currentSelectedDay]="currentSelectedDay()"
+                [hoveredWeek]="hoveredWeek">
+            </ps-calendar-side-panel-item>
+        }
+    </div>
+
+    <hr class=" my-2 bg-gray-400">
+
+    <div class="flex justify-center">
+
+        <ps-button
+            (click)="onCheckButtonClick.emit()"
+            [label]="hasCheckedIn() ? 'CALENDAR.CHECK_OUT' : 'CALENDAR.CHECK_IN'"
+            buttonStyleType="button--quaternary"
+            buttonType="button"/>
+    </div>
+
+    <hr class=" my-2 bg-gray-400">
+
+    <div class="flex flex-col gap-2">
+        <div class="flex flex-row gap-2">
+            <div class="bg-blue-500 rounded-full w-5 h-5"></div>
+            <span class="text-black text-sm">{{'CALENDAR.WORK_TIME_TYPE.REGULAR' | translate}}</span>
+        </div>
+        <div class="flex flex-row gap-2">
+            <div class="bg-yellow-500 rounded-full w-5 h-5"></div>
+            <span class="text-black text-sm">{{'CALENDAR.WORK_TIME_TYPE.OVERTIME' | translate}}</span>
+        </div>
+        <div class="flex flex-row gap-2">
+            <div class="bg-gray-400 rounded-full w-5 h-5"></div>
+            <span class="text-black text-sm">{{'CALENDAR.WORK_TIME_TYPE.SICK' | translate}}</span>
+        </div>
+        <div class="flex flex-row gap-2">
+            <div class="bg-red-500 rounded-full w-5 h-5"></div>
+            <span class="text-black text-sm">{{'CALENDAR.WORK_TIME_TYPE.ABSENT' | translate}}</span>
+        </div>
+        <div class="flex flex-row gap-2">
+            <div class="bg-green-500 rounded-full w-5 h-5"></div>
+            <span class="text-black text-sm">{{'CALENDAR.WORK_TIME_TYPE.VACATION' | translate}}</span>
+        </div>
+    </div>
+</div>
