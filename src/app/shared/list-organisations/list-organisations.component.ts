@@ -1,9 +1,5 @@
-import { Component, DestroyRef, effect, inject, input, signal, WritableSignal } from "@angular/core";
-import { OrganisationService } from "../../core/features/organisation/services/organisation.service";
-import {
-    constructInitialSignalPaginatedResponse,
-    copyPaginatedSignalResponse
-} from "../utilities/signals.utilities";
+import { Component, DestroyRef, effect, inject, input, OnInit, signal, WritableSignal } from "@angular/core";
+import { constructInitialSignalPaginatedResponse, copyPaginatedSignalResponse } from "../utilities/signals.utilities";
 import { ISignalPaginatedResponse } from "../interfaces/signal-paginated-response.interface";
 import { ISmallListTableInput } from "../interfaces/small-list-table-input.interface";
 import { BasePaginatedTableWithSearchComponent } from "../base-paginated-table-with-search-abstract/base-paginated-table-with-search.abstract";
@@ -23,6 +19,7 @@ import { SmallHeaderComponent } from "../small-header/small-header.component";
 import { SubHeaderComponent } from "../sub-header/sub-header.component";
 import { TranslateModule } from "@ngx-translate/core";
 import { IPaginationSortPayload } from "../interfaces/pagination-sort-payload.interface";
+import { OrganisationService } from "../../core/features/organisations/services/organisation.service";
 
 @Component({
   selector: 'ps-list-organisations',
@@ -39,7 +36,7 @@ import { IPaginationSortPayload } from "../interfaces/pagination-sort-payload.in
   templateUrl: './list-organisations.component.html',
   styleUrl: './list-organisations.component.scss'
 })
-export class ListOrganisationsComponent extends BasePaginatedTableWithSearchComponent{
+export class ListOrganisationsComponent extends BasePaginatedTableWithSearchComponent implements OnInit{
     readonly #organisationService = inject(OrganisationService);
     override paginatedData: ISignalPaginatedResponse<ISmallListTableInput> = constructInitialSignalPaginatedResponse();
     readonly #matDialog = inject(MatDialog);
@@ -54,13 +51,6 @@ export class ListOrganisationsComponent extends BasePaginatedTableWithSearchComp
     });
 
     readonly loadDataEffect$ = effect(() => {this.loadDataWithCorrectParams()});
-    override loadData(params: IPaginationSortPayload): void {
-        this.isTableLoading = true;
-        this.#organisationService.getListOfOrganisations(params).subscribe((paginatedProperties) => {
-            copyPaginatedSignalResponse(this.paginatedData, paginatedProperties);
-            this.isTableLoading = false;
-        });
-    }
 
     override actions: ITableAction[] = [
         {
@@ -72,6 +62,20 @@ export class ListOrganisationsComponent extends BasePaginatedTableWithSearchComp
             labelFn: () => "ORGANISATION.DELETE.TITLE",
         },
     ]
+
+    ngOnInit() {
+        this.isTableLoading = true;
+        this.loadDataWithCorrectParams();
+    }
+
+    override loadData(params: IPaginationSortPayload): void {
+        this.isTableLoading = true;
+        this.#organisationService.getListOfOrganisations(params).subscribe((paginatedProperties) => {
+            copyPaginatedSignalResponse(this.paginatedData, paginatedProperties);
+            this.isTableLoading = false;
+        });
+    }
+
 
     loadDataWithCorrectParams(): void {
         this.loadData({

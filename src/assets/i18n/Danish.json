@@ -29,6 +29,7 @@
     "FORGOT_PASSWORD": "Glemt kodeord",
     "NAME": "Navn",
     "SOURCELEVEL": "Kilde nivaeu",
+    "INHERIT_ADDRESS": "Nedarv addresse",
     "SEARCH": "Søg",
     "ACTIVE": "Aktiv",
     "SOURCE": "Kilde",
@@ -230,8 +231,16 @@
     "USER": {
         "NAME": "Bruger",
         "PROFILE": "Profil",
+        "NAME_PLURAL": "Brugere",
+        "OVERVIEW": "Oversigt af brugere",
+        "TOOLTIP": "Her kan du oprette nye brugere som kan tildeles til forskellige dele af din virksomhed",
+        "DESCRIPTION": "Nedenfor er en liste over alle brugere. Du kan redigere eller slette dem ved hjælp af kontekstmenuen.",
         "DETAILS": {
-            "NAME": "Bruger oplysninger"
+            "NAME": "Bruger oplysninger",
+            "FIRSTNAME": "Fornavn",
+            "LASTNAME": "Efternavn",
+            "EMAIL": "Email",
+            "PHONENUMBER": "Telefonnummer"
         },
         "SETTINGS": {
             "NAME": "Bruger indstillinger",
@@ -254,6 +263,39 @@
                     "TOOLTIP": "Hvis denne indstilling er slået til vil systemet ikke tjekke dig automatisk ud næste gang hvis automatisk tjek ind og ud er slået til."
                 }
             }
+        },
+        "CREATE": {
+            "TITLE": "Opret en bruger",
+            "TOOLTIP": "Her opretter du en ny bruger",
+            "DESCRIPTION": "Udfyld brugerens oplysninger her"
+        },
+        "EDIT": {
+            "TITLE": "Rediger bruger",
+            "TOOLTIP": "Her redigere du en bruger",
+            "DESCRIPTION": "Udfyld brugerens oplysninger her"
+        },
+        "DELETE": {
+            "TITLE": "Slet bruger",
+            "TOOLTIP": "Her kan du fjerne uønskede brugerer i systemet.",
+            "QUESTION": "Er du sikker på du vil slette denne bruger?",
+            "CONFIRMATION": "Hvis du klikker på Bekræft, slettes brugeren, og den vil blive fjernet",
+            "DESCRIPTION": "Slet bruger"
+        },
+        "EDIT_OWN": {
+            "TITLE": "Profil",
+            "DESCRIPTION": "Her kan du redigere dine oplysninger"
+        },
+        "DO_NOT_EXIST": "Denne bruger eksitere ikke",
+        "FIELD_TO_FETCH": "Fejlede i at hente bruger",
+        "LIST": {
+            "FIRSTNAME": "Fornavn",
+            "LASTNAME": "Efternavn",
+            "ADDRESS": "Addresse",
+            "PHONENUMBER": "Telefonnummer",
+            "EMAIL": "Email",
+            "CREATED_AT": "Oprettelses dato",
+            "CREATED_BY": "Oprettet af",
+            "LAST_ACTIVITY": "Sidste aktivitet"
         }
     },
     "WORK_SCHEDULE": {

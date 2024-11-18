@@ -29,7 +29,7 @@ export const mainRoutes: Routes = [
         }
     },
     {
-        path: "organisation",
+        path: "organisation/:organisationId",
         component: OrganisationComponent,
         children: organisationRoutes,
         data: {

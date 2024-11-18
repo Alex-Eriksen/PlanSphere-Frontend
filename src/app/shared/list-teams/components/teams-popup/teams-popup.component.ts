@@ -11,7 +11,6 @@ import { SelectFieldComponent } from "../../../select-field/select-field.compone
 import { DialogHeaderComponent } from "../../../dialog-header/dialog-header.component";
 import { LoadingOverlayComponent } from "../../../loading-overlay/loading-overlay.component";
 import { LineComponent } from "../../../line/line.component";
-import { AddressInputComponent } from "../../../address-input/address-input/address-input.component";
 import { TeamService } from "../../../../core/features/team/services/team.service";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
@@ -21,6 +20,7 @@ import { ITeamPopupInputs } from "./teams-popup-inputs.component";
 import { markAllControlsAsTouchedAndDirty } from "../../../utilities/form.utilities";
 import { ITeam } from "../../../../core/features/team/models/team.model";
 import { TooltipComponent } from "../../../tooltip/tooltip.component";
+import { AddressInputComponent } from "../../../address-input/address-input.component";
 
 @Component({
   selector: 'ps-teams-popup',

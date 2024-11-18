@@ -6,6 +6,8 @@ import { signal } from "@angular/core";
 import { mapToSignalPaginatedResponse } from "../../../../shared/utilities/signals.utilities";
 import { IRoleListItem } from "../models/role-list-item.model";
 import { SourceLevelTranslationMapper } from "../../../mappers/source-level-translation.mapper";
+import { IDropdownOption } from "../../../../shared/interfaces/dropdown-option.interface";
+import { IRoleLookUp } from "../models/role-look-up.model";
 
 export const mapRolesToSignalSmallListInputOperator = (): OperatorFunction<
     IPaginatedResponse<IRoleListItem>,
@@ -26,4 +28,11 @@ const mapRolesToSmallListInput = (roles: IRoleListItem[]): ISmallListTableInput[
         rawSourceLevel: role.sourceLevel
     }));
 };
+
+export const mapRoleToDropdownOptions = (roles: IRoleLookUp[]): IDropdownOption[] => {
+    return roles.map((role) => ({
+        label: role.value,
+        value: role.id,
+    }));
+}
 
