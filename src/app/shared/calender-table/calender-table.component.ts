@@ -120,12 +120,12 @@ export class CalenderTableComponent implements OnInit, OnChanges {
         if(this.hideHeader()) return;
 
         let workTimes: IWorkTime[];
-        const startDate = new Date();
+        const day = this.daysInMonth().find(x => x.name === data.dayOfWeek && x.weekNumber === this.selectedWeek())!;
+        const startDate = new Date(this.selectedDate().getFullYear(), day.month, day.date);
 
         if(data.workTime !== undefined) {
             workTimes = this.#calendarDateService.getWorkTimesOnDate(data.workTime.startDateTime.getDate(), data.workTime.startDateTime.getMonth());
         } else {
-            const day = this.daysInMonth().find(x => x.name === data.dayOfWeek && x.weekNumber === this.selectedWeek())!;
             workTimes = this.#calendarDateService.getWorkTimesOnDate(day.date, day.month);
             startDate.setMonth(day.month, day.date);
             startDate.setHours(data.hour, data.firstHalfHour? 0 : 30, 0, 0);

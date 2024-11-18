@@ -118,7 +118,7 @@ export class CalendarTableColumnComponent implements OnInit, OnChanges {
     }
 
     getCellClasses(): void {
-        if(this.calendarOption() != CalendarOptions.Month) {
+        if(this.calendarOption() !== CalendarOptions.Month) {
             this.workTime = this.#calendarDateService.getWorkTime(this.dayOfWeek()!, this.hour());
         } else {
             this.workTime = this.#calendarDateService.getWorkTimeMonth(this.dayOfWeek()!, this.weekNumber()!);

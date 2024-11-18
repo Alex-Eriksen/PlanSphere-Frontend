@@ -127,8 +127,8 @@ export const generateHours = (): number[] => {
 }
 
 export const constructWorkTimeFormGroup = (fb: NonNullableFormBuilder, workTime: IWorkTime | undefined, selectedDate: Date): FormGroup => {
-    let startDate = new Date();
-    let endDate = new Date();
+    let startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+    let endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
     if(workTime) {
         startDate.setHours(workTime.startDateTime.getHours(), (Math.round(workTime.startDateTime.getMinutes()/30) * 30) % 60, 0, 0);
         if(workTime.endDateTime !== null) {
