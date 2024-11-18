@@ -87,8 +87,9 @@
             "ABSENT": "Fraværende"
         },
         "ERRORS": {
-            "CHECK_IN": "Noget gik galt dat du forsøgte at checke ind.",
-            "CHECK_OUT": "Noget gik galt dat du forsøgte at check ud."
+            "CHECK_IN": "Noget gik galt da du forsøgte at checke ind.",
+            "CHECK_OUT": "Noget gik galt da du forsøgte at check ud.",
+            "IS_OVERLAPPING": "Start- eller slut tid overlapper allerede registeret tid."
         }
     },
     "ERROR": {

@@ -9,6 +9,7 @@ import { DayInfoMonth } from "../../shared/enums/day-info-month.enum";
 import { TranslateService } from "@ngx-translate/core";
 import { IWorkTime } from "../features/workTimes/models/work-time.models";
 import { DayOfWeek } from "../enums/day-of-week.enum";
+import { QuarterHour } from "../../shared/enums/quarter-hour.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -155,14 +156,46 @@ export class CalendarDateService {
         return `${currentWorkTime?.startDateTime.getHours()}.${this.#refactorDate(currentWorkTime!.startDateTime.getMinutes())} - ${currentWorkTime?.endDateTime?.getHours()}.${this.#refactorDate(currentWorkTime!.endDateTime?.getMinutes())}`;
     }
 
-    getWorkTime(day: string, hour: number) {
-        const dayOfWeek = this.#daysInMonth.find(x => x.weekNumber === this.#selectedWeek && x.month === this.#selectedMonth && x.name === day);
-        return this.#workTimes.find(x =>
-            x.startDateTime.getDate() === dayOfWeek?.date &&
-            x.startDateTime.getMonth() === dayOfWeek.month &&
-            x.startDateTime.getHours() <= hour &&
-            ((x.endDateTime !== null && x.endDateTime!.getHours() >= hour) || (x.endDateTime === null && new Date().getHours() >= hour)));
+    getWorkTime(day: string, hour: number, quarter: number) {
+        const dayOfWeek = this.#daysInMonth.find(
+            x => x.weekNumber === this.#selectedWeek && x.month === this.#selectedMonth && x.name === day
+        );
+
+        return this.#workTimes.find(x => {
+            // Ensure the work time is on the correct day
+            if (
+                x.startDateTime.getDate() !== dayOfWeek?.date ||
+                x.startDateTime.getMonth() !== dayOfWeek.month
+            ) {
+                return false;
+            }
+
+            // Calculate quarter start time for the given hour and quarter
+            const quarterStart = new Date(
+                x.startDateTime.getFullYear(),
+                x.startDateTime.getMonth(),
+                x.startDateTime.getDate(),
+                hour,
+                quarter
+            );
+
+            // Calculate quarter end time (quarter + 15 minutes)
+            const quarterEnd = new Date(
+                x.startDateTime.getFullYear(),
+                x.startDateTime.getMonth(),
+                x.startDateTime.getDate(),
+                hour,
+                quarter + 15
+            );
+
+            // Check if the quarter is within the work time's range
+            return (
+                quarterStart >= x.startDateTime &&
+                (x.endDateTime ? quarterEnd <= x.endDateTime : quarterEnd <= new Date())
+            );
+        });
     }
+
 
     getWorkTimeMonth(day: string, weekNumber: number)  {
         const dayOfWeek = this.#daysInMonth.find(x => x.weekNumber === weekNumber && x.month === this.#selectedMonth && x.name === day);
@@ -171,7 +204,7 @@ export class CalendarDateService {
             x.startDateTime.getMonth() === dayOfWeek.month);
     }
 
-    isHourCheckedDay(hour: number, isFirstHalfHour: boolean): boolean {
+    isQuarterCheckedDay(hour: number, quarter: QuarterHour): boolean {
         const currentWorkTimes = this.#workTimes.filter(
             x =>
                 x.startDateTime.getDate() === this.#currentSelectedDay?.date &&
@@ -179,13 +212,12 @@ export class CalendarDateService {
         );
 
         return currentWorkTimes.some(workTime =>
-            this.#isHalfHourWithinWorkTime(workTime, hour, isFirstHalfHour)
+            this.#isQuarterHourWithinWorkTime(workTime, hour, quarter)
         );
     }
 
 
-
-    isHourCheckedWeek(day: string, hour: number, isFirstHalfHour: boolean): boolean {
+    isQuarterHourCheckedWeek(day: string, hour: number, quarter: QuarterHour): boolean {
         const dayOfWorkWeek = this.#daysInMonth.find(x => x.weekNumber === this.#selectedWeek && x.name === day);
         const currentWorkTimes = this.#workTimes.filter(
             x =>
@@ -194,7 +226,7 @@ export class CalendarDateService {
         );
 
         return currentWorkTimes.some(workTime =>
-            this.#isHalfHourWithinWorkTime(workTime, hour, isFirstHalfHour)
+            this.#isQuarterHourWithinWorkTime(workTime, hour, quarter)
         );
     }
 
@@ -205,31 +237,30 @@ export class CalendarDateService {
         return currentWorkTime !== undefined;
     }
 
-    #isHalfHourWithinWorkTime(workTime: IWorkTime, hour: number, isFirstHalfHour: boolean): boolean {
+    #isQuarterHourWithinWorkTime(workTime: IWorkTime, hour: number, quarterHour: QuarterHour): boolean {
         if (!workTime) return false;
 
-        const halfHourStart = new Date(
+        const quarterHourStart  = new Date(
             workTime.startDateTime.getFullYear(),
             workTime.startDateTime.getMonth(),
             workTime.startDateTime.getDate(),
             hour,
-            isFirstHalfHour ? 0 : 30
+            quarterHour
         );
 
-        const halfHourEnd = new Date(
+        const quarterHourEnd = new Date(
             workTime.startDateTime.getFullYear(),
             workTime.startDateTime.getMonth(),
             workTime.startDateTime.getDate(),
             hour,
-            isFirstHalfHour ? 30 : 60
+            quarterHour + 15
         );
 
         return (
-            halfHourStart >= workTime.startDateTime &&
-            halfHourEnd <= (workTime.endDateTime || new Date())
+            quarterHourStart >= workTime.startDateTime &&
+            quarterHourEnd <= (workTime.endDateTime || new Date())
         );
     }
-
 
 
     #getWeekBoundaries(startDay: DayOfWeek, endDay: DayOfWeek) {
