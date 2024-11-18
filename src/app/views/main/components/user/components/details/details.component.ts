@@ -82,7 +82,7 @@ export class DetailsComponent implements OnInit, OnDestroy, IRightsListener {
             this.formGroup.controls.roleIds.disable();
         }
 
-        if (!rights.hasSetOwnJobTitleRights) {
+        if (!rights.hasSetOwnJobTitleRights && !rights.hasAdministratorRights) {
             this.formGroup.controls.jobTitleIds.disable();
         }
     }

@@ -164,11 +164,8 @@ export class SettingsComponent implements OnInit, OnDestroy, IRightsListener {
 
     setRightsData(rights: ISourceLevelRights): void {
         this.rightsData = rights;
-        rights.hasSetAutomaticCheckInOutRights ? this.formGroup.controls.settings.controls.autoCheckInOut.enable() : this.formGroup.controls.settings.controls.autoCheckInOut.disable();
-        if (rights.hasSetOwnWorkScheduleRights) {
-            this.formGroup.controls.settings.controls.inheritWorkSchedule.enable();
-            this.formGroup.controls.settings.controls.inheritedWorkScheduleId.enable();
-        } else {
+        rights.hasSetAutomaticCheckInOutRights || rights.hasAdministratorRights ? this.formGroup.controls.settings.controls.autoCheckInOut.enable() : this.formGroup.controls.settings.controls.autoCheckInOut.disable();
+        if (!rights.hasSetOwnWorkScheduleRights && !rights.hasAdministratorRights) {
             this.formGroup.controls.settings.controls.inheritWorkSchedule.disable();
             this.formGroup.controls.settings.controls.inheritedWorkScheduleId.disable();
         }
