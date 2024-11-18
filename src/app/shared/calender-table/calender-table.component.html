@@ -72,6 +72,57 @@
                     buttonType="button"
                     (click)="onCalendarOptionChange(CalendarOptions.Month)"/>
             </div>
+            <div *ngIf="hideHeader()" class="flex flex-row flex-grow justify-end gap-2 rounded">
+                <ps-button
+                    [matMenuTriggerFor]="menu"
+                    label="CALENDAR.FILTERS.CHOOSE"
+                    buttonStyleType="button--tertiary"
+                    buttonType="button"
+                ></ps-button>
+                <mat-menu
+                    #menu
+                    class="px-1 py-2 rounded-lg"
+                >
+                    <ps-button
+                        [appliedClasses]="calendarOption() === CalendarOptions.Day ? '!bg-gray-100 border-black-200 !px-4 !py-2' : '!px-4 !py-2'"
+                        class="rounded-sm"
+                        label="CALENDAR.FILTERS.DAY"
+                        imageSrc="assets/images/icons/calendar-day.svg"
+                        imagePosition="before"
+                        buttonStyleType="button--tertiary"
+                        buttonType="button"
+                        (click)="onCalendarOptionChange(CalendarOptions.Day)"/>
+                    <ps-button
+                        [appliedClasses]="calendarOption() === CalendarOptions.WorkWeek ? '!bg-gray-100 border-black-200 !px-4 !py-2' : '!px-4 !py-2'"
+                        class="rounded-sm"
+                        label="CALENDAR.FILTERS.WORK_WEEK"
+                        imageSrc="assets/images/icons/calendar-week.svg"
+                        imagePosition="before"
+                        buttonStyleType="button--tertiary"
+                        buttonType="button"
+                        (click)="onCalendarOptionChange(CalendarOptions.WorkWeek)"/>
+                    <ps-button
+                        [appliedClasses]="calendarOption() === CalendarOptions.Week ? '!bg-gray-100 border-black-200 !px-4 !py-2' : '!px-4 !py-2'"
+                        class="rounded-sm"
+                        appliedClasses="!px-4 !py-2"
+                        label="CALENDAR.FILTERS.WEEK"
+                        imageSrc="assets/images/icons/calendar-week.svg"
+                        imagePosition="before"
+                        buttonStyleType="button--tertiary"
+                        buttonType="button"
+                        (click)="onCalendarOptionChange(CalendarOptions.Week)"/>
+                    <ps-button
+                        [appliedClasses]="calendarOption() === CalendarOptions.Month ? '!bg-gray-100 border-black-200 !px-4 !py-2' : '!px-4 !py-2'"
+                        class="rounded-sm"
+                        appliedClasses="!px-4 !py-2"
+                        label="CALENDAR.FILTERS.MONTH"
+                        imageSrc="assets/images/icons/calendar-month.svg"
+                        imagePosition="before"
+                        buttonStyleType="button--tertiary"
+                        buttonType="button"
+                        (click)="onCalendarOptionChange(CalendarOptions.Month)"/>
+                </mat-menu>
+            </div>
         </div>
 
         <div class="overflow-y-scroll" #workHoursTable>
