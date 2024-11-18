@@ -1,11 +1,11 @@
 import {
     Component, ElementRef,
     EventEmitter,
-    inject, Input,
+    Input,
     input, InputSignal,
     OnInit,
     Output,
-    Renderer2, signal,
+    signal,
     ViewChild, WritableSignal
 } from "@angular/core";
 import { ITableAction } from "../../interfaces/table-action.interface";
