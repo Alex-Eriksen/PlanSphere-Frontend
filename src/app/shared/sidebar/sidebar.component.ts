@@ -18,7 +18,6 @@ import { DialogService } from "../../core/services/dialog.service";
 import { finalize } from "rxjs";
 import { SourceLevel } from "../../core/enums/source-level.enum";
 import { Right } from "../../core/enums/right.enum";
-import { BreakpointObserver } from "@angular/cdk/layout";
 
 @Component({
   selector: 'ps-sidebar',
@@ -40,7 +39,6 @@ import { BreakpointObserver } from "@angular/cdk/layout";
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent implements OnInit {
-    #breakpointObserver = inject(BreakpointObserver);
     screenWidth: number = window.innerWidth;
     collapsed = true;
     toggleSideNav = output<ISideNavToggle>();
@@ -125,14 +123,6 @@ export class SidebarComponent implements OnInit {
                 this.isLoading = false;
             }
         );
-
-        this.#breakpointObserver
-            .observe(['(max-width: 850px)'])
-            .pipe(takeUntilDestroyed(this.#destroyRef))
-            .subscribe(() => {
-                if(!this.collapsed)
-                    this.toggleCollapse();
-            });
 
         this.collapsed = localStorage.getItem(LOCAL_STORAGE_KEYS.SideNavState) == "true";
         this.toggleSideNav.emit({screenWidth: this.screenWidth, collapsed: this.collapsed});

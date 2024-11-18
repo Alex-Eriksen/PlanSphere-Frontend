@@ -122,7 +122,7 @@ export class CalendarDateService {
 
     formatDayHeader(): string {
         const day = this.getDayDate();
-        const month = getMonthDisplayName(this.#selectedMonth);
+        const month = getMonthDisplayName(this.#currentSelectedDay!.month);
         const year = this.#selectedDate.getFullYear();
         return `${day} ${month} ${year}`;
     }
