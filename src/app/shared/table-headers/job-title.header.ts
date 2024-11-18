@@ -5,7 +5,7 @@ export const jobTitleHeaders: ITableHeader[] = [
     {
         key: "isInheritanceActive",
         label: "ACTIVE",
-        isSortable: false,
+        isSortable: true,
         type: TableHeaderType.Toggle,
         maxTextLength: 70,
     },
