@@ -8,7 +8,9 @@ export const APIS = {
         refreshToken: environment.apiUrl + "Authentication/RefreshToken",
         revokeToken: environment.apiUrl + "Authentication/revokeRefreshToken",
         getLoggedInUser: environment.apiUrl + "Authentication/GetLoggedInUser",
-        getSourceLevelRights: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Authentication/GetSourceLevelRights/${sourceLevel}/${sourceLevelId}`
+        getSourceLevelRights: (sourceLevel: SourceLevel, sourceLevelId: number) => environment.apiUrl + `Authentication/GetSourceLevelRights/${sourceLevel}/${sourceLevelId}`,
+        resetPassword: environment.apiUrl + "Authentication/ResetPassword",
+        requestPasswordReset: environment.apiUrl + "Authentication/RequestPasswordReset",
     },
     workSchedules: {
         lookUpWorkSchedules: environment.apiUrl + "WorkSchedule/LookUpWorkSchedules",
