@@ -70,7 +70,7 @@ export class DetailsComponent implements OnInit, IRightsListener {
                 this.formGroup.patchValue(organisation);
                 this.formGroup.controls.createdAt.disable();
             },
-            error: (error) => console.error('ORGANISATION.FIELD_TO_FETCH', error, this.organisationId),
+            error: () => this.#toastService.showToast('ORGANISATION.FIELD_TO_FETCH'),
             complete: () => this.isPageLoading = false
         });
     }
