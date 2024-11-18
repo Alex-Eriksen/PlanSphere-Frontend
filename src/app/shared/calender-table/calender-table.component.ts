@@ -28,6 +28,8 @@ import { LoadingOverlayComponent } from "../loading-overlay/loading-overlay.comp
 import { DayOfWeek } from "../../core/enums/day-of-week.enum";
 import { generateHours } from "../../views/main/components/frontpage/calendar.utilities";
 import { IWorkTimeData } from "../interfaces/work-time-popup.interface";
+import { ButtonDropdownComponent } from "../button-dropdown/button-dropdown.component";
+import { MatMenu, MatMenuTrigger } from "@angular/material/menu";
 
 @Component({
   selector: 'ps-calender-table',
@@ -39,7 +41,10 @@ import { IWorkTimeData } from "../interfaces/work-time-popup.interface";
         TranslateModule,
         NgIf,
         CalendarTableColumnComponent,
-        LoadingOverlayComponent
+        LoadingOverlayComponent,
+        ButtonDropdownComponent,
+        MatMenu,
+        MatMenuTrigger
     ],
   templateUrl: './calender-table.component.html',
   styleUrl: './calender-table.component.scss'
