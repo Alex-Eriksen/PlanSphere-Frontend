@@ -3,6 +3,7 @@ import { DetailsComponent } from "./components/details/details.component";
 import { RolesComponent } from "./components/roles/roles.component";
 import { DepartmentsComponent } from "./components/departments/departments.component";
 import { SettingsComponent } from "./components/settings/settings.component";
+import { JobTitlesComponent } from "./components/job-titles/job-titles.component";
 import { UsersComponent } from "./components/users/users.component";
 
 export const companyRoutes: Route[] = [
@@ -23,6 +24,13 @@ export const companyRoutes: Route[] = [
         component: DepartmentsComponent,
         data: {
             name: "DEPARTMENT.NAME_PLURAL"
+        }
+    },
+    {
+        path: "job-titles",
+        component: JobTitlesComponent,
+        data: {
+            name: "JOB_TITLE.NAME_PLURAL"
         }
     },
     {

@@ -26,6 +26,7 @@
     [sortingFilterSignal]="sortingFilterSignal"
     [actions]="actions"
     (toggleItem)="updateJobTitleInheritance($event)"
+    [disableToggle]="sourceLevel() === SourceLevel.Team"
 />
 <ps-pagination [paginationValues]="paginatedData"></ps-pagination>
 
