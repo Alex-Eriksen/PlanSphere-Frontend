@@ -315,10 +315,10 @@
                         </thead>
                         <tbody>
                         @for(week of weeksInMonth; track week; let index = $index; let count = $count ) {
-                            <tr class="w-1/7" [ngClass]="count === 5 ? 'h-[7.5rem]' : 'h-[6.25rem] overflow-'">
+                            <tr [ngClass]="count === 5 ? 'h-[7.5rem] w-1' : 'h-[6.25rem]'">
                                 @for(day of Object.values(DayOfWeek); track day;) {
                                     <ps-calendar-table-column
-                                        class="h-full table-cell w-1/7"
+                                        class="h-[7.5rem] table-cell w-1"
                                         [calendarOption]="this.calendarOption()"
                                         [dayOfWeek]="castStringToDayOfWeek(day)"
                                         [hour]="8"
