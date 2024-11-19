@@ -31,17 +31,17 @@
                     <div class="flex flex-row gap-2">
                         <ps-select-field dropDownLabel="ROLE.NAME_PLURAL" [dropDownOptions]="roles" [selectMultipleOptions]="true" [control]="formGroup.controls.roleIds"></ps-select-field>
                         <ps-select-field
-                            [dropDownLabel]="'Periods'"
-                            [control]="period"
+                            [dropDownLabel]="'CALENDAR.PERIODS.LABEL'"
+                            [control]="workTimeFormGroup.controls.period"
                             [dropDownOptions]="periods"
                             [selectMultipleOptions]="false" />
                         <ps-select-field
-                            [dropDownLabel]="'Work Types'"
-                            [control]="workTimeType"
+                            [dropDownLabel]="'CALENDAR.WORK_TIME_TYPE.LABEL'"
+                            [control]="workTimeFormGroup.controls.workTimeType"
                             [dropDownOptions]="workTimeTypes"
                             [selectMultipleOptions]="false" />
                         <div class="flex items-center gap-2">
-                            <span class="text-gray-600 font-medium" [innerHTML]="'TOTAL_TIME_WORKED' | translate"></span>
+                            <span class="text-gray-600 font-medium" [innerHTML]="'CALENDAR.TOTAL_TIME_WORKED' | translate"></span>
                             <span class="text-blue-600 font-semibold text-lg">{{ hours }}</span>
                         </div>
                     </div>

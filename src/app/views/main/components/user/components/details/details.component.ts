@@ -6,7 +6,7 @@ import { AddressInputComponent } from "../../../../../../shared/address-input/ad
 import { InputComponent } from "../../../../../../shared/input/input.component";
 import { LineComponent } from "../../../../../../shared/line/line.component";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
-import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from "@angular/forms";
+import { NonNullableFormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { AuthenticationService } from "../../../../../../core/features/authentication/services/authentication.service";
 import { UserService } from "../../../../../../core/features/users/services/user.service";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
@@ -16,7 +16,10 @@ import { SelectFieldComponent } from "../../../../../../shared/select-field/sele
 import { TranslateModule } from "@ngx-translate/core";
 import { RoleService } from "../../../../../../core/features/roles/services/role.service";
 import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-option.interface";
-import { userFormGroupBuilder } from "../../../../../../core/features/users/utilities/user.utilities";
+import {
+    userFormGroupBuilder,
+    workTimeFormGroupBuilder
+} from "../../../../../../core/features/users/utilities/user.utilities";
 import { forkJoin, Observable, Subscription, tap } from "rxjs";
 import { JobTitleService } from "../../../../../../core/features/jobTitle/services/job-title.service";
 import { IUser } from "../../../../../../core/features/users/models/user.model";
@@ -28,6 +31,7 @@ import { generateTranslatedDropdownOptionsFromEnum } from "../../../../../../sha
 import { WorkTimeTypeTranslationMapper } from "../../../../../../core/mappers/work-time-type-translation.mapper";
 import { PeriodTranslationMapper } from "../../../../../../core/mappers/period-translation.mapper";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { Duration } from "luxon";
 
 @Component({
     selector: "ps-details",
@@ -64,8 +68,7 @@ export class DetailsComponent implements OnInit, OnDestroy, IRightsListener {
     #forkJoin!: Observable<readonly unknown[]>;
     #loadSubscription!: Subscription;
 
-    workTimeType = new FormControl<WorkTimeType>(WorkTimeType.Regular);
-    period = new FormControl<Period>(Period.Day);
+    workTimeFormGroup = workTimeFormGroupBuilder(this.#fb);
 
     workTimeTypes = generateTranslatedDropdownOptionsFromEnum(WorkTimeType, WorkTimeTypeTranslationMapper);
     periods = generateTranslatedDropdownOptionsFromEnum(Period, PeriodTranslationMapper);
@@ -89,24 +92,26 @@ export class DetailsComponent implements OnInit, OnDestroy, IRightsListener {
                     next: () => this.isPageLoading = false
                 });
             });
+
+        this.workTimeFormGroup.valueChanges
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe(() => {
+                this.fetchWorkTimePeriod().subscribe();
+        })
     }
 
     ngOnDestroy() {
         this.#loadSubscription.unsubscribe();
     }
 
-    fetchWorkTimePeriod() {
-        this.#workTimeService.getWorkTimeWithinPeriod(this.workTimeType.value!, this.period.value!)
-            .pipe(takeUntilDestroyed(this.#destroyRef))
-            .subscribe((data: string) => {
+    fetchWorkTimePeriod(): Observable<string> {
+        return this.#workTimeService.getWorkTimeWithinPeriod(this.workTimeFormGroup.controls.workTimeType.value!, this.workTimeFormGroup.controls.period.value!)
+            .pipe(tap((data: string) => {
                 const duration = Duration.fromISO(data);
-
-                const totalHours = Math.floor(duration.as('hours'));
-                const minutes = Math.round(duration.as('minutes')) % 60;
-
+                const totalHours = Math.floor(duration.as("hours"));
+                const minutes = Math.round(duration.as("minutes")) % 60;
                 this.hours = `${totalHours}:${minutes}m`;
-                this.isPageLoading = false;
-            });
+            }));
     }
 
     setRightsData(rights: ISourceLevelRights): void {

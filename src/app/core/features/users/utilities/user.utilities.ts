@@ -7,6 +7,8 @@ import { mapToSignalPaginatedResponse } from "../../../../shared/utilities/signa
 import { IUser } from "../models/user.model";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
 import { constructAddressFormGroup } from "../../address/utilities/address.utilities";
+import { WorkTimeType } from "../../workTimes/models/work-time-type.interface";
+import { Period } from "../../workTimes/models/period.enum";
 
 export const mapUserToSignalSmallListInputOperator = (): OperatorFunction<IPaginatedResponse<IUser>, ISignalPaginatedResponse<ISmallListTableInput>
 > => {
@@ -33,4 +35,11 @@ export const userFormGroupBuilder = (fb: NonNullableFormBuilder, user?: IUser) =
         roleIds: fb.control<number[] | []>(user?.roleIds ?? []),
         jobTitleIds: fb.control<number[] | []>(user?.jobTitleIds ?? []),
     });
+}
+
+export const workTimeFormGroupBuilder = (fb: NonNullableFormBuilder) => {
+    return fb.group({
+        workTimeType: fb.control<WorkTimeType>(WorkTimeType.Regular),
+        period: fb.control<Period>(Period.Day),
+    })
 }
