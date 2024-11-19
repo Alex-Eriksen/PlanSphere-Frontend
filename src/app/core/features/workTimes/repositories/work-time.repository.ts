@@ -5,6 +5,8 @@ import { APIS } from "../../../api/plansphere.api";
 import { IWorkTime } from "../models/work-time.models";
 import { IPeriod } from "../models/period.model";
 import { IWorkTimeRequest } from "../models/work-time-request";
+import { WorkTimeType } from "../models/work-time-type.interface";
+import { Period } from "../models/period.enum";
 
 @Injectable({
     providedIn: 'root'
@@ -18,6 +20,18 @@ export class WorkTimeRepository {
                 fromObject: { ...params },
             }),
         });
+    }
+
+    getWorkTimeWithinPeriod(workTimeType: WorkTimeType, period: Period): Observable<string> {
+        return this.#http.get<string>(APIS.workTimes.getWorkTimeWithinPeriod, {
+            params: new HttpParams({
+                fromObject: {
+                    workTimeType: workTimeType,
+                    period: period,
+                },
+            }),
+            responseType: 'text' as 'json',
+        })
     }
 
     createWorkTime(payload: IWorkTimeRequest): Observable<void> {

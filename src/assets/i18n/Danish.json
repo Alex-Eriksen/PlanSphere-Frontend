@@ -57,6 +57,14 @@
     "NOVEMBER": "November",
     "DECEMBER": "December",
     "LOCATION": "Lokation",
+    "TOTAL_TIME_WORKED": "Total arbejdstid",
+    "PERIODS": {
+        "DAY": "Dag",
+        "WEEK": "Uge",
+        "MONTH": "Måned",
+        "YEAR": "År",
+        "TOTAL": "Total"
+    },
     "CALENDAR": {
         "CHECK_IN": "Check ind",
         "CHECK_OUT": "Check ud",
