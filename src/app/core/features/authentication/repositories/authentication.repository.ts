@@ -40,4 +40,17 @@ export class AuthenticationRepository {
             return this.#http.get<ISourceLevelRights>(APIS.authentication.getSourceLevelRights(sourceLevel, sourceLevelId))
         }
     }
+
+    resetPassword(userId: number, emailToken: string, resetToken: string, password: string): Observable<void> {
+        return this.#http.post<void>(APIS.authentication.resetPassword, {
+            emailVerificationToken: emailToken,
+            resetPasswordVerificationToken: resetToken,
+            password: password,
+            userId: userId
+        }, { withCredentials: true });
+    }
+
+    requestPasswordReset(email: string): Observable<void> {
+        return this.#http.post<void>(APIS.authentication.requestPasswordReset, {email: email}, {withCredentials: true});
+    }
 }
