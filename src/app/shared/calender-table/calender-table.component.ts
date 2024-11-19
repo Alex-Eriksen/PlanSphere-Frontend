@@ -26,10 +26,11 @@ import { AuthenticationService } from "../../core/features/authentication/servic
 import { ISourceLevelRights } from "../../core/features/authentication/models/source-level-rights.model";
 import { LoadingOverlayComponent } from "../loading-overlay/loading-overlay.component";
 import { DayOfWeek } from "../../core/enums/day-of-week.enum";
-import { generateHours } from "../../views/main/components/frontpage/calendar.utilities";
+import { generateHours, generateQuarterHours } from "../../views/main/components/frontpage/calendar.utilities";
 import { IWorkTimeData } from "../interfaces/work-time-popup.interface";
 import { ButtonDropdownComponent } from "../button-dropdown/button-dropdown.component";
 import { MatMenu, MatMenuTrigger } from "@angular/material/menu";
+import { QuarterHour } from "../enums/quarter-hour.enum";
 
 @Component({
   selector: 'ps-calender-table',
@@ -73,6 +74,7 @@ export class CalenderTableComponent implements OnInit, OnChanges {
 
     weeksInMonth: number[] = []
     hours: number[] = generateHours();
+    quarterHours = generateQuarterHours();
     rights!: ISourceLevelRights;
     isLoading = false;
 
@@ -128,7 +130,7 @@ export class CalenderTableComponent implements OnInit, OnChanges {
         } else {
             workTimes = this.#calendarDateService.getWorkTimesOnDate(day.date, day.month);
             startDate.setMonth(day.month, day.date);
-            startDate.setHours(data.hour, data.firstHalfHour? 0 : 30, 0, 0);
+            startDate.setHours(data.hour, data.quarter);
         }
 
         this.#matDialog.open<WorkTimePopupComponent, IWorkTimePopupInputs>(WorkTimePopupComponent, {
@@ -229,10 +231,15 @@ export class CalenderTableComponent implements OnInit, OnChanges {
         return day as DayOfWeek;
     }
 
+    protected castNumberToQuarterHour(quarterHour: number): QuarterHour {
+        return quarterHour as QuarterHour;
+    }
+
     hasCheckedIn = (): boolean => this.#calendarDateService.hasCheckedIn();
 
     protected readonly DayOfWeek = DayOfWeek;
     protected readonly Object = Object;
     protected readonly CalendarOptions = CalendarOptions;
     protected readonly length = length;
+    protected readonly QuarterHour = QuarterHour;
 }

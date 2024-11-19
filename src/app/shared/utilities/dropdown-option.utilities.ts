@@ -43,27 +43,35 @@ export const generateHourAndMinuteDropdownOptions = (): IDropdownOption[] => {
     return options;
 }
 
-export const generateHalfHourDropdownOptions = (selectedDate: Date): IDropdownOption[] => {
+export const generateQuarterHourDropdownOptions = (selectedDate: Date): IDropdownOption[] => {
     const options: IDropdownOption[] = [];
-    const totalHalfHoursInDay = 24 * 2;
+    const totalQuartersInDay = 24 * 4;
 
-    for (let i = 0; i < totalHalfHoursInDay; i++) {
-        const hours = Math.floor(i / 2);
-        const minutes = i % 2 === 0 ? 0 : 30;
+    for (let i = 0; i < totalQuartersInDay; i++) {
+        const hours = Math.floor(i / 4);
+        const minutes = (i % 4) * 15;
 
         const label = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 
-        const dateValue = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
-        dateValue.setHours(hours, minutes, 0, 0);
+        const dateValue = new Date(
+            selectedDate.getFullYear(),
+            selectedDate.getMonth(),
+            selectedDate.getDate(),
+            hours,
+            minutes,
+            0,
+            0
+        );
 
         options.push({
             label: label,
-            value: formatDateWithoutTimezone(dateValue)
+            value: formatDateWithoutTimezone(dateValue),
         });
     }
 
     return options;
-}
+};
+
 
 export const generateNumberRangeDropdownOptions = (maxFloor: number): IDropdownOption[] => {
     return Array.from({ length: maxFloor }, (_, i) => {

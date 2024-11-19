@@ -14,13 +14,14 @@ import { IDropdownOption } from "../interfaces/dropdown-option.interface";
 import { constructWorkTimeFormGroup } from "../../views/main/components/frontpage/calendar.utilities";
 import { SelectFieldComponent } from "../select-field/select-field.component";
 import {
-    generateHalfHourDropdownOptions,
+    generateQuarterHourDropdownOptions,
     generateTranslatedDropdownOptionsFromEnum
 } from "../utilities/dropdown-option.utilities";
 import { WorkTimeType } from "../../core/features/workTimes/models/work-time-type.interface";
 import { WorkTimeTypeTranslationMapper } from "../../core/mappers/work-time-type-translation.mapper";
 import { ShiftLocationTranslationMapper } from "../../core/mappers/shift-location-translation.mapper";
 import { ShiftLocation } from "../../core/enums/shift-location.enum";
+import { ToastService } from "../../core/services/error-toast.service";
 
 @Component({
   selector: 'ps-work-time-popup',
@@ -41,10 +42,11 @@ export class WorkTimePopupComponent {
     readonly #fb = inject(NonNullableFormBuilder);
     readonly componentInputs: IWorkTimePopupInputs = inject(MAT_DIALOG_DATA);
     readonly #workTimeService = inject(WorkTimeService);
+    readonly #toastService = inject(ToastService);
 
     formGroup = constructWorkTimeFormGroup(this.#fb, this.componentInputs.currentWorkTime, this.componentInputs.startDate);
 
-    halfHourOptions: IDropdownOption[] = generateHalfHourDropdownOptions(this.componentInputs.startDate);
+    halfHourOptions: IDropdownOption[] = generateQuarterHourDropdownOptions(this.componentInputs.startDate);
     workTimeTypeOptions: IDropdownOption[] = generateTranslatedDropdownOptionsFromEnum(WorkTimeType, WorkTimeTypeTranslationMapper);
     locationOptions: IDropdownOption[] = generateTranslatedDropdownOptionsFromEnum(ShiftLocation, ShiftLocationTranslationMapper);
 
@@ -57,6 +59,7 @@ export class WorkTimePopupComponent {
         }
 
         if(this.isStartOrEndTimeInvalid()) {
+            this.#toastService.showToast("CALENDAR.ERRORS.IS_OVERLAPPING");
             return;
         }
 

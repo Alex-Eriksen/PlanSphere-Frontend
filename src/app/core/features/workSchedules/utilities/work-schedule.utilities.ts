@@ -3,6 +3,7 @@ import { FormArray, FormGroup, NonNullableFormBuilder } from "@angular/forms";
 import { IWorkScheduleShift } from "../models/work-schedule-shift.model";
 import { ShiftLocation } from "../../../enums/shift-location.enum";
 import { DayOfWeek } from "../../../enums/day-of-week.enum";
+import { convertUTCToLocalTimeString } from "../../../../shared/utilities/date.utilities";
 
 export const recursivelyFindParentWorkSchedule = (workSchedule: IWorkSchedule): IWorkSchedule => {
     if (workSchedule.parent !== null) return recursivelyFindParentWorkSchedule(workSchedule.parent);
@@ -25,8 +26,8 @@ export const constructWorkScheduleFormGroup = (fb: NonNullableFormBuilder, workS
 export const constructWorkScheduleShiftFormGroup = (fb: NonNullableFormBuilder, workScheduleShift?: IWorkScheduleShift): FormGroup => {
     return fb.group({
         id: fb.control({ value: workScheduleShift?.id ?? 0, disabled: true }),
-        startTime: fb.control<string | null>(workScheduleShift?.startTime ?? null, { updateOn: "change" }),
-        endTime: fb.control<string | null>(workScheduleShift?.endTime ?? null, { updateOn: "change" }),
+        startTime: fb.control<string | null>(workScheduleShift !== undefined ? convertUTCToLocalTimeString(workScheduleShift.startTime) : null, { updateOn: "change" }),
+        endTime: fb.control<string | null>(workScheduleShift !== undefined ? convertUTCToLocalTimeString(workScheduleShift.endTime) : null, { updateOn: "change" }),
         day: fb.control<DayOfWeek | null>(workScheduleShift?.day ?? DayOfWeek.Monday),
         location: fb.control<ShiftLocation | null>(workScheduleShift?.location ?? null, { updateOn: "change" }),
     });

@@ -9,6 +9,7 @@ import { IWorkTime } from "../../../../core/features/workTimes/models/work-time.
 import { WorkTimeType } from "../../../../core/features/workTimes/models/work-time-type.interface";
 import { formatDateWithoutTimezone } from "../../../../shared/utilities/date.utilities";
 import { DayOfWeek } from "../../../../core/enums/day-of-week.enum";
+import { QuarterHour } from "../../../../shared/enums/quarter-hour.enum";
 
 export const generateDaysForMonth = (month: number, year: number): DayInfo[] => {
     const daysInMonth: DayInfo[] = [];
@@ -126,15 +127,21 @@ export const generateHours = (): number[] => {
     return Array.from({ length: 24 }, (_, i) => i);
 }
 
+export const generateQuarterHours = (): number[] => {
+    return Object.values(QuarterHour).filter((value): value is number => typeof value === 'number');
+};
+
 export const constructWorkTimeFormGroup = (fb: NonNullableFormBuilder, workTime: IWorkTime | undefined, selectedDate: Date): FormGroup => {
     let startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
     let endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+
     if(workTime) {
-        startDate.setHours(workTime.startDateTime.getHours(), (Math.round(workTime.startDateTime.getMinutes()/30) * 30) % 60, 0, 0);
+        startDate.setHours(workTime.startDateTime.getHours(), (Math.round(workTime.startDateTime.getMinutes()/15) * 15) % 60, 0, 0);
+
         if(workTime.endDateTime !== null) {
-            endDate.setHours(workTime.endDateTime!.getHours(), (Math.round(workTime.endDateTime!.getMinutes()/30) * 30) % 60, 0, 0);
+            endDate.setHours(workTime.endDateTime!.getHours(), (Math.round(workTime.endDateTime!.getMinutes()/15) * 15) % 60, 0, 0);
         } else {
-            endDate = setToClosestHalfHour(endDate);
+            endDate = setToClosetsQuarter(endDate);
         }
     } else {
         startDate = selectedDate;
@@ -149,9 +156,9 @@ export const constructWorkTimeFormGroup = (fb: NonNullableFormBuilder, workTime:
 };
 
 
-export function setToClosestHalfHour(date: Date): Date {
+export function setToClosetsQuarter(date: Date): Date {
     const minutes = date.getMinutes();
-    const roundedMinutes = Math.round(minutes / 30) * 30;
+    const roundedMinutes = Math.round(minutes / 15) * 15;
 
     const adjustedDate = new Date(date);
 

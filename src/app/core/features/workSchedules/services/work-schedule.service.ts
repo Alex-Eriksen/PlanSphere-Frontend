@@ -6,6 +6,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { SourceLevelTranslationMapper } from "../../../mappers/source-level-translation.mapper";
 import { SourceLevel } from "../../../enums/source-level.enum";
 import { IWorkSchedule } from "../models/work-schedule.model";
+import { convertToUTCTimeString } from "../../../../shared/utilities/date.utilities";
 
 @Injectable({
     providedIn: 'root'
@@ -32,6 +33,11 @@ export class WorkScheduleService {
     }
 
     updateWorkSchedule(sourceLevel: SourceLevel, sourceLevelId: number, workSchedule: IWorkSchedule, workScheduleId?: number): Observable<void> {
+        workSchedule.workScheduleShifts.forEach(shift => {
+            shift.startTime = convertToUTCTimeString(shift.startTime);
+            shift.endTime = convertToUTCTimeString(shift.endTime);
+        })
+
         return this.#workScheduleRepository.updateWorkSchedule(sourceLevel, sourceLevelId, workSchedule, workScheduleId);
     }
 }

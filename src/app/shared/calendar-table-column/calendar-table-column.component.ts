@@ -9,6 +9,7 @@ import { WorkTimeType } from "../../core/features/workTimes/models/work-time-typ
 import { DayOfWeek } from "../../core/enums/day-of-week.enum";
 import { IWorkTimeData } from "../interfaces/work-time-popup.interface";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { QuarterHour } from "../enums/quarter-hour.enum";
 
 @Component({
   selector: 'ps-calendar-table-column',
@@ -26,10 +27,10 @@ export class CalendarTableColumnComponent implements OnInit, OnChanges {
     readonly #destroyRef = inject(DestroyRef)
     dayOfWeek = input.required<DayOfWeek>();
     hour = input.required<number>();
-    isFirstHalfHour = input.required<boolean>();
     calendarOption = input<CalendarOptions>();
     workHours = input<IWorkHour[]>();
     weekNumber = input<number>();
+    quarterHour = input.required<QuarterHour>();
 
     columnClick = output<IWorkTimeData>();
 
@@ -56,7 +57,7 @@ export class CalendarTableColumnComponent implements OnInit, OnChanges {
             workTime: this.workTime,
             dayOfWeek: this.dayOfWeek()!,
             hour: this.hour()!,
-            firstHalfHour: this.isFirstHalfHour()
+            quarter: this.quarterHour()
         };
         this.columnClick.emit(workTimeData);
     }
@@ -82,10 +83,10 @@ export class CalendarTableColumnComponent implements OnInit, OnChanges {
     isColumnChecked(): boolean {
         switch (this.calendarOption()) {
             case CalendarOptions.Day:
-                return this.#calendarDateService.isHourCheckedDay(this.hour(), this.isFirstHalfHour());
+                return this.#calendarDateService.isQuarterCheckedDay(this.hour(), this.quarterHour());
             case CalendarOptions.WorkWeek:
             case CalendarOptions.Week:
-                return this.#calendarDateService.isHourCheckedWeek(this.dayOfWeek()!, this.hour(), this.isFirstHalfHour());
+                return this.#calendarDateService.isQuarterHourCheckedWeek(this.dayOfWeek()!, this.hour(), this.quarterHour());
             case CalendarOptions.Month:
                 return this.#calendarDateService.isHourCheckedMonth(this.dayOfWeek()!, this.weekNumber()!);
             default: return false;
@@ -119,7 +120,7 @@ export class CalendarTableColumnComponent implements OnInit, OnChanges {
 
     getCellClasses(): void {
         if(this.calendarOption() !== CalendarOptions.Month) {
-            this.workTime = this.#calendarDateService.getWorkTime(this.dayOfWeek()!, this.hour());
+            this.workTime = this.#calendarDateService.getWorkTime(this.dayOfWeek()!, this.hour(), this.quarterHour());
         } else {
             this.workTime = this.#calendarDateService.getWorkTimeMonth(this.dayOfWeek()!, this.weekNumber()!);
         }
@@ -132,6 +133,20 @@ export class CalendarTableColumnComponent implements OnInit, OnChanges {
         } else if (!isWork && !this.isColumnChecked()) {
             this.columnClasses.push('bg-gray-100');
             return;
+        }
+
+        const newStartDate = new Date(this.workTime!.startDateTime);
+        newStartDate.setHours(this.hour(), this.quarterHour());
+
+        const newEndDate = new Date(this.workTime!.endDateTime!);
+        newEndDate.setHours(this.hour(), this.quarterHour() === QuarterHour.Fourth ? 60 : this.quarterHour());
+
+        if(newStartDate.getTime() !== this.workTime?.startDateTime.getTime()) {
+            this.columnClasses.push("border-t-0");
+        }
+
+        if(newEndDate.getTime() !== this.workTime?.endDateTime!.getTime()) {
+            this.columnClasses.push("border-b-0");
         }
 
         const backgroundClass = this.getWorkTimeBackgroundClass();

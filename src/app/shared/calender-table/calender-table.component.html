@@ -146,30 +146,20 @@
                         </thead>
                         <tbody>
                             @for(hour of hours; track hour;) {
-                                <tr>
-                                    <td class="bg-white text-gray-600 text-sm font-medium text-center border border-gray-200 border-t border-t-gray-300 px-4 py-2 w-[1.5rem]">{{ hour }}</td>
-                                    <ps-calendar-table-column
-                                        class="w-full h-full"
-                                        [calendarOption]="calendarOption()"
-                                        [dayOfWeek]="castStringToDayOfWeek(currentSelectedDay().name)"
-                                        [hour]="hour"
-                                        [isFirstHalfHour]="true"
-                                        [workHours]="workHours()"
-                                        (columnClick)="openWorkTimePopup($event)"
-                                    ></ps-calendar-table-column>
-                                </tr>
-                                <tr>
-                                    <td class="bg-white text-gray-600 text-sm font-medium text-center border border-gray-200 border-b border-b-gray-300 px-4 py-4 w-[1.5rem]" ></td>
-                                    <ps-calendar-table-column
-                                        class="w-full h-full"
-                                        [calendarOption]="this.calendarOption()"
-                                        [dayOfWeek]="castStringToDayOfWeek(currentSelectedDay().name)"
-                                        [hour]="hour"
-                                        [isFirstHalfHour]="false"
-                                        [workHours]="workHours()"
-                                        (columnClick)="openWorkTimePopup($event)"
-                                    ></ps-calendar-table-column>
-                                </tr>
+                                @for (quarter of quarterHours; track quarter; let index = $index) {
+                                    <tr>
+                                        <td class="bg-white text-gray-600 text-xs font-medium text-center border border-gray-200 border-t border-t-gray-300 px-4 w-[1.5rem] h-[1.25rem]">{{ index === 0 ? hour : "" }}</td>
+                                        <ps-calendar-table-column
+                                            class="w-full h-full"
+                                            [calendarOption]="calendarOption()"
+                                            [dayOfWeek]="castStringToDayOfWeek(currentSelectedDay().name)"
+                                            [hour]="hour"
+                                            [quarterHour]="castNumberToQuarterHour(quarter)"
+                                            [workHours]="workHours()"
+                                            (columnClick)="openWorkTimePopup($event)"
+                                        ></ps-calendar-table-column>
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </table>
@@ -203,39 +193,23 @@
                         </thead>
                         <tbody>
                             @for(hour of hours; track hour;) {
-                                <tr>
-                                    <td class="bg-white text-gray-600 text-sm font-medium text-center border border-gray-200 border-t border-t-gray-300 px-4 py-2 w-[1.5rem]">
-                                        {{ hour }}
-                                    </td>
-
-                                    @for (shift of workSchedule().workScheduleShifts; track shift; let count = $count) {
-                                        <ps-calendar-table-column
-                                            class="h-full table-cell w-1/{{count}}"
-                                            [calendarOption]="this.calendarOption()"
-                                            [dayOfWeek]="castStringToDayOfWeek(shift.day)"
-                                            [hour]="hour"
-                                            [isFirstHalfHour]="true"
-                                            [weekNumber]="this.selectedWeek()!"
-                                            [workHours]="workHours()"
-                                            (columnClick)="openWorkTimePopup($event)"
-                                        ></ps-calendar-table-column>
-                                    }
-                                </tr>
-                                <tr>
-                                    <td class="bg-white text-gray-600 text-sm font-medium text-center border border-gray-200 border-b border-b-gray-300 w-[3rem] h-[1.5rem]"></td>
-                                    @for (shift of workSchedule().workScheduleShifts; track shift; let count = $count;) {
-                                        <ps-calendar-table-column
-                                            class="h-full table-cell w-1/{{count}}"
-                                            [calendarOption]="this.calendarOption()"
-                                            [dayOfWeek]="castStringToDayOfWeek(shift.day)"
-                                            [hour]="hour"
-                                            [isFirstHalfHour]="false"
-                                            [weekNumber]="this.selectedWeek()!"
-                                            [workHours]="workHours()"
-                                            (columnClick)="openWorkTimePopup($event)"
-                                        ></ps-calendar-table-column>
-                                    }
-                                </tr>
+                                @for (quarter of quarterHours; track quarter; let index = $index) {
+                                    <tr>
+                                        <td class="bg-white text-gray-600 font-medium text-center border border-gray-200 border-t border-t-gray-300 px-4 w-[1.5rem] h-[1.25rem] text-xs ">{{index === 0 ? hour : ""}}</td>
+                                        @for (shift of workSchedule().workScheduleShifts; track shift; let count = $count) {
+                                            <ps-calendar-table-column
+                                                class="h-full table-cell w-1/{{count}}"
+                                                [calendarOption]="calendarOption()"
+                                                [dayOfWeek]="castStringToDayOfWeek(shift.day)"
+                                                [hour]="hour"
+                                                [quarterHour]="castNumberToQuarterHour(quarter)"
+                                                [weekNumber]="selectedWeek()!"
+                                                [workHours]="workHours()"
+                                                (columnClick)="openWorkTimePopup($event)"
+                                            ></ps-calendar-table-column>
+                                        }
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </table>
@@ -261,41 +235,25 @@
                             }
                         </tr>
                         </thead>
-                        <!-- able Body -->
                         <tbody>
                             @for(hour of hours; track hour;) {
-                                <tr>
-                                    <td class="bg-white text-gray-600 text-sm font-medium text-center border border-gray-200 border-t border-t-gray-300 px-4 py-2 w-[1.5rem]">
-                                        {{ hour }}
-                                    </td>
-                                    @for (day of Object.values(DayOfWeek); track day; let count = $count) {
-                                        <ps-calendar-table-column
-                                            class="h-full table-cell w-1/{{count}}"
-                                            [calendarOption]="this.calendarOption()"
-                                            [dayOfWeek]="castStringToDayOfWeek(day)"
-                                            [hour]="hour"
-                                            [isFirstHalfHour]="true"
-                                            [weekNumber]="this.selectedWeek()!"
-                                            [workHours]="workHours()"
-                                            (columnClick)="openWorkTimePopup($event)"
-                                        ></ps-calendar-table-column>
-                                    }
-                                </tr>
-                                <tr>
-                                    <td class="bg-white text-gray-600 text-sm font-medium text-center border border-gray-200 border-b border-b-gray-300 px-4 py-2 w-[1.5rem]"></td>
-                                    @for (day of Object.values(DayOfWeek); track day; let count = $count) {
-                                        <ps-calendar-table-column
-                                            class="h-full table-cell w-1/{{count}}"
-                                            [calendarOption]="this.calendarOption()"
-                                            [dayOfWeek]="castStringToDayOfWeek(day)"
-                                            [hour]="hour"
-                                            [isFirstHalfHour]="false"
-                                            [weekNumber]="this.selectedWeek()!"
-                                            [workHours]="workHours()"
-                                            (columnClick)="openWorkTimePopup($event)"
-                                        ></ps-calendar-table-column>
-                                    }
-                                </tr>
+                                @for (quarter of quarterHours; track quarter; let index = $index) {
+                                    <tr>
+                                        <td class="bg-white text-gray-600 font-medium text-center border border-gray-200 border-t border-t-gray-300 px-4 w-[1.5rem] h-[1.25rem] text-xs ">{{index === 0 ? hour : ""}}</td>
+                                        @for (day of Object.values(DayOfWeek); track day; let count = $count) {
+                                            <ps-calendar-table-column
+                                                class="h-full table-cell w-1/{{count}}"
+                                                [calendarOption]="calendarOption()"
+                                                [dayOfWeek]="castStringToDayOfWeek(day)"
+                                                [hour]="hour"
+                                                [quarterHour]="castNumberToQuarterHour(quarter)"
+                                                [weekNumber]="selectedWeek()!"
+                                                [workHours]="workHours()"
+                                                (columnClick)="openWorkTimePopup($event)"
+                                            ></ps-calendar-table-column>
+                                        }
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </table>
@@ -322,7 +280,7 @@
                                         [calendarOption]="this.calendarOption()"
                                         [dayOfWeek]="castStringToDayOfWeek(day)"
                                         [hour]="8"
-                                        [isFirstHalfHour]="true"
+                                        [quarterHour]="QuarterHour.Fourth"
                                         [weekNumber]="index + 1"
                                         [workHours]="workHours()"
                                         (columnClick)="openWorkTimePopup($event)"
