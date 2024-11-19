@@ -22,7 +22,6 @@ import { SourceLevel } from "../../../../../../core/enums/source-level.enum";
 import { ToastService } from "../../../../../../core/services/error-toast.service";
 import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
 import { ISourceLevelRights } from "../../../../../../core/features/authentication/models/source-level-rights.model";
-import { convertUTCToLocalTimeString } from "../../../../../../shared/utilities/date.utilities";
 
 @Component({
     selector: "ps-settings",
@@ -144,10 +143,6 @@ export class SettingsComponent implements OnInit, OnDestroy, IRightsListener {
         this.loadingWorkSchedule = true;
         this.formGroup.controls.settings.controls.inheritWorkSchedule.enable();
         this.#workScheduleService.getWorkScheduleById(workScheduleId).subscribe((workSchedule) => {
-            workSchedule.workScheduleShifts.forEach(shift => {
-                shift.startTime = convertUTCToLocalTimeString(shift.startTime);
-                shift.endTime = convertUTCToLocalTimeString(shift.endTime);
-            })
             this.workScheduleFormGroup = constructWorkScheduleFormGroup(this.#fb, recursivelyFindParentWorkSchedule(workSchedule), this.formGroup.controls.settings.controls.inheritWorkSchedule.value);
             this.loadingWorkSchedule = false;
         });
