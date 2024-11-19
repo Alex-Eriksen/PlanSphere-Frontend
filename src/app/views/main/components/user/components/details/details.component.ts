@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnDestroy, OnInit } from "@angular/core";
 import { SmallHeaderComponent } from "../../../../../../shared/small-header/small-header.component";
 import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
-import { ISourceLevelRights } from '../../../../../../core/features/authentication/models/source-level-rights.model';
+import { ISourceLevelRights } from "../../../../../../core/features/authentication/models/source-level-rights.model";
 import { AddressInputComponent } from "../../../../../../shared/address-input/address-input.component";
 import { InputComponent } from "../../../../../../shared/input/input.component";
 import { LineComponent } from "../../../../../../shared/line/line.component";
@@ -16,11 +16,22 @@ import { SelectFieldComponent } from "../../../../../../shared/select-field/sele
 import { TranslateModule } from "@ngx-translate/core";
 import { RoleService } from "../../../../../../core/features/roles/services/role.service";
 import { IDropdownOption } from "../../../../../../shared/interfaces/dropdown-option.interface";
-import { userFormGroupBuilder } from "../../../../../../core/features/users/utilities/user.utilities";
+import {
+    userFormGroupBuilder,
+    workTimeFormGroupBuilder
+} from "../../../../../../core/features/users/utilities/user.utilities";
 import { forkJoin, Observable, Subscription, tap } from "rxjs";
 import { JobTitleService } from "../../../../../../core/features/jobTitle/services/job-title.service";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { IUser } from "../../../../../../core/features/users/models/user.model";
+import { WorkTimeType } from "../../../../../../core/features/workTimes/models/work-time-type.interface";
+import { Period } from "../../../../../../core/features/workTimes/models/period.enum";
+import { WorkTimeService } from "../../../../../../core/features/workTimes/services/work-time.service";
+import { ButtonComponent } from "../../../../../../shared/button/button.component";
+import { generateTranslatedDropdownOptionsFromEnum } from "../../../../../../shared/utilities/dropdown-option.utilities";
+import { WorkTimeTypeTranslationMapper } from "../../../../../../core/mappers/work-time-type-translation.mapper";
+import { PeriodTranslationMapper } from "../../../../../../core/mappers/period-translation.mapper";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { Duration } from "luxon";
 
 @Component({
     selector: "ps-details",
@@ -34,7 +45,8 @@ import { IUser } from "../../../../../../core/features/users/models/user.model";
         ReactiveFormsModule,
         SettingsComponent,
         SelectFieldComponent,
-        TranslateModule
+        TranslateModule,
+        ButtonComponent
     ],
     templateUrl: "./details.component.html",
     styleUrl: "./details.component.scss"
@@ -42,12 +54,13 @@ import { IUser } from "../../../../../../core/features/users/models/user.model";
 export class DetailsComponent implements OnInit, OnDestroy, IRightsListener {
     readonly #fb = inject(NonNullableFormBuilder);
     readonly #authenticationService = inject(AuthenticationService);
+    readonly #workTimeService = inject(WorkTimeService);
+    readonly #destroyRef = inject(DestroyRef);
     readonly #toastService = inject(ToastService);
     readonly #userService = inject(UserService);
     readonly #roleService = inject(RoleService);
     readonly #jobTitleService = inject(JobTitleService);
     #userId = 0;
-    readonly #destroyRef = inject(DestroyRef);
     formGroup = userFormGroupBuilder(this.#fb);
     isPageLoading: boolean = false;
     roles: IDropdownOption[] = [];
@@ -55,12 +68,20 @@ export class DetailsComponent implements OnInit, OnDestroy, IRightsListener {
     #forkJoin!: Observable<readonly unknown[]>;
     #loadSubscription!: Subscription;
 
+    workTimeFormGroup = workTimeFormGroupBuilder(this.#fb);
+
+    workTimeTypes = generateTranslatedDropdownOptionsFromEnum(WorkTimeType, WorkTimeTypeTranslationMapper);
+    periods = generateTranslatedDropdownOptionsFromEnum(Period, PeriodTranslationMapper);
+
+    hours: string = "0";
+
     ngOnInit() {
         this.isPageLoading = true;
         this.#forkJoin = forkJoin([
             this.#loadRoles(),
             this.#lookUpJobTitles(),
-            this.getUserById()
+            this.getUserById(),
+            this.fetchWorkTimePeriod()
         ]);
         this.#authenticationService.LoggedInUserObservable
             .pipe(takeUntilDestroyed(this.#destroyRef))
@@ -71,10 +92,26 @@ export class DetailsComponent implements OnInit, OnDestroy, IRightsListener {
                     next: () => this.isPageLoading = false
                 });
             });
+
+        this.workTimeFormGroup.valueChanges
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe(() => {
+                this.fetchWorkTimePeriod().subscribe();
+        })
     }
 
     ngOnDestroy() {
         this.#loadSubscription.unsubscribe();
+    }
+
+    fetchWorkTimePeriod(): Observable<string> {
+        return this.#workTimeService.getWorkTimeWithinPeriod(this.workTimeFormGroup.controls.workTimeType.value!, this.workTimeFormGroup.controls.period.value!)
+            .pipe(tap((data: string) => {
+                const duration = Duration.fromISO(data);
+                const totalHours = Math.floor(duration.as("hours"));
+                const minutes = Math.round(duration.as("minutes")) % 60;
+                this.hours = `${totalHours}:${minutes}m`;
+            }));
     }
 
     setRightsData(rights: ISourceLevelRights): void {
@@ -112,4 +149,7 @@ export class DetailsComponent implements OnInit, OnDestroy, IRightsListener {
             this.#userService.patchUser(paths, this.#userId).subscribe();
         }
     }
+
+    protected readonly Period = Period;
+    protected readonly Object = Object;
 }

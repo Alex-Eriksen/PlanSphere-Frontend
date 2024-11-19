@@ -61,11 +61,13 @@
     "NOVEMBER": "November",
     "DECEMBER": "December",
     "LOCATION": "Lokation",
+    "TOTAL_TIME_WORKED": "Total arbejdstid",
     "CALENDAR": {
         "CHECK_IN": "Check ind",
         "CHECK_OUT": "Check ud",
         "CHECKED_IN": "Du er blevet checked ind",
         "CHECKED_OUT": "Du er blevet checked ud",
+        "TOTAL_TIME_WORKED": "Total arbejdstid",
         "ABBREVIATIONS": {
             "MONDAY": "M",
             "TUESDAY": "T",
@@ -89,6 +91,14 @@
             "VACATION": "Ferie",
             "SICK": "Syg",
             "ABSENT": "Fraværende"
+        },
+        "PERIODS": {
+            "LABEL": "Periode",
+            "DAY": "Dag",
+            "WEEK": "Uge",
+            "MONTH": "Måned",
+            "YEAR": "År",
+            "TOTAL": "Total"
         },
         "ERRORS": {
             "CHECK_IN": "Noget gik galt dat du forsøgte at checke ind.",

@@ -103,6 +103,7 @@ export const APIS = {
         updateWorkTime: (workTimeId: number) => environment.apiUrl + `WorkTime/UpdateWorkTime/${workTimeId}`,
         deleteWorkTime: (workTimeId: number) => environment.apiUrl + `WorkTime/DeleteWorkTime/${workTimeId}`,
         checkIn: environment.apiUrl + "WorkTime/CheckIn",
-        checkOut: environment.apiUrl + "WorkTime/CheckOut"
+        checkOut: environment.apiUrl + "WorkTime/CheckOut",
+        getWorkTimeWithinPeriod: environment.apiUrl + "WorkTime/GetTotalWorkTimeWithinPeriod"
     }
 }

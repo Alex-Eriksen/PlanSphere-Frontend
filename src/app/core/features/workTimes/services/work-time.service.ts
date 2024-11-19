@@ -4,6 +4,8 @@ import { IPeriod } from "../models/period.model";
 import { Observable } from "rxjs";
 import { IWorkTime } from "../models/work-time.models";
 import { IWorkTimeRequest } from "../models/work-time-request";
+import { WorkTimeType } from "../models/work-time-type.interface";
+import { Period } from "../models/period.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,10 @@ export class WorkTimeService {
 
     getWorkTimesInMonth(params: IPeriod): Observable<IWorkTime[]> {
         return this.#workTimeRepository.getWorkTimesInMonth(params);
+    }
+
+    getWorkTimeWithinPeriod(workTimeType: WorkTimeType, period: Period): Observable<string> {
+        return this.#workTimeRepository.getWorkTimeWithinPeriod(workTimeType, period);
     }
 
     createWorkTime(payload: IWorkTimeRequest): Observable<void> {
