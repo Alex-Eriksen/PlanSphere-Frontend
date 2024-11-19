@@ -41,6 +41,7 @@ export class SignInComponent implements OnInit {
                 if (token === null || token === "") {
                     return;
                 }
+                this.#authService.getLoggedInUser().subscribe();
                 this.#router.navigate([this.#returnUrl]);
             }
         });
@@ -68,6 +69,6 @@ export class SignInComponent implements OnInit {
     }
 
     forgotPassword() {
-        // TODO: Add forgot password call.
+        this.#router.navigate(["/reset-password"]);
     }
 }

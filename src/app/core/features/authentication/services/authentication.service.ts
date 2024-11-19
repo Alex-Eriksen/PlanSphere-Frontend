@@ -41,6 +41,7 @@ export class AuthenticationService {
     revokeRefreshToken(token?: string): Observable<void> {
         return this.#authenticationRepository.revokeRefreshToken(token).pipe(tap(() => {
             this.#tokenSubject$.next(null);
+            this.#loggedInUserSubject$.next(null);
         }));
     }
 
@@ -74,5 +75,13 @@ export class AuthenticationService {
 
     getRights(sourceLevel?: SourceLevel, sourceLevelId?: number): Observable<ISourceLevelRights> {
         return this.#authenticationRepository.getRights(sourceLevel, sourceLevelId);
+    }
+
+    resetPassword(userId: number, emailToken: string, resetToken: string, password: string): Observable<void> {
+        return this.#authenticationRepository.resetPassword(userId, emailToken, resetToken, password);
+    }
+
+    requestPasswordReset(email: string): Observable<void> {
+        return this.#authenticationRepository.requestPasswordReset(email);
     }
 }
