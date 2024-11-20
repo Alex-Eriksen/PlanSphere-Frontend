@@ -1,4 +1,4 @@
-import { IBaseLookUp } from "../../../../shared/interfaces/look-up.interface";
+import { IBaseLookUp } from "../../../abstract/models/base-look.model";
 
 export interface IZipCodeLookup extends IBaseLookUp<string>{
 }

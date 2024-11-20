@@ -11,6 +11,7 @@
         <div class="flex flex-row justify-between gap-6">
             <ps-search-input [searchSignal]="searchSignal" [placeholder]="'SEARCH'" appliedClass="max-[880px]:!w-[9.375rem]"></ps-search-input>
             <ps-button
+                [disabled]="!hasEditRights()"
                 (click)="openPopup(false)"
                 label="ROLE.CREATE.NAME"
                 buttonStyleType="button--primary"
@@ -21,6 +22,8 @@
         </div>
     </div>
     <ps-small-list-table
+        emptyCellValue="-"
+        [toggleButtonDisableHashMap]="disabledMap"
         [data]="paginatedData.results()"
         [headers]="headers"
         [isLoading]="isTableLoading"

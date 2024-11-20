@@ -1,0 +1,35 @@
+@if(isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div>
+        <ps-small-header heading="TEAM.TEAM_INFO" subheading="TEAM.FILL_TEAM_DETAILS"></ps-small-header>
+        <form [formGroup]="formGroup" (focusout)="patchDetails()">
+            <div class="mb-6"></div>
+            <ps-line></ps-line>
+            <div class="flex flex-col gap-4 mb-6 pt-6">
+                <div class="flex flex-wrap gap-3 justify-start">
+                    <ps-input
+                        [control]="formGroup.controls.name"
+                        label="TEAM.NAME_SPECIFIC">
+                    </ps-input>
+                    <ps-input
+                        [control]="formGroup.controls.description"
+                        label="TEAM.DESCRIPTION">
+                    </ps-input>
+                    <ps-input
+                        [control]="formGroup.controls.identifier"
+                        label="TEAM.IDENTIFIER"
+                        tooltip="TEAM.IDENTIFIER_TOOLTIP">
+                    </ps-input>
+                </div>
+            </div>
+            <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
+            <ps-toggle-input
+                appliedClasses="mt-4"
+                label="INHERIT_ADDRESS"
+                [control]="formGroup.controls.inheritAddress"
+                (toggleChanged)="onInheritedToggled($event)"
+            />
+        </form>
+    </div>
+}

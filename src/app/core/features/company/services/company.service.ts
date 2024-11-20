@@ -18,12 +18,12 @@ export class CompanyService {
         return  this.#companyRepository.getById(sourceLevelId, companyId)
     }
 
-    listCompanies(sourceLevelId: number, params: IPaginationSortPayload): Observable<ISignalPaginatedResponse<ISmallListTableInput>> {
-        return this.#companyRepository.listCompanies(sourceLevelId, params).pipe(mapCompaniesToSignalSmallListInputOperator());
+    listCompanies(sourceLevelId: number, params: IPaginationSortPayload, isUserCompanies: boolean): Observable<ISignalPaginatedResponse<ISmallListTableInput>> {
+        return this.#companyRepository.listCompanies(sourceLevelId, params, isUserCompanies).pipe(mapCompaniesToSignalSmallListInputOperator());
     }
 
-    deleteCompany(sourceLevelId: number): Observable<void>{
-        return this.#companyRepository.delete(sourceLevelId)
+    deleteCompany(sourceLevelId: number, companyId: number): Observable<void>{
+        return this.#companyRepository.delete(sourceLevelId, companyId)
     }
 
     createCompany(sourceLevelId: number, companyRequest: ICompanyRequest): Observable<void>{

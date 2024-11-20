@@ -22,45 +22,13 @@
                     </ps-input>
                 </div>
             </div>
-            <ps-line></ps-line>
-            <div class="flex flex-col gap-4 pt-6 mt-6">
-                <ps-small-header heading="ADDRESS.NAME"></ps-small-header>
-
-                <div class="flex flex-wrap gap-3 justify-start">
-                    <ps-input
-                        [control]="formGroup.controls.address.controls.streetName"
-                        label="ADDRESS.STREET_NAME">
-                    </ps-input>
-                    <ps-input
-                        [control]="formGroup.controls.address.controls.houseNumber"
-                        label="ADDRESS.HOUSE_NUMBER">
-                    </ps-input>
-                </div>
-
-                <div class="flex flex-wrap gap-3 justify-start">
-                    <ps-input
-                        [control]="formGroup.controls.address.controls.door"
-                        label="ADDRESS.DOOR">
-                    </ps-input>
-                    <ps-input
-                        [control]="formGroup.controls.address.controls.floor"
-                        label="ADDRESS.FLOOR">
-                    </ps-input>
-                </div>
-
-                <div class="flex flex-wrap gap-3">
-                    <ps-input
-                        [control]="formGroup.controls.address.controls.postalCode"
-                        label="ADDRESS.ZIPCODE">
-                    </ps-input>
-                    <ps-select-field
-                        dropDownLabel="ADDRESS.COUNTRY"
-                        [dropDownOptions]="countries"
-                        [selectMultipleOptions]="false"
-                        [control]="formGroup.controls.address.controls.countryId">
-                    </ps-select-field>
-                </div>
-            </div>
+            <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
+            <ps-toggle-input
+                appliedClasses="mt-4"
+                label="INHERIT_ADDRESS"
+                [control]="formGroup.controls.inheritAddress"
+                (toggleChanged)="onInheritedToggled($event)"
+            />
         </form>
     </div>
 }

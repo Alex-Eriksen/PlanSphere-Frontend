@@ -1,0 +1,80 @@
+@if (isLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+   <form class="flex flex-col gap-4" (focusout)="patchSettings()" [formGroup]="formGroup">
+        <div class="flex flex-col gap-4">
+            <ps-small-header
+                heading="USER.SETTINGS.NAME"
+            ></ps-small-header>
+            <ps-toggle-input
+                label="USER.SETTINGS.WORK_SCHEDULE.AUTO_CHECK_IN_OUT.NAME"
+                tooltip="USER.SETTINGS.WORK_SCHEDULE.AUTO_CHECK_IN_OUT.TOOLTIP"
+                [control]="formGroup.controls.settings.controls.autoCheckInOut"
+                (toggleChanged)="patchSettings()"
+            ></ps-toggle-input>
+            <ps-toggle-input
+                label="USER.SETTINGS.WORK_SCHEDULE.AUTO_CHECK_OUT_DISABLED.NAME"
+                tooltip="USER.SETTINGS.WORK_SCHEDULE.AUTO_CHECK_OUT_DISABLED.TOOLTIP"
+                [control]="formGroup.controls.settings.controls.autoCheckOutDisabled"
+                (toggleChanged)="patchSettings()"
+            ></ps-toggle-input>
+        </div>
+        <div class="flex flex-col gap-4">
+            <ps-small-header
+                heading="USER.SETTINGS.WORK_SCHEDULE.WORK_SCHEDULE_NAME"
+            ></ps-small-header>
+            <ps-toggle-input
+                label="WORK_SCHEDULE.INHERIT_WORK_SCHEDULE"
+                [control]="formGroup.controls.settings.controls.inheritWorkSchedule"
+                (toggleChanged)="patchSettings()"
+            ></ps-toggle-input>
+            @if (formGroup.controls.settings.controls.inheritWorkSchedule.value) {
+                <ps-select-field
+                    [control]="formGroup.controls.settings.controls.inheritedWorkScheduleId"
+                    [dropDownOptions]="workScheduleOptions"
+                    [selectMultipleOptions]="false"
+                    dropDownLabel="WORK_SCHEDULE.NAME"
+                    (changeSelectValue)="onInheritedWorkScheduleChanged($event)"
+                ></ps-select-field>
+            }
+            <p class="font-medium">{{ "WORK_SCHEDULE.NAME" | translate }}</p>
+            <div class="p-4 bg-gray-200 rounded-lg w-fit">
+                <ps-work-schedule
+                    #workScheduleComponent
+                    [formGroup]="workScheduleFormGroup"
+                    [isLoading]="loadingWorkSchedule"
+                    (updateWorkSchedule)="onUpdateWorkSchedule($event)"
+                    [isUpdating]="isUpdatingWorkSchedule"
+                    [canSave]="!formGroup.controls.settings.controls.inheritWorkSchedule.value"
+                ></ps-work-schedule>
+            </div>
+        </div>
+        <div class="flex gap-4 flex-col">
+            <ps-small-header
+                heading="USER.SETTINGS.PRIVACY.PRIVACY_SETTINGS"
+                tooltip="USER.SETTINGS.PRIVACY.TOOLTIP"
+            ></ps-small-header>
+            <ps-toggle-input
+                label="USER.SETTINGS.PRIVACY.PRIVATE_EMAIL"
+                [control]="formGroup.controls.settings.controls.isEmailPrivate"
+                (toggleChanged)="patchSettings()"
+            ></ps-toggle-input>
+            <ps-toggle-input
+                label="USER.SETTINGS.PRIVACY.PRIVATE_ADDRESS"
+                [control]="formGroup.controls.settings.controls.isAddressPrivate"
+                (toggleChanged)="patchSettings()"
+            ></ps-toggle-input>
+            <ps-toggle-input
+                label="USER.SETTINGS.PRIVACY.PRIVATE_PHONE_NUMBER"
+                [control]="formGroup.controls.settings.controls.isPhoneNumberPrivate"
+                (toggleChanged)="patchSettings()"
+            ></ps-toggle-input>
+            <ps-toggle-input
+                label="USER.SETTINGS.PRIVACY.PRIVATE_BIRTHDAY"
+                [control]="formGroup.controls.settings.controls.isBirthdayPrivate"
+                (toggleChanged)="patchSettings()"
+            ></ps-toggle-input>
+        </div>
+
+    </form>
+}

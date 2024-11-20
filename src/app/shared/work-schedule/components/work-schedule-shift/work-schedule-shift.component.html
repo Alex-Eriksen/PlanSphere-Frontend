@@ -1,0 +1,28 @@
+<div class="flex gap-2 items-center">
+    <p class="w-16">{{DayOfWeekTranslationMapper.get(formGroup().getRawValue().day)! | translate}}</p>
+    <ps-select-field
+        appliedClasses="w-[6.25rem]"
+        [control]="castControlFromAbstractToFormControl(formGroup().controls['startTime'])"
+        dropDownLabel=""
+        [selectMultipleOptions]="false"
+        [dropDownOptions]="timeOptions"
+        (changeSelectValue)="valuesChanged.emit()"
+    ></ps-select-field>
+    <p>{{ "TO" | translate | lowercase }}</p>
+    <ps-select-field
+        appliedClasses="w-[6.25rem]"
+        [control]="castControlFromAbstractToFormControl(formGroup().controls['endTime'])"
+        dropDownLabel=""
+        [selectMultipleOptions]="false"
+        [dropDownOptions]="timeOptions"
+        (changeSelectValue)="valuesChanged.emit()"
+    ></ps-select-field>
+    <ps-select-field
+        appliedClasses="w-[6.25rem]"
+        [control]="castControlFromAbstractToFormControl(formGroup().controls['location'])"
+        dropDownLabel=""
+        [selectMultipleOptions]="false"
+        [dropDownOptions]="locationOptions"
+        (changeSelectValue)="valuesChanged.emit()"
+    ></ps-select-field>
+</div>

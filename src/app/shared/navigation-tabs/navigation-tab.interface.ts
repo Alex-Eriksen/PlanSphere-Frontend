@@ -4,3 +4,7 @@ export interface INavigationTab {
     icon?: string;
     isVisible?: () => boolean;
 }
+
+export interface ISidebarNavigationTab extends INavigationTab{
+    routeLinkFn: () => string;
+}

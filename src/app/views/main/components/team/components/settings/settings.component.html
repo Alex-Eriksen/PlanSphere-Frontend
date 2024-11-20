@@ -1,0 +1,29 @@
+@if(isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div class="flex gap-4 flex-col">
+        <ps-small-header
+            heading="DEPARTMENT.SETTINGS.NAME_PLURAL"
+        ></ps-small-header>
+        <div class="flex flex-col gap-4">
+            <ps-small-header
+                heading="WORK_SCHEDULE.STANDARD_NAME"
+            ></ps-small-header>
+            <ps-toggle-input
+                label="WORK_SCHEDULE.INHERIT_WORK_SCHEDULE_FROM"
+                [control]="formGroup.controls.inheritDefaultWorkSchedule"
+                [translationArgs]="{
+                    sourceLevel: SourceLevelTranslationMapper.get(SourceLevel.Department)! | translate
+                }"
+                (toggleChanged)="onInheritToggled($event)"
+            ></ps-toggle-input>
+            <ps-work-schedule
+                #workSchedule
+                [formGroup]="workScheduleFormGroup"
+                [canSave]="!formGroup.controls.inheritDefaultWorkSchedule.value"
+                [isUpdating]="isUpdatingWorkSchedule"
+                (updateWorkSchedule)="updateWorkSchedule($event)"
+            ></ps-work-schedule>
+        </div>
+    </div>
+}

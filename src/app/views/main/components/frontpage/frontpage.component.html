@@ -1,0 +1,7 @@
+@if(isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <ps-calendar
+        [workSchedule]="workSchedule"
+    ></ps-calendar>
+}

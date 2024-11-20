@@ -1,0 +1,54 @@
+@switch (calendarOption()) {
+    @case(CalendarOptions.Day) {
+        <button class="flex w-full h-[2.5rem] items-center justify-center cursor-pointer hover:bg-gray-200"
+            (click)="setSelectedDate()"
+            [ngClass]="{
+                'text-gray-400': day().isMonth !== DayInfoMonth.Current,
+                'bg-blue-100 text-blue-600': isSelectedDate()
+                }">
+            <span [ngClass]="{'w-[1.5rem] h-[1.5rem] py-0.5 bg-primary rounded-full': isCurrentDate()}">{{ day().date }}</span>
+        </button>
+    }
+    @case(CalendarOptions.Week) {
+        <button
+            class="flex w-full h-[2.5rem] items-center justify-center cursor-pointer"
+            (click)="setSelectedDate()"
+            (mouseenter)="onHoverStart()"
+            (mouseleave)="onHoverEnd()"
+            [ngClass]="{
+            'text-gray-400': day().isMonth !== DayInfoMonth.Current,
+            'bg-primary-selected border-y border-black-500': isRowSelected(),
+            'border-l': isFirstInWeek() && isRowSelected(),
+            'border-r': isLastInWeek() && isRowSelected(),
+            'bg-gray-300': isHovered(),
+            'bg-primary-selected-hovered': isRowSelectedAndHovered()}">
+            <span [ngClass]="{'w-[1.5rem] h-[1.5rem] py-0.5 bg-primary rounded-full': isCurrentDate()}">{{ day().date }}</span>
+        </button>
+    }
+    @case(CalendarOptions.WorkWeek) {
+        <button
+            class="flex w-full h-[2.5rem] items-center justify-center cursor-pointer"
+            (click)="setSelectedDate()"
+            (mouseenter)="onHoverStart()"
+            (mouseleave)="onHoverEnd()"
+            [ngClass]="{
+                'text-gray-400': day().isMonth !== DayInfoMonth.Current,
+                'bg-primary-selected border-y border-black-500': isRowSelected(),
+                'border-l': isFirstInWeek() && isRowSelected(),
+                'border-r': isLastInWeek() && isRowSelected(),
+                'bg-gray-300': isHovered(),
+                'bg-primary-selected-hovered': isRowSelectedAndHovered()}">
+            <span [ngClass]="{'w-[1.5rem] h-[1.5rem] py-0.5 bg-primary rounded-full': isCurrentDate()}">{{ day().date }}</span>
+        </button>
+    }
+    @case (CalendarOptions.Month) {
+        <button class="flex w-full h-[2.5rem] items-center justify-center cursor-pointer hover:bg-gray-200"
+                (click)="setSelectedDate()"
+                [ngClass]="{
+                'text-gray-400': day().isMonth !== DayInfoMonth.Current,
+                'bg-blue-100 text-blue-600': isSelectedDate()
+                }">
+            <span [ngClass]="{'w-[1.5rem] h-[1.5rem] py-0.5 bg-primary rounded-full': isCurrentDate()}">{{ day().date }}</span>
+        </button>
+    }
+}

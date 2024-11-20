@@ -1,6 +1,6 @@
 import { Component, DestroyRef, effect, inject, input, OnInit, signal, WritableSignal } from "@angular/core";
-import { DepartmentsPopupComponent } from "./components/departments-popup.component";
-import { IDepartmentsPopupInputs } from "./components/departments-popup-inputs.component";
+import { DepartmentsPopupComponent } from "./components/departments-popup/departments-popup.component";
+import { IDepartmentsPopupInputs } from "./components/departments-popup/departments-popup-inputs.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SmallListTableComponent } from "../small-list-table/small-list-table.component";
 import { PaginationComponent } from "../pagination/pagination.component";
@@ -9,7 +9,6 @@ import { TranslateModule } from "@ngx-translate/core";
 import { SmallHeaderComponent } from "../small-header/small-header.component";
 import { SearchInputComponent } from "../search-input/search-input.component";
 import { ButtonComponent } from "../button/button.component";
-import { CompaniesPopupComponent } from "../../views/main/components/organisation/components/companies/components/companies-popup.component";
 import { InputComponent } from "../input/input.component";
 import { BasePaginatedTableWithSearchComponent } from "../base-paginated-table-with-search-abstract/base-paginated-table-with-search.abstract";
 import { DepartmentService } from "../../core/features/department/services/department.service";
@@ -23,6 +22,7 @@ import { ITableSortingFilter } from "../interfaces/table-sorting-filter.interfac
 import { ITableAction } from "../interfaces/table-action.interface";
 import { MatDialog } from "@angular/material/dialog";
 import { IPaginationSortPayload } from "../interfaces/pagination-sort-payload.interface";
+import { CompaniesPopupComponent } from "../list-companies/components/companies-popup/companies-popup.component";
 
 @Component({
     selector: 'ps-department-list',
@@ -44,6 +44,7 @@ import { IPaginationSortPayload } from "../interfaces/pagination-sort-payload.in
 export class DepartmentListComponent extends BasePaginatedTableWithSearchComponent implements OnInit {
     companyId = input.required<number>()
     isUserDeparts = input(false);
+    hasEditRights = input(false);
     readonly #departmentService = inject(DepartmentService)
     readonly #dialogService = inject(DialogService)
     readonly #router = inject(Router);
@@ -64,7 +65,7 @@ export class DepartmentListComponent extends BasePaginatedTableWithSearchCompone
         {
             callbackFn: (row: ISmallListTableInput) => this.#openDeleteDialog(row),
             labelFn:() => "DEPARTMENT.DELETE.TITLE",
-            isVisible: () => !this.isUserDeparts()
+            isVisible: () => !this.isUserDeparts() && this.hasEditRights()
         }
     ]
 

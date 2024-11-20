@@ -11,6 +11,7 @@
             <ps-search-input [searchSignal]="searchSignal" [placeholder]="'SEARCH'" appliedClass="!w-[18.75rem]"></ps-search-input>
             @if(!isUserDeparts()){
                 <ps-button
+                    [disabled]="!hasEditRights()"
                     label="CREATE_NEW"
                     buttonStyleType="button--primary"
                     buttonType="buttonType"

@@ -1,0 +1,49 @@
+<div class="py-4 px-6 relative p-4">
+    <div class="flex flex-row justify-between">
+        <ps-button
+            [appliedClasses]="'!py-3 !px-6'"
+            (click)="deleteWorkTime()"
+            [label]="componentInputs.isEditPopup ? 'DELETE' : 'CANCEL' | translate"
+            buttonStyleType="button--tertiary"
+            buttonType="button" />
+        <ps-button
+            [appliedClasses]="'!py-3 !px-6'"
+            [label]="componentInputs.isEditPopup ? 'SAVE' : 'CREATE' | translate"
+            buttonStyleType="button--primary"
+            buttonType="button"
+            [isLoading]="isFormSubmitting"
+            (click)="submitForm()" />
+    </div>
+    <ps-line class="block my-4 h-1"></ps-line>
+    <div class="flex flex-row gap-2">
+        <ps-select-field
+            [control]="castControlFromAbstractToFormControl(formGroup.controls['startDateTime'])"
+            [dropDownOptions]="halfHourOptions"
+            [selectMultipleOptions]="false"
+            appliedClasses="!w-[12.5rem]"
+        ></ps-select-field>
+        <div class="flex items-center">
+            <span class="text-mi">{{'TO' | translate}}</span>
+        </div>
+        <ps-select-field
+            [control]="castControlFromAbstractToFormControl(formGroup.controls['endDateTime'])"
+            [dropDownOptions]="halfHourOptions"
+            [selectMultipleOptions]="false"
+            appliedClasses="!w-[12.5rem]"
+        ></ps-select-field>
+        <ps-select-field
+            [control]="castControlFromAbstractToFormControl(formGroup.controls['workTimeType'])"
+            [dropDownLabel]="'CALENDAR.WORK_TIME_TYPE.LABEL'"
+            [dropDownOptions]="workTimeTypeOptions"
+            [selectMultipleOptions]="false"
+            appliedClasses="!w-[12.5rem]"
+        ></ps-select-field>
+        <ps-select-field
+            [control]="castControlFromAbstractToFormControl(formGroup.controls['location'])"
+            [dropDownLabel]="'LOCATION'"
+            [dropDownOptions]="locationOptions"
+            [selectMultipleOptions]="false"
+            appliedClasses="!w-[12.5rem]"
+        ></ps-select-field>
+    </div>
+</div>

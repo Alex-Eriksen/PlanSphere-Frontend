@@ -45,6 +45,7 @@ export class ListJobTitlesComponent extends BasePaginatedTableWithSearchComponen
     override paginatedData: ISignalPaginatedResponse<ISmallListTableInput> = constructInitialSignalPaginatedResponse();
     sourceLevelId = input.required<number>();
     sourceLevel = input.required<SourceLevel>();
+    hasEditRights = input(false);
     readonly #destroyRef = inject(DestroyRef);
     headers = jobTitleHeaders;
     sortingFilterSignal: WritableSignal<ITableSortingFilter> = signal({
@@ -54,8 +55,11 @@ export class ListJobTitlesComponent extends BasePaginatedTableWithSearchComponen
     readonly loadDataEffect$ = effect(() => {this.loadDataWithCorrectParams()});
     override loadData(params: IPaginationSortPayload): void {
         this.isTableLoading = true;
-        this.#jobTitleService.getJobTitles(params, this.sourceLevel(), this.sourceLevelId()).subscribe((paginatedProperties) => {
+        this.#jobTitleService.getJobTitles(params, this.sourceLevel(), this.sourceLevelId())
+            .subscribe((paginatedProperties) => {
             copyPaginatedSignalResponse(this.paginatedData, paginatedProperties);
+            this.disabledMap = new Map<number, boolean>();
+            this.paginatedData.results().forEach((data) => this.disabledMap.set(data.id, !this.hasEditRights()));
             this.isTableLoading = false;
         });
     }
@@ -64,17 +68,18 @@ export class ListJobTitlesComponent extends BasePaginatedTableWithSearchComponen
         {
             callbackFn: (row: ISmallListTableInput) => this.openJobTitlePopup(true, row),
             labelFn: () => "JOB_TITLE.EDIT.TITLE",
-            isVisible: (row: ISmallListTableInput) => row['sourceLevel'] === this.sourceLevel(),
+            isVisible: (row: ISmallListTableInput) => row['sourceLevel'] === this.sourceLevel() && this.hasEditRights(),
         },
         {
             callbackFn: (row: ISmallListTableInput) => this.#openDeleteDialog(row),
             labelFn: () => "JOB_TITLE.DELETE.TITLE",
-            isVisible: (row: ISmallListTableInput) => row['sourceLevel'] === this.sourceLevel(),
+            isVisible: (row: ISmallListTableInput) => row['sourceLevel'] === this.sourceLevel() && this.hasEditRights(),
         },
     ]
     readonly #matDialog = inject(MatDialog);
     readonly #dialogService = inject(DialogService);
     readonly #isDeletingJobTitle = signal(false);
+    protected disabledMap!: Map<number, boolean>;
 
     loadDataWithCorrectParams(): void {
         this.loadData({
@@ -132,4 +137,6 @@ export class ListJobTitlesComponent extends BasePaginatedTableWithSearchComponen
     updateJobTitleInheritance(row: {row: any}) {
         this.#jobTitleService.toggleInheritance(row.row.id, this.sourceLevel(), this.sourceLevelId()).subscribe();
     }
+
+    protected readonly SourceLevel = SourceLevel;
 }

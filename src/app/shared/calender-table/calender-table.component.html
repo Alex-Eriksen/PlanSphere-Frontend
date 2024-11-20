@@ -1,0 +1,298 @@
+@if(isLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div class="flex flex-col p-2 dynamic-table-height w-full">
+        <!-- NAVBAR -->
+        <div class="flex flex-row gap-2 p-2 bg-white border border-gray-200">
+            <ps-button
+                (click)="onCurrentDateButtonClick()"
+                class="rounded-sm"
+                appliedClasses="!px-4 !py-2"
+                label="TODAY"
+                imageSrc="assets/images/icons/calendar-check.svg"
+                buttonType="buttonType"
+                buttonStyleType="button--tertiary"
+            ></ps-button>
+            <button class="flex justify-center items-center hover:bg-gray-100 rotate-180 w-[2.5rem] h-[2.5rem] rounded-md" (click)="onPreviousButtonClick()">
+                <img src="assets/images/icons/chevron-right.svg" class="w-[1rem] h-[1rem]" alt="">
+            </button>
+            <button class="flex justify-center items-center hover:bg-gray-100 w-[2.5rem] h-[2.5rem] rounded-md" (click)="onNextButtonClick()">
+                <img src="assets/images/icons/chevron-right.svg" class="w-[1rem] h-[1rem]" alt="">
+            </button>
+
+            <ps-small-header *ngIf="!hideHeader()"
+                [heading]="getHeaderDate()"
+                class="!text-2xl mt-1.5 !text-black-700 !font-semibold"
+                appliedClasses="!text-2xl!"
+            ></ps-small-header>
+
+            <ps-button *ngIf="hideHeader()"
+                (click)="onCheckButtonClick.emit()"
+                [label]="hasCheckedIn() ? 'CALENDAR.CHECK_OUT' : 'CALENDAR.CHECK_IN'"
+                buttonStyleType="button--quaternary"
+                buttonType="button"/>
+
+            <div *ngIf="!hideHeader()" class="flex flex-row flex-grow justify-end gap-2 rounded">
+                <ps-button
+                    [appliedClasses]="calendarOption() === CalendarOptions.Day ? '!bg-gray-100 border-black-200 !px-4 !py-2' : '!px-4 !py-2'"
+                    class="rounded-sm"
+                    label="CALENDAR.FILTERS.DAY"
+                    imageSrc="assets/images/icons/calendar-day.svg"
+                    imagePosition="before"
+                    buttonStyleType="button--tertiary"
+                    buttonType="button"
+                    (click)="onCalendarOptionChange(CalendarOptions.Day)"/>
+                <ps-button
+                    [appliedClasses]="calendarOption() === CalendarOptions.WorkWeek ? '!bg-gray-100 border-black-200 !px-4 !py-2' : '!px-4 !py-2'"
+                    class="rounded-sm"
+                    label="CALENDAR.FILTERS.WORK_WEEK"
+                    imageSrc="assets/images/icons/calendar-week.svg"
+                    imagePosition="before"
+                    buttonStyleType="button--tertiary"
+                    buttonType="button"
+                    (click)="onCalendarOptionChange(CalendarOptions.WorkWeek)"/>
+                <ps-button
+                    [appliedClasses]="calendarOption() === CalendarOptions.Week ? '!bg-gray-100 border-black-200 !px-4 !py-2' : '!px-4 !py-2'"
+                    class="rounded-sm"
+                    appliedClasses="!px-4 !py-2"
+                    label="CALENDAR.FILTERS.WEEK"
+                    imageSrc="assets/images/icons/calendar-week.svg"
+                    imagePosition="before"
+                    buttonStyleType="button--tertiary"
+                    buttonType="button"
+                    (click)="onCalendarOptionChange(CalendarOptions.Week)"/>
+                <ps-button
+                    [appliedClasses]="calendarOption() === CalendarOptions.Month ? '!bg-gray-100 border-black-200 !px-4 !py-2' : '!px-4 !py-2'"
+                    class="rounded-sm"
+                    appliedClasses="!px-4 !py-2"
+                    label="CALENDAR.FILTERS.MONTH"
+                    imageSrc="assets/images/icons/calendar-month.svg"
+                    imagePosition="before"
+                    buttonStyleType="button--tertiary"
+                    buttonType="button"
+                    (click)="onCalendarOptionChange(CalendarOptions.Month)"/>
+            </div>
+            <div *ngIf="hideHeader()" class="flex flex-row flex-grow justify-end gap-2 rounded">
+                <ps-button
+                    [matMenuTriggerFor]="menu"
+                    label="CALENDAR.FILTERS.CHOOSE"
+                    buttonStyleType="button--tertiary"
+                    buttonType="button"
+                ></ps-button>
+                <mat-menu
+                    #menu
+                    class="px-1 py-2 rounded-lg"
+                >
+                    <ps-button
+                        [appliedClasses]="calendarOption() === CalendarOptions.Day ? '!bg-gray-100 border-black-200 !px-4 !py-2' : '!px-4 !py-2'"
+                        class="rounded-sm"
+                        label="CALENDAR.FILTERS.DAY"
+                        imageSrc="assets/images/icons/calendar-day.svg"
+                        imagePosition="before"
+                        buttonStyleType="button--tertiary"
+                        buttonType="button"
+                        (click)="onCalendarOptionChange(CalendarOptions.Day)"/>
+                    <ps-button
+                        [appliedClasses]="calendarOption() === CalendarOptions.WorkWeek ? '!bg-gray-100 border-black-200 !px-4 !py-2' : '!px-4 !py-2'"
+                        class="rounded-sm"
+                        label="CALENDAR.FILTERS.WORK_WEEK"
+                        imageSrc="assets/images/icons/calendar-week.svg"
+                        imagePosition="before"
+                        buttonStyleType="button--tertiary"
+                        buttonType="button"
+                        (click)="onCalendarOptionChange(CalendarOptions.WorkWeek)"/>
+                    <ps-button
+                        [appliedClasses]="calendarOption() === CalendarOptions.Week ? '!bg-gray-100 border-black-200 !px-4 !py-2' : '!px-4 !py-2'"
+                        class="rounded-sm"
+                        appliedClasses="!px-4 !py-2"
+                        label="CALENDAR.FILTERS.WEEK"
+                        imageSrc="assets/images/icons/calendar-week.svg"
+                        imagePosition="before"
+                        buttonStyleType="button--tertiary"
+                        buttonType="button"
+                        (click)="onCalendarOptionChange(CalendarOptions.Week)"/>
+                    <ps-button
+                        [appliedClasses]="calendarOption() === CalendarOptions.Month ? '!bg-gray-100 border-black-200 !px-4 !py-2' : '!px-4 !py-2'"
+                        class="rounded-sm"
+                        appliedClasses="!px-4 !py-2"
+                        label="CALENDAR.FILTERS.MONTH"
+                        imageSrc="assets/images/icons/calendar-month.svg"
+                        imagePosition="before"
+                        buttonStyleType="button--tertiary"
+                        buttonType="button"
+                        (click)="onCalendarOptionChange(CalendarOptions.Month)"/>
+                </mat-menu>
+            </div>
+        </div>
+
+        <div class="overflow-y-scroll" #workHoursTable>
+            @switch (calendarOption()) {
+                @case (CalendarOptions.Day) {
+                    <table class="min-w-full table-fixed border-collapse border border-gray-300 select-none">
+                        <thead>
+                        <tr>
+                            <th class="bg-white border border-gray-200"></th>
+                            <th class="bg-white border border-gray-200 w-full text-left">
+                                <div class="flex flex-col gap-1 py-2 ps-2">
+                                    <span class="text-black-500">{{ this.currentSelectedDay().name.toUpperCase() | translate}}</span>
+                                    <span
+                                        class="w-[2rem] h-[2rem] p-1 text-center"
+                                        [ngClass]="isSelectedDayCurrentDate() ? 'text-white border rounded-full bg-primary' : 'text-black-500'"
+                                    >{{getDate()}}
+                                    </span>
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @for(hour of hours; track hour;) {
+                                @for (quarter of quarterHours; track quarter; let index = $index) {
+                                    <tr>
+                                        <td class="bg-white text-gray-600 text-xs font-medium text-center border border-gray-200 border-t border-t-gray-300 px-4 w-[1.5rem] h-[1.25rem]">{{ index === 0 ? hour : "" }}</td>
+                                        <ps-calendar-table-column
+                                            class="w-full h-full"
+                                            [calendarOption]="calendarOption()"
+                                            [dayOfWeek]="castStringToDayOfWeek(currentSelectedDay().name)"
+                                            [hour]="hour"
+                                            [quarterHour]="castNumberToQuarterHour(quarter)"
+                                            [workHours]="workHours()"
+                                            (columnClick)="openWorkTimePopup($event)"
+                                        ></ps-calendar-table-column>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                }
+                @case (CalendarOptions.WorkWeek) {
+                    <table class="min-w-full table-fixed border-collapse border border-gray-300 select-none">
+                        <thead>
+                        <tr>
+                            <th class="bg-white border border-gray-200 w-[1.5rem]"></th>
+                                @for (shift of workSchedule().workScheduleShifts; track shift; let count = $count) {
+                                    <th class="bg-white border border-gray-200 text-left table-cell"
+                                        [ngClass]="{
+                                        'w-1/2': count === 2,'w-1/3': count === 3,'w-1/4': count === 4,
+                                        'w-1/5': count === 5,
+                                        'w-1/6': count === 6,
+                                        'w-1/7': count === 7
+                                        }">
+                                        <div class="flex flex-col gap-1 py-2 ps-2">
+                                            <span class="text-black-500">{{shift.day.toUpperCase() | translate}}</span>
+                                            <span
+                                                [ngClass]="isSelectedDateOfWeek(shift.day)
+                                                       ? 'bg-primary border rounded-full text-white p-1 text-center'
+                                                       : 'text-black-700'"
+                                                class="w-[2rem] h-[2rem]">
+                                                {{getDate(shift.day)}}
+                                            </span>
+                                        </div>
+                                    </th>
+                                }
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @for(hour of hours; track hour;) {
+                                @for (quarter of quarterHours; track quarter; let index = $index) {
+                                    <tr>
+                                        <td class="bg-white text-gray-600 font-medium text-center border border-gray-200 border-t border-t-gray-300 px-4 w-[1.5rem] h-[1.25rem] text-xs ">{{index === 0 ? hour : ""}}</td>
+                                        @for (shift of workSchedule().workScheduleShifts; track shift; let count = $count) {
+                                            <ps-calendar-table-column
+                                                class="h-full table-cell w-1/{{count}}"
+                                                [calendarOption]="calendarOption()"
+                                                [dayOfWeek]="castStringToDayOfWeek(shift.day)"
+                                                [hour]="hour"
+                                                [quarterHour]="castNumberToQuarterHour(quarter)"
+                                                [weekNumber]="selectedWeek()!"
+                                                [workHours]="workHours()"
+                                                (columnClick)="openWorkTimePopup($event)"
+                                            ></ps-calendar-table-column>
+                                        }
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                }
+                @case (CalendarOptions.Week) {
+                    <table class="min-w-full table-fixed border-collapse border border-gray-300 select-none">
+                        <thead>
+                        <tr>
+                            <th class="bg-white border border-gray-200 w-[1.5rem]"></th>
+                            @for (day of Object.values(DayOfWeek); track day;) {
+                                <th class="bg-white border border-gray-200 text-left w-1/7">
+                                    <div class="flex flex-col gap-1 py-2 ps-2">
+                                        <span class="text-black-500">{{day.toUpperCase() | translate}}</span>
+                                        <span
+                                            class="w-[2rem] h-[2rem]"
+                                            [ngClass]="isSelectedDateOfWeek(day)
+                                                ? 'bg-primary border rounded-full text-white p-1 text-center'
+                                                : 'text-black-700'"
+                                        >{{getDate(day)}}
+                                        </span>
+                                    </div>
+                                </th>
+                            }
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @for(hour of hours; track hour;) {
+                                @for (quarter of quarterHours; track quarter; let index = $index) {
+                                    <tr>
+                                        <td class="bg-white text-gray-600 font-medium text-center border border-gray-200 border-t border-t-gray-300 px-4 w-[1.5rem] h-[1.25rem] text-xs ">{{index === 0 ? hour : ""}}</td>
+                                        @for (day of Object.values(DayOfWeek); track day; let count = $count) {
+                                            <ps-calendar-table-column
+                                                class="h-full table-cell w-1/{{count}}"
+                                                [calendarOption]="calendarOption()"
+                                                [dayOfWeek]="castStringToDayOfWeek(day)"
+                                                [hour]="hour"
+                                                [quarterHour]="castNumberToQuarterHour(quarter)"
+                                                [weekNumber]="selectedWeek()!"
+                                                [workHours]="workHours()"
+                                                (columnClick)="openWorkTimePopup($event)"
+                                            ></ps-calendar-table-column>
+                                        }
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                }
+                @case (CalendarOptions.Month) {
+                    <table class="min-w-full h-full table-fixed border-collapse border border-gray-300 select-none">
+                        <thead>
+                        <tr>
+                            @for (day of Object.values(DayOfWeek); track day;) {
+                                <th class="w-1/7 bg-white border border-gray-200 text-left">
+                                    <div class="flex flex-col gap-1 py-2 ps-2">
+                                        <span class="text-black-500">{{day.toUpperCase() | translate}}</span>
+                                    </div>
+                                </th>
+                            }
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @for(week of weeksInMonth; track week; let index = $index; let count = $count ) {
+                            <tr [ngClass]="count === 5 ? 'h-[7.5rem] w-1' : 'h-[6.25rem]'">
+                                @for(day of Object.values(DayOfWeek); track day;) {
+                                    <ps-calendar-table-column
+                                        class="h-[7.5rem] table-cell w-1"
+                                        [calendarOption]="this.calendarOption()"
+                                        [dayOfWeek]="castStringToDayOfWeek(day)"
+                                        [hour]="8"
+                                        [quarterHour]="QuarterHour.Fourth"
+                                        [weekNumber]="index + 1"
+                                        [workHours]="workHours()"
+                                        (columnClick)="openWorkTimePopup($event)"
+                                    ></ps-calendar-table-column>
+                                }
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
+            }
+        </div>
+    </div>
+}
+

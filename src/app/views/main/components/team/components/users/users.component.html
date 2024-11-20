@@ -1,0 +1,5 @@
+@if (isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <ps-list-users [sourceLevel]="SourceLevel.Team" [sourceLevelId]="sourceLevelId" [userId]="userId"></ps-list-users>
+}

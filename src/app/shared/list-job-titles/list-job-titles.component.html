@@ -6,6 +6,7 @@
     <div class="flex flex-row justify-between gap-6">
         <ps-search-input [searchSignal]="searchSignal" [placeholder]="'SEARCH'" appliedClass="!w-[18.75rem]"></ps-search-input>
         <ps-button
+            [disabled]="!hasEditRights()"
             (click)="openJobTitlePopup(false)"
             appliedClasses="!px-6"
             buttonStyleType="button--primary"
@@ -18,12 +19,14 @@
     </div>
 </div>
 <ps-small-list-table
+    [toggleButtonDisableHashMap]="disabledMap"
     [data]="paginatedData.results()"
     [headers]="headers"
     [isLoading]="isTableLoading"
     [sortingFilterSignal]="sortingFilterSignal"
     [actions]="actions"
     (toggleItem)="updateJobTitleInheritance($event)"
+    [disableToggle]="sourceLevel() === SourceLevel.Team"
 />
 <ps-pagination [paginationValues]="paginatedData"></ps-pagination>
 

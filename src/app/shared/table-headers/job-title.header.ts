@@ -19,7 +19,7 @@ export const jobTitleHeaders: ITableHeader[] = [
     {
         key: "sourceLevel",
         label: "SOURCE",
-        isSortable: true,
+        isSortable: false,
         type: TableHeaderType.Text,
         maxTextLength: 70,
     },

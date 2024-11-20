@@ -1,0 +1,60 @@
+@if (isPageLoading) {
+    <ps-loading-overlay></ps-loading-overlay>
+} @else {
+    <div class="border-gray-900/10 pb-12">
+        <div class="flex flex-row justify-between">
+            <ps-small-header heading="USER.EDIT_OWN.TITLE" subheading="USER.EDIT_OWN.DESCRIPTION"></ps-small-header>
+
+            <!-- image section -->
+            <div class="flex flex-grow justify-end">
+            </div>
+        </div>
+
+        <form [formGroup]="formGroup" (focusout)="patchDetails()">
+            <!-- User details Section -->
+            <div class="mt-5 flex flex-row flex-wrap gap-4">
+                <ps-input [control]="formGroup.controls.firstName" label="USER.DETAILS.FIRSTNAME"></ps-input>
+                <ps-input [control]="formGroup.controls.lastName" label="USER.DETAILS.LASTNAME"></ps-input>
+                <ps-input [control]="formGroup.controls.email" label="USER.DETAILS.EMAIL"></ps-input>
+                <ps-input [control]="formGroup.controls.phoneNumber" label="USER.DETAILS.PHONENUMBER"></ps-input>
+            </div>
+
+            <!-- Address Section -->
+            <div>
+                <ps-address-input [addressFormGroup]="formGroup.controls.address"></ps-address-input>
+            </div>
+
+            <div class="flex flex-row flex-wrap mt-5">
+                <ps-line></ps-line>
+                <div class="mt-5">
+                    <ps-small-header [heading]="'ROLE.NAME_PLURAL' | translate"></ps-small-header>
+                    <div class="flex flex-row gap-2">
+                        <ps-select-field dropDownLabel="ROLE.NAME_PLURAL" [dropDownOptions]="roles" [selectMultipleOptions]="true" [control]="formGroup.controls.roleIds"></ps-select-field>
+                        <ps-select-field
+                            [dropDownLabel]="'CALENDAR.PERIODS.LABEL'"
+                            [control]="workTimeFormGroup.controls.period"
+                            [dropDownOptions]="periods"
+                            [selectMultipleOptions]="false" />
+                        <ps-select-field
+                            [dropDownLabel]="'CALENDAR.WORK_TIME_TYPE.LABEL'"
+                            [control]="workTimeFormGroup.controls.workTimeType"
+                            [dropDownOptions]="workTimeTypes"
+                            [selectMultipleOptions]="false" />
+                        <div class="flex items-center gap-2">
+                            <span class="text-gray-600 font-medium" [innerHTML]="'CALENDAR.TOTAL_TIME_WORKED' | translate"></span>
+                            <span class="text-blue-600 font-semibold text-lg">{{ hours }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-row flex-wrap mt-5">
+                <ps-line></ps-line>
+                <div class="mt-5">
+                    <ps-small-header heading="JOB_TITLE.NAME_PLURAL"></ps-small-header>
+                    <ps-select-field dropDownLabel="JOB_TITLE.NAME_PLURAL" [dropDownOptions]="jobTitleOptions" [selectMultipleOptions]="true" [control]="formGroup.controls.jobTitleIds"></ps-select-field>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+

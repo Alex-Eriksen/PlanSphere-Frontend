@@ -1,7 +1,7 @@
 import { ButtonComponent } from "../../../../../../shared/button/button.component";
 import { SelectFieldComponent } from "../../../../../../shared/select-field/select-field.component";
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { Component, OnInit, input, inject } from "@angular/core";
+import { Component, OnInit, input, inject, OnDestroy } from "@angular/core";
 import { InputComponent } from "../../../../../../shared/input/input.component";
 import { LoadingOverlayComponent } from "../../../../../../shared/loading-overlay/loading-overlay.component";
 import { LineComponent } from "../../../../../../shared/line/line.component";
@@ -16,6 +16,12 @@ import {
     updateNestedControlsPathAndValue
 } from "../../../../../../shared/utilities/form.utilities";
 import { CountryService } from "../../../../../../core/features/address/services/country.service";
+import { IRightsListener } from "../../../../../../core/interfaces/rights-data.interface";
+import { ISourceLevelRights } from "../../../../../../core/features/authentication/models/source-level-rights.model";
+import { forkJoin, Subscription, tap } from "rxjs";
+import { recursivelyFindParentAddress } from "../../../../../../core/features/address/utilities/address.utilities";
+import { ToggleInputComponent } from "../../../../../../shared/toggle-input/toggle-input.component";
+import { AddressInputComponent } from "../../../../../../shared/address-input/address-input.component";
 
 
 @Component({
@@ -26,39 +32,62 @@ import { CountryService } from "../../../../../../core/features/address/services
         LoadingOverlayComponent,
         ReactiveFormsModule,
         LineComponent,
-        SmallHeaderComponent
+        SmallHeaderComponent,
+        AddressInputComponent,
+        ToggleInputComponent
     ],
     selector: "ps-details",
     standalone: true,
     styleUrl: "./details.component.scss",
     templateUrl: "./details.component.html"
 })
-export class DetailsComponent implements OnInit{
+export class DetailsComponent implements OnInit, OnDestroy, IRightsListener {
     departmentId = input.required<number>()
-    department?: IDepartment
+    department!: IDepartment
     readonly #departmentService = inject(DepartmentService);
     readonly #fb = inject(NonNullableFormBuilder);
     readonly #countryService = inject(CountryService);
     readonly #toastService = inject(ToastService);
     countries: IDropdownOption[] = []
     sourceLevel = SourceLevel.Department
+    departmentDetailsSubscription!: Subscription;
     isPageLoading: boolean = false;
 
     ngOnInit(): void {
         this.isPageLoading = true;
         if (this.departmentId) {
             this.#loadCountries();
-            this.loadDepartmentDetails(this.sourceLevel,this.departmentId());
+            this.departmentDetailsSubscription = forkJoin([
+                this.loadDepartmentDetails(this.sourceLevel,this.departmentId())
+        ]).subscribe({
+                next: () => {
+                    this.formGroup.patchValue(this.department);
+                    this.formGroup.controls.address.patchValue(recursivelyFindParentAddress(this.department.address));
+                    this.isPageLoading = false;
+                    this.onInheritedToggled(this.department.inheritAddress!);
+                },
+                error: () => {
+                    if (this.departmentId == null){
+                        this.#toastService.showToast('DEPARTMENT.DO_NOT_EXIST')
+                    }
+                },
+                complete: () => {
+                    this.isPageLoading = false;
+                }
+            });
         }
-        if (this.departmentId == null){
-            this.#toastService.showToast('DEPARTMENT.DO_NOT_EXIST')
-        }
+
+    }
+
+    ngOnDestroy() {
+        this.departmentDetailsSubscription.unsubscribe();
     }
 
     formGroup = this.#fb.group({
         name: this.#fb.control("", Validators.required),
         description: this.#fb.control("", Validators.required),
         building: this.#fb.control("", Validators.required),
+        inheritAddress: this.#fb.control(false),
         address: this.#fb.group({
             streetName: this.#fb.control(""),
             houseNumber: this.#fb.control(""),
@@ -90,16 +119,36 @@ export class DetailsComponent implements OnInit{
         }
     }
 
-    loadDepartmentDetails(sourceLevel: SourceLevel, departmentId: number): void {
-        this.#departmentService.departmentById( departmentId, sourceLevel, departmentId).subscribe({
-            next: (data: IDepartment) => this.formGroup.patchValue(data),
-            error: () => this.#toastService.showToast('DEPARTMENT.DO_NOT_EXIST'),
-            complete: () => this.isPageLoading = false
-        });
+    onInheritedToggled(value: boolean): void {
+            const paths = updateNestedControlsPathAndValue(this.formGroup);
+            if(Object.keys(paths).length) {
+                this.#departmentService.patchDepartment(this.departmentId(), paths).subscribe(() => {
+                    this.loadDepartmentDetails(this.sourceLevel ,this.departmentId()).subscribe();
+                });
+            }
+            if (value)
+            {
+                this.formGroup.controls.address.disable();
+
+            }
+            else
+            {
+                this.formGroup.controls.address.enable();
+                this.formGroup.controls.address.patchValue(this.department.address);
+            }
     }
 
-    deleteDepartment(id: number): void {
-        this.#departmentService.deleteDepartment(id, id)
+    loadDepartmentDetails(sourceLevel: SourceLevel, departmentId: number) {
+        return this.#departmentService.getDepartmentById(departmentId, sourceLevel, departmentId).pipe(tap(data => {
+            this.department = data;
+            this.formGroup.controls.address.patchValue(recursivelyFindParentAddress(data.address));
+        }));
+    }
+
+    setRightsData(rights: ISourceLevelRights) {
+        if (!rights.hasEditRights && !rights.hasAdministratorRights) {
+            this.formGroup.disable();
+        }
     }
 
     protected readonly input = input;
